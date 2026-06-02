@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Briefing Estratégico | Criatividade Web</title>
+    <style>
+        :root {
+            --bg: #05050a;
+            --card: #0d0d1a;
+            --accent: #00d1ff;
+            --text: #ffffff;
+            --subtext: #888899;
+            --gold: #ffd60a;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .tagline {
+            color: var(--accent);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-top: 10px;
+        }
+
+        .intro-text {
+            color: var(--subtext);
+            margin-top: 30px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .section {
+            background: var(--card);
+            border: 1px solid rgba(0, 209, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        h2 {
+            font-size: 20px;
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .input-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text);
+            font-family: inherit;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-box:focus {
+            border-color: var(--accent);
+        }
+
+        textarea.input-box {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-bottom: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 40px;
+        }
+
+        .footer p {
+            color: var(--subtext);
+            font-size: 14px;
+        }
+
+        @media print {
+            body { background: white; color: black; padding: 0; }
+            .section { border: 1px solid #ddd; background: white; page-break-inside: avoid; }
+            .section::before { display: none; }
+            .accent, h2, .tagline { color: #000 !important; }
+            .input-box { border: 1px solid #ccc; color: black; }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 209, 255, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <!-- SVG Logo Replaced with Text placeholder for the user to see clearly -->
+                <h1 style="color: #fff;">CRIATIVIDADE <span style="color: var(--gold);">WEB</span></h1>
+                <div class="tagline">Engenharia de Elite</div>
+            </div>
+            <p class="intro-text">
+                Este briefing é a base para construirmos sua nova presença digital de alto impacto. 
+                Por favor, preencha as informações abaixo com o máximo de detalhes possível.
+            </p>
+        </header>
+
+        <div class="section">
+            <span class="badge">ETAPA 01</span>
+            <h2>O NEGÓCIO</h2>
+            <div class="question">
+                <label>Nome da Empresa / Projeto</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+            <div class="question">
+                <label>Qual o principal problema que o site deve resolver?</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+            <div class="question">
+                <label>Quem é o seu principal concorrente direto?</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="badge">ETAPA 02</span>
+            <h2>DESIGN & EXPERIÊNCIA</h2>
+            <div class="question">
+                <label>Quais sites você admira visualmente? (Links)</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+            <div class="question">
+                <label>Qual sensação o usuário deve ter ao entrar no site? (Ex: Confiança, Luxo, Tecnologia)</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="badge">ETAPA 03</span>
+            <h2>CONTEÚDO & FUNÇÕES</h2>
+            <div class="question">
+                <label>Quais páginas o site deve ter? (Home, Sobre, Serviços, etc)</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+            <div class="question">
+                <label>Funcionalidades desejadas (WhatsApp, Chat, Blog, E-commerce)</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="badge">ETAPA 04</span>
+            <h2>PLANEJAMENTO</h2>
+            <div class="question">
+                <label>Qual o prazo ideal para o lançamento?</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+            <div class="question">
+                <label>Observações Adicionais</label>
+                <div class="input-box" contenteditable="true"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 Criatividade Web - Todos os direitos reservados.</p>
+            <p style="letter-spacing: 2px;">DESIGN DE LUXO • ENGENHARIA DE SOFTWARE</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valenza & Associados // Advocacia Estratégica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: EB Garamond for authority, Montserrat for clarity -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,800;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        law: {
+                            navy: '#0A1128',
+                            gold: '#D4AF37',
+                            lightGold: '#F3E5AB',
+                            slate: '#4B5563',
+                            white: '#FAFAFA',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"EB Garamond"', 'serif'],
+                        body: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+        }
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0;
+            background-color: #D4AF37; transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+    </style>
+</head>
+<body class="bg-law-white text-law-slate font-body antialiased selection:bg-law-gold selection:text-white">
+
+    <!-- Top Bar -->
+    <div class="bg-law-navy border-b border-law-gold/20 text-law-lightGold text-xs py-2 px-6 flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-2 md:mb-0">Atendimento Corporativo Exclusivo</div>
+        <div class="flex gap-4">
+            <a href="#" class="hover:text-white transition-colors">Client Portal</a>
+            <span class="text-law-gold/50">|</span>
+            <a href="#" class="hover:text-white transition-colors">EN</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-law-navy sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-4">
+                <svg class="w-8 h-8 text-law-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                <span class="font-heading font-semibold text-2xl tracking-widest text-white uppercase">Valenza</span>
+            </a>
+            
+            <nav class="hidden md:flex gap-8 text-xs tracking-[0.2em] font-semibold uppercase text-law-white/80">
+                <a href="#atuacao" class="nav-link hover:text-law-gold transition-colors">Áreas de Atuação</a>
+                <a href="#socios" class="nav-link hover:text-law-gold transition-colors">Os Sócios</a>
+                <a href="#publicacoes" class="nav-link hover:text-law-gold transition-colors">Insights</a>
+            </nav>
+            
+            <button class="border border-law-gold text-law-gold font-semibold text-xs uppercase tracking-widest px-6 py-2.5 hover:bg-law-gold hover:text-law-navy transition-colors">
+                Consulta
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-law-navy pt-20 pb-32 overflow-hidden flex items-center min-h-[80vh]">
+        <!-- Pattern Overlay -->
+        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#D4AF37 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+            <div data-aos="fade-up">
+                <div class="inline-flex items-center gap-3 mb-6">
+                    <div class="w-8 h-[1px] bg-law-gold"></div>
+                    <span class="text-law-gold text-xs font-semibold tracking-[0.2em] uppercase">Tradição & Resultado</span>
+                </div>
+                <h1 class="font-heading text-5xl md:text-7xl font-semibold text-white mb-6 leading-tight">
+                    Segurança Jurídica para <span class="italic text-law-gold font-normal">Grandes Decisões.</span>
+                </h1>
+                <p class="text-law-white/70 font-light leading-relaxed mb-10 max-w-lg">
+                    Um escritório boutique focado em Direito Societário, Tributário e M&A. Estruturamos a base legal para o crescimento exponencial do seu negócio.
+                </p>
+                <div class="flex gap-4">
+                    <button class="gold-gradient text-law-navy font-bold text-xs uppercase tracking-widest px-8 py-4 hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-shadow">
+                        Conheça o Escritório
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative" data-aos="fade-left" data-aos-delay="200">
+                <div class="absolute inset-0 border border-law-gold/30 translate-x-4 translate-y-4"></div>
+                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2070&auto=format&fit=crop" class="w-full h-auto relative z-10 grayscale contrast-125 object-cover aspect-[4/3] shadow-2xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Áreas de Atuação -->
+    <section id="atuacao" class="py-24 bg-law-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-4xl md:text-5xl text-law-navy font-semibold mb-4">Nossa Expertise</h2>
+                <div class="w-16 h-[2px] bg-law-gold mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Area 1 -->
+                <div class="bg-white border border-gray-200 p-10 hover:shadow-xl transition-shadow group cursor-pointer" data-aos="fade-up" data-aos-delay="0">
+                    <svg class="w-10 h-10 text-law-gold mb-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    <h3 class="font-heading text-2xl text-law-navy font-semibold mb-4">Direito Societário</h3>
+                    <p class="text-sm font-light leading-relaxed mb-6">Estruturação de governança corporativa, acordos de acionistas e resolução de conflitos de alta complexidade.</p>
+                    <span class="text-xs text-law-gold font-bold tracking-widest uppercase flex items-center gap-2">Saiba Mais <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
+                </div>
+
+                <!-- Area 2 -->
+                <div class="bg-law-navy text-white p-10 hover:shadow-xl transition-shadow group cursor-pointer relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-law-gold/10 rounded-bl-full -z-0"></div>
+                    <svg class="w-10 h-10 text-law-gold mb-6 relative z-10 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <h3 class="font-heading text-2xl font-semibold mb-4 relative z-10">Tributário & Fiscal</h3>
+                    <p class="text-sm text-law-white/70 font-light leading-relaxed mb-6 relative z-10">Planejamento tributário estratégico focado na redução lícita da carga fiscal para grandes operações corporativas.</p>
+                    <span class="text-xs text-law-gold font-bold tracking-widest uppercase flex items-center gap-2 relative z-10">Saiba Mais <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
+                </div>
+
+                <!-- Area 3 -->
+                <div class="bg-white border border-gray-200 p-10 hover:shadow-xl transition-shadow group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <svg class="w-10 h-10 text-law-gold mb-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+                    <h3 class="font-heading text-2xl text-law-navy font-semibold mb-4">M&A (Fusões)</h3>
+                    <p class="text-sm font-light leading-relaxed mb-6">Auditoria legal (Due Diligence), negociação e redação de contratos para compra, venda e fusão de empresas.</p>
+                    <span class="text-xs text-law-gold font-bold tracking-widest uppercase flex items-center gap-2">Saiba Mais <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats / Numbers -->
+    <section class="border-y border-gray-200 py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center" data-aos="fade-up">
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">15+</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Anos de Mercado</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">R$ 2B</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Em Operações</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">98%</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Êxito Estratégico</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">Top 10</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Boutiques SP</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-law-navy text-law-white/60 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="md:col-span-1">
+                <span class="font-heading font-semibold text-2xl tracking-widest text-white uppercase mb-6 block">Valenza</span>
+                <p class="text-sm font-light leading-relaxed mb-6">Comprometimento inflexível com a excelência técnica e a ética na advocacia corporativa.</p>
+                <div class="text-law-gold font-bold text-sm">OAB/SP 123.456</div>
+            </div>
+            
+            <div>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-white mb-6">Contato</h4>
+                <ul class="space-y-3 text-sm font-light">
+                    <li>(11) 3000-0000</li>
+                    <li>contato@valenza.law.br</li>
+                    <li class="pt-2">Av. Brigadeiro Faria Lima, 2000<br>15º Andar - Itaim Bibi, SP</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-white mb-6">Navegação</h4>
+                <ul class="space-y-3 text-sm font-light">
+                    <li><a href="#" class="hover:text-law-gold transition-colors">O Escritório</a></li>
+                    <li><a href="#" class="hover:text-law-gold transition-colors">Nossa Equipe</a></li>
+                    <li><a href="#" class="hover:text-law-gold transition-colors">Publicações</a></li>
+                    <li><a href="#" class="hover:text-law-gold transition-colors">Trabalhe Conosco</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-white mb-6">Newsletter Jurídica</h4>
+                <p class="text-xs font-light mb-4">Receba atualizações sobre mudanças na legislação tributária e societária.</p>
+                <form class="flex">
+                    <input type="email" placeholder="E-mail" class="bg-white/5 border border-white/10 px-4 py-2 w-full text-sm outline-none focus:border-law-gold text-white">
+                    <button class="bg-law-gold text-law-navy px-4 font-bold"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="border-t border-white/10 pt-8 text-center text-xs font-light tracking-widest uppercase">
+            &copy; 2026 Valenza & Associados. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+</body>
+</html>

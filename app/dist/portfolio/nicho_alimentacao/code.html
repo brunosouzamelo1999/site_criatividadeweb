@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMASH // Burguer Delivery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Oswald for bold urban headings, Roboto for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        food: {
+                            red: '#E11D48',
+                            yellow: '#FACC15',
+                            dark: '#18181B',
+                            light: '#FAFAFA'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Oswald', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FAFAFA; color: #18181B; }
+        .urban-shadow {
+            box-shadow: 8px 8px 0px #18181B;
+            transition: all 0.2s ease;
+        }
+        .urban-shadow:active {
+            box-shadow: 0px 0px 0px #18181B;
+            transform: translate(8px, 8px);
+        }
+        .urban-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px #E11D48;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#18181B 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-food-yellow selection:text-food-dark">
+
+    <div class="fixed inset-0 bg-pattern z-[-1]"></div>
+
+    <!-- Header -->
+    <header class="w-full border-b-4 border-food-dark bg-food-yellow py-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
+            <a href="#" class="font-heading text-4xl font-bold uppercase tracking-tighter text-food-dark transform -skew-x-6">
+                SMASH<span class="text-food-red">!</span>
+            </a>
+            
+            <div class="hidden md:flex gap-8 font-bold uppercase tracking-widest text-sm text-food-dark">
+                <a href="#cardapio" class="hover:text-food-red transition-colors">Cardápio</a>
+                <a href="#combos" class="hover:text-food-red transition-colors">Combos</a>
+            </div>
+            
+            <a href="#" class="bg-food-red text-white font-black uppercase px-6 py-2 border-2 border-food-dark urban-shadow text-sm">
+                Pedir Agora
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="py-12 md:py-24 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <div class="bg-food-dark text-food-yellow inline-block font-bold uppercase px-3 py-1 text-xs mb-4 transform -skew-x-12">
+                    Delivery em 30 min ou grátis
+                </div>
+                <h1 class="font-heading text-6xl md:text-8xl font-bold uppercase leading-[0.9] text-food-dark mb-6 transform -skew-x-6">
+                    Morda. <br>
+                    <span class="text-food-red">Derreta.</span> <br>
+                    Repita.
+                </h1>
+                <p class="text-lg font-medium text-gray-600 mb-8 max-w-sm">
+                    Blend artesanal 180g, queijo cheddar derretendo e pão brioche amanteigado selado na chapa.
+                </p>
+                <div class="flex gap-4">
+                    <button class="bg-food-yellow text-food-dark font-black uppercase text-lg px-8 py-4 border-4 border-food-dark urban-shadow">
+                        Ver Cardápio
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative" data-aos="zoom-in">
+                <!-- Abstract blobs behind burger -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-food-red rounded-full blur-2xl opacity-20 -z-10"></div>
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1999&auto=format&fit=crop" class="w-full h-auto drop-shadow-[0_20px_30px_rgba(225,29,72,0.3)] animate-[floating_4s_ease-in-out_infinite]" style="animation: floating 4s ease-in-out infinite;">
+                
+                <!-- Badge -->
+                <div class="absolute -right-4 top-10 bg-food-dark text-white p-4 rounded-full w-24 h-24 flex items-center justify-center text-center font-heading font-bold text-xl transform rotate-12 border-4 border-food-yellow">
+                    100%<br>ANGUS
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu -->
+    <section id="cardapio" class="py-20 bg-food-dark text-food-light border-y-4 border-food-dark">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase text-center mb-16 text-food-yellow transform -skew-x-6">Os Mais Pedidos</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Item 1 -->
+                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1594212202875-861dce707334?q=80&w=2070&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase">Smash Clássico</h3>
+                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 28</span>
+                        </div>
+                        <p class="text-sm font-medium text-gray-600">2x Smash burger 90g, american cheese, picles, cebola roxa e molho especial.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?q=80&w=2070&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase">Bacon Beast</h3>
+                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 35</span>
+                        </div>
+                        <p class="text-sm font-medium text-gray-600">Blend 180g, duplo cheddar, tiras grossas de bacon crocante e maionese defumada.</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?q=80&w=2070&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase">Fritas Rústicas</h3>
+                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 15</span>
+                        </div>
+                        <p class="text-sm font-medium text-gray-600">Porção de batatas com casca fritas na hora, temperadas com páprica e sal grosso.</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1625869016774-3a92be2ae2cd?q=80&w=1974&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase">Milkshake Oreo</h3>
+                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 22</span>
+                        </div>
+                        <p class="text-sm font-medium text-gray-600">Sorvete de baunilha batido com creme de leite fresco e pedaços generosos de Oreo.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <button class="bg-food-red text-white font-black uppercase text-xl px-10 py-5 border-4 border-food-light hover:-translate-y-2 transition-transform shadow-[8px_8px_0px_#FAFAFA]">
+                    Ver Menu Completo no iFood
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-food-yellow py-10 border-t-4 border-food-dark text-center font-bold text-food-dark">
+        <h2 class="font-heading text-4xl uppercase tracking-tighter transform -skew-x-6 mb-4">SMASH<span class="text-food-red">!</span></h2>
+        <p class="mb-6">Rua da Fome, 123 - Centro.</p>
+        <p class="text-sm uppercase tracking-widest">&copy; 2026 Smash Burger. Design Brutal by Retro Pixel.</p>
+    </footer>
+
+    <style>
+        @keyframes floating {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+    </style>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+</body>
+</html>

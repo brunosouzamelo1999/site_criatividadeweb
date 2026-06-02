@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amour Boutique // Presentes Afetivos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Cormorant for romantic serif, Nunito for soft body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,500;0,700;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        amour: {
+                            bg: '#FAF8FA', // Very light lavender/pink
+                            lilac: '#D6C8E3',
+                            dustyRose: '#D9A8A8',
+                            text: '#4A4050',
+                            dark: '#2D2433'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Cormorant', 'serif'],
+                        body: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FAF8FA; color: #4A4050; }
+        .soft-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(214, 200, 227, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .soft-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(214, 200, 227, 0.4);
+        }
+        .blob-bg {
+            position: absolute;
+            filter: blur(60px);
+            opacity: 0.5;
+            z-index: -1;
+            border-radius: 50%;
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-amour-dustyRose selection:text-white overflow-x-hidden">
+
+    <!-- Promo Banner -->
+    <div class="bg-amour-dark text-amour-bg text-center py-2 text-xs font-semibold tracking-[0.15em] uppercase">
+        Frete Grátis em Box Personalizadas para todo Brasil ♡
+    </div>
+
+    <!-- Header -->
+    <header class="w-full bg-amour-bg/90 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <!-- Burger Menu Icon -->
+                <button class="md:hidden text-amour-dark">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <nav class="hidden md:flex gap-8 text-sm font-semibold text-amour-text/80 tracking-widest uppercase">
+                    <a href="#" class="hover:text-amour-dustyRose transition-colors">Kits Prontos</a>
+                    <a href="#" class="hover:text-amour-dustyRose transition-colors">Monte Sua Box</a>
+                </nav>
+            </div>
+            
+            <a href="#" class="font-heading text-4xl font-bold italic tracking-wide text-amour-dark">Amour.</a>
+            
+            <div class="flex items-center gap-4 text-amour-dark">
+                <a href="#" class="hover:text-amour-dustyRose transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></a>
+                <a href="#" class="hover:text-amour-dustyRose transition-colors relative">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    <span class="absolute -top-1 -right-1 w-3 h-3 bg-amour-dustyRose rounded-full border-2 border-amour-bg"></span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="min-h-[85vh] relative flex items-center justify-center pt-10">
+        <div class="blob-bg w-96 h-96 bg-amour-lilac top-0 left-[-10%]"></div>
+        <div class="blob-bg w-96 h-96 bg-amour-dustyRose bottom-10 right-[-10%] opacity-30"></div>
+        
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center z-10 w-full">
+            <div data-aos="fade-up" data-aos-duration="1200">
+                <h1 class="font-heading text-6xl md:text-8xl font-bold leading-[0.9] text-amour-dark mb-6 italic">
+                    Memórias <br>
+                    em Caixas.
+                </h1>
+                <p class="text-lg md:text-xl text-amour-text font-light mb-10 max-w-sm">
+                    Presentes afetivos feitos à mão. Crie momentos inesquecíveis para quem você mais ama com nossas boxes exclusivas.
+                </p>
+                <div class="flex gap-6 items-center">
+                    <button class="bg-amour-dark text-white font-semibold text-sm uppercase tracking-widest px-8 py-4 rounded-full hover:bg-amour-dustyRose transition-colors">
+                        Ver Coleção
+                    </button>
+                    <a href="#" class="font-heading italic text-xl border-b border-amour-dark hover:text-amour-dustyRose hover:border-amour-dustyRose transition-colors">
+                        Monte a sua
+                    </a>
+                </div>
+            </div>
+            
+            <div class="relative" data-aos="zoom-in" data-aos-duration="1500">
+                <div class="w-full aspect-square rounded-full border border-amour-lilac p-4 relative animate-[spin_60s_linear_infinite]">
+                    <div class="w-full h-full rounded-full border border-amour-dustyRose/50 border-dashed"></div>
+                </div>
+                <!-- Main Image overlapping -->
+                <div class="absolute inset-0 flex items-center justify-center transform hover:scale-105 transition-transform duration-700">
+                    <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" class="w-3/4 h-3/4 object-cover rounded-[40px] shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Banner -->
+    <div class="bg-amour-lilac/30 py-4 marquee-container border-y border-amour-lilac/50">
+        <div class="marquee-content font-heading italic text-2xl text-amour-dark">
+            <span class="mx-8">✨ Feito com muito amor</span>
+            <span class="mx-8">✨ Produtos artesanais</span>
+            <span class="mx-8">✨ Embalagens aromáticas</span>
+            <span class="mx-8">✨ Para todos os momentos</span>
+            <span class="mx-8">✨ Feito com muito amor</span>
+            <span class="mx-8">✨ Produtos artesanais</span>
+            <span class="mx-8">✨ Embalagens aromáticas</span>
+        </div>
+    </div>
+
+    <!-- Featured Collections -->
+    <section class="py-24 bg-amour-bg relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-5xl font-bold text-amour-dark italic mb-4">Os Mais Amados</h2>
+                <p class="text-amour-text/70 font-light max-w-md mx-auto">Seleção cuidadosa de kits que já emocionaram milhares de pessoas.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Prod 1 -->
+                <div class="soft-card p-6 group cursor-pointer" data-aos="fade-up" data-aos-delay="0">
+                    <div class="aspect-square rounded-2xl overflow-hidden mb-6 bg-amour-bg flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-heading text-2xl font-bold text-amour-dark mb-1">Box Lavanda & Paz</h3>
+                        <p class="text-sm text-amour-text/60 mb-4 font-light">Vela aromática, sabonete artesanal e sais de banho.</p>
+                        <div class="text-amour-dustyRose font-bold text-lg">R$ 149,90</div>
+                    </div>
+                </div>
+
+                <!-- Prod 2 -->
+                <div class="soft-card p-6 group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur text-amour-dark text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Best Seller</div>
+                    <div class="aspect-square rounded-2xl overflow-hidden mb-6 bg-amour-bg flex items-center justify-center relative">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-heading text-2xl font-bold text-amour-dark mb-1">Cesta Doce Manhã</h3>
+                        <p class="text-sm text-amour-text/60 mb-4 font-light">Café gourmet, cerâmica artesanal e chocolates belgas.</p>
+                        <div class="text-amour-dustyRose font-bold text-lg">R$ 289,00</div>
+                    </div>
+                </div>
+
+                <!-- Prod 3 -->
+                <div class="soft-card p-6 group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <div class="aspect-square rounded-2xl overflow-hidden mb-6 bg-amour-bg flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1577045391629-9e7b233a0e69?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-heading text-2xl font-bold text-amour-dark mb-1">Kit Bebê Aconchego</h3>
+                        <p class="text-sm text-amour-text/60 mb-4 font-light">Manta de algodão orgânico, mordedor e naninha.</p>
+                        <div class="text-amour-dustyRose font-bold text-lg">R$ 195,50</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="border border-amour-dark text-amour-dark font-semibold text-sm uppercase tracking-widest px-10 py-3 rounded-full hover:bg-amour-dark hover:text-white transition-colors">
+                    Ver todos os presentes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-amour-lilac/30">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="font-heading text-4xl font-bold text-amour-dark italic mb-8">Amour.</h2>
+            <p class="text-amour-text/70 font-light max-w-sm mx-auto mb-10">Encurtando distâncias e conectando corações através de detalhes embalados a mão.</p>
+            
+            <div class="flex justify-center gap-6 mb-16">
+                <a href="#" class="text-amour-dark hover:text-amour-dustyRose transition-colors">Instagram</a>
+                <a href="#" class="text-amour-dark hover:text-amour-dustyRose transition-colors">Pinterest</a>
+                <a href="#" class="text-amour-dark hover:text-amour-dustyRose transition-colors">WhatsApp</a>
+            </div>
+            
+            <div class="text-xs font-semibold tracking-widest uppercase text-amour-text/40">
+                &copy; 2026 Amour Presentes. Design by Retro Pixel.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+</body>
+</html>

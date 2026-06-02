@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retro Pixel Portfolio</title>
+  <link rel="stylesheet" href="src/assets/styles.css" />
+  <link rel="stylesheet" href="src/assets/stories.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Retro Pixel Portfolio</h1>
+    
+    <!-- Stories Triggers -->
+    <div class="stories-highlights">
+      <div class="story-circle" data-story-index="0">
+        <div class="circle-inner">
+          <img src="assets/story1.png" alt="Novo Projeto">
+        </div>
+        <span>Novidades</span>
+      </div>
+      <div class="story-circle" data-story-index="1">
+        <div class="circle-inner">
+          <img src="assets/story2.png" alt="Processo">
+        </div>
+        <span>Processo</span>
+      </div>
+    </div>
+  </header>
+  <main>
+    <!-- Carousel container -->
+    <section class="project-carousel" aria-label="Carrossel de projetos">
+      <button class="carousel__prev" aria-label="Slide anterior">←</button>
+      <div class="carousel__track">
+        <!-- Cards will be injected here as .carousel__slide elements -->
+      </div>
+      <button class="carousel__next" aria-label="Próximo slide">→</button>
+    </section>
+  </main>
+
+  <!-- Modal for internal screenshots -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" hidden>
+    <div class="modal__content">
+      <button class="modal__close" aria-label="Fechar">✖</button>
+      <div class="carousel__track">
+        <!-- Slides for screenshots will be injected -->
+      </div>
+      <button class="carousel__prev modal-nav" aria-label="Slide anterior">←</button>
+      <button class="carousel__next modal-nav" aria-label="Próximo slide">→</button>
+    </div>
+  </div>
+
+  <!-- Stories Container -->
+  <div id="stories-root"></div>
+
+  <script type="module" src="src/components/coverMap.js"></script>
+  <script type="module" src="src/components/card.js"></script>
+  <script type="module" src="src/components/carousel.js"></script>
+  <script type="module" src="src/components/modalCarousel.js"></script>
+  <script type="module">
+    import { StorySystem } from './src/components/stories.js';
+
+    const stories = new StorySystem({
+      container: '#stories-root',
+      stories: [
+        { 
+          title: 'Design Pixel Perfect', 
+          description: 'Criamos interfaces que respeitam a estética retro com tecnologia moderna.',
+          url: 'assets/story_template_base.svg',
+          link: 'https://seusite.com/portfolio'
+        },
+        { 
+          title: 'Tipos de Site Ideais', 
+          description: 'Cada objetivo exige uma estratégia diferente.',
+          url: 'assets/stories_sequence_minimal/story3_complete_list.svg',
+          link: 'https://seusite.com/servicos'
+        },
+        { 
+          title: 'Sua Revolução Digital', 
+          description: 'Transforme sua presença online hoje mesmo.',
+          url: 'assets/stories_sequence_minimal/story5_cta.svg',
+          link: 'https://seusite.com/contato'
+        }
+      ]
+    });
+
+    document.querySelectorAll('.story-circle').forEach(circle => {
+      circle.addEventListener('click', () => {
+        const index = parseInt(circle.dataset.storyIndex);
+        stories.open(index);
+      });
+    });
+  </script>
+</body>
+</html>

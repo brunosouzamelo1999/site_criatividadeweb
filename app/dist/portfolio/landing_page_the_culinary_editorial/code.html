@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Atelier // Alta Gastronomia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Playfair Display for elegance, Lato for modern readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        resto: {
+                            bg: '#0C0A09', // Dark moody brown/black
+                            text: '#F5F5F4', // Stone white
+                            accent: '#991B1B', // Deep red / wine
+                            gold: '#D4AF37', // Subtle gold
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Playfair Display"', 'serif'],
+                        body: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0C0A09; color: #F5F5F4; }
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+        .text-shadow-elegant {
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.8);
+        }
+        .dish-card:hover img {
+            transform: scale(1.05);
+        }
+        .menu-border {
+            position: relative;
+        }
+        .menu-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 1px;
+            background-color: #D4AF37;
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-resto-accent selection:text-white">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-resto-bg/80 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+            <div class="hidden md:flex gap-8 text-xs tracking-[0.2em] uppercase font-bold text-resto-text/80">
+                <a href="#experiencia" class="hover:text-resto-gold transition-colors">Experiência</a>
+                <a href="#menu" class="hover:text-resto-gold transition-colors">O Menu</a>
+            </div>
+            
+            <a href="#" class="font-heading font-black text-3xl tracking-widest uppercase">L'Atelier</a>
+            
+            <button class="bg-resto-accent text-white font-bold text-xs uppercase tracking-widest px-8 py-3 hover:bg-resto-gold hover:text-resto-bg transition-colors">
+                Reservas
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="h-screen relative flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover scale-105 animate-[pulse_20s_ease-in-out_infinite] opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-resto-bg via-transparent to-resto-bg/80"></div>
+        </div>
+        
+        <div class="relative z-10 text-center max-w-4xl mx-auto px-6 mt-16" data-aos="fade-up" data-aos-duration="1500">
+            <p class="text-resto-gold text-xs font-bold tracking-[0.3em] uppercase mb-6">Uma jornada sensorial</p>
+            <h1 class="font-heading text-6xl md:text-8xl lg:text-9xl font-bold mb-6 text-shadow-elegant italic">
+                A Arte do <br> Sabor.
+            </h1>
+            <p class="text-lg md:text-xl font-light mb-12 max-w-xl mx-auto text-white/90">
+                Onde ingredientes meticulosamente selecionados encontram a paixão e a técnica da alta gastronomia contemporânea.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="#menu" class="border border-resto-gold text-resto-gold font-bold text-xs uppercase tracking-widest px-10 py-4 hover:bg-resto-gold hover:text-resto-bg transition-colors">
+                    Explorar Menu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- A Experiência -->
+    <section id="experiencia" class="py-32 bg-resto-bg relative">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="relative" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop" class="w-full aspect-[4/5] object-cover rounded-sm">
+                <div class="absolute -bottom-10 -right-10 w-2/3 border-8 border-resto-bg">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop" class="w-full aspect-square object-cover rounded-sm">
+                </div>
+            </div>
+            
+            <div class="md:pl-12 mt-16 md:mt-0" data-aos="fade-left">
+                <h2 class="font-heading text-5xl md:text-6xl mb-8 leading-tight italic">Mais que um jantar, <br><span class="text-resto-accent">um evento.</span></h2>
+                <p class="text-resto-text/70 leading-relaxed font-light mb-6">
+                    Localizado no coração pulsante da cidade, o L'Atelier é um refúgio para os amantes da boa mesa. Nosso Chef Executivo constrói cada prato como uma obra de arte efêmera, pensada para despertar memórias e criar novas sensações.
+                </p>
+                <p class="text-resto-text/70 leading-relaxed font-light mb-10">
+                    Nossa adega conta com mais de 400 rótulos premiados, cuidadosamente selecionados para harmonizar com um menu que muda a cada estação, respeitando o frescor dos ingredientes locais.
+                </p>
+                <div class="flex items-center gap-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Signature.svg" class="h-10 filter invert opacity-60">
+                    <div>
+                        <div class="font-heading font-bold text-xl">Antoine Laurent</div>
+                        <div class="text-resto-gold text-xs uppercase tracking-widest mt-1">Chef Executivo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Highlights -->
+    <section id="menu" class="py-32 bg-[#141210]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h3 class="text-resto-gold text-xs font-bold tracking-[0.3em] uppercase mb-4">Assinaturas</h3>
+                <h2 class="font-heading text-5xl italic menu-border pb-6">O Menu Degustação</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Prato 1 -->
+                <div class="dish-card group cursor-pointer" data-aos="fade-up" data-aos-delay="0">
+                    <div class="overflow-hidden aspect-square mb-6 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000">
+                    </div>
+                    <div class="flex justify-between items-baseline border-b border-white/10 pb-4 mb-4">
+                        <h4 class="font-heading text-2xl">Costela Prensada</h4>
+                        <span class="text-resto-gold font-body">$ 85</span>
+                    </div>
+                    <p class="text-sm text-resto-text/50 font-light leading-relaxed">
+                        Cozida em baixa temperatura por 48h, purê de raízes defumadas, redução de vinho do porto e mini vegetais orgânicos.
+                    </p>
+                </div>
+
+                <!-- Prato 2 -->
+                <div class="dish-card group cursor-pointer md:mt-16" data-aos="fade-up" data-aos-delay="100">
+                    <div class="overflow-hidden aspect-square mb-6 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1559314809-0d155014e29e?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000">
+                    </div>
+                    <div class="flex justify-between items-baseline border-b border-white/10 pb-4 mb-4">
+                        <h4 class="font-heading text-2xl">Vieiras Seladas</h4>
+                        <span class="text-resto-gold font-body">$ 65</span>
+                    </div>
+                    <p class="text-sm text-resto-text/50 font-light leading-relaxed">
+                        Vieiras canadenses, emulsão de açafrão, caviar beluga, ovas de truta e crocante de tinta de lula.
+                    </p>
+                </div>
+
+                <!-- Prato 3 -->
+                <div class="dish-card group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <div class="overflow-hidden aspect-square mb-6 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?q=80&w=1760&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-1000">
+                    </div>
+                    <div class="flex justify-between items-baseline border-b border-white/10 pb-4 mb-4">
+                        <h4 class="font-heading text-2xl">Tartare de Wagyu</h4>
+                        <span class="text-resto-gold font-body">$ 95</span>
+                    </div>
+                    <p class="text-sm text-resto-text/50 font-light leading-relaxed">
+                        Corte A5 finamente picado, gema de ovo curada, mostarda dijon artesanal e torradas de brioche na manteiga de trufa.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20" data-aos="fade-up">
+                <a href="#" class="inline-block border-b border-resto-text pb-1 text-sm uppercase tracking-widest hover:text-resto-gold hover:border-resto-gold transition-colors">Ver Menu Completo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Quote -->
+    <section class="py-40 relative flex items-center justify-center text-center parallax" style="background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1934&auto=format&fit=crop');">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="relative z-10 max-w-3xl mx-auto px-6" data-aos="zoom-in">
+            <p class="font-heading text-3xl md:text-5xl leading-snug italic text-white mb-8 text-shadow-elegant">
+                "Cozinhar é uma forma de amar os outros de um jeito que você não pode abraçar."
+            </p>
+            <div class="text-resto-gold font-bold tracking-[0.2em] uppercase text-xs">O Guia Michelin</div>
+        </div>
+    </section>
+
+    <!-- Footer / Reserva CTA -->
+    <footer class="bg-resto-bg border-t border-white/5 pt-24 pb-12">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+            <div class="md:col-span-5">
+                <h2 class="font-heading text-4xl mb-6 italic">L'Atelier</h2>
+                <p class="text-resto-text/50 font-light max-w-sm mb-8">Experimente o extraordinário. Para garantir a melhor experiência, trabalhamos exclusivamente com reservas antecipadas.</p>
+                <button class="bg-resto-accent text-white font-bold text-xs uppercase tracking-widest px-8 py-4 hover:bg-resto-gold transition-colors">
+                    Fazer Reserva (OpenTable)
+                </button>
+            </div>
+            
+            <div class="md:col-span-3">
+                <h4 class="text-resto-gold text-xs font-bold tracking-widest uppercase mb-6">Funcionamento</h4>
+                <ul class="space-y-3 text-sm text-resto-text/70 font-light">
+                    <li>Terça a Quinta:<br> 19:00 — 23:30</li>
+                    <li class="pt-2">Sexta e Sábado:<br> 19:00 — 00:30</li>
+                    <li class="pt-2">Domingo:<br> 12:00 — 16:00</li>
+                </ul>
+            </div>
+            
+            <div class="md:col-span-4">
+                <h4 class="text-resto-gold text-xs font-bold tracking-widest uppercase mb-6">Localização</h4>
+                <p class="text-sm text-resto-text/70 font-light mb-6">
+                    Avenida das Estrelas, 1000.<br>
+                    Cobertura - Bairro Nobre.<br>
+                    Estacionamento com Valet.
+                </p>
+                <a href="#" class="text-xs uppercase tracking-widest border-b border-white/20 pb-1 hover:text-resto-gold hover:border-resto-gold transition-colors">Abrir no Maps</a>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 text-center text-xs text-resto-text/30 font-light tracking-widest uppercase">
+            &copy; 2026 L'Atelier Restaurant. Design by Retro Pixel.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+        
+        // Simple navbar color change on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                document.getElementById('navbar').classList.add('bg-resto-bg');
+                document.getElementById('navbar').classList.remove('bg-resto-bg/80');
+            } else {
+                document.getElementById('navbar').classList.remove('bg-resto-bg');
+                document.getElementById('navbar').classList.add('bg-resto-bg/80');
+            }
+        });
+    </script>
+</body>
+</html>

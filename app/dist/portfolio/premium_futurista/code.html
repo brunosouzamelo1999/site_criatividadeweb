@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // AI Core</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Orbitron for tech/cyberpunk, Rajdhani for futuristic body -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#030014', // Extremely dark blue/purple
+                            cyan: '#00F0FF',
+                            pink: '#FF003C',
+                            dark: '#0B0A1E'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Orbitron', 'sans-serif'],
+                        body: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #030014; color: #FFFFFF; overflow-x: hidden; }
+        
+        .glass-panel {
+            background: rgba(11, 10, 30, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+        .neon-border-pink {
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.5), inset 0 0 15px rgba(255, 0, 60, 0.5);
+        }
+        
+        /* Grid Background */
+        .cyber-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: gridMove 20s linear infinite;
+            z-index: -2;
+        }
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+        }
+
+        /* Glitch text effect */
+        .glitch {
+            position: relative;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #FF003C;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00F0FF;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 85px, 0); }
+            20% { clip: rect(32px, 9999px, 14px, 0); }
+            40% { clip: rect(78px, 9999px, 49px, 0); }
+            60% { clip: rect(42px, 9999px, 93px, 0); }
+            80% { clip: rect(12px, 9999px, 54px, 0); }
+            100% { clip: rect(65px, 9999px, 23px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(45px, 9999px, 12px, 0); }
+            20% { clip: rect(87px, 9999px, 34px, 0); }
+            40% { clip: rect(21px, 9999px, 67px, 0); }
+            60% { clip: rect(93px, 9999px, 45px, 0); }
+            80% { clip: rect(34px, 9999px, 89px, 0); }
+            100% { clip: rect(56px, 9999px, 12px, 0); }
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-cyber-pink selection:text-white relative">
+
+    <div class="cyber-grid"></div>
+
+    <!-- Radial Glows -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-cyber-cyan/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+    <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-cyber-pink/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+
+    <!-- Nav -->
+    <nav class="w-full glass-panel border-b-0 border-cyber-cyan/20 py-4 px-6 fixed top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="font-heading font-black text-2xl tracking-widest text-cyber-cyan">NEXUS_</div>
+            <div class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest">
+                <a href="#" class="hover:text-cyber-cyan transition-colors">Core</a>
+                <a href="#" class="hover:text-cyber-pink transition-colors">Nodes</a>
+                <a href="#" class="hover:text-white transition-colors">Terminal</a>
+            </div>
+            <button class="border border-cyber-cyan text-cyber-cyan px-6 py-2 font-bold uppercase text-xs tracking-widest hover:bg-cyber-cyan hover:text-black transition-colors neon-text-cyan">
+                INIT()
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center justify-center pt-20 px-6 relative">
+        <div class="text-center z-10 max-w-4xl" data-aos="zoom-in" data-aos-duration="1500">
+            <div class="inline-block border border-cyber-pink/50 text-cyber-pink px-4 py-1 text-xs font-bold uppercase tracking-widest mb-6 rounded-sm bg-cyber-pink/10 backdrop-blur-sm">
+                Sistema Online. V 2.0.4
+            </div>
+            <h1 class="font-heading font-black text-6xl md:text-8xl uppercase leading-none mb-6 glitch" data-text="ALÉM DO HUMANO">
+                ALÉM DO <br> <span class="text-cyber-cyan neon-text-cyan">HUMANO</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 font-medium mb-12 max-w-2xl mx-auto">
+                Infraestrutura de IA descentralizada construída na borda. Processando nós neurais na velocidade da luz.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <button class="bg-cyber-cyan text-black font-black uppercase tracking-widest px-8 py-4 rounded-sm hover:scale-105 transition-transform">
+                    Conectar Carteira
+                </button>
+                <button class="glass-panel text-white font-bold uppercase tracking-widest px-8 py-4 rounded-sm border border-cyber-pink hover:bg-cyber-pink/20 transition-colors">
+                    Ler Whitepaper
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features / Glassmorphism Cards -->
+    <section class="py-24 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-8 rounded-lg border-t border-l border-white/10 hover:border-cyber-cyan transition-colors group" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-12 h-12 bg-cyber-cyan/10 rounded flex items-center justify-center mb-6 border border-cyber-cyan/50 group-hover:bg-cyber-cyan group-hover:text-black transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-2xl uppercase mb-3">Hyper_Speed</h3>
+                    <p class="text-gray-400 font-medium">Latência sub-milisegundo em todas as consultas neurais através de nossa rede global descentralizada de nós.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-panel p-8 rounded-lg border-t border-l border-white/10 hover:border-cyber-pink transition-colors group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 bg-cyber-pink/10 rounded flex items-center justify-center mb-6 border border-cyber-pink/50 group-hover:bg-cyber-pink group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-2xl uppercase mb-3">Zero_Trust</h3>
+                    <p class="text-gray-400 font-medium">Modelos de IA protegidos criptograficamente. Seus dados nunca saem do seu ambiente local.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-panel p-8 rounded-lg border-t border-l border-white/10 hover:border-white transition-colors group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-white/10 rounded flex items-center justify-center mb-6 border border-white/50 group-hover:bg-white group-hover:text-black transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-2xl uppercase mb-3">Síntese</h3>
+                    <p class="text-gray-400 font-medium">Saídas generativas multimodais combinando texto, 3D e análises preditivas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-panel py-10 mt-20 border-t border-cyber-cyan/30 text-center relative z-10">
+        <div class="font-heading font-black text-3xl tracking-widest text-cyber-cyan opacity-50 mb-4">NEXUS_</div>
+        <div class="text-xs font-bold uppercase tracking-widest text-gray-500">
+            [ CONEXÃO SEGURA ESTABELECIDA ] &copy; 2026 NEXUS.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 100 });
+    </script>
+</body>
+</html>

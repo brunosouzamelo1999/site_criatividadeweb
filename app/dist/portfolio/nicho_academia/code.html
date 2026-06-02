@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronForge Gym - Academia & Fitness</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gym: {
+                            orange: '#FF5722',
+                            dark: '#0A0A0A',
+                            gray: '#171717',
+                            light: '#FAFAFA'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .text-glow { text-shadow: 0 0 15px rgba(255, 87, 34, 0.5); }
+        .box-glow { box-shadow: 0 0 20px rgba(255, 87, 34, 0.2); }
+        .bg-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-gym-dark text-gym-light font-body antialiased selection:bg-gym-orange selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="absolute inset-0 bg-gym-dark/90 backdrop-blur-md border-b border-white/5"></div>
+        <div class="relative max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-gym-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6.5 6.5 11 11"/>
+                    <path d="m21 21-1-1"/>
+                    <path d="m3 3 1 1"/>
+                    <path d="m18 22 4-4"/>
+                    <path d="m2 6 4-4"/>
+                    <path d="m3 10 7-7"/>
+                    <path d="m14 21 7-7"/>
+                </svg>
+                <span class="font-heading text-3xl font-bold uppercase tracking-wider">Iron<span class="text-gym-orange">Forge</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide uppercase">
+                <a href="#modalidades" class="hover:text-gym-orange transition-colors">Modalidades</a>
+                <a href="#sobre" class="hover:text-gym-orange transition-colors">Estrutura</a>
+                <a href="#planos" class="hover:text-gym-orange transition-colors">Planos</a>
+            </div>
+            <a href="#matricula" class="bg-gym-orange text-white px-6 py-2.5 font-bold uppercase tracking-wide text-sm rounded-none hover:bg-white hover:text-gym-dark transition-all duration-300 shadow-[4px_4px_0_rgba(255,255,255,0.2)]">
+                Matricule-se
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" alt="Gym" class="w-full h-full object-cover opacity-30" />
+            <div class="absolute inset-0 bg-gradient-to-t from-gym-dark via-gym-dark/80 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-gym-dark via-gym-dark/50 to-transparent"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-6 w-full z-10" data-aos="fade-up" data-aos-duration="1000">
+            <span class="text-gym-orange font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Não é só treinar, é forjar caráter</span>
+            <h1 class="font-heading text-6xl md:text-8xl lg:text-9xl font-bold uppercase leading-none mb-6">
+                Supere <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-600 text-glow">Seus Limites</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-xl mb-10 font-light">
+                Estrutura de nível olímpico, treinadores de elite e uma comunidade forjada no suor. A transformação que você busca começa aqui.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#planos" class="bg-gym-orange text-white px-8 py-4 font-bold uppercase tracking-widest text-center hover:bg-white hover:text-gym-dark transition-all duration-300">
+                    Começar Agora
+                </a>
+                <a href="#modalidades" class="border border-white/20 px-8 py-4 font-bold uppercase tracking-widest text-center hover:bg-white/10 transition-colors">
+                    Ver Modalidades
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diferenciais -->
+    <section id="sobre" class="py-24 bg-gym-gray relative">
+        <div class="absolute inset-0 bg-pattern opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-gym-dark p-8 border-l-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="0">
+                    <svg class="w-12 h-12 text-gym-orange mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="font-heading text-3xl mb-3 uppercase">Aberto 24 Horas</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Sua rotina não tem limites, e nós também não. Treine em qualquer horário do dia ou da noite, 365 dias por ano.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-gym-dark p-8 border-l-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <svg class="w-12 h-12 text-gym-orange mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <h3 class="font-heading text-3xl mb-3 uppercase">Equipamentos Premium</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Máquinas importadas das melhores marcas mundiais, com biomecânica perfeita para maximizar seus resultados.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-gym-dark p-8 border-l-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <svg class="w-12 h-12 text-gym-orange mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <h3 class="font-heading text-3xl mb-3 uppercase">Time de Elite</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Profissionais altamente qualificados para montar treinos periodizados focados no seu objetivo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modalidades -->
+    <section id="modalidades" class="py-24 bg-gym-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-gym-orange font-bold tracking-[0.2em] uppercase text-sm mb-2 block">O que oferecemos</span>
+                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Nossas <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-600">Modalidades</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Mod 1 -->
+                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="0">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
+                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">Musculação</h3>
+                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Equipamentos de alta performance para hipertrofia.</p>
+                    </div>
+                </div>
+                <!-- Mod 2 -->
+                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
+                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">CrossFit</h3>
+                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Treinos intensos de força e condicionamento.</p>
+                    </div>
+                </div>
+                <!-- Mod 3 -->
+                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
+                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">Boxe / Muay Thai</h3>
+                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Técnica, agilidade e alta queima calórica.</p>
+                    </div>
+                </div>
+                <!-- Mod 4 -->
+                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
+                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">Pilates & Yoga</h3>
+                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Flexibilidade, respiração e conexão mente-corpo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos -->
+    <section id="planos" class="py-24 bg-gym-gray relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Escolha sua <span class="text-gym-orange">Armadura</span></h2>
+                <p class="text-gray-400 mt-4">Planos sem fidelidade absurda e sem taxa de cancelamento secreta.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Basico -->
+                <div class="bg-gym-dark p-8 border border-white/5 flex flex-col" data-aos="fade-up" data-aos-delay="0">
+                    <h3 class="font-heading text-3xl uppercase text-gray-300">Iron Basic</h3>
+                    <div class="my-6">
+                        <span class="text-5xl font-bold font-heading">R$ 89</span><span class="text-gray-500">/mês</span>
+                    </div>
+                    <ul class="space-y-4 text-sm text-gray-400 mb-8 flex-1">
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Acesso livre área de Musculação</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Vestiário padrão</li>
+                        <li class="flex items-center gap-3 text-gray-600"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg> Modalidades Coletivas</li>
+                    </ul>
+                    <button class="w-full border border-white/20 py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">Assinar Basic</button>
+                </div>
+                
+                <!-- PRO -->
+                <div class="bg-[#111] p-8 border-2 border-gym-orange relative transform md:-translate-y-4 box-glow flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gym-orange text-white px-4 py-1 text-xs font-bold uppercase tracking-widest">Mais Escolhido</div>
+                    <h3 class="font-heading text-3xl uppercase text-white">Iron Pro</h3>
+                    <div class="my-6">
+                        <span class="text-5xl font-bold font-heading text-gym-orange">R$ 129</span><span class="text-gray-500">/mês</span>
+                    </div>
+                    <ul class="space-y-4 text-sm text-gray-300 mb-8 flex-1">
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Acesso 24h a todas as áreas</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Todas as Modalidades Coletivas</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> App com Treinos Premium</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Traz 1 amigo 5x no mês</li>
+                    </ul>
+                    <button class="w-full bg-gym-orange text-white py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-gym-dark transition-colors">Assinar Pro</button>
+                </div>
+                
+                <!-- Black -->
+                <div class="bg-gym-dark p-8 border border-white/5 flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="font-heading text-3xl uppercase text-gray-300">Iron Elite</h3>
+                    <div class="my-6">
+                        <span class="text-5xl font-bold font-heading">R$ 249</span><span class="text-gray-500">/mês</span>
+                    </div>
+                    <ul class="space-y-4 text-sm text-gray-400 mb-8 flex-1">
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Tudo do plano Pro</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Personal Trainer 2x na semana</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Avaliação Física Mensal</li>
+                    </ul>
+                    <button class="w-full border border-white/20 py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">Assinar Elite</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] pt-16 pb-8 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div>
+                <div class="flex items-center gap-2 mb-6">
+                    <svg class="w-6 h-6 text-gym-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+                    </svg>
+                    <span class="font-heading text-2xl font-bold uppercase tracking-wider">Iron<span class="text-gym-orange">Forge</span></span>
+                </div>
+                <p class="text-gray-500 text-sm max-w-xs">Forjando corpos e mentes desde 2018. A melhor infraestrutura fitness da região central.</p>
+            </div>
+            <div>
+                <h4 class="font-heading text-xl uppercase mb-4">Contato</h4>
+                <ul class="text-gray-500 text-sm space-y-2">
+                    <li>Rua do Aço, 123 - Centro</li>
+                    <li>(11) 99999-9999</li>
+                    <li>contato@ironforgegym.com.br</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-heading text-xl uppercase mb-4">Redes Sociais</h4>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 bg-white/5 flex items-center justify-center rounded-full hover:bg-gym-orange transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    <a href="#" class="w-10 h-10 bg-white/5 flex items-center justify-center rounded-full hover:bg-gym-orange transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.708-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.88z"/></svg></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-gray-700 text-xs py-4 border-t border-white/5">
+            &copy; 2026 IronForge Gym. Todos os direitos reservados. Modelo por Retro Pixel.
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+        });
+
+        // Navbar bg change on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+</body>
+</html>

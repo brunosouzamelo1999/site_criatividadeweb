@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VANGUARD // Haute Couture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Syne for brutalist display, Inter for tiny text -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        van: {
+                            black: '#0A0A0A',
+                            white: '#F4F4F4',
+                            accent: '#FF3300' // Sharp neon orange/red
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Syne', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F4F4F4; color: #0A0A0A; overflow-x: hidden; }
+        
+        /* Custom Brutalist Cursor */
+        body { cursor: none; }
+        .custom-cursor {
+            width: 20px; height: 20px;
+            background: #FF3300;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s;
+        }
+        .hover-grow:hover ~ .custom-cursor,
+        a:hover ~ .custom-cursor,
+        button:hover ~ .custom-cursor {
+            width: 60px; height: 60px;
+        }
+
+        .huge-text {
+            font-size: clamp(4rem, 15vw, 15rem);
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+        }
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            display: flex;
+            border-top: 1px solid #0A0A0A;
+            border-bottom: 1px solid #0A0A0A;
+        }
+        .marquee span {
+            display: inline-block;
+            padding-left: 2rem;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .img-reveal {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+            transition: clip-path 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .img-reveal.aos-animate {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        
+        /* Image grain overlay */
+        .grain::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-body antialiased">
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full top-0 z-50 mix-blend-difference text-white px-6 py-6 flex justify-between items-start">
+        <div class="font-heading font-bold text-2xl tracking-tighter hover-grow">VANGUARD</div>
+        <div class="flex gap-12 font-medium text-xs tracking-widest uppercase">
+            <a href="#" class="hover-grow">Coleção 01</a>
+            <a href="#" class="hover-grow">Editorial</a>
+            <a href="#" class="hover-grow">Arquivo</a>
+        </div>
+        <div class="text-xs uppercase font-bold hover-grow">Menu [ + ]</div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="min-h-screen relative pt-32 pb-12 px-6 flex flex-col justify-between">
+        <div class="z-10 relative">
+            <div class="overflow-hidden">
+                <h1 class="font-heading font-bold huge-text text-van-black uppercase" data-aos="fade-up" data-aos-duration="1000">Elegância</h1>
+            </div>
+            <div class="overflow-hidden flex justify-end">
+                <h1 class="font-heading font-bold huge-text text-van-black uppercase" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">Radical</h1>
+            </div>
+        </div>
+        
+        <!-- Hero Image Absolute Center -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 max-w-md aspect-[4/5] z-0 mt-8">
+            <div class="w-full h-full overflow-hidden img-reveal grain" data-aos>
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1976&auto=format&fit=crop" class="w-full h-full object-cover scale-110" id="hero-img">
+            </div>
+        </div>
+        
+        <div class="flex justify-between items-end z-10 text-xs font-medium tracking-widest uppercase max-w-sm">
+            <p>Redefinindo os limites da moda contemporânea através de silhuetas brutalistas e materiais intransigentes.</p>
+            <p class="text-right">Inverno / 2026</p>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee py-4 font-heading font-bold text-4xl uppercase text-van-black bg-van-accent my-20">
+        <span>Destrua o comum — </span>
+        <span>Destrua o comum — </span>
+        <span>Destrua o comum — </span>
+        <span>Destrua o comum — </span>
+    </div>
+
+    <!-- Editorial Section -->
+    <section class="py-20 px-6">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <!-- Left Text -->
+            <div class="md:col-span-4" data-aos="fade-right">
+                <h2 class="font-heading font-bold text-5xl uppercase mb-8">Formas<br>Brutas.</h2>
+                <p class="text-sm font-medium mb-6">Abraçando imperfeições. A nova coleção explora a tensão entre a alfaiataria estruturada e o caimento caótico.</p>
+                <a href="#" class="inline-block border-b-2 border-van-black pb-1 text-xs font-bold uppercase tracking-widest hover:text-van-accent hover:border-van-accent transition-colors hover-grow">Comprar o Look</a>
+            </div>
+            
+            <!-- Center Image -->
+            <div class="md:col-span-4 mt-12 md:mt-32">
+                <div class="aspect-[4/5] overflow-hidden img-reveal grain" data-aos>
+                    <img src="https://images.unsplash.com/photo-1618932260643-eee4a2f65ba7?q=80&w=1964&auto=format&fit=crop" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105">
+                </div>
+            </div>
+            
+            <!-- Right Image -->
+            <div class="md:col-span-4 mt-12 md:mt-0">
+                <div class="aspect-[3/4] overflow-hidden img-reveal grain" data-aos data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1551489186-cf8726f514f8?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Big Video / Full Width -->
+    <section class="h-screen w-full mt-32 relative overflow-hidden grain" data-aos="fade-in">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="absolute inset-0 flex items-center justify-center mix-blend-overlay">
+            <h2 class="font-heading font-bold text-[10vw] text-white uppercase tracking-tighter">Atitude</h2>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-van-black text-van-white pt-32 pb-12 px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 mb-32 border-b border-van-white/20 pb-20">
+            <div>
+                <h3 class="font-heading font-bold text-6xl uppercase mb-8">Junte-se ao<br>Culto.</h3>
+                <form class="flex border-b border-van-white pb-2 max-w-md">
+                    <input type="email" placeholder="SEU E-MAIL" class="bg-transparent outline-none w-full text-sm font-medium uppercase placeholder:text-van-white/30">
+                    <button type="button" class="font-bold text-sm uppercase hover:text-van-accent hover-grow">Enviar</button>
+                </form>
+            </div>
+            <div class="grid grid-cols-2 gap-8 text-xs font-medium uppercase tracking-widest">
+                <ul class="space-y-4">
+                    <li><a href="#" class="hover:text-van-accent hover-grow">Instagram</a></li>
+                    <li><a href="#" class="hover:text-van-accent hover-grow">Twitter</a></li>
+                    <li><a href="#" class="hover:text-van-accent hover-grow">Discord</a></li>
+                </ul>
+                <ul class="space-y-4">
+                    <li><a href="#" class="hover:text-van-accent hover-grow">Entregas</a></li>
+                    <li><a href="#" class="hover:text-van-accent hover-grow">Devoluções</a></li>
+                    <li><a href="#" class="hover:text-van-accent hover-grow">Termos</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex justify-between items-center text-[10px] font-medium uppercase tracking-widest text-van-white/50">
+            <div>&copy; 2026 Vanguard.</div>
+            <div>Designed by Retro Pixel.</div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 100 });
+
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Simple Parallax for Hero Image
+        const heroImg = document.getElementById('hero-img');
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            heroImg.style.transform = `translateY(${scroll * 0.1}px) scale(1.1)`;
+        });
+    </script>
+</body>
+</html>

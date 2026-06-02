@@ -1,0 +1,121 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        'bg-primary': '#060608',
+        'bg-secondary': '#0c0c10',
+        'bg-elevated': '#121217',
+        'bg-surface': '#181822',
+        'bg-card': '#0c0c10',
+        'accent-red': '#E63946',
+        'accent-yellow': '#00adb5',
+        'accent-green': '#2DC653',
+        'accent-blue': '#00adb5',
+        'accent-orange': '#00e5ff',
+        'accent-purple': '#00e5ff',
+        'accent-cyan': '#00adb5',
+        'accent-cyan-glow': '#00e5ff',
+        'text-primary': '#F8F9FA',
+        'text-secondary': '#D1DCE5',
+        'text-muted': '#7A8BA3',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      fontFamily: {
+        display: ['"Outfit"', '"Inter"', 'sans-serif'],
+        heading: ['"Space Grotesk"', '"Inter"', 'sans-serif'],
+        body: ['"Inter"', 'system-ui', 'sans-serif'],
+        pixel: ['"Space Grotesk"', 'sans-serif'],
+      },
+      borderRadius: {
+        xl: "calc(var(--radius) + 4px)",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+        xs: "calc(var(--radius) - 6px)",
+      },
+      boxShadow: {
+        xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        'glow-red': '0 0 20px rgba(230,57,70,0.3)',
+        'glow-yellow': '0 0 20px rgba(0,229,255,0.35)',
+        'glow-blue': '0 0 20px rgba(0,229,255,0.3)',
+        'glow-green': '0 0 20px rgba(45,198,83,0.3)',
+        'glow-orange': '0 0 25px rgba(0,229,255,0.4)',
+        'glow-purple': '0 0 25px rgba(0,229,255,0.4)',
+        'glow-cyan': '0 0 20px rgba(0,229,255,0.4)',
+        'pixel': '0 4px 20px rgba(0,229,255,0.15)',
+        'pixel-lg': '0 8px 30px rgba(0,229,255,0.25)',
+        'pixel-sm': '0 2px 10px rgba(0,229,255,0.1)',
+        'pixel-yellow': '0 4px 20px rgba(0,229,255,0.2)',
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "pixel-pulse": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.5" },
+          "50%": { transform: "scale(1.2)", opacity: "1" },
+        },
+        "float-pixel": {
+          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
+          "25%": { transform: "translateY(-15px) rotate(5deg)" },
+          "50%": { transform: "translateY(-8px) rotate(-3deg)" },
+          "75%": { transform: "translateY(-20px) rotate(2deg)" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(0,229,255,0.2)" },
+          "50%": { boxShadow: "0 0 30px rgba(0,229,255,0.4)" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "pixel-pulse": "pixel-pulse 3s ease-in-out infinite",
+        "pixel-pulse-fast": "pixel-pulse 1.5s ease-in-out infinite",
+        "float-pixel": "float-pixel 8s ease-in-out infinite",
+        "float-pixel-slow": "float-pixel 10s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+}

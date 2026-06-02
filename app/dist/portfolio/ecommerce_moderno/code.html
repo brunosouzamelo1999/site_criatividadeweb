@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOID. // Streetwear (Demonstrativo Interativo)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Syne for brutalist headings, Inter for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons & GSAP -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: {
+                            black: '#000000',
+                            white: '#FFFFFF',
+                            gray: '#111111',
+                            mediumGray: '#222222',
+                            lightGray: '#F5F5F5',
+                            neon: '#CCFF00' // High visibility acid green
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Syne', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .marquee-inner {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        /* Custom scrollbar for brutalist feel */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000; border-left: 1px solid #333; }
+        ::-webkit-scrollbar-thumb { background: #CCFF00; }
+        
+        .brutalist-border {
+            border: 2px solid #000000;
+        }
+        .brutalist-border-thick {
+            border: 3px solid #000000;
+        }
+        .brutalist-shadow {
+            box-shadow: 6px 6px 0px 0px #000000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 3px 3px 0px 0px #000000;
+        }
+        
+        .neo-btn {
+            transition: all 0.15s ease-in-out;
+        }
+        .neo-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px #000000 !important;
+        }
+        .neo-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px 0px #000000 !important;
+        }
+        
+        .feedback-pin {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+        .feedback-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, ease 0.3s;
+        }
+        .feedback-pin:hover .feedback-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-void-lightGray text-void-black font-body antialiased selection:bg-void-neon selection:text-void-black relative overflow-x-hidden">
+
+    <!-- Dynamic Pins Visual Container -->
+    <div id="pins-container" class="absolute inset-0 pointer-events-none z-30"></div>
+
+    <!-- Interactive Sandbox Ribbon -->
+    <div class="bg-void-black text-void-neon text-[10px] py-2 px-4 text-center tracking-widest uppercase flex items-center justify-center gap-2 relative z-30 font-bold border-b-2 border-void-black">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5 animate-pulse text-void-neon"></i>
+        VOID SANDBOX ATIVO. SIMULADOR DE FATURAMENTO COMPLETO COM ESTADO LOCAL DO CLIENTE.
+    </div>
+
+    <!-- Top Alert -->
+    <div class="bg-void-white text-void-black text-xs font-bold uppercase tracking-widest text-center py-2 border-b-2 border-void-black">
+        [ NEW COLLECTION DROP 004 OUT NOW // 10% OFF COM O CUPOM VOID10 ]
+    </div>
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-40 bg-void-lightGray border-b-2 border-void-black mix-blend-normal">
+        <div class="flex justify-between items-stretch h-16">
+            <div class="w-1/3 flex items-center px-6 border-r-2 border-void-black hidden md:flex">
+                <button onclick="handleNavbarFilter('hoodies')" class="font-heading font-bold text-xs uppercase hover:text-void-black hover:bg-void-neon px-4 py-1 transition-all outline-none">Hoodies</button>
+                <button onclick="handleNavbarFilter('tees')" class="font-heading font-bold text-xs uppercase hover:text-void-black hover:bg-void-neon px-4 py-1 transition-all outline-none">Tees</button>
+                <button onclick="handleNavbarFilter('kicks')" class="font-heading font-bold text-xs uppercase hover:text-void-black hover:bg-void-neon px-4 py-1 transition-all outline-none">Kicks</button>
+            </div>
+            
+            <div class="flex-1 md:w-1/3 flex items-center justify-center border-r-2 border-void-black px-4">
+                <span class="font-heading text-4xl font-extrabold tracking-tighter uppercase cursor-pointer" onclick="filterCategory('all')">VOID.</span>
+            </div>
+
+            <!-- Accent-Insensitive Instant Search -->
+            <div class="hidden lg:flex items-center px-4 bg-void-white border-r-2 border-void-black w-72">
+                <input id="search-input" onkeyup="handleSearch(event)" type="text" placeholder="BUSCAR PRODUTO..." class="w-full bg-transparent font-heading font-bold text-xs outline-none text-void-black uppercase">
+                <i data-lucide="search" class="w-4 h-4 text-void-black"></i>
+            </div>
+            
+            <div class="w-1/3 flex items-center justify-end px-6">
+                <button onclick="toggleCartDrawer(true)" class="font-heading font-bold text-xs uppercase bg-void-neon border-2 border-void-black px-6 py-2 hover:bg-void-black hover:text-void-neon transition-colors brutalist-shadow-sm hover:translate-y-0.5 hover:translate-x-0.5 duration-100">
+                    Cart (<span id="cart-count-badge">0</span>)
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Search Bar -->
+    <div class="lg:hidden flex items-center px-6 py-3 bg-void-white border-b-2 border-void-black w-full">
+        <input id="search-input-mobile" onkeyup="handleSearch(event)" type="text" placeholder="BUSCAR PRODUTO..." class="w-full bg-transparent font-heading font-bold text-xs outline-none text-void-black uppercase">
+        <i data-lucide="search" class="w-4 h-4 text-void-black"></i>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative border-b-2 border-void-black flex flex-col md:flex-row h-[calc(100vh-64px)]">
+        <!-- Text Side -->
+        <div class="w-full md:w-1/2 flex flex-col justify-center p-8 lg:p-16 border-b-2 md:border-b-0 md:border-r-2 border-void-black bg-void-white">
+            <div data-aos="fade-right">
+                <div class="inline-block bg-void-black text-void-white text-xs font-bold uppercase tracking-widest px-3 py-1 mb-8">
+                    SS/26 Collection
+                </div>
+                <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl font-extrabold uppercase leading-[0.9] tracking-tighter mb-8">
+                    Define <br>
+                    Nothing.
+                </h1>
+                <p class="font-body text-base md:text-lg font-medium max-w-sm mb-12 text-void-gray">
+                    Minimalism is dead. Welcome to the era of absolute noise. Premium quality, zero compromises.
+                </p>
+                <a href="#products" class="inline-flex items-center justify-center font-heading font-bold text-xl uppercase bg-void-black text-void-neon px-10 py-5 hover:bg-void-neon hover:text-void-black border-2 border-void-black transition-colors w-full sm:w-auto brutalist-shadow">
+                    Explore Drop
+                    <svg class="w-6 h-6 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Image Side -->
+        <div class="w-full md:w-1/2 relative bg-void-black overflow-hidden group">
+            <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105 group-hover:grayscale-0">
+            <div class="absolute inset-0 border-[16px] border-void-lightGray pointer-events-none"></div>
+            <!-- Sticker -->
+            <div class="absolute top-8 right-8 bg-void-neon text-void-black font-heading font-bold uppercase text-2xl p-4 transform rotate-12 border-2 border-void-black shadow-md select-none">
+                100%<br>RAW
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Separator -->
+    <div class="bg-void-black text-void-white py-4 border-b-2 border-void-black marquee-wrapper overflow-hidden flex items-center">
+        <div class="marquee-inner font-heading font-bold text-4xl uppercase tracking-tighter flex whitespace-nowrap">
+            <span class="px-8 flex items-center">VOID ARCHIVES <span class="text-void-neon ml-8">///</span></span>
+            <span class="px-8 flex items-center">NEW ESTHETICS <span class="text-void-neon ml-8">///</span></span>
+            <span class="px-8 flex items-center">STREETWEAR CULT <span class="text-void-neon ml-8">///</span></span>
+            <span class="px-8 flex items-center">VOID ARCHIVES <span class="text-void-neon ml-8">///</span></span>
+            <span class="px-8 flex items-center">NEW ESTHETICS <span class="text-void-neon ml-8">///</span></span>
+            <span class="px-8 flex items-center">STREETWEAR CULT <span class="text-void-neon ml-8">///</span></span>
+        </div>
+    </div>
+
+    <!-- Catalog Section -->
+    <section id="products" class="bg-void-lightGray py-16 border-b-2 border-void-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="font-heading text-xs font-bold text-void-black tracking-widest uppercase block mb-2">/// ARCHIVE LIST</span>
+                    <h2 class="font-heading text-4xl md:text-5xl font-black uppercase tracking-tight">VOID DROP CATALOG</h2>
+                </div>
+
+                <!-- Neobrutalist Category Filters -->
+                <div class="flex flex-wrap gap-2 font-heading font-bold text-xs uppercase">
+                    <button id="btn-cat-all" onclick="filterCategory('all')" class="border-2 border-void-black bg-void-neon text-void-black px-5 py-2.5 hover:bg-void-black hover:text-void-neon transition-all brutalist-shadow-sm">All Items</button>
+                    <button id="btn-cat-hoodies" onclick="filterCategory('hoodies')" class="border-2 border-void-black bg-void-white text-void-black px-5 py-2.5 hover:bg-void-black hover:text-void-neon transition-all brutalist-shadow-sm">Hoodies</button>
+                    <button id="btn-cat-tees" onclick="filterCategory('tees')" class="border-2 border-void-black bg-void-white text-void-black px-5 py-2.5 hover:bg-void-black hover:text-void-neon transition-all brutalist-shadow-sm">Tees</button>
+                    <button id="btn-cat-kicks" onclick="filterCategory('kicks')" class="border-2 border-void-black bg-void-white text-void-black px-5 py-2.5 hover:bg-void-black hover:text-void-neon transition-all brutalist-shadow-sm">Kicks</button>
+                </div>
+            </div>
+
+            <!-- Dynamic Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamically Populated -->
+            </div>
+
+            <!-- Search Empty State -->
+            <div id="search-empty-state" class="hidden text-center py-20 border-4 border-dashed border-void-black/20 bg-void-white rounded-3xl">
+                <i data-lucide="search-code" class="w-16 h-16 mx-auto text-void-black/20 mb-4"></i>
+                <h4 class="font-heading text-2xl font-black uppercase">NENHUM ARQUIVO ENCONTRADO</h4>
+                <p class="text-xs text-gray-500 font-medium mt-2 uppercase tracking-wide">Busque por termos como "Hoodie", "Tee" ou "Kicks".</p>
+                <button onclick="resetSearch()" class="mt-6 font-heading font-bold text-xs uppercase bg-void-neon border-2 border-void-black px-6 py-2 hover:bg-void-black hover:text-void-neon transition-colors brutalist-shadow-sm">Limpar Busca</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manifesto -->
+    <section class="bg-void-black text-void-white py-32 border-b-2 border-void-black">
+        <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+            <h2 class="font-heading text-4xl md:text-6xl font-extrabold uppercase tracking-tighter mb-8 leading-tight">
+                Not a brand.<br>
+                A <span class="text-void-neon">Movement</span>.
+            </h2>
+            <p class="font-body text-gray-400 text-lg md:text-xl font-medium leading-relaxed">
+                We reject the standard. We build for the streets, for the nights that turn into mornings. High-end fabrics met with brutalist construction. Wear it until it falls apart.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-void-lightGray text-void-black">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b-2 border-void-black">
+            
+            <!-- Branding -->
+            <div class="p-8 border-b-2 md:border-b-0 md:border-r-2 border-void-black flex flex-col justify-between">
+                <span class="font-heading text-5xl font-extrabold tracking-tighter uppercase mb-12">VOID.</span>
+                <p class="font-body text-sm font-bold uppercase">© 2026 Void Studios</p>
+            </div>
+
+            <!-- Links -->
+            <div class="p-8 border-b-2 md:border-b-0 lg:border-r-2 border-void-black">
+                <h4 class="font-heading font-bold text-xl uppercase mb-6 border-b-2 border-void-black inline-block">Explore</h4>
+                <ul class="space-y-4 font-body font-bold text-sm uppercase">
+                    <li><button onclick="filterCategory('all')" class="hover:text-void-neon hover:bg-void-black px-2 py-1 transition-colors -ml-2 text-left">All Products</button></li>
+                    <li><button onclick="filterCategory('hoodies')" class="hover:text-void-neon hover:bg-void-black px-2 py-1 transition-colors -ml-2 text-left">Lookbook Hoodies</button></li>
+                    <li><a href="#" class="hover:text-void-neon hover:bg-void-black px-2 py-1 transition-colors -ml-2">Stockists</a></li>
+                </ul>
+            </div>
+
+            <!-- Info -->
+            <div class="p-8 border-b-2 lg:border-b-0 lg:border-r-2 border-void-black">
+                <h4 class="font-heading font-bold text-xl uppercase mb-6 border-b-2 border-void-black inline-block">Info</h4>
+                <ul class="space-y-4 font-body font-bold text-sm uppercase">
+                    <li><a href="#" class="hover:text-void-neon hover:bg-void-black px-2 py-1 transition-colors -ml-2">Shipping</a></li>
+                    <li><a href="#" class="hover:text-void-neon hover:bg-void-black px-2 py-1 transition-colors -ml-2">Returns</a></li>
+                    <li><a href="#" class="hover:text-void-neon hover:bg-void-black px-2 py-1 transition-colors -ml-2">Terms</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="p-8 flex flex-col justify-between bg-void-neon">
+                <h4 class="font-heading font-extrabold text-2xl uppercase mb-4 leading-none">Join the cult.</h4>
+                <p class="font-body text-sm font-bold mb-8">Access to secret drops and events.</p>
+                <div class="flex border-2 border-void-black bg-void-white">
+                    <input type="email" placeholder="EMAIL" class="bg-transparent w-full font-body font-bold text-sm uppercase p-3 outline-none">
+                    <button class="bg-void-black text-void-white font-heading font-bold uppercase px-4 hover:bg-void-lightGray hover:text-void-black transition-colors">GO</button>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Brutalist Streetwear Cart Drawer -->
+    <div id="sidebar-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-void-white border-l-4 border-void-black shadow-[0_0_50px_rgba(0,0,0,0.3)] z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        
+        <!-- Header -->
+        <div class="p-6 border-b-4 border-void-black bg-void-black text-void-white flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-void-neon"></i>
+                <span class="font-heading text-xl font-bold tracking-tight uppercase">VOID BAG [ LOCAL ]</span>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="text-void-white hover:text-void-neon transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- CART STATE VIEW -->
+        <div id="drawer-cart-view" class="flex-grow flex flex-col justify-between overflow-y-auto">
+            <div id="cart-items-container" class="p-6 space-y-4">
+                <!-- Loaded dynamically -->
+            </div>
+            
+            <!-- Footer Block -->
+            <div id="cart-footer" class="p-6 border-t-4 border-void-black bg-void-lightGray space-y-4 hidden">
+                <div class="space-y-2 font-mono text-xs font-bold">
+                    <div class="flex justify-between items-center text-void-gray">
+                        <span>SUBTOTAL COMPILADO:</span>
+                        <span id="cart-subtotal" class="text-void-black">-</span>
+                    </div>
+                    <div id="cart-discount-row" class="flex justify-between items-center text-[#2DC653] hidden">
+                        <span>DESCONTO CUPOM (VOID10 10%):</span>
+                        <span id="cart-discount-val">-</span>
+                    </div>
+                    <div class="flex justify-between items-center text-lg font-black text-void-black border-t-2 border-dashed border-void-black/20 pt-2 font-heading">
+                        <span>TOTAL GERAL:</span>
+                        <span id="cart-total" class="text-void-black">-</span>
+                    </div>
+                </div>
+
+                <!-- Promo Code -->
+                <div class="flex border-2 border-void-black bg-void-white brutalist-shadow-sm">
+                    <input id="coupon-input" type="text" placeholder="COUPON CODE" class="w-full bg-transparent text-[10px] font-bold tracking-widest p-3 outline-none text-void-black uppercase font-mono">
+                    <button onclick="applyCoupon()" class="bg-void-black text-void-white px-5 py-2 font-heading font-black text-xs uppercase hover:bg-void-neon hover:text-void-black transition-all border-l-2 border-void-black">Apply</button>
+                </div>
+                <div id="coupon-alert" class="hidden text-[10px] text-center font-bold"></div>
+
+                <button onclick="switchDrawerState('checkout')" class="neo-btn w-full bg-void-neon text-void-black border-4 border-void-black py-4 text-xs font-black uppercase tracking-widest brutalist-shadow flex items-center justify-center gap-2 font-heading">
+                    PROCEED TO CHECKOUT
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- CHECKOUT STATE VIEW -->
+        <div id="drawer-checkout-view" class="flex-grow flex flex-col justify-between overflow-y-auto hidden">
+            <div class="p-6 space-y-6">
+                <!-- User Information -->
+                <div class="space-y-3">
+                    <h4 class="font-heading text-xs font-black text-void-black uppercase tracking-widest border-b-2 border-void-black pb-1">CUSTOMER INFOS</h4>
+                    <div class="space-y-2">
+                        <input id="chk-name" type="text" placeholder="Nome Completo" value="BRUNO C. SANTOS" class="w-full bg-void-white border-2 border-void-black p-3 text-xs font-bold outline-none brutalist-shadow-sm focus:bg-void-neon/10">
+                        <input id="chk-email" type="email" placeholder="E-mail" value="contato@bruno.design" class="w-full bg-void-white border-2 border-void-black p-3 text-xs font-bold outline-none brutalist-shadow-sm focus:bg-void-neon/10">
+                        <input id="chk-cpf" type="text" placeholder="CPF" value="441.982.103-91" class="w-full bg-void-white border-2 border-void-black p-3 text-xs font-bold outline-none brutalist-shadow-sm focus:bg-void-neon/10">
+                    </div>
+                </div>
+
+                <!-- Payment Methods Section -->
+                <div class="space-y-4">
+                    <h4 class="font-heading text-xs font-black text-void-black uppercase tracking-widest border-b-2 border-void-black pb-1">BILLING METHOD</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button id="tab-pix" onclick="selectPaymentTab('pix')" class="py-3 border-2 border-void-black text-void-black font-black text-[10px] flex flex-col items-center justify-center gap-1 bg-void-neon rounded shadow-sm font-heading">
+                            <i data-lucide="qr-code" class="w-4 h-4"></i>
+                            PIX
+                        </button>
+                        <button id="tab-card" onclick="selectPaymentTab('card')" class="py-3 border-2 border-void-black text-void-black/40 font-bold text-[10px] flex flex-col items-center justify-center gap-1 bg-void-white rounded font-heading">
+                            <i data-lucide="credit-card" class="w-4 h-4"></i>
+                            CARD
+                        </button>
+                        <button id="tab-boleto" onclick="selectPaymentTab('boleto')" class="py-3 border-2 border-void-black text-void-black/40 font-bold text-[10px] flex flex-col items-center justify-center gap-1 bg-void-white rounded font-heading">
+                            <i data-lucide="barcode" class="w-4 h-4"></i>
+                            TICKET
+                        </button>
+                    </div>
+
+                    <!-- PIX Content -->
+                    <div id="content-pix" class="bg-void-white p-4 border-2 border-void-black rounded brutalist-shadow-sm space-y-4">
+                        <div class="w-32 h-32 bg-void-white border-2 border-void-black mx-auto p-1.5 flex items-center justify-center">
+                            <!-- QR Code Simulated -->
+                            <svg class="w-full h-full text-void-black" viewBox="0 0 100 100"><rect x="10" y="10" width="20" height="20" fill="currentColor"/><rect x="70" y="10" width="20" height="20" fill="currentColor"/><rect x="10" y="70" width="20" height="20" fill="currentColor"/><rect x="40" y="40" width="20" height="20" fill="currentColor"/><rect x="45" y="10" width="10" height="15" fill="currentColor"/><rect x="75" y="45" width="15" height="15" fill="currentColor"/><rect x="45" y="75" width="20" height="15" fill="currentColor"/></svg>
+                        </div>
+                        <p class="text-[9px] text-center font-bold text-void-black uppercase tracking-wider leading-relaxed">Instant checkout approval is enabled. Confirmation will process locally.</p>
+                        <button onclick="copyPixKey()" class="neo-btn w-full bg-void-black border-2 border-void-black text-void-white font-black py-2.5 text-xs brutalist-shadow-sm uppercase font-heading">Copy Pix Code</button>
+                        <div id="pix-copy-alert" class="hidden text-[9px] text-center font-bold text-[#2DC653] uppercase font-mono">Code copied to clipboard!</div>
+                    </div>
+
+                    <!-- CARD Content -->
+                    <div id="content-card" class="space-y-4 hidden">
+                        <!-- Brutalist Streetwear Credit Card Visual preview -->
+                        <div class="relative bg-void-black p-6 border-3 border-void-black brutalist-shadow text-void-white font-mono flex flex-col justify-between h-40">
+                            <div class="flex justify-between items-start">
+                                <span class="font-heading font-black text-lg tracking-tight text-void-neon">VOID. CARD</span>
+                                <span class="text-xs font-bold border border-void-neon px-2 py-0.5 rounded text-void-neon">RAW</span>
+                            </div>
+                            <span id="card-display-number" class="text-sm font-bold tracking-widest block py-2">•••• •••• •••• ••••</span>
+                            <div class="flex justify-between items-center text-[8px] uppercase">
+                                <div>
+                                    <span class="block text-void-neon font-bold">TITULAR</span>
+                                    <span id="card-display-name" class="font-bold">BRUNO C. SANTOS</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-void-neon font-bold">VAL</span>
+                                    <span id="card-display-expiry" class="font-bold">12/29</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Inputs -->
+                        <div class="space-y-2">
+                            <input id="input-card-number" oninput="updateCardVisual()" type="text" placeholder="Card Number" class="w-full bg-void-white border-2 border-void-black p-3 text-xs font-bold outline-none brutalist-shadow-sm font-mono focus:bg-void-neon/10">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input id="input-card-expiry" oninput="updateCardVisual()" type="text" placeholder="MM/YY" class="bg-void-white border-2 border-void-black p-3 text-xs font-bold outline-none brutalist-shadow-sm font-mono focus:bg-void-neon/10">
+                                <input id="input-card-cvv" type="password" placeholder="CVV" class="bg-void-white border-2 border-void-black p-3 text-xs font-bold outline-none brutalist-shadow-sm font-mono focus:bg-void-neon/10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOLETO Content -->
+                    <div id="content-boleto" class="bg-void-white p-4 border-2 border-void-black rounded brutalist-shadow-sm space-y-4 hidden">
+                        <p class="text-[9px] text-center font-bold text-void-black uppercase tracking-wider leading-relaxed">Printable retail ticket bar code. Confirms instantly upon payment simulation.</p>
+                        <button onclick="copyBoletoBar()" class="neo-btn w-full bg-void-black border-2 border-void-black text-void-white font-black py-2.5 text-xs brutalist-shadow-sm uppercase font-heading">Copy Barcode</button>
+                        <div id="boleto-copy-alert" class="hidden text-[9px] text-center font-bold text-[#2DC653] uppercase font-mono">Barcode copied to clipboard!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer block -->
+            <div class="p-6 border-t-4 border-void-black bg-void-lightGray space-y-4">
+                <div class="flex justify-between items-center text-lg font-black text-void-black font-heading">
+                    <span>TOTAL FATURADO:</span>
+                    <span id="checkout-total" class="font-mono text-void-black">-</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchDrawerState('cart')" class="neo-btn w-1/3 border-2 border-void-black bg-void-white py-3.5 text-xs font-black uppercase tracking-widest font-heading">BACK</button>
+                    <button onclick="triggerCheckoutSimulation()" class="neo-btn w-2/3 bg-void-black text-void-neon border-2 border-void-black py-3.5 text-xs font-black uppercase tracking-widest brutalist-shadow flex items-center justify-center gap-2 font-heading">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        SECURE PAY
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elegant Floating Annotation Panel Drawer (Right side) -->
+    <div id="feedback-panel" class="fixed inset-y-0 right-0 max-w-sm w-full bg-[#0c0c10] border-l border-white/[0.08] shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <!-- Header -->
+        <div class="p-6 border-b border-white/[0.05] bg-black/30 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-[#00e5ff] font-bold text-sm">&#9670;</span>
+                <span class="font-heading text-sm font-bold text-white tracking-widest">DIRETRIZ DE APROVAÇÃO</span>
+            </div>
+            <button onclick="toggleFeedbackPanel(false)" class="text-white/60 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Body Scrollable Content -->
+        <div class="flex-grow p-6 overflow-y-auto space-y-6">
+            
+            <!-- Prototyping Interactive Pin Explainer -->
+            <div class="bg-white/[0.02] border border-white/[0.04] p-4 rounded-xl space-y-3">
+                <h4 class="font-heading text-xs font-bold text-[#00e5ff] tracking-wider uppercase flex items-center gap-1.5">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                    Anotações e Co-criação
+                </h4>
+                <p class="font-body text-[11px] text-white/70 leading-relaxed">
+                    Clique no botão abaixo e clique em qualquer parte deste site para adicionar pins de feedback visual! Seus pins serão salvos.
+                </p>
+                
+                <button id="pin-tool-btn" onclick="toggleAnnotationMode()" class="w-full bg-white/[0.04] hover:bg-white/[0.08] text-white border border-white/[0.1] hover:border-[#00e5ff]/40 py-2.5 rounded-lg text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all duration-300">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-red-500"></i>
+                    <span id="pin-btn-text">Ativar Pin de Feedback</span>
+                </button>
+                <div id="pin-mode-status" class="text-center text-[9px] font-semibold text-[#00e5ff] hidden uppercase tracking-wider animate-pulse">
+                    Modo Ativo! Clique na tela para posicionar o pin
+                </div>
+            </div>
+
+            <!-- Like & Avaliação Rápida -->
+            <div class="bg-white/[0.02] border border-white/[0.06] p-4.5 rounded-xl space-y-4 my-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-heading text-xs font-bold text-white tracking-widest uppercase">Curtir o Projeto</span>
+                    <button onclick="toggleLikeProject()" id="like-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/[0.1] hover:bg-white/[0.04] transition-all duration-300 group">
+                        <i id="like-icon" data-lucide="heart" class="w-4 h-4 text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                        <span id="like-count" class="font-mono text-xs text-white">45</span>
+                    </button>
+                </div>
+                
+                <div class="space-y-2">
+                    <span class="font-heading text-[10px] font-bold text-white/50 tracking-wider uppercase block">Avaliação Rápida</span>
+                    <div class="grid grid-cols-2 gap-2 text-[8px] font-mono">
+                        <button onclick="submitQuickFeedback('O site está ótimo')" class="py-2.5 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors text-center font-bold tracking-wider">O SITE ESTÁ ÓTIMO</button>
+                        <button onclick="submitQuickFeedback('O site está bem feito')" class="py-2.5 border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 rounded transition-colors text-center font-bold tracking-wider">SITE BEM FEITO</button>
+                        <button onclick="submitQuickFeedback('O site precisa de ajustes')" class="py-2.5 border border-amber-500/30 text-amber-400 hover:bg-amber-500/10 rounded transition-colors text-center font-bold tracking-wider">PRECISA AJUSTES</button>
+                        <button onclick="submitQuickFeedback('O site não está bem feito')" class="py-2.5 border border-red-500/30 text-red-400 hover:bg-red-500/10 rounded transition-colors text-center font-bold tracking-wider">NÃO BEM FEITO</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialist Reviews list -->
+            <div class="space-y-4">
+                <h4 class="font-heading text-xs font-bold text-white/80 tracking-widest uppercase">
+                  DIAGNÓSTICOS TÉCNICOS PRO
+                </h4>
+                
+                <div class="bg-black/35 border border-white/[0.02] p-4 rounded-xl space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <span class="font-heading text-[10px] font-bold text-white tracking-wider">Henrique M. (Brand Designer)</span>
+                        <span class="text-[8px] font-bold text-void-neon bg-void-neon/10 border border-void-neon/20 px-2 py-0.5 rounded-full uppercase">Stark Design OK</span>
+                    </div>
+                    <p class="font-body text-[10px] text-white/60 leading-relaxed italic">
+                        "Estética streetwear pura preservada com grid modular agressivo, tipografia de grande porte e contraste neon."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Custom User Pins List -->
+            <div id="saved-pins-section" class="space-y-3 hidden">
+                <h4 class="font-heading text-xs font-bold text-white/80 tracking-widest uppercase">
+                    SEUS PINS DE ANOTAÇÃO
+                </h4>
+                <div id="saved-pins-list" class="space-y-2 max-h-[160px] overflow-y-auto pr-2">
+                    <!-- Dynamic client pin items -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Checklist & Approval Button -->
+        <div class="p-6 border-t border-white/[0.05] bg-black/40 space-y-4">
+            <button onclick="approveLayoutProject()" class="w-full bg-gradient-to-r from-[#00adb5] to-[#00c2cb] hover:from-[#00e5ff] hover:to-[#00adb5] text-[#060608] hover:text-[#060608] py-4 rounded-xl text-xs font-extrabold uppercase tracking-widest transition-all duration-300 shadow-[0_0_15px_rgba(0,173,181,0.25)] flex items-center justify-center gap-2">
+                <i data-lucide="award" class="w-4 h-4"></i>
+                APROVAR ESSE DESIGN
+            </button>
+        </div>
+    </div>
+
+    <!-- Branded Floating Layout Approval Pill Button -->
+    <div class="fixed bottom-6 right-6 z-[45] flex items-center gap-3">
+        <button id="feedback-toggle-btn" onclick="toggleFeedbackPanel(true)" class="bg-[#0c0c10] hover:bg-[#121217] text-white border border-[#00adb5]/30 hover:border-[#00e5ff]/50 px-5 py-3.5 rounded-full flex items-center gap-2 shadow-[0_4px_25px_rgba(0,173,181,0.25)] hover:shadow-[0_4px_30px_rgba(0,229,255,0.45)] transition-all duration-300">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00e5ff] opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#00adb5]"></span>
+            </span>
+            <span class="font-heading text-xs font-bold tracking-widest uppercase flex items-center gap-1">
+                ◆ PAINEL DE APROVAÇÃO
+            </span>
+        </button>
+    </div>
+
+    <!-- Visual Pin Feedback input modal -->
+    <div id="feedback-pin-form-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[55] flex items-center justify-center p-4 hidden">
+        <div class="bg-void-white max-w-xs w-full p-6 border-3 border-void-black rounded-xl brutalist-shadow space-y-4">
+            <div class="flex items-center gap-2 text-void-black">
+                <i data-lucide="map-pin" class="w-5 h-5 text-red-500 animate-bounce"></i>
+                <h4 class="font-heading text-lg font-bold tracking-wide">NOVA ANOTAÇÃO</h4>
+            </div>
+            <p class="text-[9px] text-gray-500 uppercase tracking-wide leading-relaxed">Digite sua anotação no local selecionado da página. Ela ficará salva localmente.</p>
+            <textarea id="pin-comment-text" placeholder="EX: AJUSTAR TIPOGRAFIA, MELHORAR IMAGEM..." class="w-full h-20 text-xs px-3 py-2 border-2 border-void-black bg-void-white outline-none text-void-black font-mono resize-none uppercase" required></textarea>
+            <div class="flex gap-2">
+                <button onclick="cancelPinPlacement()" class="w-1/2 border-2 border-void-black text-void-black hover:bg-void-lightGray py-2.5 text-xs font-bold uppercase tracking-wider font-heading">Cancel</button>
+                <button onclick="savePinPlacement()" class="w-1/2 bg-void-neon text-void-black hover:bg-void-white py-2.5 text-xs font-bold uppercase tracking-wider font-heading border-2 border-void-black">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Approval Celebration Overlay -->
+    <div id="approval-celebration-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[70] flex items-center justify-center p-6 hidden">
+        <div class="max-w-md w-full bg-[#0c0c10] border border-white/[0.08] p-8 md:p-10 rounded-2xl shadow-2xl relative text-center space-y-6">
+            <div class="w-16 h-16 mx-auto bg-gradient-to-r from-[#00adb5] to-[#00e5ff] text-[#060608] rounded-full flex items-center justify-center shadow-[0_0_25px_rgba(0,229,255,0.4)]">
+                <i data-lucide="award" class="w-8 h-8"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="font-heading text-3xl text-white tracking-wide">Layout Aprovado!</h3>
+                <p class="font-body text-xs text-[#00e5ff] uppercase tracking-widest font-semibold">Parabéns pelo excelente projeto!</p>
+                <p class="font-body text-xs text-white/70 leading-relaxed pt-2">
+                    Você homologou o design VOID. STREETWEAR. Este template atende a todos os critérios de alta fidelidade visual, conversão estratégica e performance digital da Criatividade Web.
+                </p>
+            </div>
+
+            <div class="bg-white/[0.02] border border-white/[0.04] p-4 rounded-xl text-left font-mono text-[9px] space-y-2 text-white/80">
+                <div class="flex justify-between">
+                    <span>APROVADO POR:</span>
+                    <span class="text-white font-bold">CLIENTE PROTÓTIPO</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>STATUS HOSTGATOR:</span>
+                    <span class="text-[#2DC653] font-bold">HOMOLOGADO</span>
+                </div>
+            </div>
+
+            <button onclick="closeApprovalCelebration()" class="w-full bg-gradient-to-r from-[#00adb5] to-[#00e5ff] text-void-black py-3 text-xs font-semibold uppercase tracking-widest transition-colors font-bold shadow-md">
+                Fechar e Continuar
+            </button>
+        </div>
+    </div>
+
+    <!-- Transaction Gateway Authentication Simulator -->
+    <div id="transaction-loader" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[60] flex items-center justify-center p-6 hidden">
+        <div class="max-w-xs w-full text-center space-y-6">
+            <div class="relative w-16 h-16 mx-auto">
+                <div class="absolute inset-0 border-2 border-void-neon/20 rounded-full"></div>
+                <div class="absolute inset-0 border-2 border-t-void-neon rounded-full animate-spin"></div>
+            </div>
+            <div>
+                <h4 class="font-heading text-xl text-white tracking-wide uppercase">VOID GATEWAY</h4>
+                <p id="loader-status-text" class="text-xs text-void-neon mt-2 font-mono uppercase tracking-widest">Encrypting streetwear order...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stark Brutalist Printed Docket Receipt modal -->
+    <div id="receipt-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[65] flex items-center justify-center p-4 hidden">
+        <div class="max-w-xl w-full bg-void-white border-4 border-void-black p-8 space-y-6 shadow-pop relative text-left text-void-black">
+            <div class="flex justify-between items-start border-b-4 border-void-black pb-4">
+                <div>
+                    <h3 class="font-heading text-3xl font-black tracking-tight">VOID INDEX DOCKET</h3>
+                    <p class="text-[9px] text-gray-500 font-mono font-bold uppercase">ORDEM DE COMPILAÇÃO #VD-${Math.floor(Math.random()*900000 + 100000)}</p>
+                </div>
+                <span class="text-[9px] font-black text-void-black bg-void-neon border-2 border-void-black px-3 py-1 uppercase font-mono shadow-sm">HOMOLOGADO</span>
+            </div>
+
+            <!-- Buyer info -->
+            <div class="grid grid-cols-2 gap-4 font-mono text-[9px] text-gray-600 border-b-2 border-void-black/20 pb-4">
+                <div>
+                    <span class="text-void-black font-black block mb-1">CLIENTE DESTINATÁRIO:</span>
+                    <span class="text-void-black block font-black" id="receipt-buyer-name">-</span>
+                    <span class="block" id="receipt-buyer-email">-</span>
+                    <span class="block font-bold" id="receipt-buyer-cpf">-</span>
+                </div>
+                <div>
+                    <span class="text-void-black font-black block mb-1">MÉTODO DE COMPLEMENTO:</span>
+                    <span class="block">Pagamento: <span id="receipt-payment-method" class="text-void-black font-black">-</span></span>
+                    <span class="block">Logística: <span class="text-[#2DC653] font-black uppercase">VOID SECURE EXPRESS</span></span>
+                </div>
+            </div>
+
+            <!-- Bought Items List -->
+            <div class="space-y-2 max-h-[120px] overflow-y-auto pr-2 font-mono text-[9px] text-void-black" id="receipt-items-list">
+                <!-- Loaded dynamically -->
+            </div>
+
+            <!-- Grand total faturamento -->
+            <div class="border-t-2 border-void-black pt-4 flex justify-between items-center text-xs font-mono font-black border-dashed">
+                <span>TOTAL COMPILADO:</span>
+                <span class="text-void-black text-lg" id="receipt-grand-total">R$ 0,00</span>
+            </div>
+
+            <!-- Signature block -->
+            <div class="bg-void-lightGray p-3 border-2 border-void-black rounded text-center font-mono text-[7px] text-gray-500 break-all leading-normal uppercase">
+                HASH: VOID2026_${Math.random().toString(36).substring(2).toUpperCase()}_SECURE_VOID_GATEWAY_CRIATIVIDADE_WEB_HOMOLOGADO
+            </div>
+
+            <button onclick="closeReceipt()" class="w-full bg-void-black text-void-white hover:bg-void-neon hover:text-void-black py-4 border-2 border-void-black text-xs font-black uppercase tracking-widest transition-colors font-heading text-center brutalist-shadow">
+                Concluir Transação
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+        lucide.createIcons();
+
+        // Products database VOID streetwear
+        const productsDb = {
+            'void-hoodie-1': {
+                id: 'void-hoodie-1',
+                category: 'hoodies',
+                name: 'Heavy Hoodie Ash Grey',
+                price: 120.00,
+                img: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1974&auto=format&fit=crop',
+                desc: 'Malha pesada pré-encolhida com costuras duplas e capuz estruturado.',
+                badge: 'New'
+            },
+            'void-hoodie-2': {
+                id: 'void-hoodie-2',
+                category: 'hoodies',
+                name: 'Acid Zip Hoodie Black',
+                price: 145.00,
+                img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Lavagem mineral vintage com zíper metálico tratorado e caimento boxy.',
+                badge: 'Limitado'
+            },
+            'void-hoodie-3': {
+                id: 'void-hoodie-3',
+                category: 'hoodies',
+                name: 'Neon Cropped Hoodie White',
+                price: 115.00,
+                img: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=2072&auto=format&fit=crop',
+                desc: 'Caimento cropped streetwear premium em algodão com interior neon.',
+                badge: ''
+            },
+            'void-hoodie-4': {
+                id: 'void-hoodie-4',
+                category: 'hoodies',
+                name: 'Raw Edge Pullover Charcoal',
+                price: 130.00,
+                img: 'https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?q=80&w=1974&auto=format&fit=crop',
+                desc: 'Acabamentos sem costura e detalhes desfiados em malha rústica de alta lona.',
+                badge: ''
+            },
+            'void-tee-1': {
+                id: 'void-tee-1',
+                category: 'tees',
+                name: 'Oversized Tee Void Black',
+                price: 55.00,
+                img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1964&auto=format&fit=crop',
+                desc: 'Camiseta modelagem ultra oversized com ombros caídos e gola de ribana alta.',
+                badge: 'Bestseller'
+            },
+            'void-tee-2': {
+                id: 'void-tee-2',
+                category: 'tees',
+                name: 'Acid Wash Graphic Tee Grey',
+                price: 65.00,
+                img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2080&auto=format&fit=crop',
+                desc: 'Estampa industrial silk screen com lavagem estonada premium macia.',
+                badge: ''
+            },
+            'void-tee-3': {
+                id: 'void-tee-3',
+                category: 'tees',
+                name: 'Industrial Logo Tee White',
+                price: 50.00,
+                img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1974&auto=format&fit=crop',
+                desc: 'Algodão egípcio leve e confortável com logo minimalista em alto relevo no peito.',
+                badge: ''
+            },
+            'void-tee-4': {
+                id: 'void-tee-4',
+                category: 'tees',
+                name: 'Cyberpunk Rave Tee Neon',
+                price: 60.00,
+                img: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Estampa traseira reflexiva digital em tom ciano/neon vibrante.',
+                badge: 'Drop Exclusive'
+            },
+            'void-kicks-1': {
+                id: 'void-kicks-1',
+                category: 'kicks',
+                name: 'Utility Kicks Optic White',
+                price: 180.00,
+                img: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1998&auto=format&fit=crop',
+                desc: 'Tênis streetwear robusto com detalhes em nylon, couro e solado antiderrapante.',
+                badge: 'Hot Product'
+            },
+            'void-kicks-2': {
+                id: 'void-kicks-2',
+                category: 'kicks',
+                name: 'Raw Canvas High-Tops Black',
+                price: 160.00,
+                img: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=2080&auto=format&fit=crop',
+                desc: 'Cano alto em lona rústica com ponteira de borracha vulcanizada reforçada.',
+                badge: ''
+            },
+            'void-kicks-3': {
+                id: 'void-kicks-3',
+                category: 'kicks',
+                name: 'Technical Speed Sneakers Neon',
+                price: 210.00,
+                img: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1964&auto=format&fit=crop',
+                desc: 'Calçado técnico elástico super leve com amortecimento neon de alto impulso.',
+                badge: 'Performance'
+            },
+            'void-kicks-4': {
+                id: 'void-kicks-4',
+                category: 'kicks',
+                name: 'Industrial Combat Boots Matt',
+                price: 240.00,
+                img: 'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=1974&auto=format&fit=crop',
+                desc: 'Couro legítimo fosco impermeável com fivelas táticas militares de aço rápido.',
+                badge: 'Elite Drop'
+            }
+        };
+
+        // Sandbox State
+        let cart = [];
+        let couponApplied = false;
+        let activePaymentMethod = 'pix';
+        let annotationModeActive = false;
+        let pendingClickCoords = null;
+        let feedbackPins = [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+
+        window.addEventListener('load', () => {
+            // Load cart
+            const savedCart = localStorage.getItem('void_cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartCounter();
+            }
+
+            // Load feedback pins
+            const savedPins = localStorage.getItem('void_feedback_pins');
+            if (savedPins) {
+                feedbackPins = JSON.parse(savedPins);
+                renderPins();
+            }
+
+            // Load likes
+            let likes = localStorage.getItem('void_likes');
+            if (likes === null) {
+                likes = 45;
+                localStorage.setItem('void_likes', likes);
+            }
+            document.getElementById('like-count').innerText = likes;
+
+            const liked = localStorage.getItem('void_liked') === 'true';
+            if (liked) {
+                const icon = document.getElementById('like-icon');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+            }
+
+            renderProducts();
+        });
+
+        // ==========================================
+        // DYNAMIC PRODUCT FILTERING & RENDERING
+        // ==========================================
+        function filterCategory(category) {
+            activeCategory = category;
+            
+            const categories = ['all', 'hoodies', 'tees', 'kicks'];
+            categories.forEach(cat => {
+                const btn = document.getElementById(`btn-cat-${cat}`);
+                if (!btn) return;
+                if (cat === category) {
+                    btn.classList.remove('bg-void-white');
+                    btn.classList.add('bg-void-neon');
+                } else {
+                    btn.classList.remove('bg-void-neon');
+                    btn.classList.add('bg-void-white');
+                }
+            });
+
+            renderProducts();
+        }
+
+        function handleNavbarFilter(category) {
+            filterCategory(category);
+            const productsSec = document.getElementById('products');
+            if (productsSec) {
+                productsSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const emptyState = document.getElementById('search-empty-state');
+            if (!grid) return;
+
+            // Strip Portuguese accents helper for robust search
+            const stripAccents = (str) => {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            };
+
+            const normSearch = stripAccents(searchQuery);
+
+            let html = '';
+            let index = 0;
+            Object.values(productsDb).forEach((prod) => {
+                // Category Filter
+                if (activeCategory !== 'all' && prod.category !== activeCategory) {
+                    return;
+                }
+
+                // Search query matching
+                if (normSearch) {
+                    const matchName = stripAccents(prod.name).includes(normSearch);
+                    const matchDesc = stripAccents(prod.desc).includes(normSearch);
+                    const matchCat = stripAccents(prod.category).includes(normSearch);
+                    if (!matchName && !matchDesc && !matchCat) {
+                        return;
+                    }
+                }
+
+                const badgeHtml = prod.badge 
+                    ? `<div class="absolute top-4 left-4 bg-void-black text-void-white text-xs font-bold uppercase px-2 py-1 font-mono select-none">${prod.badge}</div>` 
+                    : '';
+
+                html += `
+                    <div class="group border-2 border-void-black relative bg-void-white brutalist-card" data-aos="fade-up" data-aos-delay="${(index % 3) * 100}">
+                        <div class="relative aspect-square overflow-hidden border-b-2 border-void-black p-8 flex items-center justify-center bg-[#ECECEC]">
+                            <img src="${prod.img}" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500">
+                            ${badgeHtml}
+                        </div>
+                        <div class="p-6 flex justify-between items-start gap-4">
+                            <div>
+                                <h3 class="font-heading font-bold text-xl uppercase mb-1 truncate max-w-[190px]">${prod.name}</h3>
+                                <p class="font-body text-gray-500 text-xs truncate max-w-[200px]">${prod.desc}</p>
+                            </div>
+                            <span class="font-heading font-bold text-lg font-mono">R$ ${prod.price.toFixed(2)}</span>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <button onclick="addToCartDirect('${prod.id}')" class="w-full bg-transparent border-2 border-void-black font-heading font-bold uppercase py-3 hover:bg-void-neon transition-colors">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+                index++;
+            });
+
+            if (index === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+            }
+
+            grid.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // ACCENT INSENSITIVE SEARCH CONTROLLERS
+        // ==========================================
+        function handleSearch(event) {
+            const input = event.target;
+            searchQuery = input.value;
+            
+            // Sync values across inputs (mobile/desktop)
+            const deskInput = document.getElementById('search-input');
+            const mobInput = document.getElementById('search-input-mobile');
+            if (deskInput && deskInput !== input) deskInput.value = searchQuery;
+            if (mobInput && mobInput !== input) mobInput.value = searchQuery;
+
+            renderProducts();
+
+            // Smooth scroll to catalog section
+            if (event.key === 'Enter' || searchQuery.length > 2) {
+                const catalogSec = document.getElementById('products');
+                if (catalogSec) {
+                    catalogSec.scrollIntoView({ behavior: 'smooth' });
+                }
+                input.blur();
+            }
+        }
+
+        function resetSearch() {
+            searchQuery = '';
+            const deskInput = document.getElementById('search-input');
+            const mobInput = document.getElementById('search-input-mobile');
+            if (deskInput) deskInput.value = '';
+            if (mobInput) mobInput.value = '';
+            renderProducts();
+        }
+
+        // ==========================================
+        // DRAWER CONTROLLERS & ACTIONS
+        // ==========================================
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('sidebar-drawer');
+            if (open) {
+                switchDrawerState('cart');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function switchDrawerState(state) {
+            const cartView = document.getElementById('drawer-cart-view');
+            const chkView = document.getElementById('drawer-checkout-view');
+
+            if (state === 'cart') {
+                cartView.classList.remove('hidden');
+                chkView.classList.add('hidden');
+                renderCart();
+            } else {
+                cartView.classList.add('hidden');
+                chkView.classList.remove('hidden');
+                updateCheckoutTotals();
+            }
+        }
+
+        // ==========================================
+        // CART MUTATIONS & LOCAL STORAGE
+        // ==========================================
+        function addToCartDirect(prodId) {
+            const prod = productsDb[prodId];
+            if (!prod) return;
+
+            const existingIndex = cart.findIndex(item => item.id === prodId);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    id: prod.id,
+                    name: prod.name,
+                    price: prod.price,
+                    img: prod.img,
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('void_cart', JSON.stringify(cart));
+            updateCartCounter();
+            toggleCartDrawer(true);
+        }
+
+        function updateCartCounter() {
+            const badge = document.getElementById('cart-count-badge');
+            const count = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+            badge.innerText = count;
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const footer = document.getElementById('cart-footer');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 text-void-black/30">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto text-void-black/20 mb-4 animate-pulse"></i>
+                        <p class="font-heading text-lg font-black uppercase">VOID BAG IS EMPTY</p>
+                        <p class="text-[10px] mt-2 font-mono uppercase">Add streetwear items to activate terminal checkout</p>
+                    </div>
+                `;
+                footer.classList.add('hidden');
+                lucide.createIcons();
+                return;
+            }
+
+            let subtotal = 0;
+            let html = '<div class="space-y-4">';
+
+            cart.forEach((item, idx) => {
+                const sub = item.price * item.quantity;
+                subtotal += sub;
+
+                html += `
+                    <div class="flex gap-4 items-center bg-void-white p-4 border-2 border-void-black brutalist-shadow-sm">
+                        <div class="w-16 h-16 bg-[#ECECEC] flex items-center justify-center p-1 border border-void-black">
+                            <img src="${item.img}" class="w-full h-full object-contain mix-blend-multiply">
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-heading text-sm font-black text-void-black truncate uppercase">${item.name}</h4>
+                            <p class="font-mono text-xs font-bold text-void-black mt-1">R$ ${item.price.toFixed(2)}</p>
+                            
+                            <div class="flex items-center gap-2 mt-3">
+                                <button onclick="adjustQty(${idx}, -1)" class="w-6 h-6 border border-void-black flex items-center justify-center text-xs font-bold bg-void-white hover:bg-void-neon transition-colors">-</button>
+                                <span class="text-xs font-bold w-4 text-center font-mono">${item.quantity}</span>
+                                <button onclick="adjustQty(${idx}, 1)" class="w-6 h-6 border border-void-black flex items-center justify-center text-xs font-bold bg-void-white hover:bg-void-neon transition-colors">+</button>
+                            </div>
+                        </div>
+                        <div class="text-right flex flex-col justify-between h-full py-1">
+                            <button onclick="removeItem(${idx})" class="text-void-black hover:text-red-500">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                            <span class="font-mono text-xs font-black text-void-black mt-4 block">R$ ${sub.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+
+            document.getElementById('cart-subtotal').innerText = 'R$ ' + subtotal.toFixed(2);
+            
+            let finalTotal = subtotal;
+            if (couponApplied) {
+                const disc = subtotal * 0.10;
+                finalTotal = subtotal - disc;
+                document.getElementById('cart-discount-val').innerText = '-R$ ' + disc.toFixed(2);
+                document.getElementById('cart-discount-row').classList.remove('hidden');
+            } else {
+                document.getElementById('cart-discount-row').classList.add('hidden');
+            }
+
+            document.getElementById('cart-total').innerText = 'R$ ' + finalTotal.toFixed(2);
+            footer.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function adjustQty(idx, change) {
+            cart[idx].quantity += change;
+            if (cart[idx].quantity <= 0) {
+                cart.splice(idx, 1);
+            }
+            localStorage.setItem('void_cart', JSON.stringify(cart));
+            updateCartCounter();
+            renderCart();
+        }
+
+        function removeItem(idx) {
+            cart.splice(idx, 1);
+            localStorage.setItem('void_cart', JSON.stringify(cart));
+            updateCartCounter();
+            renderCart();
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const alertBox = document.getElementById('coupon-alert');
+            
+            if (input === 'VOID10') {
+                couponApplied = true;
+                alertBox.innerText = 'CUPOM VOID10 APLICADO! 10% DE DESCONTO.';
+                alertBox.className = 'text-[9px] text-center font-bold text-[#2DC653] uppercase font-mono';
+                renderCart();
+            } else {
+                alertBox.innerText = 'CUPOM INVÁLIDO OU EXPIRADO.';
+                alertBox.className = 'text-[9px] text-center font-bold text-red-500 uppercase font-mono';
+            }
+            alertBox.classList.remove('hidden');
+        }
+
+        // ==========================================
+        // CHECKOUT & GATEWAY INTERACTION
+        // ==========================================
+        function updateCheckoutTotals() {
+            let subtotal = cart.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
+            let finalTotal = subtotal;
+            if (couponApplied) {
+                finalTotal = subtotal * 0.90;
+            }
+            document.getElementById('checkout-total').innerText = 'R$ ' + finalTotal.toFixed(2);
+        }
+
+        function selectPaymentTab(method) {
+            activePaymentMethod = method;
+            
+            const tabs = ['pix', 'card', 'boleto'];
+            tabs.forEach(m => {
+                const btn = document.getElementById(`tab-${m}`);
+                const content = document.getElementById(`content-${m}`);
+                if (!btn || !content) return;
+                
+                if (m === method) {
+                    btn.classList.add('bg-void-neon', 'font-black');
+                    btn.classList.remove('bg-void-white', 'text-void-black/40');
+                    content.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('bg-void-neon', 'font-black');
+                    btn.classList.add('bg-void-white', 'text-void-black/40');
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        function updateCardVisual() {
+            const num = document.getElementById('input-card-number').value.trim();
+            const name = document.getElementById('chk-name').value.trim();
+            const expiry = document.getElementById('input-card-expiry').value.trim();
+
+            document.getElementById('card-display-number').innerText = num || '•••• •••• •••• ••••';
+            document.getElementById('card-display-name').innerText = name || 'BRUNO C. SANTOS';
+            document.getElementById('card-display-expiry').innerText = expiry || '12/29';
+        }
+
+        function copyPixKey() {
+            const pixCode = 'VOID-STREETWEAR-COP-KEYS-RANDOM-SECURE-PAY-GATEWAY-2026';
+            navigator.clipboard.writeText(pixCode);
+            const alert = document.getElementById('pix-copy-alert');
+            alert.classList.remove('hidden');
+            setTimeout(() => alert.classList.add('hidden'), 2000);
+        }
+
+        function copyBoletoBar() {
+            const boletoBar = '34191.79001 01043.513184 91020.150008 7 96780000012000';
+            navigator.clipboard.writeText(boletoBar);
+            const alert = document.getElementById('boleto-copy-alert');
+            alert.classList.remove('hidden');
+            setTimeout(() => alert.classList.add('hidden'), 2000);
+        }
+
+        function triggerCheckoutSimulation() {
+            const name = document.getElementById('chk-name').value.trim();
+            const email = document.getElementById('chk-email').value.trim();
+            const cpf = document.getElementById('chk-cpf').value.trim();
+
+            if (!name || !email || !cpf) {
+                alert('POR FAVOR, PREENCHA TODOS OS CAMPOS DO CLIENTE.');
+                return;
+            }
+
+            const loader = document.getElementById('transaction-loader');
+            const statusText = document.getElementById('loader-status-text');
+            
+            loader.classList.remove('hidden');
+            
+            setTimeout(() => {
+                statusText.innerText = 'AUTHENTICATING ENCRYPTED ACCOUNT...';
+                setTimeout(() => {
+                    statusText.innerText = 'VALIDATING BILLING LIMITS...';
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        showDocketReceipt(name, email, cpf);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+
+        function showDocketReceipt(name, email, cpf) {
+            document.getElementById('receipt-buyer-name').innerText = name.toUpperCase();
+            document.getElementById('receipt-buyer-email').innerText = email.toLowerCase();
+            document.getElementById('receipt-buyer-cpf').innerText = cpf;
+            
+            const methodText = {
+                'pix': 'PIX GATEWAY',
+                'card': 'CREDIT CARD',
+                'boleto': 'TICKET / RETAIL'
+            };
+            document.getElementById('receipt-payment-method').innerText = methodText[activePaymentMethod];
+
+            // Load bought items
+            const receiptList = document.getElementById('receipt-items-list');
+            let listHtml = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const sub = item.price * item.quantity;
+                subtotal += sub;
+                listHtml += `
+                    <div class="flex justify-between py-1.5 border-b border-dashed border-void-black/10">
+                        <span>${item.quantity}X ${item.name.toUpperCase()}</span>
+                        <span class="font-bold">R$ ${sub.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            receiptList.innerHTML = listHtml;
+
+            let grandTotal = subtotal;
+            if (couponApplied) {
+                grandTotal = subtotal * 0.90;
+            }
+            document.getElementById('receipt-grand-total').innerText = 'R$ ' + grandTotal.toFixed(2);
+
+            // Open modal
+            document.getElementById('receipt-modal').classList.remove('hidden');
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+            // Reset cart
+            cart = [];
+            localStorage.removeItem('void_cart');
+            updateCartCounter();
+            renderCart();
+            toggleCartDrawer(false);
+        }
+
+        // ==========================================
+        // LAYOUT ANNOTATION & PIN FEEDBACK SYSTEM
+        // ==========================================
+        function toggleFeedbackPanel(open) {
+            const panel = document.getElementById('feedback-panel');
+            if (open) {
+                renderPinsList();
+                panel.classList.remove('translate-x-full');
+            } else {
+                panel.classList.add('translate-x-full');
+            }
+        }
+
+        function toggleAnnotationMode() {
+            annotationModeActive = !annotationModeActive;
+            const btn = document.getElementById('pin-tool-btn');
+            const status = document.getElementById('pin-mode-status');
+            const text = document.getElementById('pin-btn-text');
+
+            if (annotationModeActive) {
+                btn.classList.add('border-red-500', 'bg-red-500/10');
+                text.innerText = 'Desativar Pin de Feedback';
+                status.classList.remove('hidden');
+                document.body.style.cursor = 'crosshair';
+                
+                // Add click listener
+                document.addEventListener('click', onDocumentClickForPin);
+                toggleFeedbackPanel(false);
+            } else {
+                disablePinMode();
+            }
+        }
+
+        function disablePinMode() {
+            annotationModeActive = false;
+            const btn = document.getElementById('pin-tool-btn');
+            const status = document.getElementById('pin-mode-status');
+            const text = document.getElementById('pin-btn-text');
+
+            btn.classList.remove('border-red-500', 'bg-red-500/10');
+            text.innerText = 'Ativar Pin de Feedback';
+            status.classList.add('hidden');
+            document.body.style.cursor = 'default';
+            
+            document.removeEventListener('click', onDocumentClickForPin);
+        }
+
+        function onDocumentClickForPin(e) {
+            // Ignore if clicked on UI elements
+            if (e.target.closest('#feedback-panel') || 
+                e.target.closest('#feedback-toggle-btn') || 
+                e.target.closest('#feedback-pin-form-modal') ||
+                e.target.closest('#sidebar-drawer')) {
+                return;
+            }
+
+            e.preventDefault();
+            const x = (e.pageX / document.documentElement.scrollWidth) * 100;
+            const y = (e.pageY / document.documentElement.scrollHeight) * 100;
+
+            pendingClickCoords = { x, y };
+            
+            document.getElementById('pin-comment-text').value = '';
+            document.getElementById('feedback-pin-form-modal').classList.remove('hidden');
+            disablePinMode();
+        }
+
+        function cancelPinPlacement() {
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+        }
+
+        function savePinPlacement() {
+            const comment = document.getElementById('pin-comment-text').value.trim();
+            if (!comment) {
+                alert('POR FAVOR, DIGITE UM COMENTÁRIO.');
+                return;
+            }
+
+            if (pendingClickCoords) {
+                const newPin = {
+                    id: 'pin-' + Date.now(),
+                    x: pendingClickCoords.x,
+                    y: pendingClickCoords.y,
+                    text: comment,
+                    author: 'CLIENTE',
+                    date: new Date().toLocaleDateString('pt-BR')
+                };
+
+                feedbackPins.push(newPin);
+                localStorage.setItem('void_feedback_pins', JSON.stringify(feedbackPins));
+                
+                renderPins();
+                cancelPinPlacement();
+                toggleFeedbackPanel(true);
+            }
+        }
+
+        function renderPins() {
+            const container = document.getElementById('pins-container');
+            if (!container) return;
+
+            let html = '';
+            feedbackPins.forEach((pin, idx) => {
+                html += `
+                    <div class="feedback-pin" style="left: ${pin.x}%; top: ${pin.y}%; pointer-events: auto;">
+                        <div class="w-6 h-6 rounded-full bg-red-500 text-white font-mono text-[10px] font-bold border-2 border-void-black flex items-center justify-center cursor-pointer shadow-md select-none">
+                            ${idx + 1}
+                        </div>
+                        <div class="feedback-tooltip absolute left-1/2 -translate-x-1/2 bottom-8 w-48 bg-void-black text-void-white p-3 border-2 border-void-neon text-[9px] font-mono leading-normal shadow-lg rounded uppercase">
+                            <div class="flex justify-between border-b border-void-neon/30 pb-1 mb-1 font-bold">
+                                <span>${pin.author} (#${idx+1})</span>
+                                <span class="text-void-neon">${pin.date}</span>
+                            </div>
+                            <p>${pin.text}</p>
+                            <button onclick="removePin('${pin.id}')" class="mt-2 text-red-400 hover:text-red-500 font-bold block text-left uppercase">[ Delete ]</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function removePin(id) {
+            feedbackPins = feedbackPins.filter(pin => pin.id !== id);
+            localStorage.setItem('void_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+            renderPinsList();
+        }
+
+        function renderPinsList() {
+            const list = document.getElementById('saved-pins-list');
+            const section = document.getElementById('saved-pins-section');
+            if (!list) return;
+
+            if (feedbackPins.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            let html = '';
+            feedbackPins.forEach((pin, idx) => {
+                html += `
+                    <div class="bg-white/[0.02] border border-white/[0.04] p-3 rounded-lg flex justify-between items-start gap-2">
+                        <div class="font-mono text-[9px] uppercase">
+                            <span class="text-void-neon font-bold block">PIN #${idx + 1} - ${pin.author} (${pin.date})</span>
+                            <span class="text-white/70 block mt-1">${pin.text}</span>
+                        </div>
+                        <button onclick="removePin('${pin.id}')" class="text-red-500 hover:text-red-400 text-[9px] font-bold font-mono">Apagar</button>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        // ==========================================
+        // QUICK COMMENT & LIKE ACTIONS
+        // ==========================================
+        function toggleLikeProject() {
+            let likes = parseInt(localStorage.getItem('void_likes') || 45);
+            let liked = localStorage.getItem('void_liked') === 'true';
+
+            const icon = document.getElementById('like-icon');
+            
+            if (liked) {
+                likes -= 1;
+                localStorage.setItem('void_liked', 'false');
+                icon.classList.remove('text-red-500', 'fill-red-500');
+                icon.classList.add('text-gray-400');
+            } else {
+                likes += 1;
+                localStorage.setItem('void_liked', 'true');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+                
+                // Pulsing GSAP heart micro-animation
+                gsap.fromTo('#like-btn', { scale: 0.9 }, { scale: 1.1, duration: 0.15, yoyo: true, repeat: 1, ease: "power1.out" });
+            }
+
+            localStorage.setItem('void_likes', likes);
+            document.getElementById('like-count').innerText = likes;
+        }
+
+        function submitQuickFeedback(ratingText) {
+            // Adds as visual pin at top/center default coords so client visualizes easily
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: 50,
+                y: 15,
+                text: '[AVALIAÇÃO GERAL] ' + ratingText.toUpperCase(),
+                author: 'AVALIAÇÃO',
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('void_feedback_pins', JSON.stringify(feedbackPins));
+            
+            renderPins();
+            renderPinsList();
+            toggleFeedbackPanel(true);
+
+            // Pop toast animation using GSAP
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-24 left-1/2 -translate-x-1/2 bg-void-neon text-void-black border-2 border-void-black py-3 px-6 text-xs font-black uppercase font-mono tracking-widest z-[60] brutalist-shadow select-none';
+            toast.innerText = 'Feedback Registrado: ' + ratingText.toUpperCase();
+            document.body.appendChild(toast);
+            
+            gsap.fromTo(toast, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
+            setTimeout(() => {
+                gsap.to(toast, { y: -30, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => toast.remove() });
+            }, 2500);
+        }
+
+        function approveLayoutProject() {
+            document.getElementById('approval-celebration-modal').classList.remove('hidden');
+        }
+
+        function closeApprovalCelebration() {
+            document.getElementById('approval-celebration-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

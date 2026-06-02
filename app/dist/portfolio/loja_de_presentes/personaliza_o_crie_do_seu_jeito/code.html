@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#510c87",
+                    "on-secondary": "#fff8ec",
+                    "on-primary-fixed-variant": "#7f2700",
+                    "tertiary-dim": "#6f34a6",
+                    "surface-tint": "#a53d12",
+                    "secondary-fixed": "#ffe16d",
+                    "primary-fixed-dim": "#ff9974",
+                    "surface-bright": "#fff8f6",
+                    "on-tertiary-fixed": "#33005b",
+                    "secondary-container": "#ffe16d",
+                    "background": "#fff8f6",
+                    "on-secondary-fixed-variant": "#6c5a00",
+                    "on-tertiary-fixed-variant": "#5a1b91",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#a53d12",
+                    "on-background": "#51270d",
+                    "secondary": "#705e00",
+                    "on-primary-container": "#702100",
+                    "primary-dim": "#953205",
+                    "surface": "#fff8f6",
+                    "tertiary-fixed-dim": "#cb93ff",
+                    "on-secondary-container": "#615100",
+                    "outline-variant": "#e4a380",
+                    "primary-container": "#ffad91",
+                    "on-error-container": "#65000b",
+                    "on-primary": "#fff7f5",
+                    "on-secondary-fixed": "#4c3e00",
+                    "error-dim": "#70030f",
+                    "outline": "#a66d4e",
+                    "surface-container-low": "#fff1eb",
+                    "on-error": "#fff7f6",
+                    "on-surface-variant": "#865335",
+                    "on-surface": "#51270d",
+                    "surface-variant": "#ffdbca",
+                    "inverse-surface": "#1d0901",
+                    "on-primary-fixed": "#4d1400",
+                    "on-tertiary": "#fff6ff",
+                    "tertiary-container": "#d4a5ff",
+                    "surface-dim": "#ffd0b9",
+                    "secondary-dim": "#635200",
+                    "inverse-on-surface": "#bd9480",
+                    "error-container": "#f56965",
+                    "primary-fixed": "#ffad91",
+                    "surface-container": "#ffeae0",
+                    "tertiary": "#7c42b3",
+                    "inverse-primary": "#fe7e4f",
+                    "tertiary-fixed": "#d4a5ff",
+                    "error": "#ac3434",
+                    "surface-container-high": "#ffe2d5",
+                    "surface-container-highest": "#ffdbca",
+                    "secondary-fixed-dim": "#f9d200"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface selection:bg-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
+<div class="text-2xl font-bold italic text-stone-900 dark:text-stone-50">The Curated Hearth</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 transition-colors" href="#">Collections</a>
+<a class="text-orange-500 font-semibold border-b-2 border-orange-500 pb-1" href="#">Custom Gifts</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 transition-colors" href="#">Best Sellers</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 transition-colors" href="#">New In</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="hover:opacity-80 transition-all duration-300 scale-95 active:scale-90 transition-transform text-orange-500 dark:text-orange-400">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="hover:opacity-80 transition-all duration-300 scale-95 active:scale-90 transition-transform text-orange-500 dark:text-orange-400">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-20 px-4 md:px-8 max-w-screen-2xl mx-auto">
+<!-- Editorial Header -->
+<header class="mb-12">
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter text-on-surface mb-4 max-w-4xl">
+                Envie sua imagem ou adicione um texto para personalizar
+            </h1>
+<p class="font-body text-xl text-on-surface-variant max-w-2xl leading-relaxed">
+                Transforme objetos comuns em memórias tangíveis. Use nossas ferramentas intuitivas para criar um presente que conta uma história.
+            </p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Customization Controls (Left/Top) -->
+<aside class="lg:col-span-4 space-y-6 order-2 lg:order-1">
+<!-- Upload Section -->
+<div class="p-8 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-3 mb-6">
+<span class="p-2 bg-primary-container text-on-primary-container rounded-lg">
+<span class="material-symbols-outlined">cloud_upload</span>
+</span>
+<h2 class="font-headline text-xl font-bold">Imagens e Logos</h2>
+</div>
+<button class="w-full py-12 px-6 border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center gap-4 hover:bg-surface-container-lowest transition-all group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">add</span>
+</div>
+<span class="font-headline font-bold text-on-surface">Fazer upload</span>
+<span class="text-sm text-on-surface-variant">PNG, JPG ou SVG (Máx. 10MB)</span>
+</button>
+</div>
+<!-- Text Customization -->
+<div class="p-8 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-3 mb-6">
+<span class="p-2 bg-tertiary-container text-on-tertiary-container rounded-lg">
+<span class="material-symbols-outlined">title</span>
+</span>
+<h2 class="font-headline text-xl font-bold">Texto personalizado</h2>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant px-1">Seu texto</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/40 focus:bg-surface-container-lowest transition-all outline-none text-on-surface" placeholder="Digite algo especial..." type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant px-1">Fonte</label>
+<select class="w-full bg-surface-container-high border-none rounded-lg p-3 focus:ring-2 focus:ring-primary/40 text-on-surface appearance-none cursor-pointer">
+<option>Plus Jakarta</option>
+<option>Manrope</option>
+<option>Playfair Display</option>
+<option>Montserrat</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant px-1">Cor do texto</label>
+<div class="flex items-center gap-2 bg-surface-container-high p-2 rounded-lg">
+<button class="w-8 h-8 rounded-full bg-on-surface border-2 border-white shadow-sm ring-2 ring-primary"></button>
+<button class="w-8 h-8 rounded-full bg-primary border-2 border-white shadow-sm"></button>
+<button class="w-8 h-8 rounded-full bg-tertiary border-2 border-white shadow-sm"></button>
+<button class="w-8 h-8 rounded-full bg-secondary border-2 border-white shadow-sm"></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Transformation Tools -->
+<div class="p-8 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-3 mb-6">
+<span class="p-2 bg-surface-container-high text-on-surface rounded-lg">
+<span class="material-symbols-outlined">layers</span>
+</span>
+<h2 class="font-headline text-xl font-bold">Ajustes de Design</h2>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center gap-2 p-3 bg-surface-container-lowest rounded-lg hover:bg-primary-container transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-primary-container">rotate_right</span>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-on-primary-container">Girar</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-3 bg-surface-container-lowest rounded-lg hover:bg-primary-container transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-primary-container">zoom_in</span>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-on-primary-container">Escala</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-3 bg-surface-container-lowest rounded-lg hover:bg-primary-container transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-primary-container">drag_pan</span>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-on-primary-container">Mover</span>
+</button>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-headline font-bold py-5 rounded-full shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+                    Salvar e ir para o carrinho
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</aside>
+<!-- Live Preview Canvas (Right/Center) -->
+<section class="lg:col-span-8 order-1 lg:order-2 sticky top-24">
+<div class="relative aspect-square w-full bg-surface-container-highest rounded-[2.5rem] overflow-hidden group flex items-center justify-center">
+<!-- Decorative Radial Gradient Background -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-surface-container-lowest to-surface-container-highest opacity-50"></div>
+<!-- The Product Pedestal -->
+<div class="absolute bottom-12 w-2/3 h-12 bg-on-surface/5 blur-3xl rounded-full"></div>
+<!-- The Canvas Element -->
+<div class="relative w-4/5 h-4/5 flex items-center justify-center">
+<img alt="Product Preview" class="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105" data-alt="isolated premium white cotton t-shirt flat lay on a warm soft neutral background with professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx59jot-f2V-KqA_WEksntV7ZdnEqfwgANgyiMQRmBZnaTMPfq7AENfmEA_T4UZqsEbM_OsPq5PgkuZs-sHgWk5hoA0pSgRPbWpDdBQ_jhaaF6o7DAQOjmylah6m7flwsV6WI9iWv_VmzwzM2y9YKmZK026lXbLjEuEvvLnrAMCl-jQqJMbkWaktD2Kc9_89duihRSYA38U8AT_pc2NYG5k1MHnifZema2STzBg9wdTh5rZfRjj_yaQMWjR2eR0Kydw7kbAQPmQSw"/>
+<!-- Design Overlay Area (Mockup) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-48 h-48 border-2 border-primary/20 border-dashed rounded-lg flex flex-col items-center justify-center p-4">
+<span class="font-headline text-2xl font-black text-on-surface/30 uppercase tracking-tighter text-center">Visualização do Design</span>
+<span class="material-symbols-outlined text-4xl text-on-surface/10 mt-2">aspect_ratio</span>
+</div>
+</div>
+</div>
+<!-- Floating Badge -->
+<div class="absolute top-8 right-8 glass-panel py-3 px-6 rounded-full border border-white/40 shadow-lg">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-sm font-bold text-on-surface">Visualização ao vivo</span>
+</div>
+</div>
+<!-- Tooltips/Metadata -->
+<div class="absolute bottom-8 left-8 flex gap-3">
+<div class="py-2 px-4 bg-tertiary-container/80 backdrop-blur-md rounded-full text-on-tertiary-container text-xs font-bold uppercase tracking-widest">Algodão Premium</div>
+<div class="py-2 px-4 bg-secondary-container/80 backdrop-blur-md rounded-full text-on-secondary-container text-xs font-bold uppercase tracking-widest">Estampa HD</div>
+</div>
+</div>
+<!-- Additional Angles -->
+<div class="flex gap-4 mt-6 justify-center">
+<button class="w-20 h-20 rounded-2xl bg-surface-container-low border-2 border-primary overflow-hidden p-2 transition-transform hover:scale-105">
+<img class="w-full h-full object-contain" data-alt="front view of white t-shirt on neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX8tRTr0KTHz7syEDM3aLit7tpbTGbE0uywp4YLKTJ5a3pX_A_reHM6XDVrT5VNCl9g8n-hNDHjUcaJVK6O_gxjQnhN13YNP722qnwVJOWNC2C_VkfyJ80_rPmFOd3TnpzwDVDyYTg3h0JgQ66NfvkZkewFOiJwJw1UX1XPU3Ci0F9y2h-SR_S_7YX6Q7YpdCLwlgMOn7cI5AiXk333BoSdMWQ2Y1B-wcYGA3bc2uuQJ6i8JHspxwljWLEXC3EGD1XG8Kc3ESfRdU"/>
+</button>
+<button class="w-20 h-20 rounded-2xl bg-surface-container-low border-2 border-transparent overflow-hidden p-2 transition-transform hover:scale-105 opacity-60 hover:opacity-100">
+<img class="w-full h-full object-contain scale-x-[-1]" data-alt="back view of white t-shirt on neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHoXmc-emFKr0jMvong9Iqkz2gPVz--LYeGJFXPWU_7nhe2CHbazxjzFYjnUe7Do2CHWChDBKu4HzvM-VIIXTjhGN9pKHXqo6427wkWCKl7wZXPvTBARHCy_V6eOCLm8qlwPhehVi1TErAhxdZZZvkqzTD1fZ9-P5Wj7TUgU23Ah6E5ZnWm4FSCxQ0B-y4VXbEXx5gv8Xcb7IaTSm4lgSqS3ukxF_QDil7sUa_9TJg3ZmegLtpEjRz-BgmKyLL1BH6kT3cZRUg3iU"/>
+</button>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 bg-stone-50 dark:bg-stone-950 border-t border-stone-200/30 dark:border-stone-800/30">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 w-full max-w-screen-2xl mx-auto">
+<div class="text-lg font-black text-stone-900 dark:text-stone-50">The Curated Hearth</div>
+<div class="flex gap-8 font-['Manrope'] text-sm">
+<a class="text-stone-500 dark:text-stone-400 hover:text-orange-500 underline underline-offset-4 transition-all duration-200" href="#">About</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-orange-500 underline underline-offset-4 transition-all duration-200" href="#">Contact</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-orange-500 underline underline-offset-4 transition-all duration-200" href="#">Privacy</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-orange-500 underline underline-offset-4 transition-all duration-200" href="#">Terms</a>
+</div>
+<p class="font-['Manrope'] text-sm text-stone-500 dark:text-stone-400">© 2024 The Curated Hearth. Crafted with intention.</p>
+</div>
+</footer>
+</body></html>

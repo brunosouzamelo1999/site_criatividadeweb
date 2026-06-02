@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Clínica // Estética Avançada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Jost for clean elegance, DM Serif Display for soft headings -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aura: {
+                            blush: '#FDF8F5', // Very light pink/cream background
+                            rose: '#E2C2B3', // Soft rose gold
+                            clay: '#B89082', // Darker rose
+                            text: '#4A4A4A', // Soft dark gray
+                            dark: '#2D2D2D'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"DM Serif Display"', 'serif'],
+                        body: ['Jost', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FDF8F5; color: #4A4A4A; }
+        .soft-shadow {
+            box-shadow: 0 20px 40px rgba(226, 194, 179, 0.15);
+        }
+        .btn-hover {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 0%;
+            background-color: rgba(255,255,255,0.2);
+            transition: height 0.3s ease;
+        }
+        .btn-hover:hover::after { height: 100%; }
+        
+        .floating-leaf {
+            animation: sway 6s ease-in-out infinite alternate;
+        }
+        @keyframes sway {
+            0% { transform: rotate(-5deg) translateY(0); }
+            100% { transform: rotate(5deg) translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-aura-rose selection:text-white">
+
+    <!-- Header -->
+    <header class="w-full absolute top-0 z-50 py-6">
+        <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
+            <a href="#" class="font-heading text-3xl text-aura-dark tracking-wide">Aura.</a>
+            
+            <div class="hidden md:flex gap-10 text-sm tracking-widest uppercase font-medium text-aura-text">
+                <a href="#procedimentos" class="hover:text-aura-clay transition-colors">Procedimentos</a>
+                <a href="#clinica" class="hover:text-aura-clay transition-colors">A Clínica</a>
+                <a href="#resultados" class="hover:text-aura-clay transition-colors">Resultados</a>
+            </div>
+            
+            <a href="#" class="bg-aura-clay text-white text-xs font-medium uppercase tracking-widest px-6 py-3 rounded-full btn-hover hover:shadow-lg transition-shadow">
+                Agendar Avaliação
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="min-h-[90vh] flex items-center relative overflow-hidden">
+        <!-- Decor Elements -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-aura-rose/20 rounded-l-[100px] -z-10"></div>
+        <div class="absolute top-20 right-20 text-aura-clay/20 floating-leaf -z-10">
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22s-8-4.5-8-11.8C4 4.5 9 2 12 2s8 2.5 8 8.2C20 17.5 12 22 12 22z"/></svg>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center w-full pt-20">
+            <div data-aos="fade-up" data-aos-duration="1000">
+                <div class="text-aura-clay font-medium tracking-[0.2em] uppercase text-sm mb-6">Estética Avançada</div>
+                <h1 class="font-heading text-5xl md:text-7xl text-aura-dark leading-[1.1] mb-6">
+                    Sua beleza natural, elevada à perfeição.
+                </h1>
+                <p class="text-lg font-light mb-10 max-w-md leading-relaxed text-aura-text/80">
+                    Tratamentos faciais e corporais personalizados com tecnologia de ponta, em um ambiente pensado para o seu absoluto bem-estar.
+                </p>
+                <div class="flex gap-4 items-center">
+                    <button class="bg-aura-dark text-white text-sm font-medium uppercase tracking-widest px-8 py-4 rounded-full btn-hover hover:shadow-xl transition-all">
+                        Falar no WhatsApp
+                    </button>
+                    <a href="#procedimentos" class="text-sm font-medium uppercase tracking-widest text-aura-clay hover:text-aura-dark transition-colors border-b border-aura-clay pb-1">
+                        Ver Tratamentos
+                    </a>
+                </div>
+            </div>
+            
+            <div class="relative" data-aos="fade-left" data-aos-duration="1200">
+                <!-- Image Mask -->
+                <div class="w-full aspect-[4/5] rounded-t-full rounded-b-[40px] overflow-hidden soft-shadow relative">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover">
+                </div>
+                <!-- Mini Info Card -->
+                <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl soft-shadow max-w-[200px] text-center" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="text-aura-clay font-heading text-3xl mb-1">4.9★</div>
+                    <div class="text-xs text-aura-text font-medium uppercase tracking-widest">Avaliação no Google</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="procedimentos" class="py-24 bg-white rounded-t-[60px] relative z-10 -mt-10 soft-shadow">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-4xl md:text-5xl text-aura-dark mb-4">Nossos Protocolos</h2>
+                <p class="text-aura-text/70 font-light max-w-lg mx-auto">Procedimentos minimamente invasivos com resultados naturais e duradouros.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Serv 1 -->
+                <div class="bg-aura-blush p-10 rounded-[30px] text-center group hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-sm">
+                        <svg class="w-8 h-8 text-aura-clay" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="font-heading text-2xl text-aura-dark mb-3">Harmonização Facial</h3>
+                    <p class="text-sm font-light leading-relaxed mb-6">Preenchimento com ácido hialurônico, fios de sustentação e toxina botulínica para realçar seus traços.</p>
+                    <a href="#" class="text-xs font-semibold uppercase tracking-widest text-aura-clay">Saber Mais →</a>
+                </div>
+
+                <!-- Serv 2 -->
+                <div class="bg-aura-rose/20 p-10 rounded-[30px] text-center group hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-sm">
+                        <svg class="w-8 h-8 text-aura-clay" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                    </div>
+                    <h3 class="font-heading text-2xl text-aura-dark mb-3">Rejuvenescimento</h3>
+                    <p class="text-sm font-light leading-relaxed mb-6">Protocolos exclusivos com Ultraformer III e Lavieen para estímulo de colágeno e clareamento da pele.</p>
+                    <a href="#" class="text-xs font-semibold uppercase tracking-widest text-aura-clay">Saber Mais →</a>
+                </div>
+
+                <!-- Serv 3 -->
+                <div class="bg-aura-blush p-10 rounded-[30px] text-center group hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-sm">
+                        <svg class="w-8 h-8 text-aura-clay" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"/></svg>
+                    </div>
+                    <h3 class="font-heading text-2xl text-aura-dark mb-3">Estética Corporal</h3>
+                    <p class="text-sm font-light leading-relaxed mb-6">Tratamentos para gordura localizada, celulite e flacidez com tecnologias avançadas e drenagem linfática.</p>
+                    <a href="#" class="text-xs font-semibold uppercase tracking-widest text-aura-clay">Saber Mais →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner Invite -->
+    <section class="py-24 bg-aura-clay">
+        <div class="max-w-4xl mx-auto px-6 text-center text-white" data-aos="zoom-in">
+            <h2 class="font-heading text-4xl md:text-5xl mb-6 leading-tight">O cuidado que você merece, em um ambiente exclusivo.</h2>
+            <p class="font-light text-lg mb-10 opacity-90">Dê o primeiro passo para resgatar a sua melhor versão. Nossa equipe está pronta para desenhar um protocolo único para você.</p>
+            <button class="bg-white text-aura-clay font-medium uppercase tracking-widest px-10 py-4 rounded-full shadow-xl hover:scale-105 transition-transform">
+                Agendar Consulta pelo WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <footer class="bg-aura-blush pt-20 pb-10">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center border-b border-aura-rose pb-10 mb-10">
+            <a href="#" class="font-heading text-3xl text-aura-dark tracking-wide mb-6 md:mb-0">Aura.</a>
+            <div class="flex gap-6">
+                <a href="#" class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-aura-clay hover:bg-aura-clay hover:text-white transition-colors">IN</a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-aura-clay hover:bg-aura-clay hover:text-white transition-colors">FB</a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-aura-clay hover:bg-aura-clay hover:text-white transition-colors">IG</a>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-6 text-center text-xs font-medium tracking-widest uppercase text-aura-text/50">
+            &copy; 2026 Aura Clínica de Estética. Design por Retro Pixel.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTH // Creative Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Space Grotesk for digital vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        synth: {
+                            bg: '#050505',
+                            neon: '#B0FF00', // Lime green
+                            purple: '#A855F7',
+                            card: '#111111'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #FFFFFF; overflow-x: hidden; }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(176, 255, 0, 0.4);
+        }
+        
+        /* Smooth Scroll Setup */
+        html { scroll-behavior: smooth; }
+        
+        /* Floating abstract shapes */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: moveShape 15s infinite alternate;
+        }
+        .shape-1 {
+            width: 400px; height: 400px;
+            background: rgba(176, 255, 0, 0.15);
+            top: 10%; left: 10%;
+        }
+        .shape-2 {
+            width: 500px; height: 500px;
+            background: rgba(168, 85, 247, 0.15);
+            bottom: -10%; right: -5%;
+            animation-delay: -5s;
+        }
+        
+        @keyframes moveShape {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 100px) scale(1.2); }
+            100% { transform: translate(-50px, -50px) scale(0.9); }
+        }
+
+        /* Hover Reveal Cards */
+        .reveal-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .reveal-card img {
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s;
+            opacity: 0;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .reveal-card:hover img {
+            transform: scale(1.05);
+            opacity: 0.4;
+        }
+        .reveal-card:hover {
+            border-color: rgba(176, 255, 0, 0.5);
+        }
+
+        /* Scroller text */
+        .scroller {
+            white-space: nowrap;
+            display: inline-block;
+            animation: scrollText 10s linear infinite;
+        }
+        @keyframes scrollText {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-synth-neon selection:text-black">
+
+    <!-- Abstract Background -->
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full top-0 z-50 mix-blend-difference px-8 py-6 flex justify-between items-center">
+        <div class="font-black text-2xl tracking-tighter">SYNTH<span class="text-synth-neon">.</span></div>
+        <button class="w-12 h-12 bg-white rounded-full flex flex-col items-center justify-center gap-1.5 hover:bg-synth-neon transition-colors group">
+            <span class="w-5 h-0.5 bg-black group-hover:w-6 transition-all"></span>
+            <span class="w-5 h-0.5 bg-black group-hover:w-4 transition-all"></span>
+        </button>
+    </nav>
+
+    <!-- Hero -->
+    <section class="h-screen flex flex-col justify-center px-8 relative">
+        <div class="max-w-7xl mx-auto w-full relative z-10" data-aos="fade-up" data-aos-duration="1500">
+            <h1 class="text-7xl md:text-[10vw] font-black leading-[0.8] tracking-tighter mb-8 uppercase">
+                Ilusão <br>
+                <span class="text-transparent" style="-webkit-text-stroke: 2px #FFFFFF;">Digital.</span>
+            </h1>
+            
+            <div class="flex flex-col md:flex-row justify-between items-end gap-8 border-t border-white/20 pt-8 mt-16">
+                <p class="max-w-md text-lg font-light text-gray-400">
+                    Criamos experiências imersivas que expandem os limites da tecnologia e design criativos.
+                </p>
+                <div class="flex items-center gap-4 animate-bounce">
+                    <span class="text-xs uppercase tracking-widest font-bold">Role Para Baixo</span>
+                    <div class="w-8 h-8 rounded-full border border-white/50 flex items-center justify-center">↓</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Works -->
+    <section class="py-32 px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-sm uppercase tracking-widest font-bold text-synth-neon mb-12" data-aos="fade-right">Trabalhos Selecionados [04]</h2>
+            
+            <div class="space-y-4">
+                <!-- Project 1 -->
+                <a href="#" class="block reveal-card border-y border-white/10 py-12 px-6 transition-colors" data-aos="fade-up" data-aos-delay="0">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop" alt="Project 1">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline relative z-10">
+                        <h3 class="text-5xl md:text-7xl font-black uppercase tracking-tighter">Neuro<span class="text-synth-purple">Link</span></h3>
+                        <span class="text-sm uppercase tracking-widest font-bold text-gray-400">WebGL / Three.js</span>
+                    </div>
+                </a>
+
+                <!-- Project 2 -->
+                <a href="#" class="block reveal-card border-b border-white/10 py-12 px-6 transition-colors" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" alt="Project 2">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline relative z-10">
+                        <h3 class="text-5xl md:text-7xl font-black uppercase tracking-tighter">Cyber<span class="text-synth-neon">Core</span></h3>
+                        <span class="text-sm uppercase tracking-widest font-bold text-gray-400">React / GSAP</span>
+                    </div>
+                </a>
+
+                <!-- Project 3 -->
+                <a href="#" class="block reveal-card border-b border-white/10 py-12 px-6 transition-colors" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop" alt="Project 3">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline relative z-10">
+                        <h3 class="text-5xl md:text-7xl font-black uppercase tracking-tighter">Meta<span class="text-white">Verse</span></h3>
+                        <span class="text-sm uppercase tracking-widest font-bold text-gray-400">Awwwards SOTD</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Marquee -->
+    <section class="py-20 overflow-hidden bg-synth-neon text-black transform -skew-y-3">
+        <div class="scroller font-black text-6xl md:text-8xl uppercase tracking-tighter">
+            <span class="px-8">Desenvolvimento Criativo.</span>
+            <span class="px-8">Motion Design.</span>
+            <span class="px-8">Desenvolvimento Criativo.</span>
+            <span class="px-8">Motion Design.</span>
+        </div>
+    </section>
+
+    <!-- Capabilities / Hover Effect -->
+    <section class="py-40 px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div data-aos="fade-right">
+                <h2 class="text-5xl font-black uppercase tracking-tighter mb-8 leading-tight">Não construímos sites.<br>Construímos <span class="text-synth-purple">Mundos.</span></h2>
+                <p class="text-gray-400 text-lg leading-relaxed mb-10">
+                    Combinando estratégia, design e animações complexas para criar projetos dos quais as marcas se orgulham. Somos especializados em WebGL e experiências de scroll ultra-suaves.
+                </p>
+                <button class="bg-transparent border border-white px-8 py-4 rounded-full font-bold uppercase text-xs tracking-widest hover:bg-white hover:text-black transition-colors">
+                    Nossas Habilidades
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4" data-aos="zoom-in">
+                <div class="bg-synth-card aspect-square rounded-3xl p-6 flex flex-col justify-between hover:bg-white/5 transition-colors border border-white/5">
+                    <div class="text-synth-neon font-black text-4xl">01</div>
+                    <div class="font-bold uppercase tracking-widest text-sm">Direção de Arte</div>
+                </div>
+                <div class="bg-synth-card aspect-square rounded-3xl p-6 flex flex-col justify-between hover:bg-white/5 transition-colors border border-white/5 mt-10">
+                    <div class="text-synth-purple font-black text-4xl">02</div>
+                    <div class="font-bold uppercase tracking-widest text-sm">3D Motion</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <footer class="py-32 px-8 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-synth-purple/10 blur-[100px] z-[-1]"></div>
+        <div data-aos="fade-up">
+            <h2 class="text-7xl md:text-9xl font-black uppercase tracking-tighter mb-12 glow-text">Tem uma Ideia?</h2>
+            <a href="mailto:hello@example.com" class="inline-block bg-synth-neon text-black font-black uppercase px-12 py-6 rounded-full text-xl hover:scale-110 transition-transform shadow-[0_0_40px_rgba(176,255,0,0.3)]">
+                Iniciar Projeto
+            </a>
+        </div>
+        <div class="mt-32 pt-8 border-t border-white/10 flex justify-between items-center text-xs font-bold uppercase tracking-widest text-gray-500">
+            <div>&copy; 2026 SYNTH Studio.</div>
+            <div>Built by Retro Pixel.</div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 100 });
+        
+        // Simple parallax for the background shapes
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const shape1 = document.querySelector('.shape-1');
+            const shape2 = document.querySelector('.shape-2');
+            
+            if(shape1 && shape2) {
+                shape1.style.transform = `translate(${x * 50}px, ${y * 50}px)`;
+                shape2.style.transform = `translate(${x * -50}px, ${y * -50}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

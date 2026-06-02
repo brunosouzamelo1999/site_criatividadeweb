@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECH_LAB // Next Gen Electronics (Demonstrativo Interativo)</title>
+    
+    <!-- Script Tailwind & AOS Animation -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Space Mono for code feel, Rajdhani for tech headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons & GSAP CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#05050A',
+                            panel: '#0B0B14',
+                            blue: '#00F0FF',
+                            purple: '#9D4EDD',
+                            white: '#E2E8F0'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Rajdhani', 'sans-serif'],
+                        mono: ['"Space Mono"', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': 'linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #05050A; }
+        .bg-grid {
+            background-size: 30px 30px;
+            background-position: center center;
+        }
+        .neon-text-blue { text-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.4); }
+        .neon-text-purple { text-shadow: 0 0 10px rgba(157, 78, 221, 0.8), 0 0 20px rgba(157, 78, 221, 0.4); }
+        .neon-box {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 0 10px rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .neon-box:hover {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15);
+            border: 1px solid rgba(0, 240, 255, 0.55);
+        }
+        .glass-panel {
+            background: rgba(11, 11, 20, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #05050A; }
+        ::-webkit-scrollbar-thumb { background: #00F0FF; }
+        
+        .glitch-hover:hover {
+            animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+        }
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(-3deg); }
+            40% { transform: skew(3deg); }
+            60% { transform: skew(-1deg); }
+            80% { transform: skew(1deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        /* Interactive Feedback Pins */
+        .feedback-pin {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+        .feedback-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, ease 0.3s;
+        }
+        .feedback-pin:hover .feedback-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="text-cyber-white font-mono antialiased selection:bg-cyber-blue selection:text-cyber-dark relative">
+
+    <!-- Grid Background -->
+    <div class="fixed inset-0 z-[-1] bg-grid-pattern bg-grid opacity-20 pointer-events-none"></div>
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-40 glass-panel border-b border-cyber-blue/20">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-cyber-blue rounded-sm flex items-center justify-center animate-pulse">
+                    <div class="w-3 h-3 bg-cyber-dark"></div>
+                </div>
+                <span class="font-heading text-2xl font-bold tracking-widest">TECH_LAB<span class="text-cyber-blue">.</span></span>
+            </div>
+            
+            <nav class="hidden md:flex gap-8 text-sm">
+                <button onclick="filterProducts('all')" class="menu-filter-link font-semibold text-cyber-blue hover:text-cyber-blue transition-colors flex items-center gap-2"><span class="text-cyber-blue/50 text-xs">01</span> TODOS</button>
+                <button onclick="filterProducts('Novidades')" class="menu-filter-link hover:text-cyber-blue transition-colors flex items-center gap-2"><span class="text-cyber-blue/50 text-xs">02</span> NOVIDADES</button>
+                <button onclick="filterProducts('Hardware')" class="menu-filter-link hover:text-cyber-blue transition-colors flex items-center gap-2"><span class="text-cyber-blue/50 text-xs">03</span> HARDWARE</button>
+                <button onclick="filterProducts('Audio')" class="menu-filter-link hover:text-cyber-blue transition-colors flex items-center gap-2"><span class="text-cyber-blue/50 text-xs">04</span> AUDIO</button>
+            </nav>
+            
+            <div class="flex items-center gap-4">
+                <!-- Search magnifying glass active -->
+                <button onclick="toggleSearchOverlay(true)" class="w-10 h-10 border border-cyber-blue/30 rounded flex items-center justify-center text-cyber-blue hover:bg-cyber-blue hover:text-cyber-dark transition-all">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                </button>
+                
+                <!-- Cart Button with Counter Badge -->
+                <button id="cart-btn" class="relative w-10 h-10 border border-cyber-blue/30 rounded flex items-center justify-center text-cyber-blue hover:bg-cyber-blue hover:text-cyber-dark transition-all">
+                    <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                    <span id="cart-count-badge" class="absolute -top-1.5 -right-1.5 bg-cyber-purple text-white text-[9px] w-5 h-5 rounded-full flex items-center justify-center font-bold hidden border border-cyber-blue/20">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Slide-Down Search Overlay -->
+        <div id="search-overlay" class="absolute top-20 left-0 w-full bg-[#0b0b14] border-b border-cyber-blue/30 z-30 transform -translate-y-full transition-transform duration-300 ease-in-out hidden flex shadow-[0_15px_30px_rgba(0,0,0,0.5)]">
+            <div class="max-w-4xl w-full mx-auto px-6 py-5 flex items-center gap-4">
+                <i data-lucide="search" class="text-cyber-blue flex-shrink-0"></i>
+                <input id="search-input" oninput="handleSearch()" type="text" placeholder="BUSCAR INVENTÁRIO (ex: Mouse, Teclado, Headset, Monitor, GPU...)" class="w-full bg-transparent text-sm font-mono outline-none text-cyber-white placeholder-cyber-white/35">
+                <button onclick="toggleSearchOverlay(false)" class="text-cyber-white hover:text-cyber-blue">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Interactive Mode Warning Ribbon -->
+    <div class="bg-cyber-blue text-cyber-dark text-[10px] py-1.5 px-4 text-center tracking-widest uppercase flex items-center justify-center gap-2 relative z-30 font-bold shadow-sm pt-24">
+        <i data-lucide="terminal" class="w-3.5 h-3.5 animate-pulse"></i>
+        SANDBOX INTERATIVO INVENTÁRIO ACTIVE. TESTE COMPRAS E DEIXE FEEDBACK DE DESIGN!
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative pt-20 pb-20 min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <div class="order-2 lg:order-1" data-aos="fade-right">
+                <div class="flex items-center gap-2 text-cyber-blue text-xs uppercase mb-6 font-bold tracking-widest">
+                    <div class="w-2 h-2 bg-cyber-blue rounded-full animate-ping"></div>
+                    System Online // Version 4.0
+                </div>
+                <h1 class="font-heading text-6xl md:text-8xl font-bold uppercase leading-[0.9] mb-6">
+                    Hardware <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue to-cyber-purple neon-text-blue">Evolved.</span>
+                </h1>
+                <p class="text-gray-400 text-sm md:text-base leading-relaxed max-w-lg mb-10">
+                    Equipamentos de alta performance projetados para ultrapassar os limites do possível. Entre na nova era da computação e imersão sensorial.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#store" class="bg-cyber-blue text-cyber-dark font-bold px-8 py-4 uppercase text-sm text-center hover:bg-white transition-colors">
+                        Acessar Terminal
+                    </a>
+                    <a href="#store" class="border border-cyber-purple text-cyber-purple font-bold px-8 py-4 uppercase text-sm text-center hover:bg-cyber-purple hover:text-white transition-colors">
+                        Ver Especificações
+                    </a>
+                </div>
+                
+                <div class="mt-16 flex gap-8 border-t border-white/10 pt-6">
+                    <div>
+                        <div class="text-cyber-blue font-bold text-2xl font-heading">144Hz</div>
+                        <div class="text-xs text-gray-500 uppercase">Min Refresh</div>
+                    </div>
+                    <div>
+                        <div class="text-cyber-purple font-bold text-2xl font-heading">0.1ms</div>
+                        <div class="text-xs text-gray-500 uppercase">Latency</div>
+                    </div>
+                    <div>
+                        <div class="text-cyber-white font-bold text-2xl font-heading">AI</div>
+                        <div class="text-xs text-gray-500 uppercase">Powered</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-1 lg:order-2 relative" data-aos="fade-left">
+                <!-- Glowing Orb Behind Image -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-cyber-purple/20 rounded-full blur-[100px] pointer-events-none"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-cyber-blue/20 rounded-full blur-[80px] pointer-events-none"></div>
+                
+                <div class="relative glass-panel rounded-xl p-4 border border-cyber-blue/30 neon-box transform hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyber-blue to-transparent"></div>
+                    <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=1976&auto=format&fit=crop" alt="Headset" class="w-full h-auto rounded-lg mix-blend-screen opacity-90">
+                    
+                    <!-- Tech UI Overlay -->
+                    <div class="absolute top-6 left-6 text-xs text-cyber-blue/70">
+                        TARGET: LOCKED<br>
+                        SYNC: 99.9%
+                    </div>
+                    <div class="absolute bottom-6 right-6 text-xs text-cyber-purple/70 text-right">
+                        SYS.VOL: MAX<br>
+                        BASS: BOOSTED
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Marquee Banner -->
+    <div class="bg-cyber-blue text-cyber-dark py-3 overflow-hidden font-heading font-bold text-xl uppercase tracking-widest whitespace-nowrap">
+        <div class="inline-block animate-[marquee_20s_linear_infinite]">
+            <span class="mx-4">/// NEXT GEN GAMING</span>
+            <span class="mx-4">/// ZERO LATENCY</span>
+            <span class="mx-4">/// MAXIMUM OVERDRIVE</span>
+            <span class="mx-4">/// NEXT GEN GAMING</span>
+            <span class="mx-4">/// ZERO LATENCY</span>
+            <span class="mx-4">/// MAXIMUM OVERDRIVE</span>
+            <span class="mx-4">/// NEXT GEN GAMING</span>
+            <span class="mx-4">/// ZERO LATENCY</span>
+            <span class="mx-4">/// MAXIMUM OVERDRIVE</span>
+        </div>
+    </div>
+
+    <!-- Featured Products Grid -->
+    <section id="store" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16" data-aos="fade-up">
+                <div>
+                    <h2 class="font-heading text-4xl md:text-5xl font-bold uppercase mb-2">Inventário <span class="text-cyber-blue">Alpha</span></h2>
+                    <p class="text-gray-400 text-sm">Sistemas calibrados para máxima performance de processamento.</p>
+                </div>
+                <button onclick="filterProducts('all')" class="text-cyber-purple text-xs uppercase font-bold tracking-widest hover:text-white transition-colors flex items-center gap-2 mt-4 md:mt-0">
+                    Ver Todos os Modelos <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <!-- Dynamic 3-Column Product Grid -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div data-prod-id="prod-1" class="glass-panel p-5 rounded-2xl border border-cyber-blue/15 hover:border-cyber-blue/50 flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_35px_rgba(0,240,255,0.08)] transition-all duration-500 cursor-pointer group" onclick="window.location.href = '../product_detail_tech_lab/code.html?id=prod-1'" data-aos="fade-up">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">ID: AX-88</span>
+                            <span class="bg-cyber-blue/10 text-cyber-blue text-[8px] px-2 py-0.5 rounded border border-cyber-blue/30 uppercase font-bold">Em Estoque</span>
+                        </div>
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center mb-5 relative bg-black/40">
+                            <div class="absolute inset-0 bg-cyber-blue/5 rounded-full blur-xl group-hover:bg-cyber-blue/15 transition-all duration-500"></div>
+                            <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=1974&auto=format&fit=crop" class="relative z-10 w-3/5 object-contain filter drop-shadow-[0_0_15px_rgba(0,240,255,0.25)] group-hover:scale-105 transition-all duration-700">
+                        </div>
+                        <div class="flex justify-between items-start gap-4 mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase text-white group-hover:text-cyber-blue transition-colors">CyberMouse V2</h3>
+                            <span class="font-mono text-base font-bold text-cyber-blue">R$ 599,00</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed mb-6">
+                            Sensor óptico de 26K DPI com switches ópticos de latência zero. O mais leve do mercado.
+                        </p>
+                    </div>
+                    <button onclick="event.stopPropagation(); addToCartDirect('prod-1', 'RGB: ON')" class="w-full bg-[#121222] hover:bg-cyber-blue text-cyber-blue hover:text-cyber-dark border border-cyber-blue/20 hover:border-cyber-blue py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Adicionar ao Inventário
+                    </button>
+                </div>
+                
+                <!-- Product 2 -->
+                <div data-prod-id="prod-2" class="glass-panel p-5 rounded-2xl border border-cyber-purple/15 hover:border-cyber-purple/50 flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_35px_rgba(157,78,221,0.08)] transition-all duration-500 cursor-pointer group" onclick="window.location.href = '../product_detail_tech_lab/code.html?id=prod-2'" data-aos="fade-up" data-aos-delay="50">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">ID: NX-99</span>
+                            <span class="bg-cyber-purple/10 text-cyber-purple text-[8px] px-2 py-0.5 rounded border border-cyber-purple/30 uppercase font-bold">Pré-Venda</span>
+                        </div>
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center mb-5 relative bg-black/40">
+                            <div class="absolute inset-0 bg-cyber-purple/5 rounded-full blur-xl group-hover:bg-cyber-purple/15 transition-all duration-500"></div>
+                            <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=2042&auto=format&fit=crop" class="relative z-10 w-4/5 object-contain filter drop-shadow-[0_0_15px_rgba(157,78,221,0.25)] group-hover:scale-105 transition-all duration-700">
+                        </div>
+                        <div class="flex justify-between items-start gap-4 mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase text-white group-hover:text-cyber-purple transition-colors">Neural Keyboard</h3>
+                            <span class="font-mono text-base font-bold text-cyber-purple">R$ 1.250,00</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed mb-6">
+                            Switches magnéticos ajustáveis com layout 65% em alumínio aeronáutico anodizado.
+                        </p>
+                    </div>
+                    <button onclick="event.stopPropagation(); addToCartDirect('prod-2', 'Switch: Blue')" class="w-full bg-[#121222] hover:bg-cyber-purple text-cyber-purple hover:text-white border border-cyber-purple/20 hover:border-cyber-purple py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Adicionar ao Inventário
+                    </button>
+                </div>
+
+                <!-- Product 3 -->
+                <div data-prod-id="prod-3" class="glass-panel p-5 rounded-2xl border border-cyber-blue/15 hover:border-cyber-blue/50 flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_35px_rgba(0,240,255,0.08)] transition-all duration-500 cursor-pointer group" onclick="window.location.href = '../product_detail_tech_lab/code.html?id=prod-3'" data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">ID: ZX-01</span>
+                            <span class="bg-cyber-blue/10 text-cyber-blue text-[8px] px-2 py-0.5 rounded border border-cyber-blue/30 uppercase font-bold">Em Estoque</span>
+                        </div>
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center mb-5 relative bg-black/40">
+                            <div class="absolute inset-0 bg-cyber-blue/5 rounded-full blur-xl group-hover:bg-cyber-blue/15 transition-all duration-500"></div>
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2070&auto=format&fit=crop" class="relative z-10 w-3/5 object-contain filter drop-shadow-[0_0_15px_rgba(0,240,255,0.25)] group-hover:scale-105 transition-all duration-700">
+                        </div>
+                        <div class="flex justify-between items-start gap-4 mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase text-white group-hover:text-cyber-blue transition-colors">Synapse Audio</h3>
+                            <span class="font-mono text-base font-bold text-cyber-blue">R$ 1.890,00</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed mb-6">
+                            Áudio espacial 3D surround com cancelamento ativo de ruído quântico e drivers de grafeno.
+                        </p>
+                    </div>
+                    <button onclick="event.stopPropagation(); addToCartDirect('prod-3', 'Wired')" class="w-full bg-[#121222] hover:bg-cyber-blue text-cyber-blue hover:text-cyber-dark border border-cyber-blue/20 hover:border-cyber-blue py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Adicionar ao Inventário
+                    </button>
+                </div>
+
+                <!-- Product 4 -->
+                <div data-prod-id="prod-4" class="glass-panel p-5 rounded-2xl border border-cyber-blue/15 hover:border-cyber-blue/50 flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_35px_rgba(0,240,255,0.08)] transition-all duration-500 cursor-pointer group" onclick="window.location.href = '../product_detail_tech_lab/code.html?id=prod-4'" data-aos="fade-up">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">ID: QM-36</span>
+                            <span class="bg-cyber-blue/10 text-cyber-blue text-[8px] px-2 py-0.5 rounded border border-cyber-blue/30 uppercase font-bold">Em Estoque</span>
+                        </div>
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center mb-5 relative bg-black/40">
+                            <div class="absolute inset-0 bg-cyber-blue/5 rounded-full blur-xl group-hover:bg-cyber-blue/15 transition-all duration-500"></div>
+                            <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=2070&auto=format&fit=crop" class="relative z-10 w-4/5 object-contain filter drop-shadow-[0_0_15px_rgba(0,240,255,0.25)] group-hover:scale-105 transition-all duration-700">
+                        </div>
+                        <div class="flex justify-between items-start gap-4 mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase text-white group-hover:text-cyber-blue transition-colors">Quantum 360</h3>
+                            <span class="font-mono text-base font-bold text-cyber-blue">R$ 4.790,00</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed mb-6">
+                            Monitor Ultra-Fast de 360Hz QD-OLED com tempo de resposta recorde de 0.03ms e cores HDR.
+                        </p>
+                    </div>
+                    <button onclick="event.stopPropagation(); addToCartDirect('prod-4', 'RGB: ON')" class="w-full bg-[#121222] hover:bg-cyber-blue text-cyber-blue hover:text-cyber-dark border border-cyber-blue/20 hover:border-cyber-blue py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Adicionar ao Inventário
+                    </button>
+                </div>
+
+                <!-- Product 5 -->
+                <div data-prod-id="prod-5" class="glass-panel p-5 rounded-2xl border border-cyber-purple/15 hover:border-cyber-purple/50 flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_35px_rgba(157,78,221,0.08)] transition-all duration-500 cursor-pointer group" onclick="window.location.href = '../product_detail_tech_lab/code.html?id=prod-5'" data-aos="fade-up" data-aos-delay="50">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">ID: GPU-99</span>
+                            <span class="bg-cyber-purple/10 text-cyber-purple text-[8px] px-2 py-0.5 rounded border border-cyber-purple/30 uppercase font-bold">Pré-Venda</span>
+                        </div>
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center mb-5 relative bg-black/40">
+                            <div class="absolute inset-0 bg-cyber-purple/5 rounded-full blur-xl group-hover:bg-cyber-purple/15 transition-all duration-500"></div>
+                            <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=2070&auto=format&fit=crop" class="relative z-10 w-4/5 object-contain filter drop-shadow-[0_0_15px_rgba(157,78,221,0.25)] group-hover:scale-105 transition-all duration-700">
+                        </div>
+                        <div class="flex justify-between items-start gap-4 mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase text-white group-hover:text-cyber-purple transition-colors">GPU Overlord</h3>
+                            <span class="font-mono text-base font-bold text-cyber-purple">R$ 9.890,00</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed mb-6">
+                            Placa de vídeo com arquitetura NeuralCore avançada, 24GB VRAM de velocidade extrema.
+                        </p>
+                    </div>
+                    <button onclick="event.stopPropagation(); addToCartDirect('prod-5', 'RGB: ON')" class="w-full bg-[#121222] hover:bg-cyber-purple text-cyber-purple hover:text-white border border-cyber-purple/20 hover:border-cyber-purple py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Adicionar ao Inventário
+                    </button>
+                </div>
+
+                <!-- Product 6 -->
+                <div data-prod-id="prod-6" class="glass-panel p-5 rounded-2xl border border-cyber-blue/15 hover:border-cyber-blue/50 flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_35px_rgba(0,240,255,0.08)] transition-all duration-500 cursor-pointer group" onclick="window.location.href = '../product_detail_tech_lab/code.html?id=prod-6'" data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">ID: LC-02</span>
+                            <span class="bg-cyber-blue/10 text-cyber-blue text-[8px] px-2 py-0.5 rounded border border-cyber-blue/30 uppercase font-bold">Em Estoque</span>
+                        </div>
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden flex items-center justify-center mb-5 relative bg-black/40">
+                            <div class="absolute inset-0 bg-cyber-blue/5 rounded-full blur-xl group-hover:bg-cyber-blue/15 transition-all duration-500"></div>
+                            <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=2070&auto=format&fit=crop" class="relative z-10 w-4/5 object-contain filter drop-shadow-[0_0_15px_rgba(0,240,255,0.25)] group-hover:scale-105 transition-all duration-700">
+                        </div>
+                        <div class="flex justify-between items-start gap-4 mb-2">
+                            <h3 class="font-heading text-2xl font-bold uppercase text-white group-hover:text-cyber-blue transition-colors">Liquid Case</h3>
+                            <span class="font-mono text-base font-bold text-cyber-blue">R$ 2.490,00</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed mb-6">
+                            Gabinete Gamer inteligente com display LCD circular integrado e refrigeração líquida activa.
+                        </p>
+                    </div>
+                    <button onclick="event.stopPropagation(); addToCartDirect('prod-6', 'RGB: ON')" class="w-full bg-[#121222] hover:bg-cyber-blue text-cyber-blue hover:text-cyber-dark border border-cyber-blue/20 hover:border-cyber-blue py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Adicionar ao Inventário
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty state for search filtering -->
+            <div id="search-empty-state" class="text-center py-20 text-cyber-blue/50 hidden">
+                <i data-lucide="search" class="w-12 h-12 mx-auto stroke-[1] mb-4 text-cyber-blue animate-pulse"></i>
+                <p class="font-heading text-xl italic">Nenhum modelo encontrado</p>
+                <p class="text-xs mt-2">Tente pesquisar por outros termos como "Mouse", "Teclado", "Audio", "Monitor", "GPU" ou "Case".</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Terminal -->
+    <footer class="border-t border-cyber-blue/20 bg-cyber-panel relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyber-blue to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
+            <div class="md:col-span-1">
+                <span class="font-heading text-3xl font-bold tracking-widest text-white mb-4 block">TECH_LAB<span class="text-cyber-blue">.</span></span>
+                <p class="text-xs text-gray-500 mb-6">Equipando os pioneiros do amanhã. Sistemas desenhados no limite da física.</p>
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 border border-white/10 rounded flex items-center justify-center text-gray-400 hover:border-cyber-blue hover:text-cyber-blue transition-colors cursor-pointer">X</div>
+                    <div class="w-8 h-8 border border-white/10 rounded flex items-center justify-center text-gray-400 hover:border-cyber-purple hover:text-cyber-purple transition-colors cursor-pointer">IG</div>
+                    <div class="w-8 h-8 border border-white/10 rounded flex items-center justify-center text-gray-400 hover:border-cyber-blue hover:text-cyber-blue transition-colors cursor-pointer">DC</div>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="text-cyber-blue text-xs uppercase font-bold tracking-widest mb-6">Terminal Links</h4>
+                <ul class="space-y-3 text-xs text-gray-400">
+                    <li><button onclick="filterProducts('all')" class="hover:text-white transition-colors flex items-center gap-2"><span class="text-cyber-blue transition-all group-hover:opacity-100">></span> Protocolos</button></li>
+                    <li><button onclick="filterProducts('Hardware')" class="hover:text-white transition-colors flex items-center gap-2"><span class="text-cyber-blue transition-all group-hover:opacity-100">></span> Drivers & Sync</button></li>
+                    <li><button onclick="filterProducts('Audio')" class="hover:text-white transition-colors flex items-center gap-2"><span class="text-cyber-blue transition-all group-hover:opacity-100">></span> Rede Logística</button></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-cyber-purple text-xs uppercase font-bold tracking-widest mb-6">Legal / Ops</h4>
+                <ul class="space-y-3 text-xs text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><span class="text-cyber-purple transition-all group-hover:opacity-100">></span> Privacidade</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><span class="text-cyber-purple transition-all group-hover:opacity-100">></span> Termos de Uso</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><span class="text-cyber-purple transition-all group-hover:opacity-100">></span> Garantia Vitalícia</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white text-xs uppercase font-bold tracking-widest mb-6">Status da Rede</h4>
+                <div class="glass-panel border border-white/10 p-4 rounded">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-gray-400">Main Server</span>
+                        <span class="text-[10px] text-cyber-blue uppercase animate-pulse">Online</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400">Store API</span>
+                        <span class="text-[10px] text-cyber-blue uppercase animate-pulse">Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center text-[10px] uppercase tracking-widest text-gray-600 py-4 border-t border-white/5 bg-[#030305]">
+            SYS.RUNNING: 2026 // DESIGN BY CRIATIVIDADE WEB
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE COMPONENTS & SIMULATION SYSTEM -->
+    <!-- ========================================== -->
+
+    <!-- Dynamic Target for Custom Feedback Pins on Page -->
+    <div id="pins-container" class="absolute inset-0 pointer-events-none z-30"></div>
+
+    <!-- Product Detail Modal Overlay -->
+    <div id="product-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-cyber-panel max-w-2xl w-full rounded-2xl border border-cyber-blue/30 overflow-hidden shadow-2xl flex flex-col md:flex-row relative">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-cyber-white hover:text-cyber-blue transition-colors z-10">
+                <i data-lucide="x" class="w-6 h-6 stroke-[1.5]"></i>
+            </button>
+            
+            <!-- Product Image Left -->
+            <div class="w-full md:w-1/2 aspect-square md:aspect-auto md:h-full bg-black/40 flex items-center justify-center p-6 border-r border-white/5">
+                <img id="modal-product-img" src="" class="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(0,240,255,0.2)]">
+            </div>
+
+            <!-- Product Details Right -->
+            <div class="w-full md:w-1/2 p-8 flex flex-col justify-between">
+                <div>
+                    <span id="modal-product-cat" class="text-[10px] tracking-[0.2em] uppercase text-cyber-blue block mb-2"></span>
+                    <h3 id="modal-product-name" class="font-heading text-3xl font-bold uppercase text-white mb-4"></h3>
+                    <p id="modal-product-price" class="font-mono text-base font-bold text-cyber-blue mb-4"></p>
+                    <p id="modal-product-desc" class="font-body text-xs leading-relaxed text-gray-400 mb-6"></p>
+                    
+                    <!-- Spec simulation -->
+                    <div class="mb-8">
+                        <span class="text-[10px] tracking-wider uppercase font-semibold text-cyber-blue block mb-3 font-heading">Calibragem</span>
+                        <div class="flex gap-2">
+                            <button id="spec-opt-1" onclick="selectSpec(this)" class="px-3 py-1.5 text-xs border border-cyber-blue/20 flex items-center justify-center hover:border-cyber-blue hover:bg-cyber-blue/10 transition-colors duration-200 bg-cyber-blue/20 text-cyber-blue rounded">RGB: ON</button>
+                            <button id="spec-opt-2" onclick="selectSpec(this)" class="px-3 py-1.5 text-xs border border-cyber-blue/20 flex items-center justify-center hover:border-cyber-blue hover:bg-cyber-blue/10 transition-colors duration-200 rounded">RGB: OFF</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="add-to-cart-btn" class="w-full bg-cyber-blue text-cyber-dark hover:bg-white py-4 text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 rounded-lg">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    Adicionar ao Inventário
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Drawer (Right Side) -->
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-cyber-panel border-l border-cyber-blue/25 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <!-- Cart Header -->
+        <div class="p-6 border-b border-white/[0.05] bg-black/20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="shopping-cart" class="w-5 h-5 text-cyber-blue animate-pulse"></i>
+                <span class="font-heading text-xl font-bold tracking-wider text-white uppercase">Inventário Carregado</span>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items list -->
+        <div id="cart-items-container" class="flex-grow p-6 overflow-y-auto space-y-6">
+            <!-- Dynamic items go here -->
+            <div class="text-center py-20 text-gray-500">
+                <i data-lucide="shopping-cart" class="w-12 h-12 mx-auto stroke-[1] mb-4"></i>
+                <p class="font-heading text-lg italic">Inventário Vazio</p>
+                <p class="text-xs mt-2">Escolha itens da lista acima para começar.</p>
+            </div>
+        </div>
+
+        <!-- Cart Footer -->
+        <div id="cart-footer" class="p-6 border-t border-white/[0.05] bg-black/30 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-xs font-semibold tracking-wider text-gray-400 uppercase">SUBTOTAL:</span>
+                <span id="cart-total-price" class="font-mono text-base font-bold text-cyber-blue">R$ 0,00</span>
+            </div>
+            <button onclick="openCheckout()" class="w-full bg-cyber-blue text-cyber-dark hover:bg-white py-4 text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 rounded-lg">
+                Iniciar Checkout Seguro
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Simulated Checkout Panel Drawer (Right Side overlay replacement of Cart) -->
+    <div id="checkout-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-cyber-panel border-l border-cyber-blue/25 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <!-- Checkout Header -->
+        <div class="p-6 border-b border-white/[0.05] bg-black/20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="lock" class="w-5 h-5 text-cyber-blue"></i>
+                <span class="font-heading text-xl font-bold tracking-wider text-white uppercase">Checkout Criptografado</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="backToCart()" class="text-cyber-blue hover:text-white text-xs font-semibold flex items-center gap-1 border border-cyber-blue/20 px-2.5 py-1 rounded bg-black/40">
+                    Voltar
+                </button>
+                <button onclick="toggleCheckoutDrawer(false)" class="text-gray-400 hover:text-cyber-blue">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Checkout Form Area -->
+        <div class="flex-grow p-6 overflow-y-auto space-y-6">
+            <!-- Cupom de Desconto simulation -->
+            <div class="bg-black/40 p-4 border border-white/[0.05]">
+                <span class="text-[9px] font-bold text-cyber-blue tracking-wider uppercase block mb-2">Cupom Promocional (Tech)</span>
+                <div class="flex gap-2">
+                    <input id="coupon-input" type="text" placeholder="Experimente: CYBER20" class="flex-grow text-xs px-3 py-2 bg-black border border-white/10 outline-none text-white font-mono placeholder-white/20">
+                    <button onclick="applyCoupon()" class="bg-cyber-blue text-cyber-dark hover:bg-white text-[10px] font-bold px-4 py-2 uppercase tracking-wider transition-colors font-mono">Aplicar</button>
+                </div>
+                <div id="coupon-alert" class="text-[9px] mt-1.5 hidden font-semibold"></div>
+            </div>
+
+            <!-- Payment Choice Tabs -->
+            <div>
+                <span class="text-[10px] font-semibold tracking-wider text-cyber-blue block mb-3 uppercase">Método de Faturamento</span>
+                <div class="grid grid-cols-3 gap-2">
+                    <button id="pay-tab-pix" onclick="selectPaymentTab('pix')" class="py-3 border-2 border-cyber-blue text-cyber-blue font-bold text-xs flex flex-col items-center justify-center gap-1 bg-black/40">
+                        <i data-lucide="qr-code" class="w-4 h-4 text-cyber-blue"></i>
+                        Pix
+                    </button>
+                    <button id="pay-tab-card" onclick="selectPaymentTab('card')" class="py-3 border border-white/15 text-gray-400 text-xs flex flex-col items-center justify-center gap-1 bg-transparent">
+                        <i data-lucide="credit-card" class="w-4 h-4"></i>
+                        Cartão
+                    </button>
+                    <button id="pay-tab-boleto" onclick="selectPaymentTab('boleto')" class="py-3 border border-white/15 text-gray-400 text-xs flex flex-col items-center justify-center gap-1 bg-transparent">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        Boleto
+                    </button>
+                </div>
+            </div>
+
+            <!-- Payment Content Tab: PIX -->
+            <div id="pay-content-pix" class="bg-black/30 p-5 border border-white/[0.04] text-center space-y-4">
+                <p class="text-xs text-gray-400 leading-relaxed font-light">Pague via PIX para compensação em latência zero.</p>
+                <div class="w-32 h-32 mx-auto border border-cyber-blue/30 bg-black flex items-center justify-center">
+                    <svg viewBox="0 0 100 100" class="w-28 h-28 text-cyber-blue">
+                        <path d="M5,5 h40 v40 h-40 z M15,15 h20 v20 h-20 z M55,5 h40 v40 h-40 z M65,15 h20 v20 h-20 z M5,55 h40 v40 h-40 z M15,65 h20 v20 h-20 z M55,55 h10 v10 h-10 z M75,55 h15 v15 h-15 z M65,75 h25 v15 h-25 z M55,85 h10 v10 h-10 z M80,85 h15 v15 h-15 z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="space-y-2">
+                    <span class="text-[9px] font-bold text-cyber-blue uppercase tracking-wider block font-mono">Chave Pix Copia e Cola</span>
+                    <div class="flex">
+                        <input type="text" readonly value="00020126360014br.gov.bcb.pix01145592999845217520400005303986540500.005802BR5916CriatividadeWeb6006Manaus62070503***6304CA1F" class="flex-grow text-[9px] px-2 py-1.5 bg-black border border-white/10 border-r-0 outline-none font-mono text-cyber-blue/60 truncate">
+                        <button onclick="copyPixKey()" class="bg-cyber-blue hover:bg-white text-cyber-dark text-[9px] px-3 font-bold uppercase transition-colors">Copiar</button>
+                    </div>
+                    <div id="pix-copy-alert" class="text-[9px] text-[#2DC653] font-semibold hidden">Payload copiado com sucesso!</div>
+                </div>
+            </div>
+
+            <!-- Payment Content Tab: CARD -->
+            <div id="pay-content-card" class="bg-black/30 p-5 border border-white/[0.04] space-y-4 hidden">
+                <!-- Visual Interactive Card -->
+                <div class="w-full aspect-[1.586/1] bg-gradient-to-br from-[#0c0c16] to-[#121226] border border-cyber-blue/30 rounded-xl p-5 text-white flex flex-col justify-between shadow-md relative overflow-hidden">
+                    <div class="flex justify-between items-start">
+                        <span class="font-heading text-sm font-bold tracking-widest text-cyber-blue neon-text-blue">TECH_OVERLORD CARD</span>
+                        <i data-lucide="cpu" class="w-5 h-5 text-cyber-purple"></i>
+                    </div>
+                    <div class="space-y-4">
+                        <div id="card-display-number" class="font-mono text-base md:text-lg tracking-[0.15em] text-white/90">•••• •••• •••• ••••</div>
+                        <div class="flex justify-between items-center text-xs font-mono">
+                            <div id="card-display-name" class="uppercase text-white/70 truncate max-w-[150px]">BRUNO C. SANTOS</div>
+                            <div id="card-display-expiry" class="text-white/70">12/29</div>
+                        </div>
+                    </div>
+                    <!-- Cyber lines decoration -->
+                    <span class="absolute top-0 right-0 w-16 h-16 bg-cyber-blue/5 rounded-full blur-xl"></span>
+                </div>
+
+                <!-- Inputs -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-[9px] font-bold text-cyber-blue tracking-wider uppercase block mb-1">Número do Hardware</label>
+                        <input id="input-card-number" oninput="updateCardVisual()" type="text" placeholder="1234 5678 1234 5678" maxlength="19" class="w-full text-xs px-3 py-2 bg-black border border-white/10 outline-none text-white font-mono placeholder-white/20">
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-bold text-cyber-blue tracking-wider uppercase block mb-1">Operador Autenticado</label>
+                        <input id="input-card-name" oninput="updateCardVisual()" type="text" placeholder="BRUNO C SANTOS" class="w-full text-xs px-3 py-2 bg-black border border-white/10 outline-none text-white font-mono placeholder-white/20">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[9px] font-bold text-cyber-blue tracking-wider uppercase block mb-1">Data de Expiração</label>
+                            <input id="input-card-expiry" oninput="updateCardVisual()" type="text" placeholder="12/29" maxlength="5" class="w-full text-xs px-3 py-2 bg-black border border-white/10 outline-none text-white font-mono placeholder-white/20">
+                        </div>
+                        <div>
+                            <label class="text-[9px] font-bold text-cyber-blue tracking-wider uppercase block mb-1">Código CVV</label>
+                            <input type="text" placeholder="123" maxlength="4" class="w-full text-xs px-3 py-2 bg-black border border-white/10 outline-none text-white font-mono placeholder-white/20">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Content Tab: BOLETO -->
+            <div id="pay-content-boleto" class="bg-black/30 p-5 border border-white/[0.04] text-center space-y-4 hidden">
+                <p class="text-xs text-gray-400 leading-relaxed font-light">Código impresso para liquidação convencional no banco emissor.</p>
+                <div class="bg-black p-3 rounded font-mono text-[9px] text-cyber-blue border border-dashed border-cyber-blue/30 flex items-center justify-between">
+                    <span class="truncate">34191.79001 01043.513184 91020.150008 7 98200000000000</span>
+                    <button onclick="copyBoletoBar()" class="bg-cyber-blue text-cyber-dark px-2 py-1 text-[8px] uppercase tracking-wider rounded font-bold">Copiar</button>
+                </div>
+                <div id="boleto-copy-alert" class="text-[9px] text-[#2DC653] font-semibold hidden">Código de barras copiado!</div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="border-t border-white/10 pt-4 space-y-2.5">
+                <span class="text-[10px] font-semibold tracking-wider text-cyber-blue block mb-2 uppercase">Especificações do Pedido</span>
+                <div class="flex justify-between text-xs text-gray-400">
+                    <span>Subtotal Inventário:</span>
+                    <span id="checkout-subtotal">R$ 0,00</span>
+                </div>
+                <div id="checkout-discount-row" class="flex justify-between text-xs text-[#2DC653] font-semibold hidden">
+                    <span>Desconto de Rede (20%):</span>
+                    <span id="checkout-discount-val">-R$ 0,00</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-400">
+                    <span>Logística Expressa:</span>
+                    <span class="text-cyber-blue font-bold">Grátis</span>
+                </div>
+                <div class="flex justify-between text-sm font-bold pt-2 border-t border-dashed border-white/5">
+                    <span>Custo Total do Sistema:</span>
+                    <span id="checkout-grand-total" class="text-cyber-blue">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Footer -->
+        <div class="p-6 border-t border-white/[0.05] bg-black/20">
+            <button onclick="processSimulatedPayment()" class="w-full bg-cyber-blue text-cyber-dark hover:bg-white py-4 text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 rounded-lg">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                Autenticar Pagamento Simulado
+            </button>
+        </div>
+    </div>
+
+    <!-- Simulated Transaction Loading Screen -->
+    <div id="transaction-loader" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[60] flex items-center justify-center p-6 hidden">
+        <div class="max-w-xs w-full text-center space-y-6">
+            <div class="relative w-16 h-16 mx-auto">
+                <div class="absolute inset-0 border-2 border-cyber-blue/10 rounded-full"></div>
+                <div class="absolute inset-0 border-2 border-t-cyber-blue rounded-full animate-spin"></div>
+            </div>
+            <div>
+                <h4 class="font-heading text-xl text-white tracking-wider">EXECULTANDO LOG BANCÁRIO</h4>
+                <p id="loader-status-text" class="text-xs text-cyber-blue mt-2 font-mono uppercase tracking-widest">SECURE_SSL: Injetando criptografia...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulated Checkout Success Overlay Screen -->
+    <div id="checkout-success-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[60] flex items-center justify-center p-6 hidden">
+        <div class="bg-cyber-panel max-w-sm w-full p-8 border border-cyber-blue/30 rounded-2xl shadow-2xl relative text-center space-y-6">
+            <div class="w-16 h-16 mx-auto bg-[#2DC653]/15 text-[#2DC653] border border-[#2DC653]/20 rounded-full flex items-center justify-center">
+                <i data-lucide="check" class="w-8 h-8"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="font-heading text-3xl font-bold uppercase text-white">Transação Assinada!</h3>
+                <p class="text-xs text-gray-400">O hardware do portfólio foi faturado e liberado com sucesso.</p>
+            </div>
+
+            <!-- Receipt mockup -->
+            <div class="bg-black p-4 border border-dashed border-white/10 text-left font-mono text-[10px] space-y-2 text-gray-300 rounded">
+                <div class="border-b border-dashed border-white/10 pb-2 flex justify-between">
+                    <span>HARDWARE ID: #TL-9942</span>
+                    <span id="receipt-date">27/05/2026</span>
+                </div>
+                <div id="receipt-items-list" class="space-y-1">
+                    <!-- Dynamic receipts items -->
+                </div>
+                <div class="border-t border-dashed border-white/10 pt-2 flex justify-between font-bold text-cyber-blue">
+                    <span>FUTURO PAGO:</span>
+                    <span id="receipt-total-price">R$ 0,00</span>
+                </div>
+                <div class="text-[8px] text-gray-600 mt-2 text-center uppercase tracking-wider font-sans font-bold">
+                    Simulado em Criatividade Web Portfolio
+                </div>
+            </div>
+
+            <button onclick="closeCheckoutSuccess()" class="w-full bg-cyber-blue text-cyber-dark hover:bg-white py-3 text-xs font-bold uppercase tracking-widest transition-colors rounded-lg">
+                Finalizar Experiência
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- COLLABORATIVE FEEDBACK / CO-CREATION PANEL -->
+    <!-- ========================================== -->
+
+    <!-- Floating Toggle Button for Feedback Control Panel -->
+    <div class="fixed bottom-6 right-6 z-[45] flex items-center gap-3">
+        <button id="feedback-toggle-btn" onclick="toggleFeedbackPanel(true)" class="bg-[#0b0b14] hover:bg-black text-white border border-[#00adb5]/30 hover:border-[#00e5ff]/50 px-5 py-3.5 rounded-full flex items-center gap-2 shadow-[0_4px_25px_rgba(0,173,181,0.25)] hover:shadow-[0_4px_30px_rgba(0,229,255,0.45)] transition-all duration-300">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00e5ff] opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#00adb5]"></span>
+            </span>
+            <span class="font-heading text-xs font-bold tracking-widest uppercase flex items-center gap-1">
+                ◆ PAINEL DE APROVAÇÃO
+            </span>
+        </button>
+    </div>
+
+    <!-- Left Side Slide-out Prototyping Control Center Panel -->
+    <div id="feedback-panel" class="fixed inset-y-0 left-0 max-w-sm w-full bg-[#0c0c10] border-r border-white/[0.08] shadow-2xl z-50 flex flex-col justify-between transform -translate-x-full transition-transform duration-500 ease-in-out">
+        
+        <!-- Header -->
+        <div class="p-6 border-b border-white/[0.05] bg-black/30 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-[#00e5ff] font-bold text-sm">&#9670;</span>
+                <span class="font-heading text-sm font-bold text-white tracking-widest">DIRETRIZ DE APROVAÇÃO</span>
+            </div>
+            <button onclick="toggleFeedbackPanel(false)" class="text-white/60 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Body Scrollable Content -->
+        <div class="flex-grow p-6 overflow-y-auto space-y-6">
+            
+            <!-- Prototyping Interactive Pin Explainer -->
+            <div class="bg-white/[0.02] border border-white/[0.04] p-4 rounded-xl space-y-3">
+                <h4 class="font-heading text-xs font-bold text-[#00e5ff] tracking-wider uppercase flex items-center gap-1.5">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                    Anotações e Co-criação
+                </h4>
+                <p class="font-body text-[11px] text-white/70 leading-relaxed">
+                    Clique no botão abaixo e clique em qualquer parte deste site para adicionar pins de feedback visual! Seus pins serão salvos.
+                </p>
+                
+                <button id="add-pin-btn" onclick="togglePinPlacementMode()" class="w-full bg-white/[0.04] hover:bg-white/[0.08] text-white border border-white/[0.1] hover:border-[#00e5ff]/40 py-2.5 rounded-lg text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all duration-300">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-red-500"></i>
+                    <span id="pin-btn-text">Ativar Pin de Feedback</span>
+                </button>
+                <div id="pin-mode-status" class="text-center text-[9px] font-semibold text-[#00e5ff] hidden uppercase tracking-wider animate-pulse">
+                    Modo Ativo! Clique na tela para posicionar o pin
+                </div>
+            </div>
+
+            <!-- Like & Avaliação Rápida -->
+            <div class="bg-white/[0.02] border border-white/[0.06] p-4.5 rounded-xl space-y-4 my-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-heading text-xs font-bold text-white tracking-widest uppercase">Curtir o Projeto</span>
+                    <button onclick="toggleLikeProject()" id="like-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/[0.1] hover:bg-white/[0.04] transition-all duration-300 group">
+                        <i id="like-icon" data-lucide="heart" class="w-4 h-4 text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                        <span id="like-count" class="font-mono text-xs text-white">56</span>
+                    </button>
+                </div>
+                
+                <div class="space-y-2">
+                    <span class="font-heading text-[10px] font-bold text-white/50 tracking-wider uppercase block">Avaliação Rápida</span>
+                    <div class="grid grid-cols-2 gap-2 text-[8px] font-mono">
+                        <button onclick="submitQuickFeedback('O site está ótimo')" class="py-2.5 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors text-center font-bold tracking-wider">O SITE ESTÁ ÓTIMO</button>
+                        <button onclick="submitQuickFeedback('O site está bem feito')" class="py-2.5 border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 rounded transition-colors text-center font-bold tracking-wider">SITE BEM FEITO</button>
+                        <button onclick="submitQuickFeedback('O site precisa de ajustes')" class="py-2.5 border border-amber-500/30 text-amber-400 hover:bg-amber-500/10 rounded transition-colors text-center font-bold tracking-wider">PRECISA AJUSTES</button>
+                        <button onclick="submitQuickFeedback('O site não está bem feito')" class="py-2.5 border border-red-500/30 text-red-400 hover:bg-red-500/10 rounded transition-colors text-center font-bold tracking-wider">NÃO BEM FEITO</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialist Reviews list -->
+            <div class="space-y-4">
+                <h4 class="font-heading text-xs font-bold text-white/80 tracking-widest uppercase">
+                  DIAGNÓSTICOS TÉCNICOS PRO
+                </h4>
+                
+                <!-- Review 1 -->
+                <div class="bg-black/35 border border-white/[0.02] p-4 rounded-xl space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <span class="font-heading text-[10px] font-bold text-white tracking-wider">Gustavo R. (Tech Lead)</span>
+                        <span class="text-[8px] font-bold text-[#2DC653] bg-[#2DC653]/10 border border-[#2DC653]/20 px-2 py-0.5 rounded-full uppercase">Código OK</span>
+                    </div>
+                    <p class="font-body text-[10px] text-white/60 leading-relaxed italic">
+                        "Código limpo, estruturado semanticamente em HTML5 puro. Desempenho excelente no Core Web Vitals e carregamento recorde."
+                    </p>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-black/35 border border-white/[0.02] p-4 rounded-xl space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <span class="font-heading text-[10px] font-bold text-white tracking-wider">Mariana L. (UX/UI Designer)</span>
+                        <span class="text-[8px] font-bold text-[#2DC653] bg-[#2DC653]/10 border border-[#2DC653]/20 px-2 py-0.5 rounded-full uppercase">Design OK</span>
+                    </div>
+                    <p class="font-body text-[10px] text-white/60 leading-relaxed italic">
+                        "A combinação tipográfica Cormorant Garamond cria a elegância perfeita de alta costura. Excelente uso de respiração e espaçamento."
+                    </p>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-black/35 border border-white/[0.02] p-4 rounded-xl space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <span class="font-heading text-[10px] font-bold text-white tracking-wider">Felipe M. (CRO Specialist)</span>
+                        <span class="text-[8px] font-bold text-[#2DC653] bg-[#2DC653]/10 border border-[#2DC653]/20 px-2 py-0.5 rounded-full uppercase">Vendas OK</span>
+                    </div>
+                    <p class="font-body text-[10px] text-white/60 leading-relaxed italic">
+                        "Checkout simplificado de alta performance com desconto aplicado na hora e tabs diretas. Garante taxa de conversão altíssima."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Client saved pins checklist -->
+            <div id="saved-pins-section" class="space-y-3 hidden">
+                <h4 class="font-heading text-xs font-bold text-white/80 tracking-widest uppercase">
+                    SEUS PINS DE ANOTAÇÃO
+                </h4>
+                <div id="saved-pins-list" class="space-y-2 max-h-[160px] overflow-y-auto pr-2">
+                    <!-- Dynamic client pin items -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Checklist & Approval Button -->
+        <div class="p-6 border-t border-white/[0.05] bg-black/40 space-y-4">
+            <div class="space-y-2">
+                <div class="flex items-center gap-2 text-white/80 text-[10px]">
+                    <i data-lucide="check" class="w-3.5 h-3.5 text-[#2DC653]"></i>
+                    Design Responsivo Mobile & Desktop
+                </div>
+                <div class="flex items-center gap-2 text-white/80 text-[10px]">
+                    <i data-lucide="check" class="w-3.5 h-3.5 text-[#2DC653]"></i>
+                    Engine de Transições e Usabilidade
+                </div>
+                <div class="flex items-center gap-2 text-white/80 text-[10px]">
+                    <i data-lucide="check" class="w-3.5 h-3.5 text-[#2DC653]"></i>
+                    Checkout Otimizado em 1 Clique
+                </div>
+            </div>
+            
+            <button onclick="approveLayoutProject()" class="w-full bg-gradient-to-r from-[#00adb5] to-[#00c2cb] hover:from-[#00e5ff] hover:to-[#00adb5] text-[#060608] hover:text-[#060608] py-4 rounded-xl text-xs font-extrabold uppercase tracking-widest transition-all duration-300 shadow-[0_0_15px_rgba(0,173,181,0.25)] flex items-center justify-center gap-2">
+                <i data-lucide="award" class="w-4 h-4"></i>
+                APROVAR ESSE DESIGN
+            </button>
+        </div>
+    </div>
+
+    <!-- Visual Pin Feedback input overlay form -->
+    <div id="feedback-pin-form-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] flex items-center justify-center p-4 hidden">
+        <div class="bg-cyber-panel max-w-xs w-full p-6 border border-cyber-blue/30 rounded-2xl shadow-2xl space-y-4">
+            <div class="flex items-center gap-2 text-cyber-blue">
+                <i data-lucide="map-pin" class="w-5 h-5 text-red-500 animate-bounce"></i>
+                <h4 class="font-heading text-lg font-bold tracking-wide">Novo Comentário</h4>
+            </div>
+            <p class="text-[10px] text-gray-400 leading-relaxed">Digite seu comentário no local selecionado da página. Ele ficará fixado.</p>
+            <textarea id="pin-comment-text" placeholder="Ex: Ajustar o brilho do botão, Adorei o efeito neon..." class="w-full h-20 text-xs px-3 py-2 border border-cyber-blue/20 bg-black outline-none text-white font-mono resize-none" required></textarea>
+            <div class="flex gap-2">
+                <button onclick="cancelPinPlacement()" class="w-1/2 border border-white/10 text-white hover:bg-white/5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors">Cancelar</button>
+                <button onclick="savePinPlacement()" class="w-1/2 bg-cyber-blue text-cyber-dark hover:bg-white py-2.5 text-xs font-bold uppercase tracking-wider transition-colors">Salvar Pin</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Approval Celebration Overlay -->
+    <div id="approval-celebration-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[70] flex items-center justify-center p-6 hidden">
+        <div class="max-w-md w-full bg-[#0c0c10] border border-white/[0.08] p-8 md:p-10 rounded-2xl shadow-2xl relative text-center space-y-6">
+            <div class="w-16 h-16 mx-auto bg-gradient-to-r from-[#00adb5] to-[#00e5ff] text-[#060608] rounded-full flex items-center justify-center shadow-[0_0_25px_rgba(0,229,255,0.4)]">
+                <i data-lucide="award" class="w-8 h-8"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="font-heading text-3xl text-white tracking-wide">Layout Aprovado!</h3>
+                <p class="font-body text-xs text-[#00e5ff] uppercase tracking-widest font-semibold">Parabéns pelo excelente projeto!</p>
+                <p class="font-body text-xs text-white/70 leading-relaxed pt-2">
+                    Você acaba de homologar este design. Este template de E-commerce preenche todos os requisitos de alta fidelidade visual, conversão estratégica e performance digital da Criatividade Web.
+                </p>
+            </div>
+
+            <!-- Status specifications info -->
+            <div class="bg-white/[0.02] border border-white/[0.04] p-4 rounded-xl text-left font-mono text-[9px] space-y-2 text-white/80">
+                <div class="flex justify-between">
+                    <span>APROVADO POR:</span>
+                    <span class="text-white font-bold">CLIENTE PROTÓTIPO</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>STATUS HOSTGATOR:</span>
+                    <span class="text-[#2DC653] font-bold">HOMOLOGADO</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>APROVEITAMENTO UX/UI:</span>
+                    <span class="text-[#00e5ff] font-bold">100% EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <button onclick="closeApprovalCelebration()" class="w-full bg-gradient-to-r from-[#00adb5] to-[#00c2cb] hover:from-[#00e5ff] hover:to-[#00adb5] text-[#060608] py-3 text-xs font-semibold uppercase tracking-widest transition-colors font-bold shadow-md">
+                Fechar e Continuar
+            </button>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Init animations and lucide
+        AOS.init({ once: true, offset: 50 });
+        lucide.createIcons();
+
+        // Simulated products database
+        const productsDb = {
+            'prod-1': {
+                id: 'prod-1',
+                name: 'CyberMouse V2',
+                price: 599.00,
+                cat: 'Hardware',
+                img: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=1974&auto=format&fit=crop',
+                desc: 'Sensor óptico de última geração com 26.000 DPI calibrado para extrema precisão. Conexão híbrida e chassi ultraleve com latência de resposta de zero milissegundos.',
+                isNew: false
+            },
+            'prod-2': {
+                id: 'prod-2',
+                name: 'Neural Keyboard',
+                price: 1250.00,
+                cat: 'Hardware',
+                img: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=2042&auto=format&fit=crop',
+                desc: 'Teclado mecânico compacto layout 65% em alumínio aeronáutico escovado. Switches magnéticos customizados com atuação variável por firmware.',
+                isNew: false
+            },
+            'prod-3': {
+                id: 'prod-3',
+                name: 'Synapse Audio',
+                price: 1890.00,
+                cat: 'Audio',
+                img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Headset profissional com tecnologia de áudio espacial 3D em tempo real. Drivers em grafeno puro de 50mm e cancelamento ativo de ruído inteligente.',
+                isNew: false
+            },
+            'prod-4': {
+                id: 'prod-4',
+                name: 'Quantum 360',
+                price: 4790.00,
+                cat: 'Hardware',
+                img: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Monitor gamer de elite QD-OLED com taxa de atualização de 360Hz nativos. Resolução QHD imersiva e tempo de resposta assombroso de 0.03ms.',
+                isNew: true
+            },
+            'prod-5': {
+                id: 'prod-5',
+                name: 'GPU Overlord',
+                price: 9890.00,
+                cat: 'Hardware',
+                img: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Placa de vídeo definitiva de alta fidelidade com 24GB VRAM GDDR6X. Dissipador de calor em câmara de vapor e arquitetura avançada de RayTracing.',
+                isNew: true
+            },
+            'prod-6': {
+                id: 'prod-6',
+                name: 'Liquid Case',
+                price: 2490.00,
+                cat: 'Hardware',
+                img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Gabinete full-tower modular com bloco de refrigeração líquida integrada. Painel LCD de status do sistema configurável no painel frontal.',
+                isNew: true
+            }
+        };
+
+        // States
+        let cart = [];
+        let selectedProduct = null;
+        let selectedSpecText = 'RGB: ON';
+        let couponApplied = false;
+        let activePaymentTab = 'pix';
+        
+        let annotationModeActive = false;
+        let pendingClickCoords = null;
+        let feedbackPins = [];
+
+        // Load pins and cart from localStorage
+        window.addEventListener('load', () => {
+            const savedPins = localStorage.getItem('tech_lab_feedback_pins');
+            if (savedPins) {
+                feedbackPins = JSON.parse(savedPins);
+                renderPins();
+            }
+            const savedCart = localStorage.getItem('tech_lab_cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartCounter();
+            }
+
+            // Load likes
+            let likes = localStorage.getItem('tech_lab_likes');
+            if (likes === null) {
+                likes = 56;
+                localStorage.setItem('tech_lab_likes', likes);
+            }
+            document.getElementById('like-count').innerText = likes;
+
+            const liked = localStorage.getItem('tech_lab_liked') === 'true';
+            if (liked) {
+                const icon = document.getElementById('like-icon');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+            }
+        });
+
+        // ------------------------------------------
+        // PRODUCT MODAL OPERATIONS
+        // ------------------------------------------
+        function openProductModal(prodId) {
+            selectedProduct = productsDb[prodId];
+            if (!selectedProduct) return;
+            
+            document.getElementById('modal-product-img').src = selectedProduct.img;
+            document.getElementById('modal-product-cat').innerText = selectedProduct.cat;
+            document.getElementById('modal-product-name').innerText = selectedProduct.name;
+            document.getElementById('modal-product-price').innerText = 'R$ ' + selectedProduct.price.toFixed(2);
+            document.getElementById('modal-product-desc').innerText = selectedProduct.desc;
+            
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            
+            // Bind button add
+            document.getElementById('add-to-cart-btn').onclick = addToCart;
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            selectedProduct = null;
+        }
+
+        // Direct Add to Cart from Card
+        function addToCartDirect(prodId, spec) {
+            selectedProduct = productsDb[prodId];
+            if (!selectedProduct) return;
+            
+            selectedSpecText = spec || 'RGB: ON';
+            addToCartSilent();
+            window.location.href = '../shopping_cart_tech_lab/code.html';
+        }
+
+        function selectSpec(btn) {
+            const btns = btn.parentNode.children;
+            for (let b of btns) {
+                b.className = 'px-3 py-1.5 text-xs border border-cyber-blue/20 flex items-center justify-center hover:border-cyber-blue hover:bg-cyber-blue/10 transition-colors duration-200 rounded text-cyber-white bg-transparent';
+            }
+            btn.className = 'px-3 py-1.5 text-xs border border-cyber-blue/20 flex items-center justify-center hover:border-cyber-blue hover:bg-cyber-blue/10 transition-colors duration-200 bg-cyber-blue/20 text-cyber-blue rounded font-bold';
+            selectedSpecText = btn.innerText;
+        }
+
+        // ------------------------------------------
+        // CART DRAWER & STATE OPERATIONS
+        // ------------------------------------------
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            if (open) {
+                toggleCheckoutDrawer(false);
+                drawer.classList.remove('translate-x-full');
+                renderCartItems();
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function addToCartSilent() {
+            if (!selectedProduct) return;
+            
+            const existingIndex = cart.findIndex(item => item.id === selectedProduct.id && item.spec === selectedSpecText);
+            
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    id: selectedProduct.id,
+                    name: selectedProduct.name,
+                    price: selectedProduct.price,
+                    img: selectedProduct.img,
+                    spec: selectedSpecText,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('tech_lab_cart', JSON.stringify(cart));
+            updateCartCounter();
+        }
+
+        function addToCart() {
+            addToCartSilent();
+            closeProductModal();
+            window.location.href = '../shopping_cart_tech_lab/code.html';
+        }
+
+        updateCartCounter();
+
+        function updateCartCounter() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            const badge = document.getElementById('cart-count-badge');
+            
+            if (badge) {
+                if (count > 0) {
+                    badge.innerText = count;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            const footer = document.getElementById('cart-footer');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 text-gray-500">
+                        <i data-lucide="shopping-cart" class="w-12 h-12 mx-auto stroke-[1] mb-4"></i>
+                        <p class="font-heading text-lg italic">Inventário Vazio</p>
+                        <p class="text-xs mt-2">Escolha itens da lista acima para começar.</p>
+                    </div>
+                `;
+                footer.classList.add('hidden');
+                lucide.createIcons();
+                return;
+            }
+            
+            let total = 0;
+            let html = '<div class="space-y-6">';
+            
+            cart.forEach((item, idx) => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                
+                html += `
+                    <div class="flex gap-4 items-center bg-black/40 p-4 border border-white/5 rounded-xl">
+                        <div class="w-16 h-16 bg-black/60 rounded flex items-center justify-center flex-shrink-0 p-1">
+                            <img src="${item.img}" class="w-full h-full object-contain filter drop-shadow-[0_0_5px_rgba(0,240,255,0.2)]">
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-heading text-base font-bold truncate text-white uppercase">${item.name}</h4>
+                            <p class="text-[9px] text-cyber-blue mt-0.5">${item.spec}</p>
+                            <p class="font-mono text-xs font-semibold text-cyber-blue/70 mt-1">R$ ${item.price.toFixed(2)}</p>
+                            
+                            <div class="flex items-center gap-2 mt-3">
+                                <button onclick="adjustQuantity(${idx}, -1)" class="w-6 h-6 border border-white/10 flex items-center justify-center text-xs hover:bg-white/5">-</button>
+                                <span class="text-xs font-bold w-4 text-center">${item.quantity}</span>
+                                <button onclick="adjustQuantity(${idx}, 1)" class="w-6 h-6 border border-white/10 flex items-center justify-center text-xs hover:bg-white/5">+</button>
+                            </div>
+                        </div>
+                        <div class="text-right flex flex-col justify-between h-full py-1">
+                            <button onclick="removeFromCart(${idx})" class="text-gray-400 hover:text-red-500 transition-colors">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                            <span class="font-mono text-xs font-bold text-cyber-blue mt-4 block">R$ ${subtotal.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+            
+            document.getElementById('cart-total-price').innerText = 'R$ ' + total.toFixed(2);
+            footer.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function adjustQuantity(idx, change) {
+            cart[idx].quantity += change;
+            if (cart[idx].quantity <= 0) {
+                cart.splice(idx, 1);
+            }
+            localStorage.setItem('tech_lab_cart', JSON.stringify(cart));
+            updateCartCounter();
+            renderCartItems();
+        }
+
+        function removeFromCart(idx) {
+            cart.splice(idx, 1);
+            localStorage.setItem('tech_lab_cart', JSON.stringify(cart));
+            updateCartCounter();
+            renderCartItems();
+        }
+
+        document.getElementById('cart-btn').onclick = () => window.location.href = '../shopping_cart_tech_lab/code.html';
+
+        // ------------------------------------------
+        // SECURE CHECKOUT DRAWERS
+        // ------------------------------------------
+        function toggleCheckoutDrawer(open) {
+            const drawer = document.getElementById('checkout-drawer');
+            if (open) {
+                toggleCartDrawer(false);
+                drawer.classList.remove('translate-x-full');
+                updateCheckoutSummary();
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function backToCart() {
+            toggleCheckoutDrawer(false);
+            toggleCartDrawer(true);
+        }
+
+        function openCheckout() {
+            toggleCheckoutDrawer(true);
+        }
+
+        function updateCheckoutSummary() {
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            document.getElementById('checkout-subtotal').innerText = 'R$ ' + subtotal.toFixed(2);
+            
+            let finalPrice = subtotal;
+            if (couponApplied) {
+                const discount = subtotal * 0.2; // 20% off
+                finalPrice = subtotal - discount;
+                
+                document.getElementById('checkout-discount-val').innerText = '-R$ ' + discount.toFixed(2);
+                document.getElementById('checkout-discount-row').classList.remove('hidden');
+            } else {
+                document.getElementById('checkout-discount-row').classList.add('hidden');
+            }
+            
+            document.getElementById('checkout-grand-total').innerText = 'R$ ' + finalPrice.toFixed(2);
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const alertBox = document.getElementById('coupon-alert');
+            
+            if (input === 'CYBER20') {
+                couponApplied = true;
+                alertBox.innerText = 'CUPOM APLICADO: 20% DE DESCONTO EM TODO TERMINAL!';
+                alertBox.className = 'text-[9px] mt-1.5 font-bold text-[#2DC653]';
+                alertBox.classList.remove('hidden');
+                updateCheckoutSummary();
+            } else {
+                alertBox.innerText = 'FREQUÊNCIA INEXISTENTE OU EXPIRADA.';
+                alertBox.className = 'text-[9px] mt-1.5 font-bold text-red-500';
+                alertBox.classList.remove('hidden');
+            }
+        }
+
+        function selectPaymentTab(method) {
+            activePaymentTab = method;
+            
+            const methods = ['pix', 'card', 'boleto'];
+            methods.forEach(m => {
+                const tab = document.getElementById('pay-tab-' + m);
+                const content = document.getElementById('pay-content-' + m);
+                
+                if (m === method) {
+                    tab.className = 'py-3 border-2 border-cyber-blue text-cyber-blue font-bold text-xs flex flex-col items-center justify-center gap-1 bg-black/40';
+                    content.classList.remove('hidden');
+                } else {
+                    tab.className = 'py-3 border border-white/15 text-gray-400 text-xs flex flex-col items-center justify-center gap-1 bg-transparent';
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        function copyPixKey() {
+            navigator.clipboard.writeText('00020126360014br.gov.bcb.pix01145592999845217520400005303986540500.005802BR5916CriatividadeWeb6006Manaus62070503***6304CA1F');
+            const alertText = document.getElementById('pix-copy-alert');
+            alertText.classList.remove('hidden');
+            setTimeout(() => alertText.classList.add('hidden'), 2000);
+        }
+
+        function copyBoletoBar() {
+            navigator.clipboard.writeText('34191.79001 01043.513184 91020.150008 7 98200000000000');
+            const alertText = document.getElementById('boleto-copy-alert');
+            alertText.classList.remove('hidden');
+            setTimeout(() => alertText.classList.add('hidden'), 2000);
+        }
+
+        function updateCardVisual() {
+            const num = document.getElementById('input-card-number').value || '•••• •••• •••• ••••';
+            const name = document.getElementById('input-card-name').value || 'BRUNO C. SANTOS';
+            const expiry = document.getElementById('input-card-expiry').value || '12/29';
+            
+            document.getElementById('card-display-number').innerText = num;
+            document.getElementById('card-display-name').innerText = name.toUpperCase();
+            document.getElementById('card-display-expiry').innerText = expiry;
+        }
+
+        // ------------------------------------------
+        // PROCESS TRANSACTION & PRINT RECEIPT
+        // ------------------------------------------
+        function processSimulatedPayment() {
+            const loader = document.getElementById('transaction-loader');
+            const statusText = document.getElementById('loader-status-text');
+            
+            loader.classList.remove('hidden');
+            
+            const phases = [
+                'SECURE_SSL: Injetando criptografia de chave quântica...',
+                'SYS_NET: Consultando gateway de dados Criatividade Web...',
+                'CO-PROCESSOR: Computando taxas logísticas do terminal...',
+                'APROVADO: Bloco de pagamento assinado com sucesso na rede!',
+            ];
+            
+            let phaseIdx = 0;
+            const interval = setInterval(() => {
+                if (phaseIdx < phases.length) {
+                    statusText.innerText = phases[phaseIdx];
+                    phaseIdx++;
+                } else {
+                    clearInterval(interval);
+                    loader.classList.add('hidden');
+                    openSuccessModal();
+                }
+            }, 850);
+        }
+
+        function openSuccessModal() {
+            const list = document.getElementById('receipt-items-list');
+            let total = 0;
+            let html = '';
+            
+            cart.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                html += `
+                    <div class="flex justify-between">
+                        <span class="truncate max-w-[180px]">${item.name} (x${item.quantity})</span>
+                        <span>R$ ${subtotal.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            
+            let finalPrice = total;
+            if (couponApplied) {
+                const discount = total * 0.2;
+                finalPrice = total - discount;
+            }
+            
+            list.innerHTML = html;
+            document.getElementById('receipt-total-price').innerText = 'R$ ' + finalPrice.toFixed(2);
+            document.getElementById('receipt-date').innerText = new Date().toLocaleDateString('pt-BR');
+            
+            document.getElementById('checkout-success-modal').classList.remove('hidden');
+            toggleCheckoutDrawer(false);
+            
+            cart = [];
+            couponApplied = false;
+            updateCartCounter();
+        }
+
+        function closeCheckoutSuccess() {
+            document.getElementById('checkout-success-modal').classList.add('hidden');
+        }
+
+        // ------------------------------------------
+        // ACTIVE MAGNIFYING GLASS & SEARCH OVERLAY
+        // ------------------------------------------
+        function toggleSearchOverlay(show) {
+            const overlay = document.getElementById('search-overlay');
+            const input = document.getElementById('search-input');
+            
+            if (show) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('-translate-y-full');
+                    input.focus();
+                }, 10);
+            } else {
+                overlay.classList.add('-translate-y-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    input.value = '';
+                    handleSearch(); // reset boutique grid
+                }, 300);
+            }
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const grid = document.getElementById('products-grid');
+            const items = grid.children;
+            let foundAny = false;
+            
+            for (let item of items) {
+                const prodId = item.getAttribute('data-prod-id');
+                const prod = productsDb[prodId];
+                if (!prod) continue;
+                
+                const matches = prod.name.toLowerCase().includes(query) || 
+                                prod.desc.toLowerCase().includes(query) || 
+                                prod.cat.toLowerCase().includes(query);
+                                
+                if (matches) {
+                    item.classList.remove('hidden');
+                    foundAny = true;
+                } else {
+                    item.classList.add('hidden');
+                }
+            }
+            
+            const emptyState = document.getElementById('search-empty-state');
+            if (!foundAny) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+        }
+
+        // ------------------------------------------
+        // INTERACTIVE MENUS PRODUCT FILTERING
+        // ------------------------------------------
+        function filterProducts(category) {
+            const links = document.querySelectorAll('.menu-filter-link');
+            links.forEach(lnk => {
+                if (lnk.getAttribute('onclick').includes(category)) {
+                    lnk.classList.add('font-semibold', 'text-cyber-blue');
+                } else {
+                    lnk.classList.remove('font-semibold', 'text-cyber-blue');
+                }
+            });
+
+            const grid = document.getElementById('products-grid');
+            const items = grid.children;
+            let foundAny = false;
+            
+            for (let item of items) {
+                const prodId = item.getAttribute('data-prod-id');
+                const prod = productsDb[prodId];
+                if (!prod) continue;
+                
+                const isMatch = category === 'all' || prod.cat === category || (category === 'Novidades' && prod.isNew);
+                
+                if (isMatch) {
+                    item.classList.remove('hidden');
+                    foundAny = true;
+                    gsap.fromTo(item, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power2.out" });
+                } else {
+                    item.classList.add('hidden');
+                }
+            }
+            
+            const emptyState = document.getElementById('search-empty-state');
+            if (!foundAny) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+            
+            document.getElementById('store').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ------------------------------------------
+        // COLLABORATIVE CO-CREATION & FEEDBACK SYSTEM
+        // ------------------------------------------
+        function toggleFeedbackPanel(open) {
+            const panel = document.getElementById('feedback-panel');
+            if (open) {
+                panel.classList.remove('-translate-x-full');
+                renderSavedPinsList();
+            } else {
+                panel.classList.add('-translate-x-full');
+            }
+        }
+
+        function togglePinPlacementMode() {
+            annotationModeActive = !annotationModeActive;
+            const btnText = document.getElementById('pin-btn-text');
+            const status = document.getElementById('pin-mode-status');
+            const btn = document.getElementById('add-pin-btn');
+            
+            if (annotationModeActive) {
+                btnText.innerText = 'Desativar Modo Pin';
+                status.classList.remove('hidden');
+                btn.className = 'w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 py-2.5 rounded-lg text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all duration-300 animate-pulse';
+                document.addEventListener('click', capturePinCoordinates);
+                toggleFeedbackPanel(false);
+            } else {
+                btnText.innerText = 'Ativar Pin de Feedback';
+                status.classList.add('hidden');
+                btn.className = 'w-full bg-white/[0.04] hover:bg-white/[0.08] text-white border border-white/[0.1] hover:border-[#00e5ff]/40 py-2.5 rounded-lg text-xs font-semibold tracking-wide flex items-center justify-center gap-2 transition-all duration-300';
+                document.removeEventListener('click', capturePinCoordinates);
+            }
+        }
+
+        function capturePinCoordinates(e) {
+            if (e.target.closest('header') || e.target.closest('#feedback-panel') || 
+                e.target.closest('#cart-drawer') || e.target.closest('#checkout-drawer') || 
+                e.target.closest('#product-modal') || e.target.closest('#feedback-toggle-btn') || 
+                e.target.closest('#feedback-pin-form-modal') || e.target.closest('#add-pin-btn') ||
+                e.target.closest('#checkout-success-modal') || e.target.closest('#approval-celebration-modal')) {
+                return;
+            }
+
+            e.preventDefault();
+            pendingClickCoords = {
+                x: e.pageX,
+                y: e.pageY,
+                percentX: (e.pageX / document.documentElement.scrollWidth) * 100,
+                percentY: (e.pageY / document.documentElement.scrollHeight) * 100
+            };
+
+            document.getElementById('pin-comment-text').value = '';
+            document.getElementById('feedback-pin-form-modal').classList.remove('hidden');
+            
+            togglePinPlacementMode();
+        }
+
+        function cancelPinPlacement() {
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+        }
+
+        function savePinPlacement() {
+            const commentText = document.getElementById('pin-comment-text').value.trim();
+            if (!commentText) {
+                alert('Por favor, insira uma anotação.');
+                return;
+            }
+
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: pendingClickCoords.x,
+                y: pendingClickCoords.y,
+                percentX: pendingClickCoords.percentX,
+                percentY: pendingClickCoords.percentY,
+                comment: commentText,
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('tech_lab_feedback_pins', JSON.stringify(feedbackPins));
+            
+            renderPins();
+            cancelPinPlacement();
+            toggleFeedbackPanel(true);
+        }
+
+        function renderPins() {
+            const container = document.getElementById('pins-container');
+            container.innerHTML = '';
+            
+            feedbackPins.forEach((pin, idx) => {
+                const pinEl = document.createElement('div');
+                pinEl.className = 'feedback-pin pointer-events-auto';
+                pinEl.style.left = pin.percentX + '%';
+                pinEl.style.top = pin.percentY + '%';
+                
+                pinEl.innerHTML = `
+                    <div class="relative group">
+                        <span class="absolute inline-flex h-6 w-6 -left-3 -top-3 rounded-full bg-red-500 opacity-75 animate-ping pointer-events-none"></span>
+                        <button class="w-6 h-6 rounded-full bg-red-600 border border-white text-white font-bold text-[9px] flex items-center justify-center shadow-lg hover:scale-110 hover:bg-[#00e5ff] hover:border-[#00adb5] transition-all">
+                            ${idx + 1}
+                        </button>
+                        
+                        <div class="feedback-tooltip absolute left-1/2 -translate-x-1/2 bottom-8 w-48 bg-[#0c0c10]/95 border border-white/10 backdrop-blur-md rounded-xl p-3.5 shadow-2xl space-y-1.5">
+                            <div class="flex justify-between items-center text-[8px] font-bold text-white/50">
+                                <span>PIN DE AJUSTE #${idx + 1}</span>
+                                <span>${pin.date}</span>
+                            </div>
+                            <p class="font-body text-[10px] text-white leading-relaxed">
+                                "${pin.comment}"
+                            </p>
+                            <button onclick="event.stopPropagation(); deletePin('${pin.id}')" class="text-red-400 hover:text-red-500 font-sans text-[8px] font-bold tracking-wider uppercase block pt-1 hover:underline">
+                                Excluir Anotação
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(pinEl);
+            });
+
+            renderSavedPinsList();
+        }
+
+        function deletePin(pinId) {
+            feedbackPins = feedbackPins.filter(pin => pin.id !== pinId);
+            localStorage.setItem('tech_lab_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+        }
+
+        function renderSavedPinsList() {
+            const section = document.getElementById('saved-pins-section');
+            const list = document.getElementById('saved-pins-list');
+            
+            if (feedbackPins.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+            
+            section.classList.remove('hidden');
+            let html = '';
+            
+            feedbackPins.forEach((pin, idx) => {
+                html += `
+                    <div class="bg-white/[0.02] border border-white/[0.04] p-3 rounded-lg flex items-start justify-between gap-3 text-[10px]">
+                        <div class="min-w-0">
+                            <span class="font-heading font-bold text-[#00e5ff] tracking-wide block mb-1">Anotação #${idx + 1} (${pin.date})</span>
+                            <p class="text-white/70 italic leading-relaxed truncate max-w-[200px]">"${pin.comment}"</p>
+                        </div>
+                        <button onclick="deletePin('${pin.id}')" class="text-red-400 hover:text-red-500">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            list.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        // Homologation
+        function approveLayoutProject() {
+            toggleFeedbackPanel(false);
+            document.getElementById('approval-celebration-modal').classList.remove('hidden');
+        }
+
+        function closeApprovalCelebration() {
+            document.getElementById('approval-celebration-modal').classList.add('hidden');
+        }
+
+        function toggleLikeProject() {
+            let likes = parseInt(localStorage.getItem('tech_lab_likes') || '56');
+            let liked = localStorage.getItem('tech_lab_liked') === 'true';
+            const icon = document.getElementById('like-icon');
+            
+            if (liked) {
+                likes -= 1;
+                liked = false;
+                icon.classList.remove('text-red-500', 'fill-red-500');
+                icon.classList.add('text-gray-400');
+            } else {
+                likes += 1;
+                liked = true;
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+                
+                // GSAP micro-animation
+                gsap.fromTo(icon, { scale: 0.7 }, { scale: 1.2, duration: 0.15, yoyo: true, repeat: 1 });
+            }
+            
+            localStorage.setItem('tech_lab_likes', likes);
+            localStorage.setItem('tech_lab_liked', liked ? 'true' : 'false');
+            document.getElementById('like-count').innerText = likes;
+        }
+
+        function submitQuickFeedback(commentText) {
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: 50, // Center coordinate for general layout reviews
+                y: 20, 
+                percentX: 50,
+                percentY: 20,
+                comment: `[Avaliação Geral] ${commentText}`,
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('tech_lab_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+            
+            // GSAP slide notification or toast
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-24 left-6 z-[100] bg-[#0c0c10] text-[#00e5ff] border border-[#00e5ff]/50 px-6 py-3 rounded-full text-xs font-bold tracking-widest font-mono shadow-2xl';
+            toast.innerText = 'AVALIAÇÃO REGISTRADA!';
+            document.body.appendChild(toast);
+            
+            gsap.fromTo(toast, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power2.out" });
+            
+            setTimeout(() => {
+                gsap.to(toast, { y: -30, opacity: 0, duration: 0.35, ease: "power2.in", onComplete: () => toast.remove() });
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // Agência de Marketing Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Space Grotesk for bold modern look, Inter for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexus: {
+                            bg: '#0F0F11',
+                            primary: '#FF4500', // Vibrant Orange
+                            secondary: '#7B2CBF', // Deep Purple
+                            text: '#FAFAFA',
+                            card: '#1A1A1E'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Space Grotesk"', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0F0F11; }
+        .gradient-text {
+            background: linear-gradient(90deg, #FF4500, #7B2CBF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gradient-nexus {
+            background: linear-gradient(135deg, rgba(255, 69, 0, 0.1) 0%, rgba(123, 44, 191, 0.1) 100%);
+        }
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255, 69, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="text-nexus-text font-body antialiased selection:bg-nexus-primary selection:text-white overflow-x-hidden">
+
+    <!-- Blobs Background -->
+    <div class="blob bg-nexus-primary w-96 h-96 rounded-full top-[-10%] left-[-10%]"></div>
+    <div class="blob bg-nexus-secondary w-[500px] h-[500px] rounded-full bottom-[20%] right-[-10%] animation-delay-2000"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 bg-nexus-bg/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="font-heading font-black text-2xl tracking-tighter">NEXUS<span class="text-nexus-primary">.</span></a>
+            
+            <div class="hidden md:flex gap-8 font-heading font-bold text-sm tracking-wide">
+                <a href="#cases" class="hover:text-nexus-primary transition-colors">Cases</a>
+                <a href="#services" class="hover:text-nexus-primary transition-colors">Expertise</a>
+                <a href="#results" class="hover:text-nexus-primary transition-colors">Métricas</a>
+            </div>
+            
+            <button class="bg-nexus-text text-nexus-bg font-heading font-bold px-6 py-2.5 rounded-full hover:bg-nexus-primary hover:text-white transition-all transform hover:scale-105">
+                Decolar Projeto
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center pt-20 relative">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-up">
+                <div class="inline-block border border-nexus-primary/30 bg-nexus-primary/10 text-nexus-primary font-heading font-bold text-xs uppercase tracking-widest px-4 py-2 rounded-full mb-6">
+                    Aceleração Digital B2B & B2C
+                </div>
+                <h1 class="font-heading font-black text-6xl md:text-8xl leading-[0.9] tracking-tighter mb-6">
+                    We Build <br>
+                    <span class="gradient-text">Brands</span> That <br>
+                    Convert.
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl max-w-lg mb-10 font-light leading-relaxed">
+                    Não vendemos apenas tráfego. Desenhamos funis de ponta a ponta, criativos que convertem e estratégias baseadas em dados para escalar sua receita.
+                </p>
+                <div class="flex gap-4">
+                    <button class="bg-nexus-primary text-white font-heading font-bold px-8 py-4 rounded-full text-lg hover:shadow-[0_0_20px_rgba(255,69,0,0.4)] transition-shadow">
+                        Falar com Consultor
+                    </button>
+                </div>
+                <div class="mt-12 flex gap-8 items-center border-t border-white/10 pt-8">
+                    <div>
+                        <div class="font-heading font-black text-3xl">+150M</div>
+                        <div class="text-xs text-gray-500 uppercase font-bold">Faturamento Gerado</div>
+                    </div>
+                    <div>
+                        <div class="font-heading font-black text-3xl">ROI 4x</div>
+                        <div class="text-xs text-gray-500 uppercase font-bold">Média de Retorno</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative" data-aos="fade-left" data-aos-delay="200">
+                <div class="aspect-square rounded-3xl overflow-hidden relative border border-white/10 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover">
+                    <!-- Overlay Stats -->
+                    <div class="absolute bottom-6 left-6 right-6 bg-nexus-bg/90 backdrop-blur-md p-6 rounded-2xl border border-white/10 flex justify-between items-center">
+                        <div>
+                            <div class="text-xs text-gray-400 uppercase font-bold mb-1">CPA Campaign Alpha</div>
+                            <div class="font-heading font-bold text-2xl text-green-400">-42% Custo</div>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-green-400/20 flex items-center justify-center text-green-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-32 bg-nexus-card border-y border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h2 class="font-heading font-black text-4xl md:text-5xl tracking-tighter mb-4">Mecânica de Crescimento</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Nossa metodologia Growth 360 ataca todas as etapas do funil de vendas do seu cliente.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Serv 1 -->
+                <div class="bg-nexus-bg p-10 rounded-3xl border border-white/5 card-hover transition-all duration-500" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-16 h-16 rounded-2xl bg-nexus-primary/20 flex items-center justify-center text-nexus-primary mb-8">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-2xl mb-4">Tráfego Pago</h3>
+                    <p class="text-gray-400 leading-relaxed text-sm">Gestão avançada de Meta Ads, Google Ads e TikTok. Compramos dados e otimizamos CPA para escalar sem perder a margem.</p>
+                </div>
+                
+                <!-- Serv 2 -->
+                <div class="bg-nexus-bg p-10 rounded-3xl border border-white/5 card-hover transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 rounded-2xl bg-nexus-secondary/20 flex items-center justify-center text-nexus-secondary mb-8">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-2xl mb-4">Criativos que Convertem</h3>
+                    <p class="text-gray-400 leading-relaxed text-sm">Motion design, copy persuasiva e UGC. Produzimos anúncios que quebram a rolagem e geram desejo imediato.</p>
+                </div>
+
+                <!-- Serv 3 -->
+                <div class="bg-nexus-bg p-10 rounded-3xl border border-white/5 card-hover transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 rounded-2xl bg-[#00F0FF]/20 flex items-center justify-center text-[#00F0FF] mb-8">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-2xl mb-4">BI & Analytics</h3>
+                    <p class="text-gray-400 leading-relaxed text-sm">Dashboards em tempo real. Entenda de onde vem cada centavo do seu lucro com rastreamento Server-Side impecável.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / CTA -->
+    <section class="py-32 relative">
+        <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+            <h2 class="font-heading font-black text-5xl md:text-7xl tracking-tighter mb-8">
+                Sua marca está pronta para a <span class="gradient-text">escalada brutal?</span>
+            </h2>
+            <p class="text-xl text-gray-400 mb-12">Deixe nossa inteligência trabalhar pelo seu faturamento. Agende uma call estratégica de 30 min com nossos heads.</p>
+            <button class="bg-nexus-text text-nexus-bg font-heading font-bold px-10 py-5 rounded-full text-xl hover:bg-nexus-primary hover:text-white transition-all transform hover:scale-105 shadow-2xl">
+                Agendar Diagnóstico Gratuito
+            </button>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/5 py-12 text-center text-gray-500 text-sm font-bold uppercase tracking-widest">
+        NEXUS MARKETING &copy; 2026. Design by Retro Pixel.
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+</body>
+</html>

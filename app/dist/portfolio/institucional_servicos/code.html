@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Luma // Arquitetura & Interiores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Playfair Display for classic architecture elegance, Lato for legibility -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        arch: {
+                            navy: '#1A293E',
+                            beige: '#F5F2EB',
+                            gold: '#C5A880',
+                            white: '#FFFFFF',
+                            text: '#333333'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Playfair Display"', 'serif'],
+                        body: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .reveal-border {
+            position: relative;
+        }
+        .reveal-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background-color: #C5A880;
+            transition: width 0.5s ease;
+        }
+        .reveal-border:hover::after { width: 100%; }
+    </style>
+</head>
+<body class="bg-arch-beige text-arch-text font-body antialiased selection:bg-arch-navy selection:text-white">
+
+    <!-- Top Bar -->
+    <div class="bg-arch-navy text-arch-beige text-[10px] md:text-xs tracking-widest uppercase py-3 px-6 flex justify-between items-center">
+        <span>São Paulo, SP</span>
+        <span>(11) 9999-9999 | contato@studioluma.arq.br</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-arch-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="font-heading font-semibold text-2xl tracking-widest text-arch-navy uppercase">Studio Luma</a>
+            
+            <div class="hidden md:flex gap-10 font-bold text-xs tracking-[0.15em] uppercase text-arch-navy/70">
+                <a href="#sobre" class="reveal-border hover:text-arch-navy">O Estúdio</a>
+                <a href="#projetos" class="reveal-border hover:text-arch-navy">Projetos</a>
+                <a href="#servicos" class="reveal-border hover:text-arch-navy">Especialidades</a>
+            </div>
+            
+            <button class="border border-arch-navy text-arch-navy font-bold text-xs uppercase tracking-widest px-6 py-2.5 hover:bg-arch-navy hover:text-arch-beige transition-colors">
+                Agendar Reunião
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="h-[calc(100vh-120px)] relative flex items-center justify-center text-center">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop" class="w-full h-full object-cover animate-[scale-in_20s_ease-out_forwards]">
+            <div class="absolute inset-0 bg-arch-navy/40"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-6" data-aos="fade-up" data-aos-duration="1500">
+            <h1 class="font-heading text-5xl md:text-7xl text-white mb-6 leading-tight">
+                Arquitetura que reflete a sua essência.
+            </h1>
+            <p class="text-arch-beige text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
+                Projetos residenciais e corporativos de alto padrão. Unimos funcionalidade extrema a uma estética atemporal.
+            </p>
+            <a href="#projetos" class="inline-block bg-arch-gold text-white font-bold text-sm uppercase tracking-widest px-10 py-4 hover:bg-arch-navy transition-colors">
+                Ver Portfólio
+            </a>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="py-24 bg-arch-white">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+                <h3 class="text-arch-gold text-sm font-bold tracking-[0.2em] uppercase mb-4">A Filosofia</h3>
+                <h2 class="font-heading text-4xl md:text-5xl text-arch-navy mb-8 leading-tight">Espaços com Propósito e Alma.</h2>
+                <p class="text-arch-text/70 leading-relaxed font-light mb-6">
+                    Acreditamos que a boa arquitetura tem o poder de transformar a qualidade de vida. Cada projeto do Studio Luma é concebido de forma única, respeitando a história do cliente, a luz natural do ambiente e a honestidade dos materiais.
+                </p>
+                <p class="text-arch-text/70 leading-relaxed font-light mb-10">
+                    Com mais de uma década de experiência, nosso escritório gerencia todas as etapas: desde o estudo de viabilidade até a entrega das chaves com a decoração impecável.
+                </p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Signature.svg" class="h-12 opacity-40 grayscale" alt="Assinatura">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop" class="w-full aspect-[4/5] object-cover">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="w-full aspect-[4/5] object-cover mt-12">
+            </div>
+        </div>
+    </section>
+
+    <!-- Projetos -->
+    <section id="projetos" class="py-24 bg-arch-beige">
+        <div class="max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row justify-between items-end" data-aos="fade-up">
+            <div>
+                <h3 class="text-arch-gold text-sm font-bold tracking-[0.2em] uppercase mb-2">Trabalhos Recentes</h3>
+                <h2 class="font-heading text-4xl text-arch-navy">Portfólio Selecionado</h2>
+            </div>
+            <a href="#" class="border-b border-arch-navy pb-1 text-sm font-bold uppercase tracking-widest text-arch-navy hover:text-arch-gold hover:border-arch-gold transition-colors mt-4 md:mt-0">
+                Ver todos os projetos
+            </a>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Proj 1 -->
+            <div class="group cursor-pointer" data-aos="fade-up" data-aos-delay="0">
+                <div class="overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <h4 class="font-heading text-2xl text-arch-navy mb-2">Residência Alpha</h4>
+                <p class="text-sm tracking-widest uppercase text-arch-text/50">Arquitetura & Interiores</p>
+            </div>
+            
+            <!-- Proj 2 -->
+            <div class="group cursor-pointer md:mt-16" data-aos="fade-up" data-aos-delay="100">
+                <div class="overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <h4 class="font-heading text-2xl text-arch-navy mb-2">Sede Corporativa V|X</h4>
+                <p class="text-sm tracking-widest uppercase text-arch-text/50">Projeto Comercial</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Serviços CTA -->
+    <section class="py-32 bg-arch-navy text-center px-6">
+        <div class="max-w-3xl mx-auto" data-aos="zoom-in">
+            <svg class="w-12 h-12 text-arch-gold mx-auto mb-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            <h2 class="font-heading text-4xl md:text-5xl text-white mb-8 leading-tight">Pronto para dar o primeiro passo em direção ao espaço dos seus sonhos?</h2>
+            <p class="text-arch-beige/70 font-light text-lg mb-12">Nossa equipe está preparada para entender suas necessidades e apresentar um estudo preliminar exclusivo.</p>
+            <button class="bg-arch-gold text-white font-bold text-sm uppercase tracking-widest px-10 py-5 hover:bg-white hover:text-arch-navy transition-colors">
+                Iniciar um Projeto
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-arch-white pt-20 pb-10 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+            <div>
+                <a href="#" class="font-heading font-semibold text-2xl tracking-widest text-arch-navy uppercase block mb-6">Studio Luma</a>
+                <p class="text-arch-text/60 font-light max-w-xs">Arquitetura de alto padrão, transformando visões em realidade estrutural desde 2010.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-xs tracking-widest uppercase text-arch-navy mb-6">Contato</h4>
+                <ul class="space-y-4 text-arch-text/60 font-light">
+                    <li>Av. Faria Lima, 1000 - Itaim Bibi, SP</li>
+                    <li>(11) 9999-9999</li>
+                    <li>contato@studioluma.arq.br</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xs tracking-widest uppercase text-arch-navy mb-6">Siga-nos</h4>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center text-arch-navy hover:border-arch-navy transition-colors">IN</a>
+                    <a href="#" class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center text-arch-navy hover:border-arch-navy transition-colors">IG</a>
+                    <a href="#" class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center text-arch-navy hover:border-arch-navy transition-colors">PT</a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 text-center text-xs text-arch-text/40 tracking-widest uppercase">
+            &copy; 2026 Studio Luma Arquitetura. Design by Retro Pixel.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+</body>
+</html>

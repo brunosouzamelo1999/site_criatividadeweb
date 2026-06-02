@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Boost // Alta Conversão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Outfit for modern tech feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lp: {
+                            bg: '#F8FAFC',
+                            text: '#0F172A',
+                            primary: '#6366F1', // Indigo
+                            accent: '#FBBF24', // Yellow
+                            dark: '#1E1B4B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #0F172A; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cta-shadow {
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4), 0 8px 10px -6px rgba(99, 102, 241, 0.1);
+        }
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-lp-primary selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="w-full absolute top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-24 flex items-center justify-between">
+            <div class="font-black text-2xl tracking-tight text-lp-dark flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white">⚡</div>
+                Boost
+            </div>
+            <div class="hidden md:flex gap-8 font-semibold text-sm text-lp-dark/70">
+                <a href="#features" class="hover:text-lp-primary transition-colors">Recursos</a>
+                <a href="#depoimentos" class="hover:text-lp-primary transition-colors">Depoimentos</a>
+                <a href="#preco" class="hover:text-lp-primary transition-colors">Preços</a>
+            </div>
+            <button class="bg-lp-text text-white font-bold px-6 py-2.5 rounded-full text-sm hover:bg-lp-primary transition-colors shadow-lg">
+                Começar Grátis
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden relative">
+        <div class="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[800px] h-[800px] bg-lp-primary/10 rounded-full blur-[100px] -z-10"></div>
+        
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <div class="inline-flex items-center gap-2 bg-lp-primary/10 text-lp-primary font-bold px-4 py-1.5 rounded-full text-sm mb-6">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-lp-primary opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-lp-primary"></span>
+                    </span>
+                    Nova Versão 3.0 Lançada
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black leading-[1.1] tracking-tight mb-6 text-lp-dark">
+                    Acelere suas <br>
+                    vendas em <span class="text-gradient">piloto automático.</span>
+                </h1>
+                <p class="text-lg text-gray-500 mb-10 max-w-md leading-relaxed">
+                    A única plataforma de automação de marketing que você precisa para capturar leads, enviar campanhas e fechar negócios enquanto dorme.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <button class="gradient-bg text-white font-bold px-8 py-4 rounded-xl text-lg hover:scale-105 transition-transform cta-shadow">
+                        Testar por 14 dias grátis
+                    </button>
+                    <button class="bg-white text-lp-dark font-bold px-8 py-4 rounded-xl text-lg border border-gray-200 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                        Ver Demonstração
+                    </button>
+                </div>
+                <p class="text-sm text-gray-400 font-medium flex items-center gap-2">
+                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Não precisa de cartão de crédito
+                </p>
+            </div>
+            
+            <div class="relative" data-aos="fade-left" data-aos-delay="200">
+                <div class="bg-white p-2 rounded-2xl shadow-2xl border border-gray-100 transform rotate-2 floating">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="rounded-xl w-full h-auto">
+                </div>
+                <!-- UI Elements Floating -->
+                <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-gray-100 flex items-center gap-4 animate-bounce" style="animation-duration: 4s;">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-500 font-black text-xl">↑</div>
+                    <div>
+                        <div class="text-sm text-gray-500 font-semibold">Conversão</div>
+                        <div class="font-black text-xl text-lp-dark">+48.5%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-10 border-y border-gray-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">Confiado por mais de 5.000 empresas</p>
+            <div class="flex flex-wrap justify-center gap-12 opacity-50 grayscale">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" class="h-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="h-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" class="h-8">
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-24">
+        <div class="max-w-5xl mx-auto px-6" data-aos="zoom-in">
+            <div class="gradient-bg rounded-3xl p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl">
+                <!-- Decorative Circles -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-lp-accent/20 rounded-full blur-3xl"></div>
+                
+                <h2 class="text-4xl md:text-5xl font-black mb-6 relative z-10">Pronto para dominar seu mercado?</h2>
+                <p class="text-xl text-white/80 mb-10 max-w-2xl mx-auto relative z-10">Junte-se a milhares de empreendedores que estão quebrando recordes de vendas todos os meses.</p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
+                    <button class="bg-lp-accent text-lp-dark font-black px-10 py-5 rounded-xl text-xl hover:scale-105 transition-transform shadow-[0_0_20px_rgba(251,191,36,0.5)]">
+                        Criar Conta Gratuita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-gray-400 text-sm font-medium">
+        <p>&copy; 2026 SaaS Boost Inc. Design by Retro Pixel.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+</body>
+</html>
