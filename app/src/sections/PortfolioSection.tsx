@@ -238,7 +238,7 @@ export function PortfolioSection() {
         background: 'radial-gradient(ellipse at 50% 100%, #D2E4F0 0%, #F7F7FF 80%)',
       }}
     >
-      <PixelGroundWave hideCeiling />
+      <PixelGroundWave hideCeiling hideFloor />
       <FloatingPixelElements count={6} />
       {/* Ciano Particles Dust */}
       <FireSparks count={80} className="inset-0 opacity-50" />
@@ -381,3 +381,4 @@ export function PortfolioSection() {
     </section>
   );
 }
+

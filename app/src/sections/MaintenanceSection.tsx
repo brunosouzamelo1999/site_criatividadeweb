@@ -111,7 +111,7 @@ export function MaintenanceSection() {
         background: 'radial-gradient(circle at 50% 0%, #EDF1F5 0%, #F7F7FF 100%)',
       }}
     >
-      <PixelGroundWave hideCeiling />
+      <PixelGroundWave hideCeiling hideFloor />
       <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
       {/* Decorative Blur */}
@@ -208,3 +208,4 @@ export function MaintenanceSection() {
     </section>
   );
 }
+

@@ -2,9 +2,10 @@ import { useEffect, useRef } from 'react';
 
 interface PixelGroundWaveProps {
   hideCeiling?: boolean;
+  hideFloor?: boolean;
 }
 
-export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
+export function PixelGroundWave({ hideCeiling = false, hideFloor = false }: PixelGroundWaveProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const timeRef = useRef(0);
@@ -34,7 +35,7 @@ export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
 
       // 3D Perspective settings
       const cx = width / 2;
-      const cy = height * 0.42; // slightly elevated vanishing point to sit behind headline
+      const cy = height * 0.42; // vanishing point positioned to sit behind headline
       const zMin = 0.12; // Far tunnel opening depth
       const zMax = 1.0;  // Front edge depth
 
@@ -51,9 +52,11 @@ export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
           boundaryPoints.push({ x: (i / cols) * width, y: 0, isFloor: false });
         }
       }
-      // Floor points (y = height)
-      for (let i = 0; i <= cols; i++) {
-        boundaryPoints.push({ x: (i / cols) * width, y: height, isFloor: true });
+      // Floor points (y = height) - only if hideFloor is false
+      if (!hideFloor) {
+        for (let i = 0; i <= cols; i++) {
+          boundaryPoints.push({ x: (i / cols) * width, y: height, isFloor: true });
+        }
       }
       // Left wall points (x = 0)
       for (let j = 1; j < rows; j++) {
@@ -110,8 +113,20 @@ export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
         const y2 = cy + (height - cy) * z;
 
         ctx.beginPath();
-        if (hideCeiling) {
-          // If ceiling is hidden, draw a hollow U-shape (Left wall, wavy floor, Right wall)
+        if (hideCeiling && hideFloor) {
+          // If both ceiling and floor are hidden, only draw left wall and right wall as separate segments
+          // Left Wall
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x1, y2);
+          ctx.stroke();
+
+          // Right Wall
+          ctx.beginPath();
+          ctx.moveTo(x2, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        } else if (hideCeiling) {
+          // If only ceiling is hidden, draw a hollow U-shape (Left wall, wavy floor, Right wall)
           ctx.moveTo(x2, y1);
           ctx.lineTo(x2, y2);
           for (let x = x2; x >= x1; x -= 20) {
@@ -119,6 +134,14 @@ export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
             ctx.lineTo(x, y2 + floorWave);
           }
           ctx.lineTo(x1, y1);
+          ctx.stroke();
+        } else if (hideFloor) {
+          // If only floor is hidden, draw an inverted U-shape
+          ctx.moveTo(x1, y2);
+          ctx.lineTo(x1, y1);
+          ctx.lineTo(x2, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
         } else {
           // Draw full closed box (Ceiling, Right wall, wavy floor, Left wall)
           ctx.moveTo(x1, y1);
@@ -130,8 +153,8 @@ export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
           }
           ctx.lineTo(x1, y2);
           ctx.closePath();
+          ctx.stroke();
         }
-        ctx.stroke();
       }
 
       rafRef.current = requestAnimationFrame(animate);
@@ -153,7 +176,7 @@ export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', debouncedResize);
     };
-  }, [hideCeiling]);
+  }, [hideCeiling, hideFloor]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>

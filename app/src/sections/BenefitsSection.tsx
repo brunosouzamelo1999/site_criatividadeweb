@@ -103,7 +103,7 @@ export function BenefitsSection() {
       id="beneficios"
       className="relative bg-bg-primary py-20 md:py-32 overflow-hidden"
     >
-      <PixelGroundWave hideCeiling />
+      <PixelGroundWave hideCeiling hideFloor />
       <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={8} />
 
@@ -142,3 +142,4 @@ export function BenefitsSection() {
     </section>
   );
 }
+

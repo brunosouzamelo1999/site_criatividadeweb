@@ -145,7 +145,7 @@ export function PlansSection() {
         background: 'radial-gradient(ellipse at 50% 50%, #D2E4F0 0%, #F7F7FF 100%)',
       }}
     >
-      <PixelGroundWave hideCeiling />
+      <PixelGroundWave hideCeiling hideFloor />
       <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={8} />
 
@@ -249,3 +249,4 @@ export function PlansSection() {
     </section>
   );
 }
+
