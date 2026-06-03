@@ -105,20 +105,20 @@ export function MaintenanceSection() {
       id="manutencao"
       className="py-20 md:py-32 relative overflow-hidden"
       style={{
-        background: 'radial-gradient(circle at 50% 0%, #0145F2 0%, #F7F7FF 100%)',
+        background: 'radial-gradient(circle at 50% 0%, #EDF1F5 0%, #F7F7FF 100%)',
       }}
     >
       {/* Decorative Blur */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-yellow/20 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0145F2]/10 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div ref={headlineRef} className="text-center opacity-0 mb-16">
           <SectionLabel text="GESTÃO E MANUTENÇÃO" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary leading-tight">
-            Seu site em <span className="text-accent-yellow">Boas Mãos</span>
+            Seu site em <span className="text-[#0145F2]">Boas Mãos</span>
           </h2>
-          <p className="font-body text-base md:text-lg text-text-secondary mt-4 max-w-2xl mx-auto">
-            Não se preocupe com quedas, hackers ou lentidão. Eu cuido da parte técnica para você focar no que importa: <span className="text-white font-bold">o seu negócio.</span>
+          <p className="font-body text-base md:text-lg text-text-primary/75 mt-4 max-w-2xl mx-auto">
+            Não se preocupe com quedas, hackers ou lentidão. Eu cuido da parte técnica para você focar no que importa: <span className="text-[#0145F2] font-bold">o seu negócio.</span>
           </p>
         </div>
 
@@ -129,22 +129,22 @@ export function MaintenanceSection() {
           {maintenancePlans.map((plan, i) => (
             <div
               key={i}
-              className={`relative bg-[#12121A] border rounded-xl p-8 transition-all duration-300 hover:-translate-y-2 opacity-0 group flex flex-col h-full
-                ${plan.name === 'SUPORTE BASE' ? 'border-orange-500/30 shadow-[0_0_25px_rgba(249,115,22,0.15)] hover:shadow-[0_0_40px_rgba(249,115,22,0.25)]' : 
-                  plan.name === 'GESTÃO ATIVA' ? 'border-accent-yellow/40 shadow-[0_0_35px_rgba(255,214,10,0.2)] hover:shadow-[0_0_50px_rgba(255,214,10,0.3)]' : 
-                  'border-red-500/30 shadow-[0_0_30px_rgba(239,68,68,0.2)] hover:shadow-[0_0_45px_rgba(239,68,68,0.35)]'}`}
+              className={`relative bg-white/75 backdrop-blur-md border rounded-xl p-8 transition-all duration-300 hover:-translate-y-2 opacity-0 group flex flex-col h-full
+                ${plan.name === 'SUPORTE BASE' ? 'border-orange-500/20 shadow-[0_0_25px_rgba(249,115,22,0.05)] hover:shadow-[0_0_40px_rgba(249,115,22,0.12)] hover:border-orange-500/40' : 
+                  plan.name === 'GESTÃO ATIVA' ? 'border-[#0145F2]/25 shadow-[0_0_35px_rgba(1,69,242,0.08)] hover:shadow-[0_0_50px_rgba(1,69,242,0.18)] hover:border-[#0145F2]/50' : 
+                  'border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.05)] hover:shadow-[0_0_45px_rgba(239,68,68,0.12)] hover:border-red-500/40'}`}
             >
               {/* Corner pixels */}
-              <span className={`absolute -top-1 -left-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-accent-yellow' : 'bg-red-500'} animate-pixel-pulse`} />
-              <span className={`absolute -top-1 -right-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-accent-yellow' : 'bg-red-500'} animate-pixel-pulse`} style={{ animationDelay: '0.5s' }} />
-              <span className={`absolute -bottom-1 -left-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-accent-yellow' : 'bg-red-500'} animate-pixel-pulse`} style={{ animationDelay: '1s' }} />
-              <span className={`absolute -bottom-1 -right-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-accent-yellow' : 'bg-red-500'} animate-pixel-pulse`} style={{ animationDelay: '1.5s' }} />
+              <span className={`absolute -top-1 -left-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-[#0145F2]' : 'bg-red-500'} animate-pixel-pulse`} />
+              <span className={`absolute -top-1 -right-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-[#0145F2]' : 'bg-red-500'} animate-pixel-pulse`} style={{ animationDelay: '0.5s' }} />
+              <span className={`absolute -bottom-1 -left-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-[#0145F2]' : 'bg-red-500'} animate-pixel-pulse`} style={{ animationDelay: '1s' }} />
+              <span className={`absolute -bottom-1 -right-1 w-2 h-2 ${plan.name === 'SUPORTE BASE' ? 'bg-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'bg-[#0145F2]' : 'bg-red-500'} animate-pixel-pulse`} style={{ animationDelay: '1.5s' }} />
 
               {/* Icon & Name */}
               <div className="flex items-center gap-4 mb-6">
-                <div className={`p-3 rounded-lg bg-white/[0.03] border border-[#27187E]/15`}>
+                <div className={`p-3 rounded-lg bg-black/[0.02] border border-[#27187E]/10`}>
                   {plan.name === 'SUPORTE BASE' ? <ShieldCheck size={24} className="text-orange-500" /> : 
-                   plan.name === 'GESTÃO ATIVA' ? <Zap size={24} className="text-accent-yellow" /> : 
+                   plan.name === 'GESTÃO ATIVA' ? <Zap size={24} className="text-[#0145F2]" /> : 
                    <BarChart3 size={24} className="text-red-500" />}
                 </div>
                 <h3 className="font-display text-sm tracking-widest text-text-primary">
@@ -154,13 +154,13 @@ export function MaintenanceSection() {
 
               {/* Price */}
               <div className="mb-6">
-                <span className={`font-heading text-4xl font-bold ${plan.name === 'SUPORTE BASE' ? 'text-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'text-accent-yellow' : 'text-red-500'}`}>
+                <span className={`font-heading text-4xl font-bold ${plan.name === 'SUPORTE BASE' ? 'text-orange-500' : plan.name === 'GESTÃO ATIVA' ? 'text-[#0145F2]' : 'text-red-500'}`}>
                   {plan.price}
                 </span>
-                <span className="text-text-muted text-sm ml-2">/mês</span>
+                <span className="text-text-primary/50 text-sm ml-2">/mês</span>
               </div>
 
-              <p className="font-body text-sm text-text-secondary mb-8 leading-relaxed min-h-[60px]">
+              <p className="font-body text-sm text-text-primary/75 mb-8 leading-relaxed min-h-[60px]">
                 {plan.description}
               </p>
 
@@ -168,8 +168,8 @@ export function MaintenanceSection() {
               <ul className="space-y-4 mb-10">
                 {plan.features.map((feature, fi) => (
                   <li key={fi} className="flex items-center gap-3">
-                    <Clock size={14} className="text-text-muted" />
-                    <span className="font-body text-[13px] text-text-muted">{feature}</span>
+                    <Clock size={14} className="text-[#0145F2]/60" />
+                    <span className="font-body text-[13px] text-text-primary/80">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -180,9 +180,9 @@ export function MaintenanceSection() {
                 variant="secondary"
                 fullWidth
                 className={`
-                  ${plan.name === 'SUPORTE BASE' ? 'hover:border-orange-500 hover:text-orange-500 border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.1)]' : 
-                    plan.name === 'GESTÃO ATIVA' ? 'bg-accent-yellow text-bg-primary hover:bg-accent-yellow/80 border-none shadow-[0_0_20px_rgba(255,214,10,0.3)]' : 
-                    'hover:border-red-500 hover:text-red-500 border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]'}
+                  ${plan.name === 'SUPORTE BASE' ? 'hover:border-orange-500 hover:text-orange-500 border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.05)]' : 
+                    plan.name === 'GESTÃO ATIVA' ? 'bg-[#0145F2] text-white hover:bg-[#0145F2]/80 border-none shadow-[0_0_20px_rgba(1,69,242,0.15)]' : 
+                    'hover:border-red-500 hover:text-red-500 border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.05)]'}
                 `}
               >
                 Assinar Plano
