@@ -241,7 +241,7 @@ export function PortfolioSection() {
       <PixelGroundWave hideCeiling hideFloor />
       <FloatingPixelElements count={6} />
       {/* Ciano Particles Dust */}
-      <FireSparks count={80} className="inset-0 opacity-50" />
+      <FireSparks count={80} className="inset-0 opacity-80" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
@@ -386,4 +386,5 @@ export function PortfolioSection() {
     </section>
   );
 }
+
 

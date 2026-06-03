@@ -113,7 +113,7 @@ export function CTAFinalSection() {
       }}
     >
       <PixelGroundWave hideCeiling hideFloor />
-      <FireSparks count={80} className="inset-0 opacity-40" />
+      <FireSparks count={80} className="inset-0 opacity-85" />
       <FloatingPixelElements count={10} />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 text-center">
@@ -165,4 +165,5 @@ export function CTAFinalSection() {
     </section>
   );
 }
+
 

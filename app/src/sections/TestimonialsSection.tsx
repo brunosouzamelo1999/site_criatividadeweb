@@ -87,7 +87,7 @@ export function TestimonialsSection() {
       }}
     >
       <PixelGroundWave hideCeiling hideFloor />
-      <FireSparks count={60} className="inset-0 opacity-30" />
+      <FireSparks count={60} className="inset-0 opacity-60" />
       <FloatingPixelElements count={6} />
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div ref={headlineRef} className="text-center opacity-0">
@@ -142,4 +142,5 @@ export function TestimonialsSection() {
     </section>
   );
 }
+
 

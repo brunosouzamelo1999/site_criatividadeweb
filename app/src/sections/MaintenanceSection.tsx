@@ -112,7 +112,7 @@ export function MaintenanceSection() {
       }}
     >
       <PixelGroundWave hideCeiling hideFloor />
-      <FireSparks count={60} className="inset-0 opacity-30" />
+      <FireSparks count={60} className="inset-0 opacity-60" />
       <FloatingPixelElements count={6} />
       {/* Decorative Blur */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0145F2]/10 to-transparent" />
@@ -208,4 +208,5 @@ export function MaintenanceSection() {
     </section>
   );
 }
+
 

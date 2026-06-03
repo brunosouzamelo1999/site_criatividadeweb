@@ -146,7 +146,7 @@ export function PlansSection() {
       }}
     >
       <PixelGroundWave hideCeiling hideFloor />
-      <FireSparks count={60} className="inset-0 opacity-30" />
+      <FireSparks count={60} className="inset-0 opacity-60" />
       <FloatingPixelElements count={8} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
@@ -249,4 +249,5 @@ export function PlansSection() {
     </section>
   );
 }
+
 

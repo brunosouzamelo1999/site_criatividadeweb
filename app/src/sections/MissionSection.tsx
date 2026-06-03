@@ -88,7 +88,7 @@ export function MissionSection() {
       }}
     >
       <PixelGroundWave hideCeiling hideFloor />
-      <FireSparks count={60} className="inset-0 opacity-30" />
+      <FireSparks count={60} className="inset-0 opacity-60" />
       <FloatingPixelElements count={6} />
       {/* Decorative Blur Backgrounds */}
       <div className="absolute top-1/4 left-1/10 w-72 h-72 rounded-full bg-[#27187E]/5 blur-[120px] pointer-events-none" />
@@ -206,4 +206,5 @@ export function MissionSection() {
     </section>
   );
 }
+
 

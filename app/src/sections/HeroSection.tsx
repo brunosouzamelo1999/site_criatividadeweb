@@ -93,7 +93,7 @@ export function HeroSection() {
         background: 'radial-gradient(ellipse at 50% 30%, #D2E4F0 0%, #F7F7FF 70%, #EDF1F5 100%)',
       }}
     >
-      <FireSparks count={150} className="inset-0 opacity-70" />
+      <FireSparks count={150} className="inset-0 opacity-85" />
       <PixelGroundWave />
       <FloatingPixelElements count={8} />
 
@@ -168,3 +168,4 @@ export function HeroSection() {
     </section>
   );
 }
+
