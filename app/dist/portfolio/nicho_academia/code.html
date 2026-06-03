@@ -9,7 +9,11 @@
     <!-- AOS Animation CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -18,8 +22,10 @@
                     colors: {
                         gym: {
                             orange: '#FF5722',
-                            dark: '#0A0A0A',
-                            gray: '#171717',
+                            neonGreen: '#10B981',
+                            dark: '#08080C',
+                            gray: '#12121A',
+                            panel: '#1A1A26',
                             light: '#FAFAFA'
                         }
                     },
@@ -32,65 +38,95 @@
         }
     </script>
     <style>
-        .text-glow { text-shadow: 0 0 15px rgba(255, 87, 34, 0.5); }
-        .box-glow { box-shadow: 0 0 20px rgba(255, 87, 34, 0.2); }
+        .text-glow-orange { text-shadow: 0 0 15px rgba(255, 87, 34, 0.6); }
+        .text-glow-green { text-shadow: 0 0 15px rgba(16, 185, 129, 0.6); }
+        .box-glow-orange { box-shadow: 0 0 25px rgba(255, 87, 34, 0.15); }
+        .box-glow-green { box-shadow: 0 0 25px rgba(16, 185, 129, 0.15); }
+        
+        /* Glassmorphism custom classes */
+        .glass-panel {
+            background: rgba(26, 26, 38, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
         .bg-pattern {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #08080C;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF5722;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e64a19;
         }
     </style>
 </head>
-<body class="bg-gym-dark text-gym-light font-body antialiased selection:bg-gym-orange selection:text-white">
+<body class="bg-gym-dark text-gym-light font-body antialiased selection:bg-gym-orange selection:text-white overflow-x-hidden">
 
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
-        <div class="absolute inset-0 bg-gym-dark/90 backdrop-blur-md border-b border-white/5"></div>
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 border-b border-white/5" id="navbar">
+        <div class="absolute inset-0 bg-gym-dark/90 backdrop-blur-md"></div>
         <div class="relative max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <svg class="w-8 h-8 text-gym-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m6.5 6.5 11 11"/>
-                    <path d="m21 21-1-1"/>
-                    <path d="m3 3 1 1"/>
-                    <path d="m18 22 4-4"/>
-                    <path d="m2 6 4-4"/>
-                    <path d="m3 10 7-7"/>
-                    <path d="m14 21 7-7"/>
-                </svg>
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-gym-orange/10 border border-gym-orange/20 rounded-lg flex items-center justify-center text-gym-orange group-hover:scale-105 transition-transform duration-300">
+                    <i data-lucide="dumbbell" class="w-6 h-6"></i>
+                </div>
                 <span class="font-heading text-3xl font-bold uppercase tracking-wider">Iron<span class="text-gym-orange">Forge</span></span>
-            </div>
-            <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide uppercase">
-                <a href="#modalidades" class="hover:text-gym-orange transition-colors">Modalidades</a>
+            </a>
+            
+            <div class="hidden lg:flex items-center space-x-8 text-xs font-bold tracking-widest uppercase text-gray-400">
                 <a href="#sobre" class="hover:text-gym-orange transition-colors">Estrutura</a>
+                <a href="#modalidades" class="hover:text-gym-orange transition-colors">Modalidades</a>
+                <a href="#calculadoras" class="hover:text-gym-orange transition-colors">Calculadoras</a>
+                <a href="#agenda" class="hover:text-gym-orange transition-colors">Grade de Aulas</a>
                 <a href="#planos" class="hover:text-gym-orange transition-colors">Planos</a>
             </div>
-            <a href="#matricula" class="bg-gym-orange text-white px-6 py-2.5 font-bold uppercase tracking-wide text-sm rounded-none hover:bg-white hover:text-gym-dark transition-all duration-300 shadow-[4px_4px_0_rgba(255,255,255,0.2)]">
-                Matricule-se
-            </a>
+            
+            <div class="flex items-center gap-4">
+                <!-- User Profile Info Badge -->
+                <div id="user-badge" class="hidden md:flex items-center gap-2.5 bg-gym-gray/80 border border-white/5 px-4 py-2 rounded-full cursor-pointer hover:border-gym-orange/30 transition-colors" onclick="openVipDrawer()">
+                    <span class="w-2.5 h-2.5 rounded-full bg-gym-neonGreen animate-pulse"></span>
+                    <span class="text-xs font-semibold tracking-wider text-gray-300" id="user-badge-name">Membro VIP</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-500"></i>
+                </div>
+
+                <button onclick="openVipDrawer()" class="bg-gym-orange text-white px-6 py-2.5 font-bold uppercase tracking-wide text-xs hover:bg-white hover:text-gym-dark transition-all duration-300 shadow-[3px_3px_0_rgba(255,87,34,0.2)]">
+                    Ficha VIP ⚡
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
-        <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" alt="Gym" class="w-full h-full object-cover opacity-30" />
-            <div class="absolute inset-0 bg-gradient-to-t from-gym-dark via-gym-dark/80 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-r from-gym-dark via-gym-dark/50 to-transparent"></div>
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" alt="Gym" class="w-full h-full object-cover opacity-25" />
+            <div class="absolute inset-0 bg-gradient-to-t from-gym-dark via-gym-dark/85 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-gym-dark via-gym-dark/40 to-transparent"></div>
         </div>
         
         <div class="relative max-w-7xl mx-auto px-6 w-full z-10" data-aos="fade-up" data-aos-duration="1000">
-            <span class="text-gym-orange font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Não é só treinar, é forjar caráter</span>
+            <span class="text-gym-orange font-bold tracking-[0.25em] uppercase text-xs mb-4 block">NÃO É SÓ TREINAR, É FORJAR FORÇA COM VERDADE</span>
             <h1 class="font-heading text-6xl md:text-8xl lg:text-9xl font-bold uppercase leading-none mb-6">
                 Supere <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-600 text-glow">Seus Limites</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-500 text-glow-orange">Seus Limites</span>
             </h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-xl mb-10 font-light">
-                Estrutura de nível olímpico, treinadores de elite e uma comunidade forjada no suor. A transformação que você busca começa aqui.
+            <p class="text-gray-400 text-base md:text-lg max-w-xl mb-10 font-normal leading-relaxed">
+                Estrutura de nível internacional, biomecânica perfeita e profissionais dedicados à sua evolução real. Sem falsas promessas de atalhos rápidos. Apenas disciplina, suor e resultados duradouros.
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
-                <a href="#planos" class="bg-gym-orange text-white px-8 py-4 font-bold uppercase tracking-widest text-center hover:bg-white hover:text-gym-dark transition-all duration-300">
-                    Começar Agora
+                <a href="#planos" class="bg-gym-orange text-white px-8 py-4 font-bold uppercase tracking-widest text-center hover:bg-white hover:text-gym-dark transition-all duration-300 text-sm shadow-[4px_4px_0_rgba(255,87,34,0.3)]">
+                    Ver Planos de Treino
                 </a>
-                <a href="#modalidades" class="border border-white/20 px-8 py-4 font-bold uppercase tracking-widest text-center hover:bg-white/10 transition-colors">
-                    Ver Modalidades
+                <a href="#calculadoras" class="border border-white/20 px-8 py-4 font-bold uppercase tracking-widest text-center hover:bg-white/10 transition-colors text-sm">
+                    Calcular Métricas
                 </a>
             </div>
         </div>
@@ -98,32 +134,32 @@
 
     <!-- Diferenciais -->
     <section id="sobre" class="py-24 bg-gym-gray relative">
-        <div class="absolute inset-0 bg-pattern opacity-50"></div>
+        <div class="absolute inset-0 bg-pattern opacity-40"></div>
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="bg-gym-dark p-8 border-l-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="0">
-                    <svg class="w-12 h-12 text-gym-orange mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <h3 class="font-heading text-3xl mb-3 uppercase">Aberto 24 Horas</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Sua rotina não tem limites, e nós também não. Treine em qualquer horário do dia ou da noite, 365 dias por ano.</p>
+                <div class="glass-panel p-8 border-t-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-12 h-12 rounded-lg bg-gym-orange/10 flex items-center justify-center text-gym-orange mb-6 border border-gym-orange/20">
+                        <i data-lucide="clock" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading text-3xl mb-3 uppercase tracking-wide">Aberto 24 Horas</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Sua rotina não tem barreiras e nós também não. Treine em qualquer horário do dia ou da noite, 365 dias por ano, adaptando o treino ao seu tempo real.</p>
                 </div>
                 <!-- Card 2 -->
-                <div class="bg-gym-dark p-8 border-l-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
-                    <svg class="w-12 h-12 text-gym-orange mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                    <h3 class="font-heading text-3xl mb-3 uppercase">Equipamentos Premium</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Máquinas importadas das melhores marcas mundiais, com biomecânica perfeita para maximizar seus resultados.</p>
+                <div class="glass-panel p-8 border-t-4 border-gym-neonGreen hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 rounded-lg bg-gym-neonGreen/10 flex items-center justify-center text-gym-neonGreen mb-6 border border-gym-neonGreen/20">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading text-3xl mb-3 uppercase tracking-wide">Maquinário Premium</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Equipamentos importados com biomecânica perfeita para o máximo isolamento muscular. Conforto e engenharia esportiva integrados contra lesões.</p>
                 </div>
                 <!-- Card 3 -->
-                <div class="bg-gym-dark p-8 border-l-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
-                    <svg class="w-12 h-12 text-gym-orange mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <h3 class="font-heading text-3xl mb-3 uppercase">Time de Elite</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Profissionais altamente qualificados para montar treinos periodizados focados no seu objetivo real.</p>
+                <div class="glass-panel p-8 border-t-4 border-gym-orange hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 rounded-lg bg-gym-orange/10 flex items-center justify-center text-gym-orange mb-6 border border-gym-orange/20">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading text-3xl mb-3 uppercase tracking-wide">Parceria Real</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Treinadores dedicados para orientar seus exercícios e planejar fichas dinâmicas. Suporte ativo para motivar sua trajetória de forma saudável.</p>
                 </div>
             </div>
         </div>
@@ -133,153 +169,1403 @@
     <section id="modalidades" class="py-24 bg-gym-dark">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16" data-aos="fade-up">
-                <span class="text-gym-orange font-bold tracking-[0.2em] uppercase text-sm mb-2 block">O que oferecemos</span>
-                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Nossas <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-600">Modalidades</span></h2>
+                <span class="text-gym-orange font-bold tracking-[0.25em] uppercase text-xs mb-2 block">DIVERSIDADE DE ESTIMULOS</span>
+                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Nossas <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-500 text-glow-orange">Modalidades</span></h2>
+                <p class="text-gray-500 mt-2 max-w-xl mx-auto text-sm">Estruturas completas para todas as modalidades esportivas com o mesmo rigor de qualidade e dedicação.</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Mod 1 -->
-                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="0">
-                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
-                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
-                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">Musculação</h3>
-                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Equipamentos de alta performance para hipertrofia.</p>
+                <div class="group relative h-80 overflow-hidden bg-gym-gray rounded-xl border border-white/5" data-aos="fade-up" data-aos-delay="0">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-30" alt="Musculação">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
+                        <span class="text-gym-orange font-bold text-xs uppercase tracking-widest mb-1">Força & Volume</span>
+                        <h3 class="font-heading text-4xl uppercase group-hover:text-gym-orange transition-colors">Musculação</h3>
+                        <p class="text-xs text-gray-300 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-3 group-hover:translate-y-0">Biomecânica e halteres de alta qualidade para hipertrofia.</p>
                     </div>
                 </div>
                 <!-- Mod 2 -->
-                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
-                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
-                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">CrossFit</h3>
-                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Treinos intensos de força e condicionamento.</p>
+                <div class="group relative h-80 overflow-hidden bg-gym-gray rounded-xl border border-white/5" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-30" alt="CrossFit">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
+                        <span class="text-gym-neonGreen font-bold text-xs uppercase tracking-widest mb-1">Potência Explosiva</span>
+                        <h3 class="font-heading text-4xl uppercase group-hover:text-gym-neonGreen transition-colors">CrossFit</h3>
+                        <p class="text-xs text-gray-300 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-3 group-hover:translate-y-0">Treinos intensivos de alta performance funcional.</p>
                     </div>
                 </div>
                 <!-- Mod 3 -->
-                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
-                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
-                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">Boxe / Muay Thai</h3>
-                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Técnica, agilidade e alta queima calórica.</p>
+                <div class="group relative h-80 overflow-hidden bg-gym-gray rounded-xl border border-white/5" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-30" alt="Combate">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
+                        <span class="text-gym-orange font-bold text-xs uppercase tracking-widest mb-1">Agilidade & Defesa</span>
+                        <h3 class="font-heading text-4xl uppercase group-hover:text-gym-orange transition-colors">Artes Marciais</h3>
+                        <p class="text-xs text-gray-300 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-3 group-hover:translate-y-0">Muay Thai, Boxe e Jiu-Jitsu com tatames premium.</p>
                     </div>
                 </div>
                 <!-- Mod 4 -->
-                <div class="group relative h-80 overflow-hidden bg-gym-gray" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40">
-                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent">
-                        <h3 class="font-heading text-4xl uppercase mb-2 group-hover:text-gym-orange transition-colors">Pilates & Yoga</h3>
-                        <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Flexibilidade, respiração e conexão mente-corpo.</p>
+                <div class="group relative h-80 overflow-hidden bg-gym-gray rounded-xl border border-white/5" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-30" alt="Flexibilidade">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
+                        <span class="text-gym-neonGreen font-bold text-xs uppercase tracking-widest mb-1">Conexão Corporal</span>
+                        <h3 class="font-heading text-4xl uppercase group-hover:text-gym-neonGreen transition-colors">Yoga & Pilates</h3>
+                        <p class="text-xs text-gray-300 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-3 group-hover:translate-y-0">Melhoria de mobilidade, postura e respiração.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALCULADORAS INTERATIVAS (O NOVO WIDGET SANDBOX!) -->
+    <section id="calculadoras" class="py-24 bg-gym-gray relative border-t border-b border-white/5">
+        <div class="absolute inset-0 bg-pattern opacity-40"></div>
+        <div class="relative z-10 max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-gym-orange font-bold tracking-[0.25em] uppercase text-xs mb-2 block">MÉTRICAS INTELECTUAIS</span>
+                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Calculadoras de <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-neonGreen to-emerald-400 text-glow-green">Performance</span></h2>
+                <p class="text-gray-400 mt-2 max-w-xl mx-auto text-sm">Estime o gasto de calorias diárias e a sua distribuição ideal de macronutrientes, ou calcule a sua carga máxima teórica.</p>
+            </div>
+
+            <!-- Calculadoras Tab Switcher -->
+            <div class="flex justify-center mb-10">
+                <div class="bg-gym-dark border border-white/5 rounded-full p-1.5 flex gap-1">
+                    <button onclick="switchCalcTab('tdee')" id="btn-tab-tdee" class="px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 bg-gym-orange text-white">
+                        Metabolismo & Macros (TDEE)
+                    </button>
+                    <button onclick="switchCalcTab('onerm')" id="btn-tab-onerm" class="px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 text-gray-400 hover:text-white">
+                        Carga Máxima (1-RM)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab: TDEE -->
+            <div id="calc-tdee-panel" class="glass-panel rounded-2xl p-6 md:p-10 shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <!-- Form Controls -->
+                    <div class="space-y-6">
+                        <!-- Sexo -->
+                        <div>
+                            <label class="block text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Gênero</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" onclick="setGender('masculino')" id="gender-masc" class="py-2.5 rounded border border-gym-orange bg-gym-orange/10 text-white font-bold text-xs uppercase transition-all duration-300">
+                                    Masculino
+                                </button>
+                                <button type="button" onclick="setGender('feminino')" id="gender-fem" class="py-2.5 rounded border border-white/10 hover:border-white/20 text-gray-400 font-bold text-xs uppercase transition-all duration-300">
+                                    Feminino
+                                </button>
+                            </div>
+                        </div>
+
+                        <!--Sliders -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-bold tracking-widest text-gray-400 uppercase">Peso Atual</label>
+                                <span class="text-gym-orange font-bold text-sm" id="val-peso">75 kg</span>
+                            </div>
+                            <input type="range" id="input-peso" min="40" max="180" value="75" oninput="calculateTdee()" class="w-full h-1 bg-gym-dark rounded-lg appearance-none cursor-pointer accent-gym-orange">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-bold tracking-widest text-gray-400 uppercase">Altura</label>
+                                <span class="text-gym-orange font-bold text-sm" id="val-altura">175 cm</span>
+                            </div>
+                            <input type="range" id="input-altura" min="120" max="220" value="175" oninput="calculateTdee()" class="w-full h-1 bg-gym-dark rounded-lg appearance-none cursor-pointer accent-gym-orange">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-bold tracking-widest text-gray-400 uppercase">Idade</label>
+                                <span class="text-gym-orange font-bold text-sm" id="val-idade">25 anos</span>
+                            </div>
+                            <input type="range" id="input-idade" min="14" max="90" value="25" oninput="calculateTdee()" class="w-full h-1 bg-gym-dark rounded-lg appearance-none cursor-pointer accent-gym-orange">
+                        </div>
+
+                        <!-- Atividade -->
+                        <div>
+                            <label class="block text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Nível de Atividade</label>
+                            <select id="select-atividade" onchange="calculateTdee()" class="w-full bg-gym-dark border border-white/10 rounded px-4 py-2.5 text-xs text-gray-300 font-semibold focus:border-gym-orange outline-none">
+                                <option value="1.2">Sedentário (Pouco ou nenhum exercício)</option>
+                                <option value="1.375" selected>Leve (Exercício leve 1-3 dias/semana)</option>
+                                <option value="1.55">Moderado (Exercício moderado 3-5 dias/semana)</option>
+                                <option value="1.725">Intenso (Exercício pesado 6-7 dias/semana)</option>
+                                <option value="1.9">Atleta (Atividade física extrema e trabalho físico)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Results & Dynamic Macros Chart -->
+                    <div class="bg-gym-dark/60 rounded-xl p-6 border border-white/5 flex flex-col justify-between h-full space-y-6">
+                        <div class="text-center">
+                            <span class="text-[10px] font-bold tracking-widest text-gray-400 uppercase block mb-1">Gasto Calórico Estimado (TDEE)</span>
+                            <div class="text-4xl md:text-5xl font-heading text-gym-orange font-bold uppercase tracking-wider" id="result-calorias">
+                                2350 kcal
+                            </div>
+                            <span class="text-xs text-gray-500" id="result-bmr">Taxa Metabólica Basal (BMR): 1650 kcal</span>
+                        </div>
+
+                        <!-- Macro visualization pie chart (Reactive SVG) -->
+                        <div class="flex items-center gap-6">
+                            <div class="relative w-28 h-28 flex-shrink-0 flex items-center justify-center">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                    <!-- Circle Background -->
+                                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="3"></circle>
+                                    <!-- Proteins (40%) -->
+                                    <circle id="chart-prot" cx="18" cy="18" r="15.915" fill="none" stroke="#FF5722" stroke-width="3.2" stroke-dasharray="40 100" stroke-dashoffset="0"></circle>
+                                    <!-- Carbs (40%) -->
+                                    <circle id="chart-carb" cx="18" cy="18" r="15.915" fill="none" stroke="#10B981" stroke-width="3.2" stroke-dasharray="40 100" stroke-dashoffset="-40"></circle>
+                                    <!-- Fats (20%) -->
+                                    <circle id="chart-gord" cx="18" cy="18" r="15.915" fill="none" stroke="#f59e0b" stroke-width="3.2" stroke-dasharray="20 100" stroke-dashoffset="-80"></circle>
+                                </svg>
+                                <div class="absolute text-center flex flex-col items-center">
+                                    <span class="font-heading text-xl leading-none text-white">MACROS</span>
+                                    <span class="text-[8px] text-gray-400 font-bold uppercase">40/40/20</span>
+                                </div>
+                            </div>
+
+                            <!-- Macro breakdown items -->
+                            <div class="flex-grow space-y-2.5">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="flex items-center gap-2 text-gray-400">
+                                        <span class="w-2.5 h-2.5 bg-gym-orange rounded-full"></span> Proteínas (40%)
+                                    </span>
+                                    <span class="font-bold text-white" id="val-prot">235g</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="flex items-center gap-2 text-gray-400">
+                                        <span class="w-2.5 h-2.5 bg-gym-neonGreen rounded-full"></span> Carboidratos (40%)
+                                    </span>
+                                    <span class="font-bold text-white" id="val-carb">235g</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="flex items-center gap-2 text-gray-400">
+                                        <span class="w-2.5 h-2.5 bg-amber-500 rounded-full"></span> Gorduras (20%)
+                                    </span>
+                                    <span class="font-bold text-white" id="val-gord">52g</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Diet Focus Switcher -->
+                        <div class="pt-4 border-t border-white/[0.04] flex items-center justify-between">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Objetivo Nutricional:</span>
+                            <div class="flex bg-gym-dark/80 rounded border border-white/5 p-0.5" id="macro-goal-switch">
+                                <button onclick="setMacroGoal('manter')" id="goal-manter" class="px-3 py-1 rounded text-[9px] font-bold uppercase bg-gym-orange text-white">Manter</button>
+                                <button onclick="setMacroGoal('perder')" id="goal-perder" class="px-3 py-1 rounded text-[9px] font-bold uppercase text-gray-400 hover:text-white">Emagrecer</button>
+                                <button onclick="setMacroGoal('ganhar')" id="goal-ganhar" class="px-3 py-1 rounded text-[9px] font-bold uppercase text-gray-400 hover:text-white">Ganhar Massa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: 1-RM -->
+            <div id="calc-onerm-panel" class="glass-panel rounded-2xl p-6 md:p-10 shadow-2xl hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Peso Levantado (kg)</label>
+                            <input type="number" id="onerm-peso" value="80" oninput="calculateOneRm()" class="w-full bg-gym-dark border border-white/10 rounded px-4 py-3 text-sm text-white font-bold focus:border-gym-orange outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Repetições Completas (Máx. 12)</label>
+                            <input type="number" id="onerm-reps" value="6" min="1" max="12" oninput="calculateOneRm()" class="w-full bg-gym-dark border border-white/10 rounded px-4 py-3 text-sm text-white font-bold focus:border-gym-orange outline-none">
+                        </div>
+
+                        <div class="bg-gym-dark/60 rounded-xl p-6 border border-white/5 text-center">
+                            <span class="text-[10px] font-bold tracking-widest text-gray-400 uppercase block mb-1">Carga Máxima Estimada (1 Repetição Máxima)</span>
+                            <div class="text-5xl font-heading text-gym-neonGreen font-bold uppercase tracking-wider" id="result-onerm">
+                                96.0 kg
+                            </div>
+                            <span class="text-xs text-gray-500 block mt-1">Calculado usando a Equação de Epley.</span>
+                        </div>
+                    </div>
+
+                    <!-- Strength Table Percentages -->
+                    <div class="space-y-3">
+                        <span class="text-xs font-bold tracking-widest text-gray-400 uppercase block mb-2 text-center">Tabela de Carga por Intensidade</span>
+                        <div class="bg-gym-dark/60 rounded-xl border border-white/5 overflow-hidden">
+                            <table class="w-full text-xs text-left">
+                                <thead class="bg-white/5 font-heading text-sm text-gray-300 uppercase tracking-wider">
+                                    <tr>
+                                        <th class="px-4 py-2.5">Intensidade</th>
+                                        <th class="px-4 py-2.5">Carga Estimada</th>
+                                        <th class="px-4 py-2.5">Repetições Sugeridas</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-white/[0.04] text-gray-300">
+                                    <tr>
+                                        <td class="px-4 py-2.5 font-bold text-gym-orange">100% (Força Pura)</td>
+                                        <td class="px-4 py-2.5 font-bold" id="onerm-100">96.0 kg</td>
+                                        <td class="px-4 py-2.5">1 rep</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2.5 font-bold text-gray-300">90% (Força Máxima)</td>
+                                        <td class="px-4 py-2.5" id="onerm-90">86.4 kg</td>
+                                        <td class="px-4 py-2.5">3 reps</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2.5 font-bold text-gym-neonGreen">80% (Hipertrofia Densa)</td>
+                                        <td class="px-4 py-2.5 font-bold text-gym-neonGreen" id="onerm-80">76.8 kg</td>
+                                        <td class="px-4 py-2.5">6-8 reps</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2.5 font-bold text-gray-300">70% (Resistência/Volume)</td>
+                                        <td class="px-4 py-2.5" id="onerm-70">67.2 kg</td>
+                                        <td class="px-4 py-2.5">10-12 reps</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GRADE DE AULAS INTERATIVA (SANDBOX WORKOUT CLASS CALENDAR) -->
+    <section id="agenda" class="py-24 bg-gym-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-gym-orange font-bold tracking-[0.25em] uppercase text-xs mb-2 block">PLANEJE SUA SEMANA</span>
+                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Grade de <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-500 text-glow-orange">Aulas Semanais</span></h2>
+                <p class="text-gray-500 mt-2 max-w-xl mx-auto text-sm">Escolha o dia, reserve sua vaga online e garanta sua participação no treino. As reservas ajudam a manter as turmas sem lotação excessiva.</p>
+            </div>
+
+            <!-- Day Selector Pills -->
+            <div class="flex justify-center flex-wrap gap-2 mb-12">
+                <button onclick="setDayFilter('segunda')" id="day-segunda" class="day-pill px-6 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider bg-gym-orange text-white transition-all duration-300">Segunda</button>
+                <button onclick="setDayFilter('terca')" id="day-terca" class="day-pill px-6 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider border border-white/5 hover:border-white/20 text-gray-400 hover:text-white transition-all duration-300">Terça</button>
+                <button onclick="setDayFilter('quarta')" id="day-quarta" class="day-pill px-6 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider border border-white/5 hover:border-white/20 text-gray-400 hover:text-white transition-all duration-300">Quarta</button>
+                <button onclick="setDayFilter('quinta')" id="day-quinta" class="day-pill px-6 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider border border-white/5 hover:border-white/20 text-gray-400 hover:text-white transition-all duration-300">Quinta</button>
+                <button onclick="setDayFilter('sexta')" id="day-sexta" class="day-pill px-6 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider border border-white/5 hover:border-white/20 text-gray-400 hover:text-white transition-all duration-300">Sexta</button>
+            </div>
+
+            <!-- Classes Grid List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="class-grid">
+                <!-- Classes will be injected here via JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- Planos -->
     <section id="planos" class="py-24 bg-gym-gray relative">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="absolute inset-0 bg-pattern opacity-40"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Escolha sua <span class="text-gym-orange">Armadura</span></h2>
-                <p class="text-gray-400 mt-4">Planos sem fidelidade absurda e sem taxa de cancelamento secreta.</p>
+                <span class="text-gym-orange font-bold tracking-[0.25em] uppercase text-xs mb-2 block">ESCOLHA SUA ARMADURA</span>
+                <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase">Planos de <span class="text-transparent bg-clip-text bg-gradient-to-r from-gym-orange to-red-500 text-glow-orange">Forjamento</span></h2>
+                <p class="text-gray-400 mt-2 max-w-xl mx-auto text-sm">Transparência absoluta: planos recorrentes mensais, sem fidelidade absurda e cancelamento simples em 1 clique.</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
                 <!-- Basico -->
-                <div class="bg-gym-dark p-8 border border-white/5 flex flex-col" data-aos="fade-up" data-aos-delay="0">
-                    <h3 class="font-heading text-3xl uppercase text-gray-300">Iron Basic</h3>
-                    <div class="my-6">
-                        <span class="text-5xl font-bold font-heading">R$ 89</span><span class="text-gray-500">/mês</span>
+                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between border-t-4 border-gray-600 transition-all duration-300 hover:scale-[1.02]" data-aos="fade-up" data-aos-delay="0">
+                    <div>
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">FORÇA INICIAL</span>
+                        <h3 class="font-heading text-4xl uppercase text-white leading-none">Iron Basic</h3>
+                        <div class="my-6 flex items-baseline">
+                            <span class="text-5xl font-bold font-heading text-white">R$ 89</span>
+                            <span class="text-xs text-gray-500 ml-1 font-semibold">/ mês</span>
+                        </div>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-6">Excelente opção para musculação essencial em horários selecionados.</p>
+                        
+                        <ul class="space-y-4 text-xs text-gray-400 mb-8 border-t border-white/[0.04] pt-6">
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Acesso livre a toda musculação e pesos</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Chuveiros e vestiários completos</li>
+                            <li class="flex items-center gap-3 text-gray-600"><i data-lucide="x" class="w-4 h-4"></i> Modalidades Coletivas (CrossFit, Muay Thai)</li>
+                            <li class="flex items-center gap-3 text-gray-600"><i data-lucide="x" class="w-4 h-4"></i> Avaliação física mensal inclusa</li>
+                        </ul>
                     </div>
-                    <ul class="space-y-4 text-sm text-gray-400 mb-8 flex-1">
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Acesso livre área de Musculação</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Vestiário padrão</li>
-                        <li class="flex items-center gap-3 text-gray-600"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg> Modalidades Coletivas</li>
-                    </ul>
-                    <button class="w-full border border-white/20 py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">Assinar Basic</button>
+                    <button onclick="openCheckout('Iron Basic', 89)" class="w-full border border-white/20 py-3.5 font-bold uppercase tracking-wider text-xs hover:bg-white hover:text-black transition-colors rounded-lg">
+                        Começar No Basic
+                    </button>
                 </div>
                 
                 <!-- PRO -->
-                <div class="bg-[#111] p-8 border-2 border-gym-orange relative transform md:-translate-y-4 box-glow flex flex-col" data-aos="fade-up" data-aos-delay="100">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gym-orange text-white px-4 py-1 text-xs font-bold uppercase tracking-widest">Mais Escolhido</div>
-                    <h3 class="font-heading text-3xl uppercase text-white">Iron Pro</h3>
-                    <div class="my-6">
-                        <span class="text-5xl font-bold font-heading text-gym-orange">R$ 129</span><span class="text-gray-500">/mês</span>
+                <div class="bg-gym-gray p-8 rounded-2xl border-2 border-gym-orange relative box-glow-orange flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] md:-translate-y-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gym-orange text-white px-4 py-1 text-[9px] font-extrabold uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(255,87,34,0.4)]">Mais Recomendado</div>
+                    <div>
+                        <span class="text-[10px] font-bold text-gym-orange uppercase tracking-widest block mb-2">EVOLUÇÃO MÁXIMA</span>
+                        <h3 class="font-heading text-4xl uppercase text-white leading-none">Iron Pro</h3>
+                        <div class="my-6 flex items-baseline">
+                            <span class="text-5xl font-bold font-heading text-gym-orange">R$ 129</span>
+                            <span class="text-xs text-gray-500 ml-1 font-semibold">/ mês</span>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-6">Acesso ilimitado e completo a todas as áreas, modalidades e turmas.</p>
+                        
+                        <ul class="space-y-4 text-xs text-gray-300 mb-8 border-t border-white/[0.06] pt-6">
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Acesso 24h a todas as dependências</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Livre acesso a TODAS as aulas coletivas</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Fichas digitais reativas no app</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Traz 1 amigo convidado 5x no mês</li>
+                        </ul>
                     </div>
-                    <ul class="space-y-4 text-sm text-gray-300 mb-8 flex-1">
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Acesso 24h a todas as áreas</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Todas as Modalidades Coletivas</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> App com Treinos Premium</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Traz 1 amigo 5x no mês</li>
-                    </ul>
-                    <button class="w-full bg-gym-orange text-white py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-gym-dark transition-colors">Assinar Pro</button>
+                    <button onclick="openCheckout('Iron Pro', 129)" class="w-full bg-gym-orange text-white py-3.5 font-bold uppercase tracking-wider text-xs hover:bg-white hover:text-gym-dark transition-all duration-300 rounded-lg shadow-[0_4px_15px_rgba(255,87,34,0.3)]">
+                        Assinar Iron Pro ⚡
+                    </button>
                 </div>
                 
-                <!-- Black -->
-                <div class="bg-gym-dark p-8 border border-white/5 flex flex-col" data-aos="fade-up" data-aos-delay="200">
-                    <h3 class="font-heading text-3xl uppercase text-gray-300">Iron Elite</h3>
-                    <div class="my-6">
-                        <span class="text-5xl font-bold font-heading">R$ 249</span><span class="text-gray-500">/mês</span>
+                <!-- Black / Elite -->
+                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between border-t-4 border-gym-neonGreen transition-all duration-300 hover:scale-[1.02]" data-aos="fade-up" data-aos-delay="200">
+                    <div>
+                        <span class="text-[10px] font-bold text-gym-neonGreen uppercase tracking-widest block mb-2">EXPERIÊNCIA PREMIUM</span>
+                        <h3 class="font-heading text-4xl uppercase text-white leading-none">Iron Elite</h3>
+                        <div class="my-6 flex items-baseline">
+                            <span class="text-5xl font-bold font-heading text-white">R$ 249</span>
+                            <span class="text-xs text-gray-500 ml-1 font-semibold">/ mês</span>
+                        </div>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-6">Perfeito para quem deseja acompanhamento profissional próximo e focado.</p>
+                        
+                        <ul class="space-y-4 text-xs text-gray-400 mb-8 border-t border-white/[0.04] pt-6">
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Tudo incluso no plano Iron Pro</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Personal Trainer dedicado 2x na semana</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Avaliação antropométrica física mensal</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-gym-orange"></i> Kit de suplementação whey + creatina/mês</li>
+                        </ul>
                     </div>
-                    <ul class="space-y-4 text-sm text-gray-400 mb-8 flex-1">
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Tudo do plano Pro</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Personal Trainer 2x na semana</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-gym-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Avaliação Física Mensal</li>
-                    </ul>
-                    <button class="w-full border border-white/20 py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">Assinar Elite</button>
+                    <button onclick="openCheckout('Iron Elite', 249)" class="w-full border border-white/20 py-3.5 font-bold uppercase tracking-wider text-xs hover:bg-white hover:text-black transition-colors rounded-lg">
+                        Começar No Elite
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-[#050505] pt-16 pb-8 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <footer class="bg-[#050508] pt-20 pb-8 border-t border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
             <div>
                 <div class="flex items-center gap-2 mb-6">
-                    <svg class="w-6 h-6 text-gym-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
-                    </svg>
+                    <div class="w-8 h-8 bg-gym-orange/10 border border-gym-orange/20 rounded flex items-center justify-center text-gym-orange">
+                        <i data-lucide="dumbbell" class="w-5 h-5"></i>
+                    </div>
                     <span class="font-heading text-2xl font-bold uppercase tracking-wider">Iron<span class="text-gym-orange">Forge</span></span>
                 </div>
-                <p class="text-gray-500 text-sm max-w-xs">Forjando corpos e mentes desde 2018. A melhor infraestrutura fitness da região central.</p>
+                <p class="text-gray-500 text-sm max-w-xs leading-relaxed">Forjando corpos, mentes e propósitos de forma autêntica desde 2018. A melhor infraestrutura e equipe da região central.</p>
             </div>
             <div>
-                <h4 class="font-heading text-xl uppercase mb-4">Contato</h4>
-                <ul class="text-gray-500 text-sm space-y-2">
-                    <li>Rua do Aço, 123 - Centro</li>
-                    <li>(11) 99999-9999</li>
-                    <li>contato@ironforgegym.com.br</li>
+                <h4 class="font-heading text-2xl uppercase tracking-wider mb-6">Horários & Contato</h4>
+                <ul class="text-gray-500 text-sm space-y-3">
+                    <li class="flex items-center gap-2.5"><i data-lucide="map-pin" class="w-4 h-4 text-gym-orange"></i> Rua do Aço, 123 - Centro</li>
+                    <li class="flex items-center gap-2.5"><i data-lucide="phone" class="w-4 h-4 text-gym-orange"></i> (11) 99999-9999</li>
+                    <li class="flex items-center gap-2.5"><i data-lucide="mail" class="w-4 h-4 text-gym-orange"></i> contato@ironforgegym.com.br</li>
+                    <li class="flex items-center gap-2.5 text-gym-neonGreen"><i data-lucide="clock" class="w-4 h-4"></i> Aberto 24 Horas / Todos os dias</li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-heading text-xl uppercase mb-4">Redes Sociais</h4>
+                <h4 class="font-heading text-2xl uppercase tracking-wider mb-6">Mídias Sociais</h4>
+                <p class="text-gray-500 text-xs mb-4">Acompanhe nossas dicas de treino e novidades diárias.</p>
                 <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 bg-white/5 flex items-center justify-center rounded-full hover:bg-gym-orange transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
-                    <a href="#" class="w-10 h-10 bg-white/5 flex items-center justify-center rounded-full hover:bg-gym-orange transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.708-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.88z"/></svg></a>
+                    <a href="#" class="w-10 h-10 bg-white/5 border border-white/5 flex items-center justify-center rounded-full hover:bg-gym-orange hover:text-white transition-all duration-300 hover:-translate-y-1"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="w-10 h-10 bg-white/5 border border-white/5 flex items-center justify-center rounded-full hover:bg-gym-orange hover:text-white transition-all duration-300 hover:-translate-y-1"><i data-lucide="youtube" class="w-5 h-5"></i></a>
                 </div>
             </div>
         </div>
         <div class="text-center text-gray-700 text-xs py-4 border-t border-white/5">
-            &copy; 2026 IronForge Gym. Todos os direitos reservados. Modelo por Retro Pixel.
+            &copy; 2026 IronForge Gym. Todos os direitos reservados. Modelo projetado por Criatividade Web.
         </div>
     </footer>
+
+    <!-- INTERACTIVE SIDE DRAWER 1: FICHA VIP & TRAJECTORY SIMULATOR -->
+    <div id="drawer-vip" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Overlay background -->
+            <div onclick="closeVipDrawer()" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"></div>
+
+            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <div class="pointer-events-auto w-screen max-w-lg">
+                    <div class="flex h-full flex-col overflow-y-scroll bg-gym-dark/95 border-l border-white/10 shadow-2xl p-6 md:p-8">
+                        <div class="flex items-center justify-between pb-6 border-b border-white/5">
+                            <span class="font-heading text-3xl font-bold uppercase tracking-wider text-gym-orange flex items-center gap-2">
+                                <i data-lucide="sparkles" class="w-6 h-6 text-gym-orange animate-pulse"></i> Forge VIP Club
+                            </span>
+                            <button onclick="closeVipDrawer()" class="p-2 rounded-full hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+
+                        <!-- Form de Perfil VIP (Se não cadastrado) -->
+                        <div id="vip-form-container" class="space-y-6 py-6 flex-grow flex flex-col justify-between">
+                            <div class="space-y-5">
+                                <p class="text-xs text-gray-400 leading-relaxed">Faça seu cadastro exclusivo e gere uma projeção de treino, macros diárias e sua ficha digital customizada em segundos.</p>
+                                
+                                <div>
+                                    <label class="block text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-2">Seu Nome</label>
+                                    <input type="text" id="vip-name" placeholder="Ex: Bruno" class="w-full bg-gym-gray border border-white/10 rounded px-4 py-3 text-xs text-white font-semibold focus:border-gym-orange outline-none">
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-2">Peso Atual (kg)</label>
+                                        <input type="number" id="vip-weight" value="80" class="w-full bg-gym-gray border border-white/10 rounded px-4 py-3 text-xs text-white font-semibold focus:border-gym-orange outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-2">Peso Alvo (kg)</label>
+                                        <input type="number" id="vip-target-weight" value="75" class="w-full bg-gym-gray border border-white/10 rounded px-4 py-3 text-xs text-white font-semibold focus:border-gym-orange outline-none">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-2">Foco Principal</label>
+                                    <select id="vip-focus" class="w-full bg-gym-gray border border-white/10 rounded px-4 py-3 text-xs text-gray-300 font-semibold focus:border-gym-orange outline-none">
+                                        <option value="Perda de Gordura">Emagrecimento / Definição Muscular</option>
+                                        <option value="Hipertrofia">Ganho de Massa Magra / Hipertrofia</option>
+                                        <option value="Condicionamento">Resistência Física / Funcional</option>
+                                        <option value="Força Pura">Força Máxima / Powerlifting</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button onclick="registerVipUser()" class="w-full bg-gym-orange text-white py-4 font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-gym-dark transition-all duration-300 rounded-lg shadow-lg">
+                                Gerar Perfil & Ficha VIP ⚡
+                            </button>
+                        </div>
+
+                        <!-- Perfil VIP Exibido (Se cadastrado) -->
+                        <div id="vip-profile-container" class="hidden py-6 space-y-6 flex-grow">
+                            <!-- User Welcome -->
+                            <div class="bg-gym-gray/80 rounded-xl p-5 border border-white/5 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-11 h-11 rounded-full bg-gym-orange/15 border border-gym-orange/20 flex items-center justify-center text-gym-orange">
+                                        <i data-lucide="user" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-heading text-2xl text-white leading-none uppercase" id="display-vip-name">BRUNO</h4>
+                                        <span class="text-[9px] font-bold tracking-widest text-gym-neonGreen uppercase block mt-1" id="display-vip-status">Membro Forge VIP ⚡</span>
+                                    </div>
+                                </div>
+                                <button onclick="resetVipProfile()" class="text-[9px] font-bold text-gray-500 hover:text-red-400 uppercase tracking-widest border border-white/5 hover:border-red-400/20 px-3 py-1.5 rounded transition-colors">
+                                    Sair
+                                </button>
+                            </div>
+
+                            <!-- Weight Trajectory Chart Simulator (Canvas Physics) -->
+                            <div class="glass-panel rounded-xl p-5 border border-white/5 space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Trajetória Projetada (12 Semanas)</span>
+                                    <span class="text-[10px] font-bold text-gym-orange uppercase tracking-wider" id="trajectory-indicator">Perda: -5kg</span>
+                                </div>
+                                <div class="bg-gym-dark/80 rounded border border-white/5 p-2 h-44 flex items-center justify-center relative">
+                                    <canvas id="weight-chart" class="w-full h-full"></canvas>
+                                </div>
+                                <p class="text-[10px] text-gray-500 leading-relaxed text-center">Gráfico gerado em tempo real com base no seu metabolismo e plano de treino personalizado.</p>
+                            </div>
+
+                            <!-- Ficha de Treino & Macros -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gym-gray/80 border border-white/5 p-4 rounded-xl text-center">
+                                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Calorias Diárias</span>
+                                    <span class="text-2xl font-heading text-gym-orange font-bold uppercase tracking-wide" id="vip-calc-calories">2400 kcal</span>
+                                </div>
+                                <div class="bg-gym-gray/80 border border-white/5 p-4 rounded-xl text-center">
+                                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Foco Esportivo</span>
+                                    <span class="text-2xl font-heading text-gym-neonGreen font-bold uppercase tracking-wide truncate block" id="vip-calc-focus">HIPERTROFIA</span>
+                                </div>
+                            </div>
+
+                            <!-- Digital QR workout pass -->
+                            <div class="bg-[#121217] rounded-xl border border-white/5 p-5 flex items-center gap-5">
+                                <!-- QR Mock -->
+                                <div class="w-20 h-20 bg-white p-2 rounded-lg flex-shrink-0 flex items-center justify-center">
+                                    <div class="grid grid-cols-5 gap-0.5 w-full h-full opacity-90" id="qr-matrix">
+                                        <!-- Will be generated by JS -->
+                                    </div>
+                                </div>
+                                <div class="flex-grow space-y-1">
+                                    <span class="text-[9px] font-bold text-gym-orange uppercase tracking-widest">PASSE LIVRE DE ACESSO</span>
+                                    <h5 class="text-xs font-bold text-white uppercase">QR Code de Frequência</h5>
+                                    <p class="text-[10px] text-gray-500 leading-relaxed">Apresente este passe no leitor da recepção para liberar a catraca de forma automatizada 24h.</p>
+                                    <span class="text-[8px] font-mono text-gray-600 block mt-1" id="vip-hash">HASH: 9a3f2d1e...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE SIDE DRAWER 2: PLAN SELECTOR & REACTIVE CHECKOUT -->
+    <div id="drawer-checkout" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Overlay background -->
+            <div onclick="closeCheckout()" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"></div>
+
+            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <div class="pointer-events-auto w-screen max-w-md">
+                    <div class="flex h-full flex-col overflow-y-scroll bg-gym-dark/95 border-l border-white/10 shadow-2xl p-6 md:p-8">
+                        <div class="flex items-center justify-between pb-6 border-b border-white/5">
+                            <span class="font-heading text-3xl font-bold uppercase tracking-wider text-gym-orange">
+                                Checkout de Treino
+                            </span>
+                            <button onclick="closeCheckout()" class="p-2 rounded-full hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+
+                        <div class="py-6 flex-grow flex flex-col justify-between space-y-8">
+                            <!-- Plan Details Block -->
+                            <div class="space-y-6">
+                                <div class="bg-gym-gray rounded-xl p-5 border border-white/5">
+                                    <span class="text-[9px] font-bold text-gym-orange uppercase tracking-widest">Plano Selecionado</span>
+                                    <div class="flex justify-between items-baseline mt-1">
+                                        <h4 class="font-heading text-3xl text-white uppercase font-bold" id="checkout-plan-name">Iron Pro</h4>
+                                        <div>
+                                            <span class="text-xl font-bold font-heading text-white" id="checkout-plan-price">R$ 129</span>
+                                            <span class="text-[10px] text-gray-500">/mês</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Custom Add-ons Checklist -->
+                                <div class="space-y-3">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Adicionais Premium (Opicionais)</span>
+                                    
+                                    <!-- Add-on 1 -->
+                                    <label class="flex items-center justify-between bg-gym-gray/55 border border-white/5 hover:border-white/10 p-4 rounded-xl cursor-pointer select-none transition-colors">
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox" id="addon-nutri" onchange="updateCheckoutTotal()" class="w-4 h-4 accent-gym-orange rounded focus:ring-0">
+                                            <div>
+                                                <h5 class="text-xs font-bold text-white uppercase">Acompanhamento Nutricionista</h5>
+                                                <p class="text-[10px] text-gray-500 mt-0.5">Bioimpedância + Dieta mensal</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-bold text-gym-neonGreen">+ R$ 69</span>
+                                    </label>
+
+                                    <!-- Add-on 2 -->
+                                    <label class="flex items-center justify-between bg-gym-gray/55 border border-white/5 hover:border-white/10 p-4 rounded-xl cursor-pointer select-none transition-colors">
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox" id="addon-suplemento" onchange="updateCheckoutTotal()" class="w-4 h-4 accent-gym-orange rounded focus:ring-0">
+                                            <div>
+                                                <h5 class="text-xs font-bold text-white uppercase">Kit Mensal Suplementação</h5>
+                                                <p class="text-[10px] text-gray-500 mt-0.5">Whey Concentrado + Creatina pura</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-bold text-gym-neonGreen">+ R$ 89</span>
+                                    </label>
+
+                                    <!-- Add-on 3 -->
+                                    <label class="flex items-center justify-between bg-gym-gray/55 border border-white/5 hover:border-white/10 p-4 rounded-xl cursor-pointer select-none transition-colors">
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox" id="addon-massagem" onchange="updateCheckoutTotal()" class="w-4 h-4 accent-gym-orange rounded focus:ring-0">
+                                            <div>
+                                                <h5 class="text-xs font-bold text-white uppercase">Cadeiras de Massagem SPA</h5>
+                                                <p class="text-[10px] text-gray-500 mt-0.5">Uso livre pós-treino 24h</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-bold text-gym-neonGreen">+ R$ 29</span>
+                                    </label>
+                                </div>
+
+                                <!-- Coupon -->
+                                <div>
+                                    <label class="block text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-2">Cupom de Desconto</label>
+                                    <div class="flex gap-2">
+                                        <input type="text" id="coupon-input" placeholder="Ex: FORGE10" class="flex-grow bg-gym-gray border border-white/10 rounded px-4 py-2.5 text-xs text-white font-semibold outline-none focus:border-gym-orange uppercase">
+                                        <button onclick="applyCoupon()" class="bg-gym-gray border border-white/10 hover:border-white/20 text-white font-bold text-xs uppercase px-4 py-2.5 rounded transition-colors">Aplicar</button>
+                                    </div>
+                                    <span id="coupon-feedback" class="text-[10px] block mt-1.5 hidden"></span>
+                                </div>
+                            </div>
+
+                            <!-- Financial Totals and Checkout Trigger -->
+                            <div class="space-y-4 border-t border-white/10 pt-6">
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex justify-between text-gray-400">
+                                        <span>Mensalidade Base:</span>
+                                        <span id="checkout-base">R$ 129,00</span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-400 hidden" id="checkout-discount-row">
+                                        <span>Desconto (10%):</span>
+                                        <span class="text-red-400" id="checkout-discount">- R$ 12,90</span>
+                                    </div>
+                                    <div class="flex justify-between text-gray-400" id="checkout-addons-row">
+                                        <span>Adicionais Ativos:</span>
+                                        <span class="text-gym-neonGreen" id="checkout-addons">+ R$ 0,00</span>
+                                    </div>
+                                    <div class="flex justify-between items-baseline text-sm pt-2 border-t border-white/[0.04]">
+                                        <span class="font-bold text-white uppercase tracking-wider">Total Mensal:</span>
+                                        <span class="text-3xl font-heading font-bold text-gym-orange" id="checkout-total">R$ 129,00</span>
+                                    </div>
+                                </div>
+
+                                <button onclick="confirmSubscription()" class="w-full bg-gym-orange text-white py-4 font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-gym-dark transition-all duration-300 rounded-lg shadow-lg">
+                                    Gerar Credencial & Assinar ⚡
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RECEIPT TICKET (VINTAGE THERMAL PRINT DOCKET) -->
+    <div id="receipt-modal" class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto px-4 hidden">
+        <div onclick="closeReceipt()" class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300"></div>
+
+        <div class="relative bg-[#FAFAFA] text-[#111111] w-full max-w-sm rounded-none shadow-2xl p-6 font-mono text-xs border border-gray-300" data-aos="zoom-in" data-aos-duration="300">
+            <!-- Jagged Top Clip Path -->
+            <div class="absolute -top-3 left-0 w-full h-3 bg-repeat-x" style="background-image: radial-gradient(circle, #FAFAFA 4px, transparent 5px); background-size: 10px 10px;"></div>
+
+            <div class="text-center border-b-2 border-dashed border-gray-400 pb-4 mb-4">
+                <h4 class="font-bold text-lg tracking-wider uppercase">IRONFORGE GYM</h4>
+                <p class="text-[9px] text-gray-500 mt-0.5">RUA DO AÇO, 123 - CENTRO</p>
+                <p class="text-[9px] text-gray-500">FORJANDO FORÇA DESDE 2018</p>
+            </div>
+
+            <!-- Receipt Info -->
+            <div class="space-y-2 mb-4 pb-4 border-b-2 border-dashed border-gray-400">
+                <div class="flex justify-between">
+                    <span>ASSINATURA:</span>
+                    <span class="font-bold uppercase" id="receipt-plan-name">IRON PRO</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>DATA:</span>
+                    <span id="receipt-date">29/05/2026</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Membro:</span>
+                    <span class="font-bold uppercase" id="receipt-member-name">BRUNO</span>
+                </div>
+            </div>
+
+            <!-- Receipt items -->
+            <div class="space-y-2 mb-4 pb-4 border-b-2 border-dashed border-gray-400" id="receipt-items-container">
+                <!-- Will be dynamically populated -->
+            </div>
+
+            <!-- Receipt Totals -->
+            <div class="space-y-1.5 mb-6 text-right">
+                <div class="flex justify-between text-[10px] text-gray-600">
+                    <span>SUBTOTAL:</span>
+                    <span id="receipt-subtotal">R$ 129,00</span>
+                </div>
+                <div class="flex justify-between text-[10px] text-gray-600 hidden" id="receipt-discount-row">
+                    <span>CUPOM (10%):</span>
+                    <span id="receipt-discount">- R$ 12,90</span>
+                </div>
+                <div class="flex justify-between font-bold text-sm text-[#111] pt-1">
+                    <span>TOTAL MENSAL:</span>
+                    <span id="receipt-total">R$ 129,00</span>
+                </div>
+            </div>
+
+            <!-- PIX Mock copy section -->
+            <div class="bg-gray-100 rounded p-4 text-center border border-gray-200 mb-6">
+                <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest block mb-2">Pague com PIX para ativar na hora</span>
+                
+                <!-- Barcode Mock visual -->
+                <div class="flex justify-center items-center h-8 gap-0.5 mb-3 bg-white border border-gray-300 p-1" id="receipt-barcode">
+                    <!-- Dynamic simulated barcode bars -->
+                </div>
+
+                <button onclick="copyPixKey()" class="w-full bg-[#111111] hover:bg-gray-800 text-white font-bold py-2 px-4 rounded text-[10px] uppercase tracking-wider flex items-center justify-center gap-2 transition-colors">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar Chave PIX Copia e Cola
+                </button>
+                <span id="pix-toast" class="text-[9px] text-gym-neonGreen font-bold uppercase tracking-widest mt-1.5 block hidden">Copiado com sucesso!</span>
+            </div>
+
+            <div class="text-center text-[9px] text-gray-500 space-y-1 border-t border-gray-200 pt-4">
+                <p>NÃO POSSUI VALOR FISCAL - SIMULADOR INTERATIVO</p>
+                <p class="font-mono" id="receipt-hash">HASH: e4d3c2b1a0...</p>
+                <p class="font-bold text-black mt-2">BONS TREINOS, ATÉ O SUPORTE MÁXIMO!</p>
+            </div>
+            
+            <button onclick="closeReceipt()" class="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-white text-[#111111] border border-gray-300 px-6 py-2 font-bold uppercase tracking-wider text-[10px] shadow-lg">
+                Fechar Recibo
+            </button>
+        </div>
+    </div>
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            once: true,
-            offset: 50,
-        });
+        // Defensive AOS Loading & Fallback
+        try {
+            AOS.init({
+                once: true,
+                offset: 50,
+                duration: 800
+            });
+        } catch (e) {
+            console.warn("AOS failed to load, initializing graceful visual fallback.", e);
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+            });
+        }
 
-        // Navbar bg change on scroll
+        // Initialize Lucide Icons
+        try {
+            lucide.createIcons();
+        } catch (e) {
+            console.error("Lucide failed to initialize icons.", e);
+        }
+
+        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
                 nav.classList.add('shadow-lg');
+                nav.querySelector('.absolute').style.opacity = '0.98';
             } else {
                 nav.classList.remove('shadow-lg');
+                nav.querySelector('.absolute').style.opacity = '0.9';
             }
         });
+
+        // -------------------------------------------------------------
+        // STATE & PERSISTENCE CONFIGURATIONS
+        // -------------------------------------------------------------
+        const DEFAULT_CLASSES = [
+            { id: 'c-1', day: 'segunda', name: 'Hipertrofia de Peito & Tríceps', time: '07:00 - 08:00', instructor: 'Felipe Iron', maxSpots: 20 },
+            { id: 'c-2', day: 'segunda', name: 'Explosão funcional (CrossFit)', time: '09:00 - 10:00', instructor: 'Sara Coach', maxSpots: 15 },
+            { id: 'c-3', day: 'segunda', name: 'Muay Thai Sparring', time: '19:00 - 20:30', instructor: 'Mestre Kael', maxSpots: 18 },
+            
+            { id: 'c-4', day: 'terca', name: 'Hipertrofia de Dorsais & Bíceps', time: '07:00 - 08:00', instructor: 'Felipe Iron', maxSpots: 20 },
+            { id: 'c-5', day: 'terca', name: 'Pilates Postural Clínico', time: '10:00 - 11:00', instructor: 'Drª Marina', maxSpots: 12 },
+            { id: 'c-6', day: 'terca', name: 'Treino de Condicionamento Boxe', time: '18:00 - 19:30', instructor: 'Rodrigo Boxe', maxSpots: 22 },
+            
+            { id: 'c-7', day: 'quarta', name: 'Pernas Completas (Quad & Femoral)', time: '08:00 - 09:30', instructor: 'Felipe Iron', maxSpots: 20 },
+            { id: 'c-8', day: 'quarta', name: 'WOD CrossFit Combustão', time: '12:00 - 13:00', instructor: 'Sara Coach', maxSpots: 15 },
+            { id: 'c-9', day: 'quarta', name: 'Muay Thai Iniciantes', time: '19:00 - 20:15', instructor: 'Mestre Kael', maxSpots: 18 },
+            
+            { id: 'c-10', day: 'quinta', name: 'Desenvolvimento Ombros & Core', time: '07:00 - 08:00', instructor: 'Felipe Iron', maxSpots: 20 },
+            { id: 'c-11', day: 'quinta', name: 'Yoga Vinyasa Meditação', time: '09:30 - 10:30', instructor: 'Lúcia Yoga', maxSpots: 14 },
+            { id: 'c-12', day: 'quinta', name: 'Cardio Core Extremo HIIT', time: '18:30 - 19:15', instructor: 'Sara Coach', maxSpots: 25 },
+            
+            { id: 'c-13', day: 'sexta', name: 'Treino Geral Regenerativo / FullBody', time: '08:00 - 09:00', instructor: 'Felipe Iron', maxSpots: 20 },
+            { id: 'c-14', day: 'sexta', name: 'CrossFit Team WOD', time: '17:00 - 18:30', instructor: 'Sara Coach', maxSpots: 18 },
+            { id: 'c-15', day: 'sexta', name: 'Jiu Jitsu Rolas Livres', time: '19:30 - 21:00', instructor: 'Prof. André', maxSpots: 16 }
+        ];
+
+        let activeDayFilter = 'segunda';
+        let bookings = JSON.parse(localStorage.getItem('iron_gym_bookings')) || {};
+        let vipUser = JSON.parse(localStorage.getItem('iron_gym_vip_user')) || null;
+        let selectedPlan = { name: 'Iron Pro', price: 129 };
+        let activeCoupon = null;
+
+        // BMR/TDEE Slider calculations state
+        let activeGender = 'masculino';
+        let macroGoal = 'manter';
+
+        // -------------------------------------------------------------
+        // APPLICATION INITIALIZATION
+        // -------------------------------------------------------------
+        window.addEventListener('DOMContentLoaded', () => {
+            renderClasses();
+            calculateTdee();
+            calculateOneRm();
+            renderUserBadge();
+            generateQrCodeMatrix();
+        });
+
+        // -------------------------------------------------------------
+        // METABOLIC & BMR CALCULATOR WIDGET CONTROLS
+        // -------------------------------------------------------------
+        function switchCalcTab(tab) {
+            document.getElementById('calc-tdee-panel').classList.add('hidden');
+            document.getElementById('calc-onerm-panel').classList.add('hidden');
+            
+            document.getElementById('btn-tab-tdee').className = "px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 text-gray-400 hover:text-white";
+            document.getElementById('btn-tab-onerm').className = "px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 text-gray-400 hover:text-white";
+
+            if (tab === 'tdee') {
+                document.getElementById('calc-tdee-panel').classList.remove('hidden');
+                document.getElementById('btn-tab-tdee').className = "px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 bg-gym-orange text-white";
+            } else {
+                document.getElementById('calc-onerm-panel').classList.remove('hidden');
+                document.getElementById('btn-tab-onerm').className = "px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 bg-gym-orange text-white";
+            }
+        }
+
+        function setGender(gender) {
+            activeGender = gender;
+            document.getElementById('gender-masc').className = "py-2.5 rounded border border-white/10 hover:border-white/20 text-gray-400 font-bold text-xs uppercase transition-all duration-300";
+            document.getElementById('gender-fem').className = "py-2.5 rounded border border-white/10 hover:border-white/20 text-gray-400 font-bold text-xs uppercase transition-all duration-300";
+
+            if (gender === 'masculino') {
+                document.getElementById('gender-masc').className = "py-2.5 rounded border border-gym-orange bg-gym-orange/10 text-white font-bold text-xs uppercase transition-all duration-300";
+            } else {
+                document.getElementById('gender-fem').className = "py-2.5 rounded border border-gym-orange bg-gym-orange/10 text-white font-bold text-xs uppercase transition-all duration-300";
+            }
+            calculateTdee();
+        }
+
+        function setMacroGoal(goal) {
+            macroGoal = goal;
+            document.querySelectorAll('#macro-goal-switch button').forEach(btn => {
+                btn.className = "px-3 py-1 rounded text-[9px] font-bold uppercase text-gray-400 hover:text-white";
+            });
+            document.getElementById(`goal-${goal}`).className = "px-3 py-1 rounded text-[9px] font-bold uppercase bg-gym-orange text-white";
+            calculateTdee();
+        }
+
+        function calculateTdee() {
+            const peso = parseInt(document.getElementById('input-peso').value);
+            const altura = parseInt(document.getElementById('input-altura').value);
+            const idade = parseInt(document.getElementById('input-idade').value);
+            const activityFactor = parseFloat(document.getElementById('select-atividade').value);
+
+            document.getElementById('val-peso').textContent = `${peso} kg`;
+            document.getElementById('val-altura').textContent = `${altura} cm`;
+            document.getElementById('val-idade').textContent = `${idade} anos`;
+
+            // BMR calculation using Harris-Benedict Equation
+            let bmr = 0;
+            if (activeGender === 'masculino') {
+                bmr = 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade);
+            } else {
+                bmr = 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
+            }
+
+            let tdee = bmr * activityFactor;
+
+            // Adjust calorie goal based on selection
+            let finalCalories = tdee;
+            if (macroGoal === 'perder') {
+                finalCalories = tdee - 500; // Caloric Deficit
+            } else if (macroGoal === 'ganhar') {
+                finalCalories = tdee + 400; // Caloric Surplus
+            }
+
+            finalCalories = Math.round(finalCalories);
+            bmr = Math.round(bmr);
+
+            document.getElementById('result-calorias').textContent = `${finalCalories} kcal`;
+            document.getElementById('result-bmr').textContent = `Taxa Metabólica Basal (BMR): ${bmr} kcal`;
+
+            // Calculate Macronutrient distribution (40% Protein, 40% Carbs, 20% Fats)
+            // Protein: 4 kcal per gram
+            // Carbs: 4 kcal per gram
+            // Fats: 9 kcal per gram
+            const protCalories = finalCalories * 0.40;
+            const carbCalories = finalCalories * 0.40;
+            const fatCalories = finalCalories * 0.20;
+
+            const protGrams = Math.round(protCalories / 4);
+            const carbGrams = Math.round(carbCalories / 4);
+            const fatGrams = Math.round(fatCalories / 9);
+
+            document.getElementById('val-prot').textContent = `${protGrams}g`;
+            document.getElementById('val-carb').textContent = `${carbGrams}g`;
+            document.getElementById('val-gord').textContent = `${fatGrams}g`;
+
+            // Update SVGPie Chart slice sizing
+            const chartProt = document.getElementById('chart-prot');
+            const chartCarb = document.getElementById('chart-carb');
+            const chartGord = document.getElementById('chart-gord');
+
+            // Ratio macros sizing
+            const protRatio = 40;
+            const carbRatio = 40;
+            const fatRatio = 20;
+
+            chartProt.setAttribute('stroke-dasharray', `${protRatio} 100`);
+            chartProt.setAttribute('stroke-dashoffset', '0');
+
+            chartCarb.setAttribute('stroke-dasharray', `${carbRatio} 100`);
+            chartCarb.setAttribute('stroke-dashoffset', `-${protRatio}`);
+
+            chartGord.setAttribute('stroke-dasharray', `${fatRatio} 100`);
+            chartGord.setAttribute('stroke-dashoffset', `-${protRatio + carbRatio}`);
+        }
+
+        // 1-RM LOAD CALCULATION
+        function calculateOneRm() {
+            const peso = parseFloat(document.getElementById('onerm-peso').value) || 0;
+            const reps = parseInt(document.getElementById('onerm-reps').value) || 0;
+
+            // Epley formula: 1RM = w * (1 + r / 30)
+            let onerm = 0;
+            if (reps > 0 && peso > 0) {
+                if (reps === 1) {
+                    onerm = peso;
+                } else {
+                    onerm = peso * (1 + (reps / 30));
+                }
+            }
+
+            const finalOneRm = Math.round(onerm * 10) / 10;
+            document.getElementById('result-onerm').textContent = `${finalOneRm} kg`;
+
+            // Populate Strength Table Suggestions
+            document.getElementById('onerm-100').textContent = `${finalOneRm} kg`;
+            document.getElementById('onerm-90').textContent = `${Math.round(finalOneRm * 0.9 * 10) / 10} kg`;
+            document.getElementById('onerm-80').textContent = `${Math.round(finalOneRm * 0.8 * 10) / 10} kg`;
+            document.getElementById('onerm-70').textContent = `${Math.round(finalOneRm * 0.7 * 10) / 10} kg`;
+        }
+
+        // -------------------------------------------------------------
+        // WEEKLY WORKOUT CLASS CALENDAR SIMULATOR
+        // -------------------------------------------------------------
+        function setDayFilter(day) {
+            activeDayFilter = day;
+            document.querySelectorAll('.day-pill').forEach(btn => {
+                btn.className = "day-pill px-6 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider border border-white/5 hover:border-white/20 text-gray-400 hover:text-white transition-all duration-300";
+            });
+            document.getElementById(`day-${day}`).className = "day-pill px-6 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider bg-gym-orange text-white transition-all duration-300";
+            renderClasses();
+        }
+
+        function renderClasses() {
+            const grid = document.getElementById('class-grid');
+            grid.innerHTML = '';
+
+            const filtered = DEFAULT_CLASSES.filter(c => c.day === activeDayFilter);
+
+            filtered.forEach(c => {
+                const bookCount = bookings[c.id] || 0;
+                const spotsLeft = c.maxSpots - bookCount;
+                const hasBooked = bookCount > 0;
+
+                const card = document.createElement('div');
+                card.className = "glass-panel p-6 rounded-xl flex flex-col justify-between border border-white/5 hover:border-gym-orange/30 transition-all duration-300";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="bg-gym-gray border border-white/5 text-[9px] font-bold text-gray-400 uppercase tracking-widest px-3 py-1 rounded-full">${c.time}</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider ${spotsLeft <= 3 ? 'text-red-400' : 'text-gym-neonGreen'}">
+                                ${spotsLeft} / ${c.maxSpots} Vagas
+                            </span>
+                        </div>
+                        <h4 class="font-heading text-3xl text-white uppercase leading-tight mb-2">${c.name}</h4>
+                        <p class="text-xs text-gray-500 font-semibold mb-6 flex items-center gap-1.5">
+                            <i data-lucide="award" class="w-3.5 h-3.5 text-gym-orange"></i> Treinador: <span class="text-gray-300">${c.instructor}</span>
+                        </p>
+                    </div>
+                    <div>
+                        <button onclick="toggleBooking('${c.id}')" class="w-full py-3 font-bold uppercase tracking-wider text-xs rounded-lg transition-all duration-300 ${
+                            hasBooked 
+                                ? 'bg-gym-neonGreen/10 border border-gym-neonGreen/30 text-gym-neonGreen hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-400' 
+                                : 'bg-gym-gray border border-white/5 text-white hover:border-gym-orange hover:bg-gym-orange/10 hover:text-gym-orange'
+                        }">
+                            ${hasBooked ? 'Cancelar Reserva ✓' : 'Reservar Vaga ⚡'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            
+            try {
+                lucide.createIcons();
+            } catch (e) {}
+        }
+
+        function toggleBooking(classId) {
+            if (bookings[classId]) {
+                delete bookings[classId];
+                confettiPlay(false);
+            } else {
+                bookings[classId] = 1;
+                confettiPlay(true);
+            }
+            localStorage.setItem('iron_gym_bookings', JSON.stringify(bookings));
+            renderClasses();
+        }
+
+        function confettiPlay(success) {
+            try {
+                if (success) {
+                    confetti({
+                        particleCount: 80,
+                        spread: 60,
+                        origin: { y: 0.8 },
+                        colors: ['#FF5722', '#10B981', '#ffffff']
+                    });
+                }
+            } catch (e) {}
+        }
+
+        // -------------------------------------------------------------
+        // VIP PROFILE & DRAWERS TRAJECTORY GRAPH SIMULATOR
+        // -------------------------------------------------------------
+        function openVipDrawer() {
+            document.getElementById('drawer-vip').classList.remove('hidden');
+            renderVipUI();
+        }
+
+        function closeVipDrawer() {
+            document.getElementById('drawer-vip').classList.add('hidden');
+        }
+
+        function registerVipUser() {
+            const name = document.getElementById('vip-name').value.trim() || 'Convidado';
+            const weight = parseFloat(document.getElementById('vip-weight').value) || 80;
+            const targetWeight = parseFloat(document.getElementById('vip-target-weight').value) || 75;
+            const focus = document.getElementById('vip-focus').value;
+
+            vipUser = {
+                name,
+                weight,
+                targetWeight,
+                focus,
+                hash: 'VIP-' + Math.random().toString(16).substring(2, 8).toUpperCase()
+            };
+
+            localStorage.setItem('iron_gym_vip_user', JSON.stringify(vipUser));
+            confettiPlay(true);
+            renderVipUI();
+            renderUserBadge();
+        }
+
+        function resetVipProfile() {
+            vipUser = null;
+            localStorage.removeItem('iron_gym_vip_user');
+            renderVipUI();
+            renderUserBadge();
+        }
+
+        function renderVipUI() {
+            if (vipUser) {
+                document.getElementById('vip-form-container').classList.add('hidden');
+                document.getElementById('vip-profile-container').classList.remove('hidden');
+
+                document.getElementById('display-vip-name').textContent = vipUser.name;
+                document.getElementById('vip-calc-focus').textContent = vipUser.focus;
+                document.getElementById('vip-hash').textContent = `ID CREDENCIAL: ${vipUser.hash}`;
+
+                // Calculate calorie estimate based on weight and goal
+                let calories = 2000;
+                if (vipUser.focus === 'Hipertrofia' || vipUser.focus === 'Força Pura') {
+                    calories = Math.round(vipUser.weight * 33 + 300);
+                } else {
+                    calories = Math.round(vipUser.weight * 28 - 350);
+                }
+                document.getElementById('vip-calc-calories').textContent = `${calories} kcal`;
+
+                // Calculate trajectory label
+                const weightDiff = vipUser.targetWeight - vipUser.weight;
+                const weightIndicator = document.getElementById('trajectory-indicator');
+                if (weightDiff < 0) {
+                    weightIndicator.textContent = `Projeção: Perder ${Math.abs(weightDiff)}kg`;
+                    weightIndicator.className = "text-[10px] font-bold text-gym-orange uppercase tracking-wider";
+                } else if (weightDiff > 0) {
+                    weightIndicator.textContent = `Projeção: Ganhar ${weightDiff}kg`;
+                    weightIndicator.className = "text-[10px] font-bold text-gym-neonGreen uppercase tracking-wider";
+                } else {
+                    weightIndicator.textContent = `Projeção: Recomposição`;
+                    weightIndicator.className = "text-[10px] font-bold text-white uppercase tracking-wider";
+                }
+
+                // Draw physics weight trajectory chart over 12 weeks
+                setTimeout(() => {
+                    drawTrajectoryChart(vipUser.weight, vipUser.targetWeight);
+                }, 100);
+
+            } else {
+                document.getElementById('vip-form-container').classList.remove('hidden');
+                document.getElementById('vip-profile-container').classList.add('hidden');
+            }
+        }
+
+        function renderUserBadge() {
+            const badge = document.getElementById('user-badge');
+            if (vipUser) {
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+                document.getElementById('user-badge-name').textContent = vipUser.name;
+            } else {
+                badge.classList.add('hidden');
+                badge.classList.remove('flex');
+            }
+        }
+
+        // Weight Loss/Gain Canvas Chart Drawing
+        function drawTrajectoryChart(startW, endW) {
+            const canvas = document.getElementById('weight-chart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            // Adjust resolution
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * devicePixelRatio;
+            canvas.height = rect.height * devicePixelRatio;
+            ctx.scale(devicePixelRatio, devicePixelRatio);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw grid lines
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.lineWidth = 1;
+            for (let i = 1; i < 4; i++) {
+                const y = (height / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Generate points
+            const points = [];
+            const weeks = 12;
+            const stepX = width / (weeks - 1);
+            
+            for (let i = 0; i < weeks; i++) {
+                // S-curve interpolation for realistic progression
+                const progress = i / (weeks - 1);
+                // Ease out function
+                const weight = startW + (endW - startW) * (1 - Math.pow(1 - progress, 2.5));
+                
+                // Map weight to Y coordinate
+                const minVal = Math.min(startW, endW) - 3;
+                const maxVal = Math.max(startW, endW) + 3;
+                const valRange = maxVal - minVal;
+                
+                const x = i * stepX;
+                const y = height - 30 - ((weight - minVal) / valRange) * (height - 50);
+                points.push({ x, y, val: Math.round(weight * 10) / 10 });
+            }
+
+            // Draw line gradient
+            const gradient = ctx.createLinearGradient(0, 0, width, 0);
+            gradient.addColorStop(0, '#FF5722');
+            gradient.addColorStop(1, '#10B981');
+
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            ctx.stroke();
+
+            // Draw fill area below line
+            ctx.lineTo(points[points.length-1].x, height);
+            ctx.lineTo(points[0].x, height);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(255, 87, 34, 0.04)';
+            ctx.fill();
+
+            // Draw dots on starts and end
+            const drawCircle = (pt, color) => {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#08080C';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            };
+
+            drawCircle(points[0], '#FF5722');
+            drawCircle(points[points.length - 1], '#10B981');
+
+            // Draw text labels
+            ctx.fillStyle = '#9CA3AF';
+            ctx.font = 'bold 9px monospace';
+            ctx.fillText(`S1: ${startW}kg`, 5, points[0].y - 10);
+            ctx.fillText(`S12: ${endW}kg`, width - 58, points[points.length - 1].y - 10);
+        }
+
+        // Mock QR Code Generation matrix
+        function generateQrCodeMatrix() {
+            const qr = document.getElementById('qr-matrix');
+            if (!qr) return;
+            qr.innerHTML = '';
+            
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                // Corner detection for mock look
+                const row = Math.floor(i / 5);
+                const col = i % 5;
+                
+                const isCorner = (row < 2 && col < 2) || (row < 2 && col > 2) || (row > 2 && col < 2);
+                
+                if (isCorner) {
+                    cell.className = "bg-black rounded-sm";
+                } else {
+                    cell.className = Math.random() > 0.5 ? "bg-black rounded-sm" : "bg-transparent";
+                }
+                qr.appendChild(cell);
+            }
+        }
+
+        // -------------------------------------------------------------
+        // CHECKOUT & PLAN CUSTOMIZATION WIDGET DRAWER
+        // -------------------------------------------------------------
+        function openCheckout(planName, basePrice) {
+            selectedPlan = { name: planName, price: basePrice };
+            document.getElementById('checkout-plan-name').textContent = planName;
+            document.getElementById('checkout-plan-price').textContent = `R$ ${basePrice}`;
+
+            document.getElementById('addon-nutri').checked = false;
+            document.getElementById('addon-suplemento').checked = false;
+            document.getElementById('addon-massagem').checked = false;
+            document.getElementById('coupon-input').value = '';
+            document.getElementById('coupon-feedback').className = "text-[10px] block mt-1.5 hidden";
+            activeCoupon = null;
+
+            updateCheckoutTotal();
+            document.getElementById('drawer-checkout').classList.remove('hidden');
+        }
+
+        function closeCheckout() {
+            document.getElementById('drawer-checkout').classList.add('hidden');
+        }
+
+        function updateCheckoutTotal() {
+            let total = selectedPlan.price;
+            let addonsTotal = 0;
+
+            const nutriChecked = document.getElementById('addon-nutri').checked;
+            const supleChecked = document.getElementById('addon-suplemento').checked;
+            const massagemChecked = document.getElementById('addon-massagem').checked;
+
+            if (nutriChecked) addonsTotal += 69;
+            if (supleChecked) addonsTotal += 89;
+            if (massagemChecked) addonsTotal += 29;
+
+            document.getElementById('checkout-base').textContent = `R$ ${selectedPlan.price},00`;
+            document.getElementById('checkout-addons').textContent = `+ R$ ${addonsTotal},00`;
+
+            total += addonsTotal;
+
+            if (activeCoupon === 'FORGE10') {
+                const discount = total * 0.10;
+                total -= discount;
+                document.getElementById('checkout-discount-row').classList.remove('hidden');
+                document.getElementById('checkout-discount').textContent = `- R$ ${discount.toFixed(2)}`;
+            } else {
+                document.getElementById('checkout-discount-row').classList.add('hidden');
+            }
+
+            document.getElementById('checkout-total').textContent = `R$ ${total.toFixed(2)}`;
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const feedback = document.getElementById('coupon-feedback');
+
+            if (input === 'FORGE10') {
+                activeCoupon = 'FORGE10';
+                feedback.textContent = 'Cupom FORGE10 aplicado! 10% de desconto ativado.';
+                feedback.className = "text-[10px] block mt-1.5 text-gym-neonGreen font-semibold uppercase";
+                confettiPlay(true);
+            } else {
+                activeCoupon = null;
+                feedback.textContent = 'Cupom inválido ou expirado.';
+                feedback.className = "text-[10px] block mt-1.5 text-red-400 font-semibold uppercase";
+            }
+            updateCheckoutTotal();
+        }
+
+        // SUBSCRIPTION COMPLETION & TICKET modal
+        function confirmSubscription() {
+            // Read active specs
+            const name = vipUser ? vipUser.name : 'Visitante';
+            const date = new Date().toLocaleDateString('pt-BR');
+
+            document.getElementById('receipt-plan-name').textContent = selectedPlan.name;
+            document.getElementById('receipt-date').textContent = date;
+            document.getElementById('receipt-member-name').textContent = name;
+
+            // Generate receipt items breakdown
+            const container = document.getElementById('receipt-items-container');
+            container.innerHTML = '';
+
+            // Base price item
+            const baseRow = document.createElement('div');
+            baseRow.className = "flex justify-between";
+            baseRow.innerHTML = `<span>MENSALIDADE BASE (${selectedPlan.name}):</span><span>R$ ${selectedPlan.price},00</span>`;
+            container.appendChild(baseRow);
+
+            // Addons
+            const nutriChecked = document.getElementById('addon-nutri').checked;
+            const supleChecked = document.getElementById('addon-suplemento').checked;
+            const massagemChecked = document.getElementById('addon-massagem').checked;
+
+            let subtotal = selectedPlan.price;
+
+            if (nutriChecked) {
+                const row = document.createElement('div');
+                row.className = "flex justify-between text-gray-600";
+                row.innerHTML = `<span>+ Acompanhamento Nutricional:</span><span>R$ 69,00</span>`;
+                container.appendChild(row);
+                subtotal += 69;
+            }
+
+            if (supleChecked) {
+                const row = document.createElement('div');
+                row.className = "flex justify-between text-gray-600";
+                row.innerHTML = `<span>+ Kit de Suplementação:</span><span>R$ 89,00</span>`;
+                container.appendChild(row);
+                subtotal += 89;
+            }
+
+            if (massagemChecked) {
+                const row = document.createElement('div');
+                row.className = "flex justify-between text-gray-600";
+                row.innerHTML = `<span>+ Cadeiras de Massagem:</span><span>R$ 29,00</span>`;
+                container.appendChild(row);
+                subtotal += 29;
+            }
+
+            // Totals and Discount calculations
+            let total = subtotal;
+            let discountAmount = 0;
+
+            document.getElementById('receipt-subtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+
+            if (activeCoupon === 'FORGE10') {
+                discountAmount = subtotal * 0.10;
+                total -= discountAmount;
+                document.getElementById('receipt-discount-row').classList.remove('hidden');
+                document.getElementById('receipt-discount').textContent = `- R$ ${discountAmount.toFixed(2)}`;
+            } else {
+                document.getElementById('receipt-discount-row').classList.add('hidden');
+            }
+
+            document.getElementById('receipt-total').textContent = `R$ ${total.toFixed(2)}`;
+
+            // Generate receipt barcodes bars dynamically
+            const barcode = document.getElementById('receipt-barcode');
+            barcode.innerHTML = '';
+            for (let i = 0; i < 40; i++) {
+                const bar = document.createElement('div');
+                const thickness = Math.random() > 0.4 ? 'w-[2px]' : 'w-[4px]';
+                const color = Math.random() > 0.15 ? 'bg-black' : 'bg-transparent';
+                bar.className = `${thickness} ${color} h-full`;
+                barcode.appendChild(bar);
+            }
+
+            // Generate receipt cryptographic SHA-256 mock hash
+            const hash = 'FORGE-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+            document.getElementById('receipt-hash').textContent = `RECIBO DE AUDITORIA: ${hash}`;
+
+            // Play sound/confetti, close drawer, open receipt modal
+            confettiPlay(true);
+            closeCheckout();
+            
+            document.getElementById('receipt-modal').classList.remove('hidden');
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+        }
+
+        function copyPixKey() {
+            const temp = document.createElement('input');
+            temp.value = '00020126360014br.gov.bcb.pix0114+55119999999995204000053039865405129.005802BR5913IRONFORGEGYM6009SAOPAULO62070503***6304CA1A';
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const toast = document.getElementById('pix-toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2500);
+        }
     </script>
 </body>
 </html>

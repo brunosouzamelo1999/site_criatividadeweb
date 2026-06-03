@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMASH // Burguer Delivery</title>
+    <title>SMASH // Burguer Delivery (Demonstrativo Interativo)</title>
+    
+    <!-- Scripts & Stylesheets -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Google Fonts: Oswald for bold urban headings, Roboto for body -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Google Fonts: Oswald for bold urban headings, Roboto & JetBrains Mono for body and console -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700;800&family=Roboto:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons, GSAP & Canvas Confetti CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -18,176 +26,1581 @@
                             red: '#E11D48',
                             yellow: '#FACC15',
                             dark: '#18181B',
-                            light: '#FAFAFA'
+                            light: '#F8F6F2'
                         }
                     },
                     fontFamily: {
                         heading: ['Oswald', 'sans-serif'],
                         body: ['Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #FAFAFA; color: #18181B; }
-        .urban-shadow {
+        body { background-color: #F8F6F2; color: #18181B; }
+        
+        /* Premium Brutalist Offset Shadows */
+        .brutal-border {
+            border: 4px solid #18181B;
+        }
+        .brutal-shadow-dark {
             box-shadow: 8px 8px 0px #18181B;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .urban-shadow:active {
-            box-shadow: 0px 0px 0px #18181B;
-            transform: translate(8px, 8px);
+        .brutal-shadow-dark:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px #18181B;
         }
-        .urban-card:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 12px 12px 0px #E11D48;
+        .brutal-shadow-dark:active {
+            transform: translate(6px, 6px);
+            box-shadow: 2px 2px 0px #18181B;
         }
+        
+        .brutal-shadow-red {
+            box-shadow: 8px 8px 0px #E11D48;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .brutal-shadow-red:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px #E11D48;
+        }
+        .brutal-shadow-red:active {
+            transform: translate(6px, 6px);
+            box-shadow: 2px 2px 0px #E11D48;
+        }
+
+        .brutal-shadow-yellow {
+            box-shadow: 8px 8px 0px #FACC15;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .brutal-shadow-yellow:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px #FACC15;
+        }
+        .brutal-shadow-yellow:active {
+            transform: translate(6px, 6px);
+            box-shadow: 2px 2px 0px #FACC15;
+        }
+
         .bg-pattern {
-            background-image: radial-gradient(#18181B 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0.05;
+            background-image: radial-gradient(#18181B 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            opacity: 0.06;
+        }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #F8F6F2; border-left: 4px solid #18181B; }
+        ::-webkit-scrollbar-thumb { background: #E11D48; border: 2px solid #18181B; }
+
+        /* Thermal Ticket Jagged Border simulation */
+        .jagged-top {
+            background-image: linear-gradient(135deg, transparent 4px, #FFFFFF 4px), linear-gradient(-135deg, transparent 4px, #FFFFFF 4px);
+            background-position: left top;
+            background-repeat: repeat-x;
+            background-size: 8px 8px;
+        }
+        .jagged-bottom {
+            background-image: linear-gradient(45deg, transparent 4px, #FFFFFF 4px), linear-gradient(-45deg, transparent 4px, #FFFFFF 4px);
+            background-position: left bottom;
+            background-repeat: repeat-x;
+            background-size: 8px 8px;
+        }
+
+        /* Interactive Feedback Pins */
+        .feedback-pin {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 40;
+        }
+        .feedback-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translate(-50%, 10px);
+        }
+        .feedback-pin:hover .feedback-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, 0);
         }
     </style>
 </head>
-<body class="font-body antialiased selection:bg-food-yellow selection:text-food-dark">
+<body class="font-body antialiased selection:bg-food-yellow selection:text-food-dark relative overflow-x-hidden">
 
     <div class="fixed inset-0 bg-pattern z-[-1]"></div>
 
-    <!-- Header -->
-    <header class="w-full border-b-4 border-food-dark bg-food-yellow py-4 sticky top-0 z-50">
+    <!-- Top Ribbon Bar -->
+    <div class="bg-food-dark text-food-yellow text-[10px] sm:text-[11px] py-2 px-6 flex justify-between items-center relative z-20 border-b-4 border-food-dark font-mono font-bold uppercase tracking-widest">
+        <div>// CHAPA ATIVA: 180°C // DELIVERY EXPRESSO</div>
+        <div class="flex gap-4">
+            <a href="#cardapio" class="hover:text-white transition-colors">Burguer Tracker</a>
+            <span>|</span>
+            <span class="text-white">SÃO PAULO - SP</span>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="w-full border-b-4 border-food-dark bg-food-yellow py-4 sticky top-0 z-50 shadow-md">
         <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
-            <a href="#" class="font-heading text-4xl font-bold uppercase tracking-tighter text-food-dark transform -skew-x-6">
-                SMASH<span class="text-food-red">!</span>
-            </a>
-            
-            <div class="hidden md:flex gap-8 font-bold uppercase tracking-widest text-sm text-food-dark">
-                <a href="#cardapio" class="hover:text-food-red transition-colors">Cardápio</a>
-                <a href="#combos" class="hover:text-food-red transition-colors">Combos</a>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleMobileMenu()" class="md:hidden flex flex-col justify-center items-start w-6 h-6 gap-1 relative z-50 focus:outline-none group transform -skew-x-6 mr-2" id="hamburger-btn" aria-label="Menu">
+                    <span class="w-5 h-[3px] bg-food-dark transition-all duration-300 origin-center" id="ham-line-1"></span>
+                    <span class="w-4 h-[3px] bg-food-dark transition-all duration-300 origin-center group-hover:w-5" id="ham-line-2"></span>
+                    <span class="w-5 h-[3px] bg-food-dark transition-all duration-300 origin-center" id="ham-line-3"></span>
+                </button>
+                <a href="#" class="font-heading text-4xl font-black uppercase tracking-tighter text-food-dark transform -skew-x-6 flex items-center gap-1 select-none">
+                    SMASH<span class="text-food-red animate-pulse">!</span>
+                </a>
             </div>
             
-            <a href="#" class="bg-food-red text-white font-black uppercase px-6 py-2 border-2 border-food-dark urban-shadow text-sm">
-                Pedir Agora
-            </a>
+            <div class="hidden md:flex gap-8 font-heading text-lg font-bold uppercase tracking-widest text-food-dark">
+                <a href="#cardapio" class="hover:text-food-red transition-colors transform hover:-translate-y-0.5">Cardápio</a>
+                <a href="javascript:void(0)" onclick="toggleFeedbackPanel(true)" class="hover:text-food-red transition-colors flex items-center gap-1.5 transform hover:-translate-y-0.5">
+                    <i data-lucide="message-square" class="w-4 h-4 text-food-red"></i> Painel Co-Criação
+                </a>
+                <a href="#contact" class="hover:text-food-red transition-colors transform hover:-translate-y-0.5">Contato</a>
+            </div>
+            
+            <button onclick="openConfiguratorDrawer()" class="bg-food-red text-white font-heading font-black uppercase tracking-widest text-sm px-6 py-2.5 brutal-border brutal-shadow-dark transform -skew-x-6">
+                Montar Combo
+            </button>
         </div>
     </header>
 
-    <!-- Hero -->
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-[#FACC15]/98 backdrop-blur-md z-40 flex flex-col justify-center items-center transition-all duration-500 transform -translate-y-full opacity-0 pointer-events-none border-b-8 border-food-dark">
+        <div class="flex flex-col items-center justify-center space-y-8 text-center px-6">
+            <a href="#cardapio" onclick="toggleMobileMenu(false)" class="font-heading text-4xl font-bold tracking-tight text-food-dark hover:text-food-red transition-colors duration-300 uppercase transform -skew-x-6">Cardápio</a>
+            <a href="javascript:void(0)" onclick="toggleMobileMenu(false); toggleFeedbackPanel(true)" class="font-heading text-4xl font-bold tracking-tight text-food-dark hover:text-food-red transition-colors duration-300 uppercase transform -skew-x-6">Painel de Co-Criação</a>
+            <a href="#contact" onclick="toggleMobileMenu(false)" class="font-heading text-4xl font-bold tracking-tight text-food-dark hover:text-food-red transition-colors duration-300 uppercase transform -skew-x-6">Contato</a>
+            
+            <div class="h-[4px] w-16 bg-food-dark my-4"></div>
+            
+            <p class="font-mono text-xs tracking-[0.25em] text-food-dark/70 uppercase font-bold">SMASH BURGUER LABS</p>
+            <button onclick="toggleMobileMenu(false); openConfiguratorDrawer()" class="text-sm font-heading font-black text-food-dark tracking-widest uppercase brutal-border px-8 py-3.5 bg-white brutal-shadow-dark">Iniciar Pedido</button>
+        </div>
+    </div>
+
+    <!-- Active Sandbox Alert Ribbon -->
+    <div class="bg-food-red text-white font-mono text-[10px] sm:text-xs py-2 px-4 text-center tracking-widest uppercase flex items-center justify-center gap-2.5 relative z-30 font-bold border-b-4 border-food-dark shadow-sm">
+        <i data-lucide="terminal" class="w-4 h-4 animate-pulse text-food-yellow"></i>
+        SANDBOX ATIVO: PERSONALIZE SEU BURGER COM EXTRAS E SIMULE A TRANSMISSÃO PARA A CHAPA!
+    </div>
+
+    <!-- Hero Fold Section -->
     <section class="py-12 md:py-24 relative overflow-hidden">
         <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-                <div class="bg-food-dark text-food-yellow inline-block font-bold uppercase px-3 py-1 text-xs mb-4 transform -skew-x-12">
-                    Delivery em 30 min ou grátis
+            <div data-aos="fade-right" class="z-10">
+                <div class="bg-food-dark text-food-yellow inline-block font-mono font-bold uppercase px-3 py-1 text-xs mb-6 transform -skew-x-12">
+                    ⚡️ Grelhado e embalado em até 30 minutos
                 </div>
-                <h1 class="font-heading text-6xl md:text-8xl font-bold uppercase leading-[0.9] text-food-dark mb-6 transform -skew-x-6">
+                <h1 class="font-heading text-6xl sm:text-7xl md:text-8xl font-black uppercase leading-[0.95] text-food-dark mb-6 transform -skew-x-6 select-none">
                     Morda. <br>
                     <span class="text-food-red">Derreta.</span> <br>
                     Repita.
                 </h1>
-                <p class="text-lg font-medium text-gray-600 mb-8 max-w-sm">
-                    Blend artesanal 180g, queijo cheddar derretendo e pão brioche amanteigado selado na chapa.
+                <p class="text-base sm:text-lg font-medium text-gray-700 mb-8 max-w-md leading-relaxed">
+                    Blend artesanal 100% Angus 180g, queijo cheddar cremoso derretendo de verdade e pão brioche amanteigado selado perfeitamente na chapa.
                 </p>
-                <div class="flex gap-4">
-                    <button class="bg-food-yellow text-food-dark font-black uppercase text-lg px-8 py-4 border-4 border-food-dark urban-shadow">
-                        Ver Cardápio
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="openConfiguratorDrawer()" class="bg-food-yellow text-food-dark font-heading font-black uppercase text-xl px-8 py-4 brutal-border brutal-shadow-dark">
+                        Simular Pedido Real
                     </button>
                 </div>
             </div>
             
-            <div class="relative" data-aos="zoom-in">
-                <!-- Abstract blobs behind burger -->
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-food-red rounded-full blur-2xl opacity-20 -z-10"></div>
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1999&auto=format&fit=crop" class="w-full h-auto drop-shadow-[0_20px_30px_rgba(225,29,72,0.3)] animate-[floating_4s_ease-in-out_infinite]" style="animation: floating 4s ease-in-out infinite;">
+            <div class="relative" data-aos="zoom-in" data-aos-delay="100">
+                <!-- Glowing Radial Background -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] aspect-square bg-food-red rounded-full blur-3xl opacity-20 -z-10"></div>
+                
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1999&auto=format&fit=crop" class="w-full h-auto drop-shadow-[0_20px_35px_rgba(225,29,72,0.4)] animate-[floating_5s_ease-in-out_infinite]" style="animation: floating 4.5s ease-in-out infinite; max-height: 480px; object-fit: contain;" alt="Hambúrguer Gourmet Angus Premium na Chapa">
                 
                 <!-- Badge -->
-                <div class="absolute -right-4 top-10 bg-food-dark text-white p-4 rounded-full w-24 h-24 flex items-center justify-center text-center font-heading font-bold text-xl transform rotate-12 border-4 border-food-yellow">
+                <div class="absolute -right-2 top-8 bg-food-dark text-white p-4 rounded-full w-24 h-24 flex items-center justify-center text-center font-heading font-black text-lg transform rotate-12 brutal-border border-food-yellow shadow-lg select-none">
                     100%<br>ANGUS
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Menu -->
-    <section id="cardapio" class="py-20 bg-food-dark text-food-light border-y-4 border-food-dark">
+    <!-- Cardápio / Grid Dinâmico -->
+    <section id="cardapio" class="py-24 bg-food-dark text-food-light brutal-border border-x-0 relative z-10">
         <div class="max-w-6xl mx-auto px-6">
-            <h2 class="font-heading text-5xl md:text-6xl font-bold uppercase text-center mb-16 text-food-yellow transform -skew-x-6">Os Mais Pedidos</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Item 1 -->
-                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up">
-                    <img src="https://images.unsplash.com/photo-1594212202875-861dce707334?q=80&w=2070&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-heading text-2xl font-bold uppercase">Smash Clássico</h3>
-                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 28</span>
-                        </div>
-                        <p class="text-sm font-medium text-gray-600">2x Smash burger 90g, american cheese, picles, cebola roxa e molho especial.</p>
-                    </div>
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16" data-aos="fade-up">
+                <div>
+                    <span class="text-food-yellow font-mono text-xs tracking-[0.25em] uppercase mb-2.5 block">// ESTILO DE RUA COM QUALIDADE DE CHEFE</span>
+                    <h2 class="font-heading text-5xl md:text-6xl font-black uppercase text-food-yellow transform -skew-x-6 tracking-tight">Os Mais Pedidos</h2>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?q=80&w=2070&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-heading text-2xl font-bold uppercase">Bacon Beast</h3>
-                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 35</span>
-                        </div>
-                        <p class="text-sm font-medium text-gray-600">Blend 180g, duplo cheddar, tiras grossas de bacon crocante e maionese defumada.</p>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?q=80&w=2070&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-heading text-2xl font-bold uppercase">Fritas Rústicas</h3>
-                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 15</span>
-                        </div>
-                        <p class="text-sm font-medium text-gray-600">Porção de batatas com casca fritas na hora, temperadas com páprica e sal grosso.</p>
-                    </div>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="bg-white text-food-dark border-4 border-food-dark p-4 flex gap-6 items-center urban-card transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1625869016774-3a92be2ae2cd?q=80&w=1974&auto=format&fit=crop" class="w-32 h-32 object-cover border-2 border-food-dark">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-heading text-2xl font-bold uppercase">Milkshake Oreo</h3>
-                            <span class="bg-food-red text-white font-black px-2 py-1 text-sm border-2 border-food-dark transform rotate-3">R$ 22</span>
-                        </div>
-                        <p class="text-sm font-medium text-gray-600">Sorvete de baunilha batido com creme de leite fresco e pedaços generosos de Oreo.</p>
-                    </div>
+                <!-- Category Tabs Filter -->
+                <div class="flex flex-wrap gap-2.5 mt-6 md:mt-0 font-heading text-sm uppercase tracking-widest font-bold">
+                    <button onclick="filterCases('all')" id="tab-all" class="px-5 py-2 border-2 border-food-yellow text-food-dark bg-food-yellow rounded-full transition-all">Todos</button>
+                    <button onclick="filterCases('burguer')" id="tab-burguer" class="px-5 py-2 border-2 border-white/20 text-white/70 rounded-full hover:border-food-yellow hover:text-food-yellow transition-all">Burguers</button>
+                    <button onclick="filterCases('acompanhamento')" id="tab-acompanhamento" class="px-5 py-2 border-2 border-white/20 text-white/70 rounded-full hover:border-food-yellow hover:text-food-yellow transition-all">Acompanhamentos</button>
+                    <button onclick="filterCases('bebida')" id="tab-bebida" class="px-5 py-2 border-2 border-white/20 text-white/70 rounded-full hover:border-food-yellow hover:text-food-yellow transition-all">Bebidas</button>
                 </div>
             </div>
             
-            <div class="text-center mt-16">
-                <button class="bg-food-red text-white font-black uppercase text-xl px-10 py-5 border-4 border-food-light hover:-translate-y-2 transition-transform shadow-[8px_8px_0px_#FAFAFA]">
-                    Ver Menu Completo no iFood
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="cases-grid">
+                <!-- Burger Item 1 -->
+                <div data-case-cat="burguer" class="group bg-white brutal-border rounded-[24px] p-5 flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_45px_rgba(225,29,72,0.12)] transition-all duration-500 cursor-pointer" data-aos="fade-up" onclick="openCaseModal('case-1')">
+                    <div class="overflow-hidden rounded-[16px] aspect-[4/3] mb-5 relative bg-food-dark/5 brutal-border">
+                        <img src="https://images.unsplash.com/photo-1594212202875-861dce707334?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Hambúrguer Smash Clássico de Duas Carnes">
+                        <div class="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white/95 text-food-dark font-heading text-xs font-black px-4 py-2 uppercase tracking-widest shadow-md rounded-lg">Ver Ingredientes</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div class="mb-4 text-food-dark">
+                            <div class="flex justify-between items-start gap-4 mb-2">
+                                <h3 class="font-heading text-2xl font-extrabold uppercase leading-tight group-hover:text-food-red transition-colors">Smash Clássico</h3>
+                                <span class="font-heading text-lg font-bold text-food-red whitespace-nowrap">R$ 28,00</span>
+                            </div>
+                            <p class="font-body text-xs text-gray-500 leading-relaxed font-medium">
+                                2x Smash burger de 90g, american cheese derretido, picles crocantes, cebola roxa e molho secreto artesanal.
+                            </p>
+                        </div>
+                        <button onclick="event.stopPropagation(); quickSelectAndConfigure('burguer', 'case-1')" class="w-full bg-[#f8f6f2] hover:bg-food-red text-food-dark hover:text-white py-3 rounded-[12px] font-heading text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 brutal-border shadow-sm">
+                            <i data-lucide="flame" class="w-4 h-4 text-food-red group-hover:text-white"></i>
+                            Customizar este Estilo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Burger Item 2 -->
+                <div data-case-cat="burguer" class="group bg-white brutal-border rounded-[24px] p-5 flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_45px_rgba(225,29,72,0.12)] transition-all duration-500 cursor-pointer" data-aos="fade-up" data-aos-delay="100" onclick="openCaseModal('case-2')">
+                    <div class="overflow-hidden rounded-[16px] aspect-[4/3] mb-5 relative bg-food-dark/5 brutal-border">
+                        <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Hambúrguer Especial Bacon Beast de 180g">
+                        <div class="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white/95 text-food-dark font-heading text-xs font-black px-4 py-2 uppercase tracking-widest shadow-md rounded-lg">Ver Ingredientes</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div class="mb-4 text-food-dark">
+                            <div class="flex justify-between items-start gap-4 mb-2">
+                                <h3 class="font-heading text-2xl font-extrabold uppercase leading-tight group-hover:text-food-red transition-colors">Bacon Beast</h3>
+                                <span class="font-heading text-lg font-bold text-food-red whitespace-nowrap">R$ 35,00</span>
+                            </div>
+                            <p class="font-body text-xs text-gray-500 leading-relaxed font-medium">
+                                Blend alto de 180g grelhado na brasa, duplo cheddar fatiado, tiras grossas de bacon super crocante e maionese defumada da casa.
+                            </p>
+                        </div>
+                        <button onclick="event.stopPropagation(); quickSelectAndConfigure('burguer', 'case-2')" class="w-full bg-[#f8f6f2] hover:bg-food-red text-food-dark hover:text-white py-3 rounded-[12px] font-heading text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 brutal-border shadow-sm">
+                            <i data-lucide="flame" class="w-4 h-4 text-food-red group-hover:text-white"></i>
+                            Customizar este Estilo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Side Item 3 -->
+                <div data-case-cat="acompanhamento" class="group bg-white brutal-border rounded-[24px] p-5 flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_45px_rgba(225,29,72,0.12)] transition-all duration-500 cursor-pointer" data-aos="fade-up" data-aos-delay="200" onclick="openCaseModal('case-3')">
+                    <div class="overflow-hidden rounded-[16px] aspect-[4/3] mb-5 relative bg-food-dark/5 brutal-border">
+                        <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Batatas Rústicas com Páprica Defumada e Sal Grosso">
+                        <div class="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white/95 text-food-dark font-heading text-xs font-black px-4 py-2 uppercase tracking-widest shadow-md rounded-lg">Ver Ingredientes</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div class="mb-4 text-food-dark">
+                            <div class="flex justify-between items-start gap-4 mb-2">
+                                <h3 class="font-heading text-2xl font-extrabold uppercase leading-tight group-hover:text-food-red transition-colors">Fritas Rústicas</h3>
+                                <span class="font-heading text-lg font-bold text-food-red whitespace-nowrap">R$ 15,00</span>
+                            </div>
+                            <p class="font-body text-xs text-gray-500 leading-relaxed font-medium">
+                                Batatas fritas com a casca dourada e crocante por fora, macias por dentro, salpicadas com sal grosso marinho e páprica defumada.
+                            </p>
+                        </div>
+                        <button onclick="event.stopPropagation(); quickSelectAndConfigure('acompanhamento', 'case-3')" class="w-full bg-[#f8f6f2] hover:bg-food-red text-food-dark hover:text-white py-3 rounded-[12px] font-heading text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 brutal-border shadow-sm">
+                            <i data-lucide="flame" class="w-4 h-4 text-food-red group-hover:text-white"></i>
+                            Adicionar ao Combo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Drink Item 4 -->
+                <div data-case-cat="bebida" class="group bg-white brutal-border rounded-[24px] p-5 flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_45px_rgba(225,29,72,0.12)] transition-all duration-500 cursor-pointer" data-aos="fade-up" data-aos-delay="300" onclick="openCaseModal('case-4')">
+                    <div class="overflow-hidden rounded-[16px] aspect-[4/3] mb-5 relative bg-food-dark/5 brutal-border">
+                        <img src="https://images.unsplash.com/photo-1625869016774-3a92be2ae2cd?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Milkshake de Biscoito Oreo e Sorvete de Baunilha">
+                        <div class="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white/95 text-food-dark font-heading text-xs font-black px-4 py-2 uppercase tracking-widest shadow-md rounded-lg">Ver Ingredientes</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div class="mb-4 text-food-dark">
+                            <div class="flex justify-between items-start gap-4 mb-2">
+                                <h3 class="font-heading text-2xl font-extrabold uppercase leading-tight group-hover:text-food-red transition-colors">Milkshake Oreo</h3>
+                                <span class="font-heading text-lg font-bold text-food-red whitespace-nowrap">R$ 22,00</span>
+                            </div>
+                            <p class="font-body text-xs text-gray-500 leading-relaxed font-medium">
+                                Sorvete de baunilha premium cremoso batido com leite fresco e pedaços de biscoito Oreo crocantes, finalizado com chantilly.
+                            </p>
+                        </div>
+                        <button onclick="event.stopPropagation(); quickSelectAndConfigure('bebida', 'case-4')" class="w-full bg-[#f8f6f2] hover:bg-food-red text-food-dark hover:text-white py-3 rounded-[12px] font-heading text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 brutal-border shadow-sm">
+                            <i data-lucide="flame" class="w-4 h-4 text-food-red group-hover:text-white"></i>
+                            Adicionar ao Combo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Detail Modal -->
+    <div id="case-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[55] flex items-center justify-center p-4 hidden">
+        <div class="max-w-xl w-full bg-white brutal-border p-6 sm:p-8 space-y-6 shadow-2xl relative text-left text-food-dark rounded-[24px]">
+            <button onclick="closeCaseModal()" class="absolute top-6 right-6 text-gray-400 hover:text-food-red transition-colors">
+                <i data-lucide="x" class="w-7 h-7"></i>
+            </button>
+            
+            <div class="border-b-4 border-food-dark pb-4">
+                <span class="text-xs font-mono font-bold text-food-red uppercase tracking-widest block mb-1.5" id="case-modal-tag">BURGERS</span>
+                <h3 class="font-heading text-3xl sm:text-4xl font-black uppercase tracking-tight transform -skew-x-3 text-food-dark" id="case-modal-title">Smash Clássico</h3>
+            </div>
+            
+            <div class="space-y-5">
+                <div class="aspect-video w-full rounded-2xl overflow-hidden bg-black/60 brutal-border">
+                    <img id="case-modal-img" src="" class="w-full h-full object-cover" alt="Detalhe do item de cardápio">
+                </div>
+                
+                <div>
+                    <h5 class="font-heading text-xl font-black uppercase tracking-wide mb-2 text-food-dark">Nicho de Faturamento e Ingredientes</h5>
+                    <p id="case-modal-desc" class="text-sm text-gray-600 leading-relaxed font-medium"></p>
+                </div>
+
+                <div class="bg-food-yellow p-4 brutal-border rounded-2xl flex flex-wrap gap-4 items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-mono text-food-dark font-black uppercase block mb-0.5">Diferencial Exclusivo</span>
+                        <span class="font-heading text-lg font-bold text-food-red" id="case-modal-metric">100% Carne Angus</span>
+                    </div>
+                    <button id="case-modal-btn" onclick="selectCaseForScope()" class="bg-food-red text-white hover:bg-food-dark hover:text-food-yellow transition-colors font-heading font-black text-sm uppercase tracking-widest px-6 py-3.5 brutal-border shadow-sm">
+                        Orçar este Estilo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact & Feedback Callout -->
+    <section id="contact" class="py-24 bg-food-light brutal-border border-b-0 border-x-0">
+        <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+            <h2 class="font-heading text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8 transform -skew-x-6 text-food-dark select-none">Pronto para a Experiência?</h2>
+            <p class="text-base sm:text-lg font-medium text-gray-600 mb-10 max-w-lg mx-auto leading-relaxed">Você pode simular, homologar a montagem de combos com total usabilidade interativa, aplicar cupons e acompanhar o recibo térmico de rua!</p>
+            <div class="flex flex-wrap items-center justify-center gap-6">
+                <button onclick="openConfiguratorDrawer()" class="bg-food-yellow text-food-dark font-heading font-black uppercase text-2xl px-12 py-6 brutal-border brutal-shadow-dark">
+                    Simular Pedido Completo
+                </button>
+                <button onclick="toggleFeedbackPanel(true)" class="bg-white text-food-dark font-heading font-black uppercase text-xl px-10 py-5 brutal-border brutal-shadow-red flex items-center gap-2">
+                    <i data-lucide="message-square" class="w-5 h-5 text-food-red"></i> Deixar Feedback Visual
                 </button>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-food-yellow py-10 border-t-4 border-food-dark text-center font-bold text-food-dark">
-        <h2 class="font-heading text-4xl uppercase tracking-tighter transform -skew-x-6 mb-4">SMASH<span class="text-food-red">!</span></h2>
-        <p class="mb-6">Rua da Fome, 123 - Centro.</p>
-        <p class="text-sm uppercase tracking-widest">&copy; 2026 Smash Burger. Design Brutal by Retro Pixel.</p>
+    <footer class="bg-food-yellow py-12 brutal-border border-b-0 border-x-0 text-center font-bold text-food-dark">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col items-center gap-6">
+            <h2 class="font-heading text-4xl font-black uppercase tracking-tighter transform -skew-x-6 select-none">SMASH<span class="text-food-red">!</span></h2>
+            <p class="text-sm font-medium text-food-dark/80">Rua da Grelha Urbana, 452 - Pinheiros, São Paulo/SP</p>
+            <p class="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-food-dark/60">&copy; 2026 Smash Burguer Delivery. Crafted with Authentic Brutalist Design.</p>
+        </div>
     </footer>
 
-    <style>
-        @keyframes floating {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-    </style>
-    
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- ========================================== -->
+    <!-- INTERACTIVE SYSTEM & CHECKOUT DRAWERS -->
+    <!-- ========================================== -->
+
+    <!-- Dynamic Targets for Custom Feedback Pins on Page -->
+    <div id="pins-container" class="absolute inset-0 pointer-events-none z-30 hidden"></div>
+
+    <!-- Order Drawer (SMASH Combos Scoper) -->
+    <div id="budget-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-[#18181B] brutal-border border-r-0 border-y-0 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <div class="h-full flex flex-col justify-between">
+            <!-- Header -->
+            <div class="p-6 border-b-4 border-food-dark bg-food-yellow flex items-center justify-between text-food-dark">
+                <div class="flex items-center gap-2 font-heading text-2xl transform -skew-x-6">
+                    <i data-lucide="flame" class="w-6 h-6 text-food-red animate-pulse"></i>
+                    <span class="font-black tracking-tight uppercase">Montar Smash Combo</span>
+                </div>
+                <button onclick="toggleBudgetDrawer(false)" class="text-food-dark hover:text-food-red transition-colors">
+                    <i data-lucide="x" class="w-7 h-7"></i>
+                </button>
+            </div>
+
+            <!-- Content Area (Customizer Configuration) -->
+            <div class="flex-grow p-6 overflow-y-auto space-y-6 text-white font-mono text-xs">
+                
+                <!-- STEP 1: Escolha a Base -->
+                <div class="space-y-3.5">
+                    <span class="text-xs font-bold text-food-yellow uppercase tracking-widest block font-heading text-[13px]">// 1. ESCOLHA SEU BURGUER BASE</span>
+                    <div class="space-y-2.5 font-body text-food-dark">
+                        <!-- Burger Base 1 -->
+                        <label class="flex items-start gap-3 bg-white p-3.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none relative group">
+                            <input type="radio" name="burger-base" id="base-classic" value="classic" checked onchange="calculateScope()" class="mt-1.5 accent-food-red">
+                            <div class="flex-grow">
+                                <span class="font-heading font-black text-lg text-food-dark block leading-tight group-hover:text-food-red transition-colors">Smash Clássico</span>
+                                <span class="text-[10px] text-gray-500 font-medium block mt-0.5">2x blends 90g, american cheese, cebola, picles e molho especial.</span>
+                                <span class="text-xs text-food-red font-extrabold font-mono block mt-1">R$ 28,00</span>
+                            </div>
+                        </label>
+                        <!-- Burger Base 2 -->
+                        <label class="flex items-start gap-3 bg-white p-3.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none relative group">
+                            <input type="radio" name="burger-base" id="base-beast" value="beast" onchange="calculateScope()" class="mt-1.5 accent-food-red">
+                            <div class="flex-grow">
+                                <span class="font-heading font-black text-lg text-food-dark block leading-tight group-hover:text-food-red transition-colors">Bacon Beast</span>
+                                <span class="text-[10px] text-gray-500 font-medium block mt-0.5">Blend alto de 180g, cheddar duplo, bacon crocante e maionese defumada.</span>
+                                <span class="text-xs text-food-red font-extrabold font-mono block mt-1">R$ 35,00</span>
+                            </div>
+                        </label>
+                        <!-- Burger Base 3 -->
+                        <label class="flex items-start gap-3 bg-white p-3.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none relative group">
+                            <input type="radio" name="burger-base" id="base-double" value="double" onchange="calculateScope()" class="mt-1.5 accent-food-red">
+                            <div class="flex-grow">
+                                <span class="font-heading font-black text-lg text-food-dark block leading-tight group-hover:text-food-red transition-colors">Double Smash Tradicional</span>
+                                <span class="text-[10px] text-gray-500 font-medium block mt-0.5">2 blends 120g na chapa, american cheese quadruplicado, pão selado na manteiga.</span>
+                                <span class="text-xs text-food-red font-extrabold font-mono block mt-1">R$ 45,00</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Turbine seu Blend (Extras Premium) -->
+                <div class="space-y-3.5">
+                    <span class="text-xs font-bold text-food-yellow uppercase tracking-widest block font-heading text-[13px]">// 2. TURBINE SEU BLEND (EXTRAS)</span>
+                    <div class="grid grid-cols-2 gap-2 text-food-dark font-body">
+                        <!-- Extra Cheddar -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="checkbox" id="extra-cheddar" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Cheddar Extra</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 4,50</span>
+                            </div>
+                        </label>
+                        <!-- Extra Bacon -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="checkbox" id="extra-bacon" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Bacon Crocante</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 6,00</span>
+                            </div>
+                        </label>
+                        <!-- Extra Angus -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="checkbox" id="extra-angus" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Carne Extra 90g</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 8,00</span>
+                            </div>
+                        </label>
+                        <!-- Extra Sauce -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="checkbox" id="extra-sauce" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Molho Especial</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 2,50</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Acompanhamentos -->
+                <div class="space-y-3.5">
+                    <span class="text-xs font-bold text-food-yellow uppercase tracking-widest block font-heading text-[13px]">// 3. ACOMPANHAMENTOS (SIDES)</span>
+                    <div class="grid grid-cols-1 gap-2 font-body text-food-dark">
+                        <!-- Nenhum -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="radio" name="side-choice" id="side-none" value="none" checked onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Nenhum Acompanhamento</span>
+                                <span class="text-[10px] text-gray-400 font-mono font-bold">R$ 0,00</span>
+                            </div>
+                        </label>
+                        <!-- Fritas -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="radio" name="side-choice" id="side-fries" value="fries" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Fritas Rústicas Temperadas</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 15,00</span>
+                            </div>
+                        </label>
+                        <!-- Onion Rings -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="radio" name="side-choice" id="side-rings" value="rings" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Onion Rings Crocantes</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 18,00</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Bebida Premium -->
+                <div class="space-y-3.5">
+                    <span class="text-xs font-bold text-food-yellow uppercase tracking-widest block font-heading text-[13px]">// 4. BEBIDA PREMIUM (DRINKS)</span>
+                    <div class="grid grid-cols-1 gap-2 font-body text-food-dark">
+                        <!-- Nenhuma -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="radio" name="drink-choice" id="drink-none" value="none" checked onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Nenhuma Bebida</span>
+                                <span class="text-[10px] text-gray-400 font-mono font-bold">R$ 0,00</span>
+                            </div>
+                        </label>
+                        <!-- Milkshake -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="radio" name="drink-choice" id="drink-shake" value="shake" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Milkshake Oreo Gourmet</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 22,00</span>
+                            </div>
+                        </label>
+                        <!-- Coca-Cola -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="radio" name="drink-choice" id="drink-coca" value="coca" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Coca-Cola Zero Lata</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 7,00</span>
+                            </div>
+                        </label>
+                        <!-- Guarana -->
+                        <label class="bg-white p-2.5 brutal-border rounded-xl cursor-pointer hover:border-food-yellow transition-all select-none flex items-center gap-2">
+                            <input type="radio" name="drink-choice" id="drink-guarana" value="guarana" onchange="calculateScope()" class="accent-food-red h-4 w-4">
+                            <div>
+                                <span class="text-xs font-black text-food-dark block leading-tight">Guaraná Antarctica Lata</span>
+                                <span class="text-[10px] text-food-red font-mono font-bold">+R$ 7,00</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Briefing de Entrega -->
+                <div class="space-y-4 bg-white/5 p-4 border-2 border-food-yellow/20 rounded-2xl">
+                    <span class="text-xs font-bold text-food-yellow uppercase tracking-widest block font-heading">// BRIEFING DE ENTREGA</span>
+                    <div class="space-y-3 font-body text-food-dark">
+                        <input required id="lead-name" type="text" placeholder="Nome Completo do Cliente" class="w-full bg-white brutal-border focus:border-food-red outline-none px-3.5 py-3 rounded-xl text-xs font-bold placeholder-gray-400">
+                        <input required id="lead-email" type="email" placeholder="E-mail de Notificação" class="w-full bg-white brutal-border focus:border-food-red outline-none px-3.5 py-3 rounded-xl text-xs font-bold placeholder-gray-400">
+                        <input required id="lead-address" type="text" placeholder="Endereço Completo de Entrega" class="w-full bg-white brutal-border focus:border-food-red outline-none px-3.5 py-3 rounded-xl text-xs font-bold placeholder-gray-400">
+                        <select id="lead-type" onchange="calculateScope()" class="w-full bg-white brutal-border focus:border-food-red outline-none px-3.5 py-3 rounded-xl font-heading text-xs font-black uppercase tracking-widest">
+                            <option value="express">Delivery Expresso (30 min ou Grátis)</option>
+                            <option value="retirada">Retirada no Balcão</option>
+                            <option value="scheduled">Delivery Agendado (Programar Rota)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cupom de Desconto -->
+                <div class="space-y-2 bg-white/5 p-4 border-2 border-food-yellow/20 rounded-2xl">
+                    <span class="text-xs font-bold text-food-yellow uppercase tracking-widest block font-heading">// CUPOM PROMOCIONAL</span>
+                    <div class="flex gap-2 font-body text-food-dark">
+                        <input id="coupon-input" type="text" placeholder="Código. Ex: SMASH20" class="flex-grow text-xs px-3.5 py-3 bg-white brutal-border outline-none rounded-xl font-bold placeholder-gray-400">
+                        <button onclick="applyCoupon()" class="bg-food-yellow text-food-dark hover:bg-food-red hover:text-white text-xs font-heading font-black px-5 py-3 brutal-border rounded-xl uppercase transition-colors">Validar</button>
+                    </div>
+                    <div id="coupon-alert" class="text-[11px] font-bold hidden font-mono tracking-wide leading-tight"></div>
+                </div>
+            </div>
+
+            <!-- Footer Calculadora -->
+            <div class="p-6 border-t-4 border-food-dark bg-food-yellow text-food-dark font-heading">
+                <div class="space-y-1.5 border-b border-food-dark/15 pb-4 text-[11px] font-mono font-bold uppercase tracking-wider">
+                    <div class="flex justify-between items-center text-food-dark/70">
+                        <span>Hambúrguer Base</span>
+                        <span id="scope-base-val">R$ 28,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-food-dark/70">
+                        <span>Adicionais Extras</span>
+                        <span id="scope-extras-val">R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-food-dark/70">
+                        <span>Acompanhamento & Bebida</span>
+                        <span id="scope-sides-drinks-val">R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-food-red font-black hidden" id="scope-discount-row">
+                        <span>Desconto Aplicado (20%)</span>
+                        <span id="scope-discount-val">-R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center my-4 select-none">
+                    <span class="text-xl font-black uppercase tracking-tight transform -skew-x-3">Total Estimado</span>
+                    <span id="scope-total" class="text-3xl font-black text-food-red">R$ 28,00</span>
+                </div>
+                <button onclick="triggerTransmission()" class="w-full bg-food-red text-white hover:bg-food-dark hover:text-food-yellow py-4 brutal-border brutal-shadow-dark text-sm font-heading font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2">
+                    Transmitir para a Chapa
+                    <i data-lucide="rocket" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Direct Ledger Transmission Terminal Overlay -->
+    <div id="transaction-loader" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[60] flex items-center justify-center p-4 hidden">
+        <div class="max-w-lg w-full bg-food-dark brutal-border border-food-yellow rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative font-mono text-xs">
+            <div class="flex items-center gap-3 border-b-4 border-food-yellow pb-4 text-food-yellow">
+                <div class="w-3.5 h-3.5 bg-food-red rounded-full animate-ping border border-white"></div>
+                <h4 class="text-lg font-heading font-black tracking-tight uppercase transform -skew-x-3 text-food-yellow">// TRANSMISSÃO DIGITAL CHAPA-NET</h4>
+            </div>
+            
+            <div class="bg-black p-4 border-2 border-food-yellow/20 rounded-2xl min-h-[160px] font-mono text-[10px] sm:text-xs text-food-yellow space-y-2.5 leading-relaxed max-h-[220px] overflow-y-auto" id="console-logs">
+                <p class="text-gray-500">> Conectando ao painel de chapa segura...</p>
+            </div>
+            
+            <div class="text-center font-heading font-black text-white text-xs tracking-widest uppercase animate-pulse py-2 bg-white/5 border border-white/10 rounded-xl" id="loader-status-text">
+                INJETANDO CALOR INTEGRADO GOURMET...
+            </div>
+        </div>
+    </div>
+
+    <!-- Jagged-Edge Brutalist Thermal Receipt (Docket Modal) -->
+    <div id="receipt-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[65] flex items-start justify-center p-4 overflow-y-auto py-10 hidden">
+        <!-- Ticket Container -->
+        <div class="max-w-md w-full bg-white p-1 shadow-2xl relative text-left text-food-dark select-text rounded-sm max-h-[90vh] flex flex-col justify-between font-mono text-xs">
+            
+            <!-- Serrilhado top -->
+            <div class="jagged-top w-full h-2.5"></div>
+            
+            <div class="p-6 space-y-5 overflow-y-auto flex-grow">
+                <!-- Timbrado Header -->
+                <div class="text-center border-b-4 border-dashed border-food-dark pb-4 relative">
+                    <h3 class="font-heading text-4xl font-black tracking-tighter uppercase transform -skew-x-6 text-food-dark select-none">SMASH TICKET</h3>
+                    <p class="text-[9px] text-gray-500 font-mono mt-1" id="receipt-docket-id">TICKET ID #SM-992288</p>
+                    
+                    <div class="mt-2.5">
+                        <span class="text-[9px] font-sans font-black text-white bg-food-red border-2 border-food-dark px-3 py-1 rounded uppercase tracking-wider">CHAPA GRELHANDO</span>
+                    </div>
+                </div>
+
+                <!-- Receipt Coordinates Geofenced Info -->
+                <div class="space-y-1 text-[10px] text-gray-600 border-b-2 border-dashed border-food-dark pb-4">
+                    <div>
+                        <span class="text-food-dark font-black block text-[11px] mb-1">// CLIENTE CONTRATANTE:</span>
+                        <span class="text-food-dark block font-bold" id="receipt-lead-name">-</span>
+                        <span class="block" id="receipt-lead-email">-</span>
+                        <span class="block text-gray-500 mt-1">Endereço de Entrega:</span>
+                        <span class="text-food-dark block font-bold leading-tight" id="receipt-lead-address">-</span>
+                        <span class="block mt-1">Tipo de Entrega: <span id="receipt-lead-type" class="text-food-dark font-bold">-</span></span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 mt-2">
+                        <span class="text-food-red font-bold block text-[11px] mb-0.5">// AUDITORIA OPERACIONAL:</span>
+                        <span class="block">GEOFENCING ROTA: <span class="text-food-dark font-bold">ZONA 01 (SÃO PAULO)</span></span>
+                        <span class="block">TEMPERATURA GRELHA: <span class="text-food-dark font-bold">180 CELSIUS ATIVO</span></span>
+                        <span class="block">ASSINATURA DIGITAL: <span class="text-food-dark font-bold">OK // INTEGRAL</span></span>
+                    </div>
+                </div>
+
+                <!-- Custom Selected Items List -->
+                <div class="space-y-2 border-b-2 border-dashed border-food-dark pb-4 text-food-dark" id="receipt-items-list">
+                    <!-- Dynamic Receipt Items Inject -->
+                </div>
+
+                <!-- Brutalist Barcode -->
+                <div class="py-2.5 border-t border-b border-dashed border-food-dark flex flex-col items-center justify-center gap-1 select-none">
+                    <!-- Flex Barcode -->
+                    <div class="w-full flex items-stretch h-8 justify-center gap-[1px]">
+                        <div class="bg-black w-[2px]"></div><div class="bg-black w-[1px]"></div><div class="bg-black w-[4px]"></div>
+                        <div class="bg-black w-[1px]"></div><div class="bg-black w-[3px]"></div><div class="bg-black w-[2px]"></div>
+                        <div class="bg-black w-[1px]"></div><div class="bg-black w-[4px]"></div><div class="bg-black w-[2px]"></div>
+                        <div class="bg-black w-[3px]"></div><div class="bg-black w-[1px]"></div><div class="bg-black w-[4px]"></div>
+                        <div class="bg-black w-[2px]"></div><div class="bg-black w-[1px]"></div><div class="bg-black w-[3px]"></div>
+                        <div class="bg-black w-[2px]"></div><div class="bg-black w-[4px]"></div><div class="bg-black w-[1px]"></div>
+                        <div class="bg-black w-[3px]"></div><div class="bg-black w-[2px]"></div><div class="bg-black w-[4px]"></div>
+                    </div>
+                    <span class="text-[9px] font-mono font-bold tracking-widest text-food-dark mt-1">SMASH-CHAPA-DIRECT-LEDGER-2026</span>
+                </div>
+
+                <!-- Simulated PIX QR Code & Payment key -->
+                <div class="bg-[#f8f6f2] p-4 brutal-border rounded-xl space-y-3">
+                    <div class="flex items-center gap-2 justify-between">
+                        <span class="text-[10px] font-bold text-food-dark block">// FATURAMENTO PIX RÁPIDO:</span>
+                        <span class="text-[8px] bg-green-100 text-green-700 border border-green-300 font-bold px-1.5 py-0.5 rounded">QR COPIÁVEL</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <input readonly id="pix-key-val" type="text" value="00020126580014BR.GOV.BCB.PIX0136smashburger2026paydigitalcode" class="flex-grow text-[9px] px-2.5 py-2.5 bg-white brutal-border rounded-lg font-mono text-gray-500 overflow-hidden select-all">
+                        <button onclick="copyPixKey()" id="btn-copy-pix" class="bg-food-dark hover:bg-food-red text-white text-[9px] font-bold px-3 py-2.5 brutal-border rounded-lg uppercase transition-all flex items-center gap-1.5 whitespace-nowrap">
+                            <i data-lucide="copy" class="w-3 h-3"></i> Copiar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Total Print Out -->
+                <div class="flex justify-between items-center text-xs font-mono font-bold border-t border-dashed border-food-dark pt-3">
+                    <span class="text-gray-500">VALOR TOTAL DO TICKET:</span>
+                    <span class="font-black text-food-red text-xl" id="receipt-grand-total">R$ 0,00</span>
+                </div>
+
+                <!-- Transaction signature hash -->
+                <div class="bg-black text-[#FACC15] p-3 border-2 border-food-dark rounded-xl text-center text-[8px] break-all leading-normal uppercase select-all" id="receipt-hash">
+                    HASH: SM2026_SHA256_SECURE_DIRECT_LEDGER
+                </div>
+            </div>
+
+            <!-- Closing Actions -->
+            <div class="p-6 pt-0 space-y-2">
+                <button onclick="closeReceipt()" class="w-full bg-food-dark text-white hover:bg-food-red hover:text-white transition-colors py-3.5 brutal-border rounded-xl text-xs font-heading font-black uppercase tracking-widest text-center">
+                    Fechar e Monitorar Grelha
+                </button>
+                <div class="jagged-bottom w-full h-2.5"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elegant Annotation Co-Creation Panel Drawer (Right side) -->
+    <div id="feedback-panel" class="fixed inset-y-0 right-0 max-w-sm w-full bg-[#18181B] brutal-border border-r-0 border-y-0 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <!-- Header -->
+        <div class="p-6 border-b border-white/10 bg-black/30 flex items-center justify-between text-white">
+            <div class="flex items-center gap-2">
+                <i data-lucide="message-square" class="w-5 h-5 text-food-yellow animate-pulse"></i>
+                <span class="font-heading text-xl font-black tracking-tight uppercase">// PAINEL CO-CRIAÇÃO</span>
+            </div>
+            <button onclick="toggleFeedbackPanel(false)" class="text-gray-400 hover:text-food-yellow transition-colors">
+                <i data-lucide="x" class="w-7 h-7"></i>
+            </button>
+        </div>
+
+        <!-- Annotation Switch & Reviews -->
+        <div class="flex-grow p-6 overflow-y-auto space-y-6 text-white font-mono text-xs">
+            <!-- Pin Placement Controller Button -->
+            <button id="pin-tool-btn" onclick="toggleAnnotationMode()" class="w-full border-2 border-food-yellow text-food-yellow hover:bg-food-yellow/15 py-3.5 rounded-xl font-heading font-black tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-food-yellow animate-bounce"></i>
+                <span>Comentário Visual no Cardápio</span>
+            </button>
+            <div id="pin-tool-active-banner" class="text-center py-3 bg-food-yellow/10 border border-food-yellow/30 text-food-yellow text-[10px] font-body font-medium rounded-xl animate-pulse hidden leading-relaxed">
+                MODO ATIVO: CLIQUE EM QUALQUER IMAGEM OU CARD PARA MARCAR SEU FEEDBACK VISUAL!
+            </div>
+
+            <!-- Like & Avaliação Rápida -->
+            <div class="bg-white/5 border border-white/10 p-4 rounded-2xl space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="font-heading text-xs font-black uppercase text-food-yellow tracking-wider">// REPUTAÇÃO DO SANDBOX</span>
+                    <button onclick="toggleLikeProject()" id="like-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-white/20 hover:bg-white/10 transition-all duration-300 group font-mono text-xs">
+                        <i id="like-icon" data-lucide="heart" class="w-4 h-4 text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                        <span id="like-count" class="text-white font-bold">152</span>
+                    </button>
+                </div>
+                
+                <div class="space-y-2">
+                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block font-heading">Feedback Rápido de 1 Clique:</span>
+                    <div class="grid grid-cols-2 gap-2 text-[9px] font-body text-food-dark font-bold">
+                        <button onclick="submitQuickFeedback('Brutalismo urbano simplesmente perfeito!')" class="py-2.5 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 rounded-xl transition-colors text-center uppercase tracking-wider font-mono">Sensacional</button>
+                        <button onclick="submitQuickFeedback('Fidelidade térmica incrível')" class="py-2.5 border border-blue-500/40 text-blue-400 hover:bg-blue-500/10 rounded-xl transition-colors text-center uppercase tracking-wider font-mono">Belo Cupom</button>
+                        <button onclick="submitQuickFeedback('Ajustar proporção dos cards mobile')" class="py-2.5 border border-amber-500/40 text-amber-400 hover:bg-amber-500/10 rounded-xl transition-colors text-center uppercase tracking-wider font-mono">Cards Mobile</button>
+                        <button onclick="submitQuickFeedback('Falta opção de bacon em tiras duplas no cardápio')" class="py-2.5 border border-red-500/40 text-red-400 hover:bg-red-500/10 rounded-xl transition-colors text-center uppercase tracking-wider font-mono">Mais Bacon</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialist Reviews Logs -->
+            <div class="space-y-3">
+                <span class="font-heading text-xs font-black text-food-yellow uppercase tracking-wider block">// AUDITORIA DE CRIAÇÃO</span>
+                
+                <!-- Professional Review 1 -->
+                <div class="bg-white/5 border border-white/10 p-4 rounded-xl space-y-1 text-[11px] font-body font-medium leading-relaxed">
+                    <div class="flex justify-between items-center mb-1 font-mono text-[9px]">
+                        <span class="font-black text-white uppercase tracking-wider">Rodrigo M. (Delivery Tech)</span>
+                        <span class="text-[8px] font-black text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded uppercase">Aprovado</span>
+                    </div>
+                    <p class="text-gray-400 italic">
+                        "Estética brutalista arrojada preservada com a inclusão de cálculos dinâmicos de combos e pins de revisão visual persistentes."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Custom User Pins List -->
+            <div id="saved-pins-section" class="space-y-3 hidden">
+                <span class="font-heading text-xs font-black text-food-yellow uppercase tracking-wider block">// ANOTAÇÕES EFETUADAS</span>
+                <div id="saved-pins-list" class="space-y-2 max-h-[160px] overflow-y-auto pr-2">
+                    <!-- Dynamic feedback pins list inject -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Approve Button -->
+        <div class="p-6 border-t border-white/10 bg-black/40">
+            <button onclick="approveLayoutProject()" class="w-full bg-gradient-to-r from-food-yellow to-yellow-600 text-food-dark py-4 rounded-xl text-xs font-heading font-black uppercase tracking-widest transition-all duration-300 shadow-lg flex items-center justify-center gap-2 brutal-border">
+                <i data-lucide="award" class="w-5 h-5"></i>
+                Homologar Versão
+            </button>
+        </div>
+    </div>
+
+    <!-- Comment Pin Submission Form Modal -->
+    <div id="feedback-pin-form-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[70] flex items-center justify-center p-4 hidden">
+        <div class="max-w-sm w-full bg-white brutal-border p-6 rounded-2xl shadow-2xl relative text-left text-food-dark font-mono text-xs">
+            <h4 class="font-heading text-2xl font-black uppercase tracking-tight text-food-dark mb-4 transform -skew-x-3">// COMENTÁRIO VISUAL</h4>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase tracking-widest font-bold block mb-1.5">Insira seu comentário gourmet:</label>
+                    <textarea id="pin-comment-text" placeholder="Ex: Ajustar o brilho da carne ou adicionar queijo american cheese extra..." rows="3" class="w-full bg-white brutal-border focus:border-food-red outline-none p-3 rounded-xl font-body font-medium placeholder-gray-400 text-xs"></textarea>
+                </div>
+                
+                <div class="flex gap-3 font-heading font-black text-xs uppercase tracking-wider mt-2">
+                    <button onclick="cancelPinPlacement()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl border border-gray-300 transition-colors">Cancelar</button>
+                    <button onclick="savePinPlacement()" class="flex-1 bg-food-red hover:bg-food-dark text-white py-3 rounded-xl brutal-border shadow-sm transition-all">Fixar Comentário</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration of Approval Modal -->
+    <div id="approval-celebration-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[80] flex items-center justify-center p-4 hidden">
+        <div class="max-w-md w-full bg-white brutal-border p-8 rounded-3xl shadow-2xl relative text-center text-food-dark font-mono text-xs">
+            <div class="w-20 h-20 bg-food-yellow rounded-full flex items-center justify-center mx-auto brutal-border mb-6">
+                <i data-lucide="check" class="w-10 h-10 text-food-dark"></i>
+            </div>
+            
+            <h3 class="font-heading text-4xl font-black uppercase tracking-tight text-food-dark mb-4 transform -skew-x-6 select-none">SITE HOMOLOGADO!</h3>
+            <p class="text-sm font-body text-gray-600 leading-relaxed mb-6 font-medium">Você aprovou a versão conceitual interativa do **SMASH! Burguer Delivery** com sucesso de faturamento direto!</p>
+            
+            <button onclick="closeApprovalCelebration()" class="w-full bg-food-red hover:bg-food-dark text-white font-heading font-black uppercase text-sm tracking-wider py-4 brutal-border rounded-xl transition-all shadow-md">
+                Voltar à Edição
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT LOGIC & SIMULATION SYSTEM -->
+    <!-- ========================================== -->
     <script>
-        AOS.init({ once: true, offset: 50 });
+        // Init libraries
+        lucide.createIcons();
+
+        // Cards Data Detail Database
+        const casesDatabase = {
+            'case-1': {
+                title: 'Smash Clássico',
+                tag: 'BURGERS',
+                img: 'https://images.unsplash.com/photo-1594212202875-861dce707334?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Hambúrguer com duas carnes Smash de 90g grelhadas na chapa em alta velocidade, queijo Cheddar fatiado, picles crocantes, cebola roxa bem fatiada e molho artesanal secreto. Selagem de pão feita com manteiga especial premium para manter a maciez perfeita.',
+                metric: '2x Blends de 90g'
+            },
+            'case-2': {
+                title: 'Bacon Beast',
+                tag: 'BURGERS',
+                img: 'https://images.unsplash.com/photo-1586816001966-79b736744398?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Blend Angus alto de 180g selado no fogo com precisão cirúrgica, queijo Cheddar duplo derretido em abafador de chapa, tiras grossas de bacon super crocante artesanal e maionese defumada premium da casa.',
+                metric: 'Blend Angus de 180g'
+            },
+            'case-3': {
+                title: 'Fritas Rústicas',
+                tag: 'ACOMPANHAMENTOS',
+                img: 'https://images.unsplash.com/photo-1576107232684-1279f3908594?q=80&w=2070&auto=format&fit=crop',
+                desc: 'Batatas fritas rústicas com casca dourada e crocante na medida certa, temperadas à perfeição com sal grosso marinho triturado, ramos de alecrim aromático e páprica defumada.',
+                metric: 'Páprica e Alecrim'
+            },
+            'case-4': {
+                title: 'Milkshake Oreo',
+                tag: 'BEBIDAS',
+                img: 'https://images.unsplash.com/photo-1625869016774-3a92be2ae2cd?q=80&w=1974&auto=format&fit=crop',
+                desc: 'Delicioso sorvete premium de baunilha batido com creme de leite fresco e biscoitos Oreo crocantes triturados na hora. Servido bem gelado em copo térmico protetor.',
+                metric: 'Oreo Gourmet 500ml'
+            }
+        };
+
+        let selectedCaseId = 'case-1';
+        let scopeCouponApplied = false;
+
+        // Drawer Controls
+        function toggleBudgetDrawer(open) {
+            const drawer = document.getElementById('budget-drawer');
+            if (open) {
+                calculateScope();
+                drawer.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function openConfiguratorDrawer() {
+            toggleBudgetDrawer(true);
+        }
+
+        // Auto Select from Menu clicks
+        function quickSelectAndConfigure(category, id) {
+            selectedCaseId = id;
+            
+            // Map card click to actual inputs in order drawer
+            if (category === 'burguer') {
+                if (id === 'case-1') document.getElementById('base-classic').checked = true;
+                if (id === 'case-2') document.getElementById('base-beast').checked = true;
+            } else if (category === 'acompanhamento') {
+                document.getElementById('side-fries').checked = true;
+            } else if (category === 'bebida') {
+                document.getElementById('drink-shake').checked = true;
+            }
+
+            openConfiguratorDrawer();
+        }
+
+        // Modal Controls
+        function openCaseModal(id) {
+            selectedCaseId = id;
+            const data = casesDatabase[id];
+            
+            document.getElementById('case-modal-title').innerText = data.title;
+            document.getElementById('case-modal-tag').innerText = data.tag;
+            document.getElementById('case-modal-img').src = data.img;
+            document.getElementById('case-modal-desc').innerText = data.desc;
+            document.getElementById('case-modal-metric').innerText = data.metric;
+            
+            const modalBtn = document.getElementById('case-modal-btn');
+            if (data.tag === 'BURGERS') {
+                modalBtn.innerText = 'Customizar este Estilo';
+            } else {
+                modalBtn.innerText = 'Adicionar ao Combo';
+            }
+            
+            document.getElementById('case-modal').classList.remove('hidden');
+        }
+
+        function closeCaseModal() {
+            document.getElementById('case-modal').classList.add('hidden');
+        }
+
+        function selectCaseForScope() {
+            closeCaseModal();
+            const data = casesDatabase[selectedCaseId];
+            
+            if (data.tag === 'BURGERS') {
+                if (selectedCaseId === 'case-1') document.getElementById('base-classic').checked = true;
+                if (selectedCaseId === 'case-2') document.getElementById('base-beast').checked = true;
+            } else if (data.tag === 'ACOMPANHAMENTOS') {
+                document.getElementById('side-fries').checked = true;
+            } else if (data.tag === 'BEBIDAS') {
+                document.getElementById('drink-shake').checked = true;
+            }
+
+            openConfiguratorDrawer();
+        }
+
+        // Filter cards in cardápio grid
+        function filterCases(cat) {
+            const cards = document.querySelectorAll('[data-case-cat]');
+            cards.forEach(c => {
+                if (cat === 'all' || c.getAttribute('data-case-cat') === cat) {
+                    c.style.display = 'flex';
+                } else {
+                    c.style.display = 'none';
+                }
+            });
+
+            // Tabs Styling
+            const tabs = ['all', 'burguer', 'acompanhamento', 'bebida'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === cat) {
+                    btn.classList.add('border-food-yellow', 'text-food-dark', 'bg-food-yellow');
+                    btn.classList.remove('border-white/20', 'text-white/70');
+                } else {
+                    btn.classList.remove('border-food-yellow', 'text-food-dark', 'bg-food-yellow');
+                    btn.classList.add('border-white/20', 'text-white/70');
+                }
+            });
+        }
+
+        // Calculation of Combo price logic
+        function calculateScope() {
+            let basePrice = 28.00;
+            let extrasPrice = 0.00;
+            let sidesDrinksPrice = 0.00;
+
+            // Step 1: Base Burger Choice
+            if (document.getElementById('base-classic').checked) basePrice = 28.00;
+            if (document.getElementById('base-beast').checked) basePrice = 35.00;
+            if (document.getElementById('base-double').checked) basePrice = 45.00;
+
+            // Step 2: Extras Choices
+            if (document.getElementById('extra-cheddar').checked) extrasPrice += 4.50;
+            if (document.getElementById('extra-bacon').checked) extrasPrice += 6.00;
+            if (document.getElementById('extra-angus').checked) extrasPrice += 8.00;
+            if (document.getElementById('extra-sauce').checked) extrasPrice += 2.50;
+
+            // Step 3: Side Choice
+            const sideChecked = document.querySelector('input[name="side-choice"]:checked');
+            const sideVal = sideChecked ? sideChecked.value : 'none';
+            if (sideVal === 'fries') sidesDrinksPrice += 15.00;
+            if (sideVal === 'rings') sidesDrinksPrice += 18.00;
+
+            // Step 4: Drink Choice
+            const drinkChecked = document.querySelector('input[name="drink-choice"]:checked');
+            const drinkVal = drinkChecked ? drinkChecked.value : 'none';
+            if (drinkVal === 'shake') sidesDrinksPrice += 22.00;
+            if (drinkVal === 'coca') sidesDrinksPrice += 7.00;
+            if (drinkVal === 'guarana') sidesDrinksPrice += 7.00;
+
+            let subtotal = basePrice + extrasPrice + sidesDrinksPrice;
+            let total = subtotal;
+
+            document.getElementById('scope-base-val').innerText = 'R$ ' + basePrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('scope-extras-val').innerText = 'R$ ' + extrasPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('scope-sides-drinks-val').innerText = 'R$ ' + sidesDrinksPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            if (scopeCouponApplied) {
+                let discount = subtotal * 0.20;
+                total = subtotal - discount;
+                document.getElementById('scope-discount-val').innerText = '-R$ ' + discount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                document.getElementById('scope-discount-row').classList.remove('hidden');
+            } else {
+                document.getElementById('scope-discount-row').classList.add('hidden');
+            }
+
+            document.getElementById('scope-total').innerText = 'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Apply coupon code logic
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const alertBox = document.getElementById('coupon-alert');
+
+            alertBox.classList.remove('hidden', 'text-green-400', 'text-red-500');
+
+            if (input === 'SMASH20') {
+                scopeCouponApplied = true;
+                alertBox.innerText = 'CUPOM SMASH20 VALIDADO: 20% DE DESCONTO APLICADO!';
+                alertBox.classList.add('text-green-400');
+                calculateScope();
+            } else {
+                alertBox.innerText = 'CUPOM INVÁLIDO OU EXPIRADO.';
+                alertBox.classList.add('text-red-500');
+            }
+        }
+
+        // Monospace ledger Preparation console trigger
+        function triggerTransmission() {
+            // Check essential inputs
+            const name = document.getElementById('lead-name').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const address = document.getElementById('lead-address').value.trim();
+
+            if (!name || !email || !address) {
+                alert('Por favor, digite seu nome, e-mail e endereço para simular o delivery.');
+                return;
+            }
+
+            // Close configure drawer
+            toggleBudgetDrawer(false);
+
+            // Open preparing console terminal modal
+            const loader = document.getElementById('transaction-loader');
+            loader.classList.remove('hidden');
+
+            const consoleLogs = document.getElementById('console-logs');
+            consoleLogs.innerHTML = '<p class="text-gray-500">> Conectando ao painel de chapa segura...</p>';
+
+            const deliveryTypeText = document.getElementById('lead-type').options[document.getElementById('lead-type').selectedIndex].text;
+
+            // Generate terminal logging sequence
+            const logs = [
+                `> Transceiver Digital SMASH-NET conectado com sucesso.`,
+                `> Nova ordem recebida: Cliente [${name}] // Endereço [${address}]`,
+                `> Iniciando preparação. Chapa de cromo-níquel estabilizada a 180°C...`,
+                `> Modelando blend bovino selecionado na prensa de smash...`,
+                `> Grelhando blend Angus sob pressão constante de temperatura...`,
+                `> Selando pão brioche amanteigado com infusão de gordura dourada...`,
+                `> Queijo American Cheese acoplado para fusão térmica ideal...`,
+                document.getElementById('extra-cheddar').checked ? `> Injetando porção extra de Cheddar fatiado na grelha...` : ``,
+                document.getElementById('extra-bacon').checked ? `> Incorporando tiras grossas de bacon super crocante...` : ``,
+                document.getElementById('extra-angus').checked ? `> Adicionando blend Angus Smash 90g extra à chapa quente...` : ``,
+                document.getElementById('extra-sauce').checked ? `> Adicionando cobertura extra de molho secreto...` : ``,
+                `> Montando sanduíche e selando papel alumínio protetor térmico...`,
+                `> Embrulhando acompanhamentos na embalagem inviolável de rua...`,
+                `> Registrando transação física no ledger de faturamento...`,
+                `> SHA-256 Hash gerado com absoluto sucesso...`,
+                `> Ordem finalizada! Despachando motoboy expresso para entrega.`
+            ].filter(l => l !== '');
+
+            let logIndex = 0;
+            const timer = setInterval(() => {
+                if (logIndex < logs.length) {
+                    const p = document.createElement('p');
+                    p.innerText = logs[logIndex];
+                    consoleLogs.appendChild(p);
+                    consoleLogs.scrollTop = consoleLogs.scrollHeight;
+                    logIndex++;
+                } else {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        showProposalDocket(name, email, address, deliveryTypeText);
+                    }, 1000);
+                }
+            }, 600);
+        }
+
+        // Show proposal thermal receipt docket
+        function showProposalDocket(name, email, address, deliveryTypeText) {
+            document.getElementById('receipt-lead-name').innerText = name;
+            document.getElementById('receipt-lead-email').innerText = email;
+            document.getElementById('receipt-lead-address').innerText = address;
+            document.getElementById('receipt-lead-type').innerText = deliveryTypeText;
+
+            const list = document.getElementById('receipt-items-list');
+            list.innerHTML = '';
+
+            let basePrice = 28.00;
+            let extrasPrice = 0.00;
+            let sidesDrinksPrice = 0.00;
+            let burgerTitle = "Smash Clássico";
+
+            // Step 1: Base Burger Choice
+            if (document.getElementById('base-classic').checked) {
+                basePrice = 28.00;
+                burgerTitle = "Smash Clássico";
+            }
+            if (document.getElementById('base-beast').checked) {
+                basePrice = 35.00;
+                burgerTitle = "Bacon Beast";
+            }
+            if (document.getElementById('base-double').checked) {
+                basePrice = 45.00;
+                burgerTitle = "Double Smash Tradicional";
+            }
+
+            list.innerHTML += `<div class="flex justify-between font-bold"><span>1x ${burgerTitle}</span><span>R$ ${basePrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>`;
+
+            // Step 2: Extras Choices
+            if (document.getElementById('extra-cheddar').checked) {
+                extrasPrice += 4.50;
+                list.innerHTML += `<div class="flex justify-between text-gray-500 pl-4"><span>+ Cheddar Adicional</span><span>R$ 4,50</span></div>`;
+            }
+            if (document.getElementById('extra-bacon').checked) {
+                extrasPrice += 6.00;
+                list.innerHTML += `<div class="flex justify-between text-gray-500 pl-4"><span>+ Bacon Crocante</span><span>R$ 6,00</span></div>`;
+            }
+            if (document.getElementById('extra-angus').checked) {
+                extrasPrice += 8.00;
+                list.innerHTML += `<div class="flex justify-between text-gray-500 pl-4"><span>+ Blend Carne 90g</span><span>R$ 8,00</span></div>`;
+            }
+            if (document.getElementById('extra-sauce').checked) {
+                extrasPrice += 2.50;
+                list.innerHTML += `<div class="flex justify-between text-gray-500 pl-4"><span>+ Molho Especial</span><span>R$ 2,50</span></div>`;
+            }
+
+            // Step 3: Side Choice
+            const sideChecked2 = document.querySelector('input[name="side-choice"]:checked');
+            const sideVal = sideChecked2 ? sideChecked2.value : 'none';
+            if (sideVal === 'fries') {
+                sidesDrinksPrice += 15.00;
+                list.innerHTML += `<div class="flex justify-between font-bold"><span>1x Fritas Rústicas</span><span>R$ 15,00</span></div>`;
+            }
+            if (sideVal === 'rings') {
+                sidesDrinksPrice += 18.00;
+                list.innerHTML += `<div class="flex justify-between font-bold"><span>1x Onion Rings</span><span>R$ 18,00</span></div>`;
+            }
+
+            // Step 4: Drink Choice
+            const drinkChecked2 = document.querySelector('input[name="drink-choice"]:checked');
+            const drinkVal = drinkChecked2 ? drinkChecked2.value : 'none';
+            if (drinkVal === 'shake') {
+                sidesDrinksPrice += 22.00;
+                list.innerHTML += `<div class="flex justify-between font-bold"><span>1x Milkshake Oreo</span><span>R$ 22,00</span></div>`;
+            }
+            if (drinkVal === 'coca') {
+                sidesDrinksPrice += 7.00;
+                list.innerHTML += `<div class="flex justify-between font-bold"><span>1x Coca-Cola Zero Lata</span><span>R$ 7,00</span></div>`;
+            }
+            if (drinkVal === 'guarana') {
+                sidesDrinksPrice += 7.00;
+                list.innerHTML += `<div class="flex justify-between font-bold"><span>1x Guaraná Antarctica Lata</span><span>R$ 7,00</span></div>`;
+            }
+
+            let subtotal = basePrice + extrasPrice + sidesDrinksPrice;
+            let grandTotal = subtotal;
+
+            if (scopeCouponApplied) {
+                let discount = subtotal * 0.20;
+                grandTotal = subtotal - discount;
+                list.innerHTML += `<div class="flex justify-between text-food-red font-black border-t border-dashed border-gray-200 pt-2"><span>Desconto Cupom SMASH20 (20%)</span><span>-R$ ${discount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>`;
+            }
+
+            document.getElementById('receipt-grand-total').innerText = 'R$ ' + grandTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('receipt-docket-id').innerText = `TICKET ID #SM-${Math.floor(Math.random() * 900000 + 100000)}`;
+            document.getElementById('receipt-hash').innerText = `TRANSACTION HASH: SM2026_SHA256_${Math.random().toString(36).substring(2, 12).toUpperCase()}`;
+
+            // Reset copy button styling
+            const btnCopy = document.getElementById('btn-copy-pix');
+            btnCopy.innerHTML = '<i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar';
+            btnCopy.classList.remove('bg-green-600');
+            btnCopy.classList.add('bg-food-dark');
+            lucide.createIcons();
+
+            document.getElementById('receipt-modal').classList.remove('hidden');
+
+            // Fire Celebration Confetti
+            try {
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            } catch(e) {}
+        }
+
+        // Copy Simulated PIX Payment key
+        function copyPixKey() {
+            const input = document.getElementById('pix-key-val');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            
+            try {
+                navigator.clipboard.writeText(input.value);
+            } catch(e) {
+                document.execCommand('copy');
+            }
+
+            const btn = document.getElementById('btn-copy-pix');
+            btn.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5"></i> Copiado!';
+            btn.classList.remove('bg-food-dark');
+            btn.classList.add('bg-green-600');
+            lucide.createIcons();
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+            // Clear inputs
+            document.getElementById('lead-name').value = '';
+            document.getElementById('lead-email').value = '';
+            document.getElementById('lead-address').value = '';
+            // Reset extras
+            document.getElementById('extra-cheddar').checked = false;
+            document.getElementById('extra-bacon').checked = false;
+            document.getElementById('extra-angus').checked = false;
+            document.getElementById('extra-sauce').checked = false;
+            document.getElementById('side-none').checked = true;
+            document.getElementById('drink-none').checked = true;
+        }
+
+        // Annotation & Feedback Pins System State
+        let annotationModeActive = false;
+        let pendingClickCoords = null;
+        let feedbackPins = [];
+
+        function updatePinsVisibility() {
+            const container = document.getElementById('pins-container');
+            if (!container) return;
+            const panel = document.getElementById('feedback-panel');
+            const drawerOpen = panel && !panel.classList.contains('translate-x-full');
+            if (drawerOpen || annotationModeActive) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function toggleFeedbackPanel(open) {
+            const drawer = document.getElementById('feedback-panel');
+            if (open) {
+                drawer.classList.remove('translate-x-full');
+                renderPins();
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+            updatePinsVisibility();
+        }
+
+        function toggleAnnotationMode() {
+            annotationModeActive = !annotationModeActive;
+            const btn = document.getElementById('pin-tool-btn');
+            const banner = document.getElementById('pin-tool-active-banner');
+
+            if (annotationModeActive) {
+                btn.classList.add('bg-food-yellow/20', 'border-food-yellow');
+                banner.classList.remove('hidden');
+                document.body.style.cursor = 'crosshair';
+                toggleFeedbackPanel(false);
+            } else {
+                btn.classList.remove('bg-food-yellow/20', 'border-food-yellow');
+                banner.classList.add('hidden');
+                document.body.style.cursor = 'default';
+            }
+            updatePinsVisibility();
+        }
+
+        window.addEventListener('click', (e) => {
+            if (!annotationModeActive) return;
+            // Prevent triggers from inside drawers/modals
+            if (e.target.closest('#feedback-panel') || e.target.closest('#feedback-pin-form-modal') || e.target.closest('#hamburger-btn') || e.target.closest('header') || e.target.closest('#budget-drawer') || e.target.closest('#case-modal')) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const x = ((e.pageX / document.documentElement.scrollWidth) * 100).toFixed(2);
+            const y = ((e.pageY / document.documentElement.scrollHeight) * 100).toFixed(2);
+
+            pendingClickCoords = { x, y };
+
+            // Open comment input modal
+            document.getElementById('pin-comment-text').value = '';
+            document.getElementById('feedback-pin-form-modal').classList.remove('hidden');
+            
+            // Turn off annotation mode cursor immediately to focus on form
+            annotationModeActive = false;
+            document.body.style.cursor = 'default';
+            document.getElementById('pin-tool-active-banner').classList.add('hidden');
+            document.getElementById('pin-tool-btn').classList.remove('bg-food-yellow/20', 'border-food-yellow');
+            updatePinsVisibility();
+        });
+
+        function cancelPinPlacement() {
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+            updatePinsVisibility();
+        }
+
+        function savePinPlacement() {
+            const comment = document.getElementById('pin-comment-text').value.trim();
+            if (!comment) return;
+
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: pendingClickCoords.x,
+                y: pendingClickCoords.y,
+                comment: comment,
+                author: 'Crítico Gourmet',
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('smash_feedback_pins', JSON.stringify(feedbackPins));
+            
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+            
+            renderPins();
+            toggleFeedbackPanel(true);
+        }
+
+        function renderPins() {
+            const container = document.getElementById('pins-container');
+            const list = document.getElementById('saved-pins-list');
+            const section = document.getElementById('saved-pins-section');
+
+            container.innerHTML = '';
+            list.innerHTML = '';
+
+            if (feedbackPins.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+
+            feedbackPins.forEach((pin, idx) => {
+                // Render pin on page
+                const pinEl = document.createElement('div');
+                pinEl.className = 'feedback-pin pointer-events-auto';
+                pinEl.style.left = pin.x + '%';
+                pinEl.style.top = pin.y + '%';
+                pinEl.innerHTML = `
+                    <div class="relative group font-body">
+                        <div class="w-7 h-7 rounded-full bg-food-red border-2 border-white flex items-center justify-center text-xs font-black text-white shadow-lg cursor-pointer transform hover:scale-115 transition-transform brutal-border select-none">
+                            ${idx + 1}
+                        </div>
+                        <div class="feedback-tooltip absolute bottom-9 left-1/2 -translate-x-1/2 bg-[#18181B] border-2 border-food-yellow p-3 rounded-xl shadow-xl w-48 text-left text-[11px] pointer-events-none text-gray-300">
+                            <span class="font-bold text-white block">${pin.author}</span>
+                            <span class="text-gray-400 block mt-1 leading-normal font-medium">${pin.comment}</span>
+                            <span class="text-gray-600 text-[8px] font-mono block mt-1.5">${pin.date}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(pinEl);
+
+                // Render list item in panel
+                const item = document.createElement('div');
+                item.className = 'bg-white/5 border border-white/10 p-3.5 rounded-xl text-[11px] space-y-1 relative group font-body';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center font-mono text-[9px]">
+                        <span class="font-black text-white uppercase tracking-wider">Anotação #${idx + 1}</span>
+                        <button onclick="removePin('${pin.id}')" class="text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                    <p class="text-gray-300 leading-normal italic">"${pin.comment}"</p>
+                    <span class="text-gray-600 text-[8px] font-mono block mt-1.5">${pin.date}</span>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        function removePin(pinId) {
+            feedbackPins = feedbackPins.filter(pin => pin.id !== pinId);
+            localStorage.setItem('smash_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+            updatePinsVisibility();
+        }
+
+        function submitQuickFeedback(msg) {
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: (25 + Math.random() * 50).toFixed(2),
+                y: (35 + Math.random() * 40).toFixed(2),
+                comment: msg,
+                author: 'Reviewer Gourmet',
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('smash_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+            updatePinsVisibility();
+
+            try {
+                confetti({
+                    particleCount: 50,
+                    spread: 40,
+                    colors: ['#FACC15', '#E11D48']
+                });
+            } catch(e) {}
+        }
+
+        function toggleLikeProject() {
+            let likes = parseInt(localStorage.getItem('smash_likes') || '152');
+            const liked = localStorage.getItem('smash_liked') === 'true';
+            const icon = document.getElementById('like-icon');
+
+            if (liked) {
+                likes -= 1;
+                localStorage.setItem('smash_liked', 'false');
+                icon.classList.remove('text-red-500', 'fill-red-500');
+                icon.classList.add('text-gray-400');
+            } else {
+                likes += 1;
+                localStorage.setItem('smash_liked', 'true');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+                
+                // GSAP heart beat animation
+                gsap.fromTo('#like-btn', 
+                    { scale: 1 }, 
+                    { scale: 1.2, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }
+                );
+
+                try {
+                    confetti({
+                        particleCount: 40,
+                        spread: 30,
+                        colors: ['#E11D48']
+                    });
+                } catch(e) {}
+            }
+
+            localStorage.setItem('smash_likes', likes);
+            document.getElementById('like-count').innerText = likes;
+        }
+
+        function approveLayoutProject() {
+            toggleFeedbackPanel(false);
+            document.getElementById('approval-celebration-modal').classList.remove('hidden');
+
+            try {
+                const duration = 2.5 * 1000;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 4,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#FACC15', '#E11D48', '#18181B']
+                    });
+                    confetti({
+                        particleCount: 4,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#FACC15', '#E11D48', '#18181B']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            } catch(e) {}
+        }
+
+        function closeApprovalCelebration() {
+            document.getElementById('approval-celebration-modal').classList.add('hidden');
+        }
+
+        // Mobile Hamburger menu drawer logic
+        let mobileMenuOpen = false;
+        function toggleMobileMenu(forcedState) {
+            mobileMenuOpen = forcedState !== undefined ? forcedState : !mobileMenuOpen;
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const l1 = document.getElementById('ham-line-1');
+            const l2 = document.getElementById('ham-line-2');
+            const l3 = document.getElementById('ham-line-3');
+
+            if (mobileMenuOpen) {
+                overlay.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'translateY(7px) rotate(45deg)';
+                l1.style.backgroundColor = '#E11D48';
+                l2.style.opacity = '0';
+                l3.style.transform = 'translateY(-7px) rotate(-45deg)';
+                l3.style.backgroundColor = '#E11D48';
+            } else {
+                overlay.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'none';
+                l1.style.backgroundColor = '';
+                l2.style.opacity = '1';
+                l3.style.transform = 'none';
+                l3.style.backgroundColor = '';
+            }
+        }
+
+        // Initial setup and storage load
+        window.addEventListener('load', () => {
+            // Load pins
+            const savedPins = localStorage.getItem('smash_feedback_pins');
+            if (savedPins) {
+                feedbackPins = JSON.parse(savedPins);
+                renderPins();
+            }
+
+            // Load likes
+            let likes = localStorage.getItem('smash_likes');
+            if (likes === null) {
+                likes = 152;
+                localStorage.setItem('smash_likes', likes);
+            }
+            document.getElementById('like-count').innerText = likes;
+
+            const liked = localStorage.getItem('smash_liked') === 'true';
+            if (liked) {
+                const icon = document.getElementById('like-icon');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-red-500', 'fill-red-500');
+                }
+            }
+
+            // Init libraries defensively
+            try {
+                lucide.createIcons();
+            } catch (e) {
+                console.error("Lucide failed to load", e);
+            }
+
+            try {
+                AOS.init({
+                    duration: 800,
+                    once: true,
+                    offset: 50
+                });
+            } catch (e) {
+                console.warn("AOS failed to load, disabling animations", e);
+                // Fallback: Remove all data-aos attributes and set opacity/transform to default
+                document.querySelectorAll('[data-aos]').forEach(el => {
+                    el.removeAttribute('data-aos');
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+            }
+        });
     </script>
 </body>
 </html>

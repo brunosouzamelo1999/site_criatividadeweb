@@ -88,16 +88,26 @@
     <!-- Navbar -->
     <nav class="fixed w-full z-40 top-0 transition-all duration-300 border-b border-white/5 glass-header" id="navbar">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="hidden md:flex space-x-8 text-xs tracking-[0.2em] uppercase text-gray-400">
-                <a href="#colecoes" class="relative hover-gold-line hover:text-luxury-gold transition-colors">Coleções</a>
-                <a href="#destaques" class="relative hover-gold-line hover:text-luxury-gold transition-colors">Destaques</a>
+            <!-- Left Side: Mobile Menu Button & Desktop Links -->
+            <div class="flex items-center justify-start w-1/4">
+                <button onclick="toggleMobileMenu()" class="md:hidden flex flex-col justify-center items-start w-6 h-6 gap-1.5 relative z-50 focus:outline-none group" id="hamburger-btn" aria-label="Menu">
+                    <span class="w-5 h-[1.5px] bg-gray-400 transition-all duration-300 origin-center" id="ham-line-1"></span>
+                    <span class="w-4 h-[1.5px] bg-gray-400 transition-all duration-300 origin-center group-hover:w-5" id="ham-line-2"></span>
+                    <span class="w-5 h-[1.5px] bg-gray-400 transition-all duration-300 origin-center" id="ham-line-3"></span>
+                </button>
+                <div class="hidden md:flex space-x-8 text-xs tracking-[0.2em] uppercase text-gray-400">
+                    <a href="#colecoes" class="relative hover-gold-line hover:text-luxury-gold transition-colors">Coleções</a>
+                    <a href="#destaques" class="relative hover-gold-line hover:text-luxury-gold transition-colors">Destaques</a>
+                </div>
             </div>
             
-            <div class="text-center">
+            <!-- Logo Center -->
+            <div class="text-center w-2/4">
                 <a href="#" class="font-heading text-3xl tracking-widest text-luxury-gold">AURA</a>
             </div>
             
-            <div class="flex items-center gap-6">
+            <!-- Right Side Actions -->
+            <div class="flex items-center justify-end w-1/4 gap-6">
                 <!-- Search Trigger -->
                 <button onclick="toggleSearchOverlay(true)" class="text-gray-400 hover:text-luxury-gold transition-colors">
                     <i data-lucide="search" class="w-5 h-5"></i>
@@ -122,6 +132,20 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-[#0d0d0d]/98 backdrop-blur-md z-35 flex flex-col justify-center items-center transition-all duration-500 transform -translate-y-full opacity-0 pointer-events-none">
+        <div class="flex flex-col items-center justify-center space-y-8 text-center px-6">
+            <a href="#colecoes" onclick="toggleMobileMenu(false)" class="font-heading text-2xl tracking-[0.15em] text-white hover:text-luxury-gold transition-colors duration-300 uppercase">Coleções</a>
+            <a href="#destaques" onclick="toggleMobileMenu(false)" class="font-heading text-2xl tracking-[0.15em] text-white hover:text-luxury-gold transition-colors duration-300 uppercase">Destaques</a>
+            <a href="javascript:void(0)" onclick="toggleMobileMenu(false); toggleFeedbackPanel(true)" class="font-heading text-xl tracking-[0.15em] text-luxury-goldLight hover:text-luxury-gold transition-colors duration-300 uppercase">◆ Painel de Aprovação</a>
+            
+            <div class="h-[1px] w-12 bg-luxury-gold/30 my-4"></div>
+            
+            <p class="text-[10px] tracking-[0.2em] text-gray-500 uppercase font-mono">SUPORTE EXCLUSIVO</p>
+            <p class="text-xs text-luxury-gold font-mono">contato@aurapremium.com.br</p>
+        </div>
+    </div>
 
     <!-- Interactive Sandbox Ribbon -->
     <div class="bg-luxury-gold text-luxury-black text-[10px] py-1.5 px-4 text-center tracking-widest uppercase flex items-center justify-center gap-2 relative z-30 font-bold shadow-sm pt-20">
@@ -725,6 +749,36 @@
         // Init animations and lucide icons
         AOS.init({ once: true, offset: 50 });
         lucide.createIcons();
+
+        // Mobile Menu toggle controller
+        let mobileMenuOpen = false;
+        function toggleMobileMenu(forcedState) {
+            mobileMenuOpen = forcedState !== undefined ? forcedState : !mobileMenuOpen;
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const l1 = document.getElementById('ham-line-1');
+            const l2 = document.getElementById('ham-line-2');
+            const l3 = document.getElementById('ham-line-3');
+
+            if (mobileMenuOpen) {
+                overlay.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'translateY(7px) rotate(45deg)';
+                l1.style.backgroundColor = '#D4AF37';
+                l2.style.opacity = '0';
+                l3.style.transform = 'translateY(-8px) rotate(-45deg)';
+                l3.style.backgroundColor = '#D4AF37';
+            } else {
+                overlay.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'none';
+                l1.style.backgroundColor = '';
+                l2.style.opacity = '1';
+                l3.style.transform = 'none';
+                l3.style.backgroundColor = '';
+            }
+        }
 
         // Products details shared catalog
         const productsDb = {
