@@ -12,10 +12,10 @@ export function PixelGroundWave() {
     if (!ctx) return;
 
     const resize = () => {
-      const rect = canvas.parentElement?.getBoundingClientRect();
-      if (rect) {
-        canvas.width = rect.width;
-        canvas.height = 120;
+      const parent = canvas.parentElement;
+      if (parent) {
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
       }
     };
 
@@ -25,59 +25,100 @@ export function PixelGroundWave() {
       timeRef.current += 0.5;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const height = canvas.height;
       const width = canvas.width;
+      const height = canvas.height;
 
-      // Draw a subtle dark-tech top line to blend with the hero
-      const fadeGrad = ctx.createLinearGradient(0, 0, 0, height);
-      fadeGrad.addColorStop(0, 'rgba(6, 6, 8, 1)');
-      fadeGrad.addColorStop(0.3, 'rgba(6, 6, 8, 0.4)');
-      fadeGrad.addColorStop(1, 'rgba(6, 6, 8, 0)');
-      ctx.fillStyle = fadeGrad;
-      ctx.fillRect(0, 0, width, height);
+      // 3D Perspective settings
+      const cx = width / 2;
+      const cy = height * 0.42; // slightly elevated vanishing point to sit behind headline
+      const zMin = 0.12; // Far tunnel opening depth
+      const zMax = 1.0;  // Front edge depth
 
-      // Draw perspective vanishing lines (vertical perspective)
-      ctx.lineWidth = 1;
-      const horizonY = 10;
-      const numLines = 26;
-      const spacing = width / (numLines - 1);
+      // Draw perspective vanishing lines (vertical and horizontal grids on walls)
+      ctx.lineWidth = 0.8;
+      
+      const cols = 20; // columns for floor/ceiling
+      const rows = 12; // rows for left/right walls
+      const boundaryPoints: { x: number; y: number; isFloor: boolean }[] = [];
 
-      for (let i = 0; i < numLines; i++) {
-        const xStart = i * spacing;
-        const ripple = Math.sin((i * 0.4) + (timeRef.current * 0.04)) * 12;
+      // Ceiling points (y = 0)
+      for (let i = 0; i <= cols; i++) {
+        boundaryPoints.push({ x: (i / cols) * width, y: 0, isFloor: false });
+      }
+      // Floor points (y = height)
+      for (let i = 0; i <= cols; i++) {
+        boundaryPoints.push({ x: (i / cols) * width, y: height, isFloor: true });
+      }
+      // Left wall points (x = 0)
+      for (let j = 1; j < rows; j++) {
+        boundaryPoints.push({ x: 0, y: (j / rows) * height, isFloor: false });
+      }
+      // Right wall points (x = width)
+      for (let j = 1; j < rows; j++) {
+        boundaryPoints.push({ x: width, y: (j / rows) * height, isFloor: false });
+      }
 
-        const grad = ctx.createLinearGradient(xStart, horizonY, xStart + ripple, height);
+      for (const bp of boundaryPoints) {
+        // We calculate starting and ending coordinates along the perspective line
+        const dx = bp.x - cx;
+        const dy = bp.y - cy;
+
+        // Apply a gentle ripple effect specifically to the floor grid lines
+        const waveFactor = bp.isFloor ? Math.sin((bp.x * 0.005) + (timeRef.current * 0.025)) * 12 : 0;
+
+        const xStart = cx + dx * zMin;
+        const yStart = cy + dy * zMin + (bp.isFloor ? waveFactor * zMin : 0);
+        const xEnd = cx + dx * zMax;
+        const yEnd = cy + dy * zMax + (bp.isFloor ? waveFactor * zMax : 0);
+
+        // Gradient for depth effect (fading as it goes deeper)
+        const grad = ctx.createLinearGradient(xStart, yStart, xEnd, yEnd);
         grad.addColorStop(0, 'rgba(39, 24, 126, 0.01)');
-        grad.addColorStop(0.4, 'rgba(39, 24, 126, 0.12)');
-        grad.addColorStop(1, 'rgba(1, 69, 242, 0.4)');
+        grad.addColorStop(0.3, 'rgba(39, 24, 126, 0.15)');
+        grad.addColorStop(1, 'rgba(1, 69, 242, 0.45)');
         ctx.strokeStyle = grad;
 
         ctx.beginPath();
-        ctx.moveTo(width / 2 + (xStart - width / 2) * 0.2, horizonY);
-        ctx.lineTo(xStart + ripple, height);
+        ctx.moveTo(xStart, yStart);
+        ctx.lineTo(xEnd, yEnd);
         ctx.stroke();
       }
 
-      // Draw horizontal lines with exponential 3D scale spacing
-      const numHoriz = 6;
-      for (let i = 0; i < numHoriz; i++) {
-        const rawProgress = (i / numHoriz) + ((timeRef.current * 0.008) % (1 / numHoriz));
-        const y = horizonY + Math.pow(rawProgress, 2) * (height - horizonY);
+      // Draw concentric depth rings (moving rectangles towards the viewer)
+      const numRings = 9;
+      const progress = (timeRef.current * 0.0025) % (1 / numRings);
 
-        const opacity = Math.min(0.5, Math.pow(rawProgress, 2.0) * 0.5);
+      for (let k = 0; k < numRings; k++) {
+        const t = (k / numRings) + progress;
+        // Exponential scaling for realistic 3D depth acceleration
+        const z = zMin + Math.pow(t, 2.5) * (zMax - zMin);
+
+        // Fades out near the vanishing point (far end) and near the screen edges
+        const opacity = Math.sin(Math.PI * (z - zMin) / (zMax - zMin)) * 0.45 * (1 - z * 0.2);
         ctx.strokeStyle = `rgba(1, 69, 242, ${opacity})`;
-        ctx.lineWidth = 0.5 + rawProgress * 1.2;
+        ctx.lineWidth = 0.5 + Math.pow(t, 2) * 1.5;
 
-        // Wave ripple through horizontal lines
+        const x1 = cx + (0 - cx) * z;
+        const y1 = cy + (0 - cy) * z;
+        const x2 = cx + (width - cx) * z;
+        const y2 = cy + (height - cy) * z;
+
         ctx.beginPath();
-        for (let x = 0; x <= width; x += 15) {
-          const wave = Math.sin((x * 0.004) + (timeRef.current * 0.025)) * 5 * rawProgress;
-          if (x === 0) {
-            ctx.moveTo(x, y + wave);
-          } else {
-            ctx.lineTo(x, y + wave);
-          }
+        // Top edge (ceiling)
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y1);
+        // Right edge (right wall)
+        ctx.lineTo(x2, y2);
+
+        // Bottom edge (floor) - we draw it with wave ripples to preserve the "wavy ground" feel
+        for (let x = x2; x >= x1; x -= 20) {
+          const floorWave = Math.sin((x * 0.005) + (timeRef.current * 0.025)) * 12 * Math.pow(z, 2);
+          ctx.lineTo(x, y2 + floorWave);
         }
+        
+        // Left edge (left wall)
+        ctx.lineTo(x1, y2);
+        ctx.closePath();
         ctx.stroke();
       }
 
@@ -90,7 +131,7 @@ export function PixelGroundWave() {
       let timeout: ReturnType<typeof setTimeout>;
       return () => {
         clearTimeout(timeout);
-        timeout = setTimeout(resize, 200);
+        timeout = setTimeout(resize, 150);
       };
     })();
 
@@ -103,8 +144,9 @@ export function PixelGroundWave() {
   }, []);
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 h-[120px] overflow-hidden" style={{ zIndex: 2 }}>
-      <canvas ref={canvasRef} className="w-full h-full" />
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
+      <canvas ref={canvasRef} className="w-full h-full opacity-65" />
     </div>
   );
 }
+
