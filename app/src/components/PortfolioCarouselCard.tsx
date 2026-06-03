@@ -47,10 +47,10 @@ export function PortfolioCarouselCard({
   const titleColorClass = color === 'yellow' ? 'text-accent-yellow' : 'text-accent-purple';
 
   return (
-    <div className={`relative bg-[#0F0F1A] rounded-lg border-2 ${borderColorClass} ${shadowClass} overflow-hidden transition-all duration-300 flex flex-col group h-full`}>
+    <div className={`relative bg-[#E6EEF4] rounded-lg border-2 ${borderColorClass} ${shadowClass} overflow-hidden transition-all duration-300 flex flex-col group h-full`}>
       
       {/* Header Info */}
-      <div className="p-6 pb-4 border-b border-white/[0.05]">
+      <div className="p-6 pb-4 border-b border-black/[0.05]">
         <h3 className={`font-heading text-2xl font-bold ${titleColorClass} mb-2`}>
           {title}
         </h3>
@@ -60,13 +60,13 @@ export function PortfolioCarouselCard({
       </div>
 
       {/* Mini Carousel Container */}
-      <div className="relative bg-black/40 py-6 px-2 flex-grow flex flex-col justify-center">
+      <div className="relative bg-white/40 py-6 px-2 flex-grow flex flex-col justify-center">
         
         {/* Navigation Buttons (Desktop) */}
         {canScrollLeft && (
           <button
             onClick={() => scroll('left')}
-            className="absolute left-2 z-10 p-1.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-white/20 transition-colors hidden md:block"
+            className="absolute left-2 z-10 p-1.5 rounded-full bg-black/80 border border-black/10 text-white hover:bg-white/20 transition-colors hidden md:block"
           >
             <ChevronLeft size={16} />
           </button>
@@ -88,7 +88,7 @@ export function PortfolioCarouselCard({
                 href={item.link || '#'} 
                 target={item.link ? "_blank" : "_self"}
                 rel="noopener noreferrer"
-                className="block relative aspect-video rounded-sm overflow-hidden border border-white/10 group/item hover:border-white/30 transition-colors bg-[#1A1A2E]"
+                className="block relative aspect-video rounded-sm overflow-hidden border border-black/10 group/item hover:border-white/30 transition-colors bg-[#1A1A2E]"
               >
                 {item.cover ? (
                   <img
@@ -104,7 +104,7 @@ export function PortfolioCarouselCard({
                 )}
                 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/item:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                <div className="absolute inset-0 bg-white/40 opacity-0 group-hover/item:opacity-100 flex items-center justify-center transition-opacity duration-300">
                   <span className="font-display text-[8px] text-white tracking-widest bg-black/60 px-2 py-1 rounded-sm">
                     VER
                   </span>
@@ -124,7 +124,7 @@ export function PortfolioCarouselCard({
         {canScrollRight && items.length > 2 && (
           <button
             onClick={() => scroll('right')}
-            className="absolute right-2 z-10 p-1.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-white/20 transition-colors hidden md:block"
+            className="absolute right-2 z-10 p-1.5 rounded-full bg-black/80 border border-black/10 text-white hover:bg-white/20 transition-colors hidden md:block"
           >
             <ChevronRight size={16} />
           </button>

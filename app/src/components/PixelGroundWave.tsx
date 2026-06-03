@@ -47,9 +47,9 @@ export function PixelGroundWave() {
         const ripple = Math.sin((i * 0.4) + (timeRef.current * 0.04)) * 12;
 
         const grad = ctx.createLinearGradient(xStart, horizonY, xStart + ripple, height);
-        grad.addColorStop(0, 'rgba(0, 173, 181, 0.01)');
-        grad.addColorStop(0.4, 'rgba(0, 173, 181, 0.12)');
-        grad.addColorStop(1, 'rgba(0, 229, 255, 0.4)');
+        grad.addColorStop(0, 'rgba(74, 127, 167, 0.01)');
+        grad.addColorStop(0.4, 'rgba(74, 127, 167, 0.12)');
+        grad.addColorStop(1, 'rgba(179, 207, 229, 0.4)');
         ctx.strokeStyle = grad;
 
         ctx.beginPath();
@@ -65,7 +65,7 @@ export function PixelGroundWave() {
         const y = horizonY + Math.pow(rawProgress, 2) * (height - horizonY);
 
         const opacity = Math.min(0.5, Math.pow(rawProgress, 2.0) * 0.5);
-        ctx.strokeStyle = `rgba(0, 229, 255, ${opacity})`;
+        ctx.strokeStyle = `rgba(179, 207, 229, ${opacity})`;
         ctx.lineWidth = 0.5 + rawProgress * 1.2;
 
         // Wave ripple through horizontal lines

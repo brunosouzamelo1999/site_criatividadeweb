@@ -62,17 +62,17 @@ function FAQItem({ question, answer, isOpen, onClick }: {
   }, [isOpen]);
 
   return (
-    <div className="border-b border-white/[0.04] last:border-b-0">
+    <div className="border-b border-black/[0.04] last:border-b-0">
       <button
         onClick={onClick}
         className="w-full flex items-center justify-between gap-4 py-6 px-6 text-left group"
       >
-        <span className={`font-heading text-base md:text-lg transition-all duration-300 ${isOpen ? 'text-[#00e5ff] text-glow-cyan font-semibold' : 'text-text-primary group-hover:text-[#00e5ff]'}`}>
+        <span className={`font-heading text-base md:text-lg transition-all duration-300 ${isOpen ? 'text-[#B3CFE5] text-glow-cyan font-semibold' : 'text-text-primary group-hover:text-[#B3CFE5]'}`}>
           {question}
         </span>
         <Plus
           size={20}
-          className={`text-[#00e5ff] flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
+          className={`text-[#B3CFE5] flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
         />
       </button>
       <div
@@ -143,7 +143,7 @@ export function FAQSection() {
         <div ref={headlineRef} className="text-center opacity-0">
           <SectionLabel text="PERGUNTAS FREQUENTES" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary">
-            Tire suas <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00e5ff] to-[#00adb5] drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]">dúvidas</span>
+            Tire suas <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B3CFE5] to-[#4A7FA7] drop-shadow-[0_0_15px_rgba(179, 207, 229,0.25)]">dúvidas</span>
           </h2>
           <p className="font-body text-base md:text-lg text-text-secondary mt-4">
             Ainda tem alguma pergunta? Estamos aqui para ajudar.
@@ -152,7 +152,7 @@ export function FAQSection() {
 
         <div
           ref={accordionRef}
-          className="mt-14 border border-white/[0.08] rounded-2xl overflow-hidden bg-[#0c0c10]/40 backdrop-blur-md opacity-0 shadow-lg hover:border-white/[0.1] transition-all duration-300"
+          className="mt-14 border border-[#4A7FA7]/15 rounded-2xl overflow-hidden bg-[#E6EEF4]/40 backdrop-blur-md opacity-0 shadow-lg hover:border-white/[0.1] transition-all duration-300"
         >
           {faqs.map((faq, i) => (
             <FAQItem

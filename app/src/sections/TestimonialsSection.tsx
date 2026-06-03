@@ -10,19 +10,19 @@ const pillars = [
   {
     title: 'Engenharia de Performance',
     description: 'Desenvolvemos sites ultra-velozes que carregam em menos de 1 segundo. Menos espera significa mais conversão e um SEO que domina os resultados de busca.',
-    icon: <Zap size={32} className="text-[#00e5ff] drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]" />,
+    icon: <Zap size={32} className="text-[#B3CFE5] drop-shadow-[0_0_8px_rgba(179, 207, 229,0.4)]" />,
     stat: '99+ Speed Score',
   },
   {
     title: 'Design Imersivo (WOW)',
     description: 'Não fazemos apenas sites, criamos experiências. Utilizamos animações fluidas e design de alta fidelidade para prender a atenção e gerar desejo imediato.',
-    icon: <Sparkles size={32} className="text-[#00e5ff] drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]" />,
+    icon: <Sparkles size={32} className="text-[#B3CFE5] drop-shadow-[0_0_8px_rgba(179, 207, 229,0.4)]" />,
     stat: 'Alta Fidelidade',
   },
   {
     title: 'Código Blindado',
     description: 'A segurança e a escalabilidade são prioridades. Seja em WordPress ou React, seu site é construído com as melhores práticas de desenvolvimento do mercado.',
-    icon: <Shield size={32} className="text-[#00e5ff] drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]" />,
+    icon: <Shield size={32} className="text-[#B3CFE5] drop-shadow-[0_0_8px_rgba(179, 207, 229,0.4)]" />,
     stat: '100% Seguro',
   },
 ];
@@ -80,14 +80,14 @@ export function TestimonialsSection() {
       id="metodologia"
       className="py-20 md:py-32"
       style={{
-        background: 'linear-gradient(180deg, #060608 0%, #0c0c10 100%)',
+        background: 'linear-gradient(180deg, #F6FAFD 0%, #E6EEF4 100%)',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div ref={headlineRef} className="text-center opacity-0">
           <SectionLabel text="NOSSA METODOLOGIA" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary">
-            Nossa <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00e5ff] to-[#00adb5] drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]">Metodologia</span> de Elite
+            Nossa <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B3CFE5] to-[#4A7FA7] drop-shadow-[0_0_15px_rgba(179, 207, 229,0.25)]">Metodologia</span> de Elite
           </h2>
           <p className="font-body text-base md:text-lg text-text-secondary mt-4 max-w-2xl mx-auto">
             Trabalhamos com os pilares técnicos que transformam visitantes em clientes através de engenharia e design imersivo.
@@ -101,10 +101,10 @@ export function TestimonialsSection() {
           {pillars.map((p, i) => (
             <div
               key={i}
-              className="group premium-card p-8 relative opacity-0 hover:border-[#00e5ff]/35 shadow-[0_0_30px_rgba(0,173,181,0.02)]"
+              className="group premium-card p-8 relative opacity-0 hover:border-[#B3CFE5]/35 shadow-[0_0_30px_rgba(74, 127, 167,0.02)]"
             >
               {/* Icon */}
-              <div className="mb-6 inline-block p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] group-hover:border-[#00e5ff]/40 transition-colors duration-300">
+              <div className="mb-6 inline-block p-3 rounded-xl bg-black/[0.02] border border-black/[0.05] group-hover:border-[#B3CFE5]/40 transition-colors duration-300">
                 {p.icon}
               </div>
 
@@ -119,7 +119,7 @@ export function TestimonialsSection() {
               </p>
 
               {/* Stat/Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#00adb5]/10 border border-[#00adb5]/25 text-[#00e5ff] font-heading text-[10px] font-semibold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#4A7FA7]/10 border border-[#4A7FA7]/25 text-[#B3CFE5] font-heading text-[10px] font-semibold tracking-wider uppercase">
                 {p.stat}
               </div>
             </div>
@@ -129,7 +129,7 @@ export function TestimonialsSection() {
         {/* Tech Badge */}
         <div className="text-center mt-12">
           <span className="inline-flex items-center gap-2 font-heading text-[10px] font-semibold text-text-muted tracking-widest uppercase">
-            Sistemas de alta fidelidade desenhados para <strong className="text-[#00e5ff] font-bold">Conversão</strong>
+            Sistemas de alta fidelidade desenhados para <strong className="text-[#B3CFE5] font-bold">Conversão</strong>
           </span>
         </div>
       </div>

@@ -27,7 +27,7 @@ const plans = [
     variant: 'ghost-blue' as const,
     highlighted: false,
     tag: null,
-    customClasses: 'border border-[#00adb5]/20 bg-[#0c0c10]/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,173,181,0.05)] hover:shadow-[0_0_35px_rgba(0,173,181,0.15)] hover:border-[#00adb5]/50 transition-all duration-300',
+    customClasses: 'border border-[#4A7FA7]/20 bg-[#E6EEF4]/40 backdrop-blur-md shadow-[0_0_20px_rgba(74, 127, 167,0.05)] hover:shadow-[0_0_35px_rgba(74, 127, 167,0.15)] hover:border-[#4A7FA7]/50 transition-all duration-300',
   },
   {
     name: 'PROFISSIONAL',
@@ -45,8 +45,8 @@ const plans = [
     cta: 'Quero editar meu site',
     variant: 'primary' as const,
     highlighted: true,
-    tag: { text: 'Mais Autonomia', icon: <Zap size={12} className="text-[#060608]" /> },
-    customClasses: 'border-2 border-[#00e5ff] bg-[#0c0c10]/70 backdrop-blur-md shadow-[0_0_35px_rgba(0,229,255,0.12)] lg:scale-105 z-10 hover:shadow-[0_0_50px_rgba(0,229,255,0.25)] transition-all duration-300',
+    tag: { text: 'Mais Autonomia', icon: <Zap size={12} className="text-[#F6FAFD]" /> },
+    customClasses: 'border-2 border-[#B3CFE5] bg-[#E6EEF4]/70 backdrop-blur-md shadow-[0_0_35px_rgba(179, 207, 229,0.12)] lg:scale-105 z-10 hover:shadow-[0_0_50px_rgba(179, 207, 229,0.25)] transition-all duration-300',
   },
   {
     name: 'PREMIUM',
@@ -65,8 +65,8 @@ const plans = [
     cta: 'Quero um site premium',
     variant: 'primary' as const,
     highlighted: false,
-    tag: { text: 'Impacto Máximo', icon: <Sparkles size={12} className="text-[#060608]" /> },
-    customClasses: 'border border-[#00adb5]/20 bg-[#0c0c10]/40 backdrop-blur-md shadow-[0_0_30px_rgba(0,173,181,0.05)] hover:shadow-[0_0_45px_rgba(0,229,255,0.2)] hover:border-[#00e5ff] transition-all duration-300 lg:-translate-y-2',
+    tag: { text: 'Impacto Máximo', icon: <Sparkles size={12} className="text-[#F6FAFD]" /> },
+    customClasses: 'border border-[#4A7FA7]/20 bg-[#E6EEF4]/40 backdrop-blur-md shadow-[0_0_30px_rgba(74, 127, 167,0.05)] hover:shadow-[0_0_45px_rgba(179, 207, 229,0.2)] hover:border-[#B3CFE5] transition-all duration-300 lg:-translate-y-2',
   },
 ];
 
@@ -140,7 +140,7 @@ export function PlansSection() {
       id="planos"
       className="relative py-20 md:py-32 overflow-hidden"
       style={{
-        background: 'radial-gradient(ellipse at 50% 50%, #0c1520 0%, #060608 100%)',
+        background: 'radial-gradient(ellipse at 50% 50%, #D2E4F0 0%, #F6FAFD 100%)',
       }}
     >
       <FloatingPixelElements count={4} />
@@ -150,12 +150,12 @@ export function PlansSection() {
         <div ref={headlineRef} className="text-center opacity-0 mb-16">
           <SectionLabel text="PLANOS E PREÇOS" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary leading-tight">
-            Escolha como você quer <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00e5ff] to-[#00adb5] drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]">crescer no digital</span>
+            Escolha como você quer <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B3CFE5] to-[#4A7FA7] drop-shadow-[0_0_15px_rgba(179, 207, 229,0.25)]">crescer no digital</span>
           </h2>
           <p className="font-body text-base md:text-lg text-text-secondary mt-4 max-w-[600px] mx-auto">
             Cada negócio está em um momento diferente. Por isso, ofereço soluções que vão do essencial até experiências digitais completas e exclusivas.
           </p>
-          <div className="mt-8 font-heading text-sm font-semibold text-[#00e5ff] tracking-wider uppercase">
+          <div className="mt-8 font-heading text-sm font-semibold text-[#B3CFE5] tracking-wider uppercase">
             Comece simples, tenha controle ou domine com um site de elite.
           </div>
         </div>
@@ -172,18 +172,18 @@ export function PlansSection() {
             >
               {/* Tags */}
               {plan.tag && (
-                <div className="absolute -top-3.5 right-4 md:right-6 bg-gradient-to-r from-[#00adb5] to-[#00e5ff] text-[#060608] font-heading text-[10px] font-bold px-4 py-1.5 rounded-full flex items-center gap-2 shadow-[0_0_15px_rgba(0,229,255,0.3)] z-20 whitespace-nowrap">
+                <div className="absolute -top-3.5 right-4 md:right-6 bg-gradient-to-r from-[#4A7FA7] to-[#B3CFE5] text-[#F6FAFD] font-heading text-[10px] font-bold px-4 py-1.5 rounded-full flex items-center gap-2 shadow-[0_0_15px_rgba(179, 207, 229,0.3)] z-20 whitespace-nowrap">
                   {plan.tag.icon}
                   {plan.tag.text}
                 </div>
               )}
 
               {/* Header */}
-              <div className={`px-5 md:px-7 pt-8 pb-6 text-center border-b rounded-t-2xl ${plan.name === 'PREMIUM' ? 'border-[#00adb5]/10 bg-transparent' : 'border-white/[0.04] bg-transparent'}`}>
-                <h3 className={`font-heading text-sm font-bold tracking-widest ${plan.highlighted ? 'text-[#00e5ff]' : plan.name === 'PREMIUM' ? 'text-[#8b5cf6]' : 'text-text-muted'}`}>
+              <div className={`px-5 md:px-7 pt-8 pb-6 text-center border-b rounded-t-2xl ${plan.name === 'PREMIUM' ? 'border-[#4A7FA7]/10 bg-transparent' : 'border-black/[0.04] bg-transparent'}`}>
+                <h3 className={`font-heading text-sm font-bold tracking-widest ${plan.highlighted ? 'text-[#B3CFE5]' : plan.name === 'PREMIUM' ? 'text-[#8b5cf6]' : 'text-text-muted'}`}>
                   {plan.name}
                 </h3>
-                <p className={`font-display text-4xl font-extrabold mt-3 ${plan.highlighted ? 'text-[#00e5ff]' : 'text-text-primary'}`}>
+                <p className={`font-display text-4xl font-extrabold mt-3 ${plan.highlighted ? 'text-[#B3CFE5]' : 'text-text-primary'}`}>
                   {plan.price}
                 </p>
                 <p className="font-body text-xs text-text-muted mt-3 min-h-[48px] flex items-center justify-center">
@@ -193,7 +193,7 @@ export function PlansSection() {
 
               {/* Features */}
               <div className="px-5 md:px-7 py-6 flex-grow bg-white/[0.01]">
-                <p className="font-heading text-xs text-center font-semibold italic mb-6 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.04] text-text-secondary leading-relaxed">
+                <p className="font-heading text-xs text-center font-semibold italic mb-6 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-black/[0.04] text-text-secondary leading-relaxed">
                   "{plan.phrase}"
                 </p>
                 <ul className="space-y-0">
@@ -202,7 +202,7 @@ export function PlansSection() {
                       key={fi}
                       className="flex items-center gap-3 py-2.5 border-b border-white/[0.02] last:border-b-0"
                     >
-                      <Check size={16} className={`${plan.highlighted ? 'text-[#00e5ff]' : plan.name === 'PREMIUM' ? 'text-[#8b5cf6]' : 'text-text-muted'} flex-shrink-0`} />
+                      <Check size={16} className={`${plan.highlighted ? 'text-[#B3CFE5]' : plan.name === 'PREMIUM' ? 'text-[#8b5cf6]' : 'text-text-muted'} flex-shrink-0`} />
                       <span className="font-body text-[13px] text-text-secondary">{feature}</span>
                     </li>
                   ))}
@@ -224,10 +224,10 @@ export function PlansSection() {
         </div>
 
         {/* Closing Section */}
-        <div ref={closingRef} className="relative mt-20 text-center opacity-0 max-w-3xl mx-auto bg-[#0c0c10]/40 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/[0.05] shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+        <div ref={closingRef} className="relative mt-20 text-center opacity-0 max-w-3xl mx-auto bg-[#E6EEF4]/40 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-black/[0.05] shadow-[0_10px_40px_rgba(10, 25, 49, 0.05)]">
           <EasterEgg discount={10} color="green" className="top-4 right-4" />
           <h3 className="font-heading text-xl md:text-2xl font-bold text-text-primary mb-4 leading-normal">
-            Não existe a melhor opção — existe a que <span className="text-[#00e5ff]">faz mais sentido para o seu momento.</span>
+            Não existe a melhor opção — existe a que <span className="text-[#B3CFE5]">faz mais sentido para o seu momento.</span>
           </h3>
           <p className="font-body text-text-secondary mb-8">
             E eu posso te ajudar a escolher a ideal.
@@ -236,7 +236,7 @@ export function PlansSection() {
             href="https://wa.me/5592999845217?text=Ol%C3%A1%21%20Preciso%20de%20ajuda%20para%20escolher%20o%20melhor%20plano%20para%20meu%20site."
             variant="secondary"
             large
-            className="hover:border-[#00e5ff] hover:text-[#00e5ff]"
+            className="hover:border-[#B3CFE5] hover:text-[#B3CFE5]"
           >
             Fale comigo e vamos definir o melhor caminho para o seu projeto
           </PixelButton>

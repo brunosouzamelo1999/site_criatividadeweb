@@ -105,7 +105,7 @@ export function MaintenanceSection() {
       id="manutencao"
       className="py-20 md:py-32 relative overflow-hidden"
       style={{
-        background: 'radial-gradient(circle at 50% 0%, #1E1B4B 0%, #0A0A0F 100%)',
+        background: 'radial-gradient(circle at 50% 0%, #B3CFE5 0%, #F6FAFD 100%)',
       }}
     >
       {/* Decorative Blur */}
@@ -142,7 +142,7 @@ export function MaintenanceSection() {
 
               {/* Icon & Name */}
               <div className="flex items-center gap-4 mb-6">
-                <div className={`p-3 rounded-lg bg-white/[0.03] border border-white/[0.08]`}>
+                <div className={`p-3 rounded-lg bg-white/[0.03] border border-[#4A7FA7]/15`}>
                   {plan.name === 'SUPORTE BASE' ? <ShieldCheck size={24} className="text-orange-500" /> : 
                    plan.name === 'GESTÃO ATIVA' ? <Zap size={24} className="text-accent-yellow" /> : 
                    <BarChart3 size={24} className="text-red-500" />}
@@ -192,7 +192,7 @@ export function MaintenanceSection() {
         </div>
 
         {/* Footer Note */}
-        <div className="text-center mt-16 p-6 rounded-lg bg-white/[0.02] border border-white/[0.05] max-w-3xl mx-auto">
+        <div className="text-center mt-16 p-6 rounded-lg bg-black/[0.02] border border-black/[0.05] max-w-3xl mx-auto">
           <p className="font-body text-xs text-text-muted italic">
             * Contratos sem fidelidade. Cancele quando quiser. <br />
             ** No Plano Premium, o primeiro ano de Suporte Base é totalmente gratuito.

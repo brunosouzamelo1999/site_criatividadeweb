@@ -103,7 +103,7 @@ export function MaintenanceSection() {
       id="manutencao"
       className="py-20 md:py-32 relative overflow-hidden"
       style={{
-        background: '#0A0A0F',
+        background: '#F6FAFD',
       }}
     >
       {/* Decorative Blur */}
@@ -127,11 +127,11 @@ export function MaintenanceSection() {
           {maintenancePlans.map((plan, i) => (
             <div
               key={i}
-              className={`relative bg-[#12121A] border ${plan.highlighted ? 'border-accent-yellow/30' : 'border-white/[0.05]'} rounded-xl p-8 transition-all duration-300 hover:-translate-y-2 opacity-0 group`}
+              className={`relative bg-[#12121A] border ${plan.highlighted ? 'border-accent-yellow/30' : 'border-black/[0.05]'} rounded-xl p-8 transition-all duration-300 hover:-translate-y-2 opacity-0 group`}
             >
               {/* Icon & Name */}
               <div className="flex items-center gap-4 mb-6">
-                <div className={`p-3 rounded-lg bg-white/[0.03] border border-white/[0.08]`}>
+                <div className={`p-3 rounded-lg bg-white/[0.03] border border-[#4A7FA7]/15`}>
                   {plan.icon}
                 </div>
                 <h3 className="font-display text-sm tracking-widest text-text-primary">
@@ -176,7 +176,7 @@ export function MaintenanceSection() {
         </div>
 
         {/* Footer Note */}
-        <div className="text-center mt-16 p-6 rounded-lg bg-white/[0.02] border border-white/[0.05] max-w-3xl mx-auto">
+        <div className="text-center mt-16 p-6 rounded-lg bg-black/[0.02] border border-black/[0.05] max-w-3xl mx-auto">
           <p className="font-body text-sm text-text-muted italic">
             * Contratos sem fidelidade. Cancele quando quiser. <br />
             ** No Plano Premium, o primeiro ano de Suporte Base é totalmente gratuito.

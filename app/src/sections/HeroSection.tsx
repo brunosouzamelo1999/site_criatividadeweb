@@ -90,7 +90,7 @@ export function HeroSection() {
       id="hero"
       className="relative min-h-screen flex items-center overflow-x-hidden"
       style={{
-        background: 'radial-gradient(ellipse at 50% 30%, #0c1520 0%, #060608 70%, #020203 100%)',
+        background: 'radial-gradient(ellipse at 50% 30%, #D2E4F0 0%, #F6FAFD 70%, #E6EEF4 100%)',
       }}
     >
       <FireSparks count={150} className="inset-0 opacity-70" />
@@ -102,7 +102,7 @@ export function HeroSection() {
 
         {/* Tagline */}
         <div ref={taglineRef} className="mb-6 opacity-0">
-          <span className="font-heading text-xs font-bold text-[#00e5ff] tracking-[0.25em]">
+          <span className="font-heading text-xs font-bold text-[#B3CFE5] tracking-[0.25em]">
             PRESENÇA DIGITAL COM PROPÓSITO
           </span>
         </div>
@@ -112,7 +112,7 @@ export function HeroSection() {
           ref={headlineRef}
           className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-[68px] font-extrabold text-text-primary leading-[1.02] opacity-0 max-w-3xl"
         >
-          Sua marca em destaque com a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00e5ff] to-[#00adb5] drop-shadow-[0_0_20px_rgba(0,229,255,0.25)]">criação de sites</span> sob medida
+          Sua marca em destaque com a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B3CFE5] to-[#4A7FA7] drop-shadow-[0_0_20px_rgba(179, 207, 229,0.25)]">criação de sites</span> sob medida
         </h1>
 
         {/* Subheadline */}
@@ -138,7 +138,7 @@ export function HeroSection() {
               e.preventDefault();
               document.querySelector('#planos')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="font-heading text-sm font-semibold text-text-secondary hover:text-[#00e5ff] transition-all duration-300"
+            className="font-heading text-sm font-semibold text-text-secondary hover:text-[#B3CFE5] transition-all duration-300"
           >
             Ver Planos ↓
           </a>
@@ -147,19 +147,19 @@ export function HeroSection() {
         {/* Stats */}
         <div ref={statsRef} className="flex flex-wrap justify-center gap-6 md:gap-10 mt-12 w-full">
           <div className="flex items-center gap-3">
-            <span className="font-display text-xl font-bold text-[#00e5ff]">50+</span>
+            <span className="font-display text-xl font-bold text-[#B3CFE5]">50+</span>
             <span className="font-heading text-[10px] font-bold text-text-muted tracking-wider text-left">Modelos<br />Concluídos</span>
           </div>
-          <div className="w-px h-10 bg-white/[0.08] hidden md:block" />
+          <div className="w-px h-10 bg-black/[0.08] hidden md:block" />
           <div className="flex items-center gap-3">
-            <span className="font-display text-xl font-bold text-[#00e5ff]">100%</span>
+            <span className="font-display text-xl font-bold text-[#B3CFE5]">100%</span>
             <span className="font-heading text-[10px] font-bold text-text-muted tracking-wider text-left">Altíssimo<br />Padrão</span>
           </div>
-          <div className="w-px h-10 bg-white/[0.08] hidden md:block" />
+          <div className="w-px h-10 bg-black/[0.08] hidden md:block" />
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <Star size={16} className="text-[#00e5ff] fill-[#00e5ff] drop-shadow-[0_0_5px_rgba(0,229,255,0.4)]" />
-              <span className="font-display text-xl font-bold text-[#00e5ff]">5</span>
+              <Star size={16} className="text-[#B3CFE5] fill-[#B3CFE5] drop-shadow-[0_0_5px_rgba(179, 207, 229,0.4)]" />
+              <span className="font-display text-xl font-bold text-[#B3CFE5]">5</span>
             </span>
             <span className="font-heading text-[10px] font-bold text-text-muted tracking-wider text-left">Avaliação<br />Média</span>
           </div>

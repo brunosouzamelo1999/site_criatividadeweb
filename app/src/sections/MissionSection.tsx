@@ -79,21 +79,21 @@ export function MissionSection() {
     <section
       ref={sectionRef}
       id="missao"
-      className="relative py-20 md:py-32 overflow-hidden bg-[#060608]"
+      className="relative py-20 md:py-32 overflow-hidden bg-[#F6FAFD]"
       style={{
-        background: 'radial-gradient(circle at 50% 50%, #0c1520 0%, #060608 80%)',
+        background: 'radial-gradient(circle at 50% 50%, #D2E4F0 0%, #F6FAFD 80%)',
       }}
     >
       {/* Decorative Blur Backgrounds */}
-      <div className="absolute top-1/4 left-1/10 w-72 h-72 rounded-full bg-[#00adb5]/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/10 w-96 h-96 rounded-full bg-[#00e5ff]/5 blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/10 w-72 h-72 rounded-full bg-[#4A7FA7]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/10 w-96 h-96 rounded-full bg-[#B3CFE5]/5 blur-[150px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         {/* Headline */}
         <div ref={headlineRef} className="text-center mb-16 opacity-0">
           <SectionLabel text="PROPÓSITO & VERDADE" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-5xl font-extrabold text-text-primary leading-tight">
-            Nossa <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00e5ff] to-[#00adb5] drop-shadow-[0_0_15px_rgba(0,229,255,0.25)]">Missão & Compromisso</span>
+            Nossa <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B3CFE5] to-[#4A7FA7] drop-shadow-[0_0_15px_rgba(179, 207, 229,0.25)]">Missão & Compromisso</span>
           </h2>
           <p className="font-body text-base md:text-lg text-text-secondary mt-4 max-w-2xl mx-auto">
             Acreditamos que a confiança é o maior ativo de um negócio. Por isso, fugimos de fórmulas milagrosas e focamos em entregar engenharia digital honesta e de alto padrão.
@@ -106,9 +106,9 @@ export function MissionSection() {
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
         >
           {/* Card: Mission */}
-          <div className="premium-card p-8 md:p-10 flex flex-col justify-between opacity-0 hover:shadow-[0_0_30px_rgba(0,173,181,0.08)]">
+          <div className="premium-card p-8 md:p-10 flex flex-col justify-between opacity-0 hover:shadow-[0_0_30px_rgba(74, 127, 167,0.08)]">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#00adb5]/10 flex items-center justify-center text-[#00e5ff] mb-6 border border-[#00adb5]/20 shadow-[0_0_15px_rgba(0,173,181,0.2)]">
+              <div className="w-12 h-12 rounded-xl bg-[#4A7FA7]/10 flex items-center justify-center text-[#B3CFE5] mb-6 border border-[#4A7FA7]/20 shadow-[0_0_15px_rgba(74, 127, 167,0.2)]">
                 <Heart size={24} />
               </div>
               <h3 className="font-heading text-2xl font-bold text-text-primary mb-4">
@@ -118,15 +118,15 @@ export function MissionSection() {
                 Desmistificar a tecnologia e democratizar o acesso a sites de alto padrão de usabilidade e performance. Nossa missão é guiar empresas na internet com honestidade técnica, construindo páginas robustas que dignificam a marca e protegem o investimento de nossos parceiros.
               </p>
             </div>
-            <div className="mt-8 pt-6 border-t border-white/[0.04] text-xs font-semibold text-text-muted uppercase tracking-wider">
+            <div className="mt-8 pt-6 border-t border-black/[0.04] text-xs font-semibold text-text-muted uppercase tracking-wider">
               ✦ Sem falsas promessas de lucros mágicos.
             </div>
           </div>
 
           {/* Card: Objective */}
-          <div className="premium-card p-8 md:p-10 flex flex-col justify-between opacity-0 hover:shadow-[0_0_30px_rgba(0,229,255,0.08)]">
+          <div className="premium-card p-8 md:p-10 flex flex-col justify-between opacity-0 hover:shadow-[0_0_30px_rgba(179, 207, 229,0.08)]">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#00adb5]/10 flex items-center justify-center text-[#00e5ff] mb-6 border border-[#00adb5]/20 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+              <div className="w-12 h-12 rounded-xl bg-[#4A7FA7]/10 flex items-center justify-center text-[#B3CFE5] mb-6 border border-[#4A7FA7]/20 shadow-[0_0_15px_rgba(179, 207, 229,0.2)]">
                 <Compass size={24} />
               </div>
               <h3 className="font-heading text-2xl font-bold text-text-primary mb-4">
@@ -136,7 +136,7 @@ export function MissionSection() {
                 Criar ferramentas de conversão verdadeiras, rápidas e estáveis que conectam pessoas reais a negócios reais. Unimos design planejado com precisão no desenvolvimento para entregar projetos que não apenas encantam esteticamente, mas geram vendas, contatos e autoridade real.
               </p>
             </div>
-            <div className="mt-8 pt-6 border-t border-white/[0.04] text-xs font-semibold text-text-muted uppercase tracking-wider">
+            <div className="mt-8 pt-6 border-t border-black/[0.04] text-xs font-semibold text-text-muted uppercase tracking-wider">
               ✦ Foco em usabilidade e velocidade extrema.
             </div>
           </div>
@@ -144,7 +144,7 @@ export function MissionSection() {
 
         {/* Pillars Headline */}
         <div className="text-center mb-10">
-          <span className="font-heading text-xs font-bold text-[#00adb5] tracking-widest uppercase">
+          <span className="font-heading text-xs font-bold text-[#4A7FA7] tracking-widest uppercase">
             COMO CONSTRUÍMOS RELACIONAMENTOS DURADOUROS
           </span>
           <h4 className="font-heading text-xl md:text-2xl font-bold text-text-primary mt-2">
@@ -158,8 +158,8 @@ export function MissionSection() {
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           {/* Pillar 1: Transparência */}
-          <div className="bg-[#0c0c10]/40 border border-white/[0.04] rounded-2xl p-6 md:p-8 hover:border-[#00adb5]/20 hover:bg-[#0c0c10]/60 transition-all duration-300 opacity-0">
-            <div className="text-[#00e5ff] mb-4">
+          <div className="bg-[#E6EEF4]/40 border border-black/[0.04] rounded-2xl p-6 md:p-8 hover:border-[#4A7FA7]/20 hover:bg-[#E6EEF4]/60 transition-all duration-300 opacity-0">
+            <div className="text-[#B3CFE5] mb-4">
               <ShieldCheck size={26} />
             </div>
             <h5 className="font-heading text-lg font-bold text-text-primary mb-2">
@@ -171,8 +171,8 @@ export function MissionSection() {
           </div>
 
           {/* Pillar 2: Artesanal */}
-          <div className="bg-[#0c0c10]/40 border border-white/[0.04] rounded-2xl p-6 md:p-8 hover:border-[#00adb5]/20 hover:bg-[#0c0c10]/60 transition-all duration-300 opacity-0">
-            <div className="text-[#00e5ff] mb-4">
+          <div className="bg-[#E6EEF4]/40 border border-black/[0.04] rounded-2xl p-6 md:p-8 hover:border-[#4A7FA7]/20 hover:bg-[#E6EEF4]/60 transition-all duration-300 opacity-0">
+            <div className="text-[#B3CFE5] mb-4">
               <Award size={26} />
             </div>
             <h5 className="font-heading text-lg font-bold text-text-primary mb-2">
@@ -184,8 +184,8 @@ export function MissionSection() {
           </div>
 
           {/* Pillar 3: Parceria */}
-          <div className="bg-[#0c0c10]/40 border border-white/[0.04] rounded-2xl p-6 md:p-8 hover:border-[#00adb5]/20 hover:bg-[#0c0c10]/60 transition-all duration-300 opacity-0">
-            <div className="text-[#00e5ff] mb-4">
+          <div className="bg-[#E6EEF4]/40 border border-black/[0.04] rounded-2xl p-6 md:p-8 hover:border-[#4A7FA7]/20 hover:bg-[#E6EEF4]/60 transition-all duration-300 opacity-0">
+            <div className="text-[#B3CFE5] mb-4">
               <Handshake size={26} />
             </div>
             <h5 className="font-heading text-lg font-bold text-text-primary mb-2">

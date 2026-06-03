@@ -27,29 +27,29 @@ export function PixelButton({
     fullWidth && 'w-full',
     large ? 'px-10 py-4 text-base' : 'px-6 py-3',
     variant === 'primary' && [
-      'bg-gradient-to-r from-[#00adb5] to-[#00c2cb] hover:from-[#00e5ff] hover:to-[#00adb5] text-[#060608]',
-      'shadow-[0_0_15px_rgba(0,173,181,0.3)] hover:shadow-[0_0_25px_rgba(0,229,255,0.5)]',
+      'bg-gradient-to-r from-[#4A7FA7] to-[#B3CFE5] hover:from-[#B3CFE5] hover:to-[#4A7FA7] text-[#F6FAFD]',
+      'shadow-[0_0_15px_rgba(74, 127, 167,0.3)] hover:shadow-[0_0_25px_rgba(179, 207, 229,0.5)]',
       'hover:-translate-y-0.5 active:translate-y-0',
     ],
     variant === 'secondary' && [
-      'bg-transparent text-text-primary border border-white/10 backdrop-blur-sm',
-      'hover:bg-white/5 hover:border-white/20',
+      'bg-transparent text-text-primary border border-black/10 backdrop-blur-sm',
+      'hover:bg-black/5 hover:border-white/20',
       'hover:-translate-y-0.5 active:translate-y-0',
     ],
     variant === 'accent' && [
-      'bg-[#00e5ff] text-[#060608] shadow-[0_0_20px_rgba(0,229,255,0.4)]',
+      'bg-[#B3CFE5] text-[#F6FAFD] shadow-[0_0_20px_rgba(179, 207, 229,0.4)]',
       'hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0',
     ],
     variant === 'ghost' && [
-      'bg-transparent text-text-secondary border border-white/5 hover:border-white/10 hover:text-text-primary',
+      'bg-transparent text-text-secondary border border-white/5 hover:border-black/10 hover:text-text-primary',
     ],
     variant === 'ghost-blue' && [
-      'bg-[#121217] text-text-secondary border border-[#00adb5]/10',
-      'hover:bg-[#181822] hover:text-text-primary hover:border-[#00e5ff]/25',
+      'bg-[#FFFFFF] text-text-secondary border border-[#4A7FA7]/10',
+      'hover:bg-[#FFFFFF] hover:text-text-primary hover:border-[#B3CFE5]/25',
     ],
     variant === 'accent-purple' && [
-      'bg-gradient-to-r from-[#8b5cf6] to-[#00adb5] text-text-primary shadow-[0_0_20px_rgba(139,92,246,0.3)]',
-      'hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(0,229,255,0.5)]',
+      'bg-gradient-to-r from-[#8b5cf6] to-[#4A7FA7] text-text-primary shadow-[0_0_20px_rgba(139,92,246,0.3)]',
+      'hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(179, 207, 229,0.5)]',
     ],
     className
   );

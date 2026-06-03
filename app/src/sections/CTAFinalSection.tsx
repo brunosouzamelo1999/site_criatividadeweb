@@ -108,7 +108,7 @@ export function CTAFinalSection() {
       ref={sectionRef}
       className="relative py-24 md:py-40 overflow-hidden"
       style={{
-        background: 'radial-gradient(ellipse at 50% 40%, #1A1A3E 0%, #0F0F1A 50%, #0A0A1A 100%)',
+        background: 'radial-gradient(ellipse at 50% 40%, #B3CFE5 0%, #E6EEF4 50%, #F6FAFD 100%)',
       }}
     >
       <FireSparks count={150} className="inset-0 opacity-60" />
