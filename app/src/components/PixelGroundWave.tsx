@@ -3,9 +3,14 @@ import { useEffect, useRef } from 'react';
 interface PixelGroundWaveProps {
   hideCeiling?: boolean;
   hideFloor?: boolean;
+  corridorGap?: number;
 }
 
-export function PixelGroundWave({ hideCeiling = false, hideFloor = false }: PixelGroundWaveProps) {
+export function PixelGroundWave({ 
+  hideCeiling = false, 
+  hideFloor = false, 
+  corridorGap 
+}: PixelGroundWaveProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const timeRef = useRef(0);
@@ -39,6 +44,13 @@ export function PixelGroundWave({ hideCeiling = false, hideFloor = false }: Pixe
       const zMin = 0.12; // Far tunnel opening depth
       const zMax = 1.0;  // Front edge depth
 
+      // If ceiling and floor are hidden, we make the central corridor wider
+      // by separating the vanishing points for the left and right sides.
+      const gapFraction = corridorGap !== undefined ? corridorGap : ((hideCeiling && hideFloor) ? 0.18 : 0);
+      const gap = width * gapFraction;
+      const leftCx = cx - gap;
+      const rightCx = cx + gap;
+
       // Draw perspective vanishing lines (vertical and horizontal grids on walls)
       ctx.lineWidth = 0.8;
       
@@ -69,15 +81,16 @@ export function PixelGroundWave({ hideCeiling = false, hideFloor = false }: Pixe
 
       for (const bp of boundaryPoints) {
         // We calculate starting and ending coordinates along the perspective line
-        const dx = bp.x - cx;
+        const currentCx = bp.x < cx ? leftCx : rightCx;
+        const dx = bp.x - currentCx;
         const dy = bp.y - cy;
 
         // Apply a gentle ripple effect specifically to the floor grid lines
         const waveFactor = bp.isFloor ? Math.sin((bp.x * 0.005) + (timeRef.current * 0.025)) * 12 : 0;
 
-        const xStart = cx + dx * zMin;
+        const xStart = currentCx + dx * zMin;
         const yStart = cy + dy * zMin + (bp.isFloor ? waveFactor * zMin : 0);
-        const xEnd = cx + dx * zMax;
+        const xEnd = currentCx + dx * zMax;
         const yEnd = cy + dy * zMax + (bp.isFloor ? waveFactor * zMax : 0);
 
         // Gradient for depth effect (fading as it goes deeper)
@@ -107,9 +120,9 @@ export function PixelGroundWave({ hideCeiling = false, hideFloor = false }: Pixe
         ctx.strokeStyle = `rgba(1, 69, 242, ${opacity})`;
         ctx.lineWidth = 0.5 + Math.pow(t, 2) * 1.5;
 
-        const x1 = cx + (0 - cx) * z;
+        const x1 = leftCx + (0 - leftCx) * z;
         const y1 = cy + (0 - cy) * z;
-        const x2 = cx + (width - cx) * z;
+        const x2 = rightCx + (width - rightCx) * z;
         const y2 = cy + (height - cy) * z;
 
         ctx.beginPath();
@@ -176,7 +189,7 @@ export function PixelGroundWave({ hideCeiling = false, hideFloor = false }: Pixe
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', debouncedResize);
     };
-  }, [hideCeiling, hideFloor]);
+  }, [hideCeiling, hideFloor, corridorGap]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
