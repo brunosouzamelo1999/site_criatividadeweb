@@ -87,7 +87,7 @@ export function MissionSection() {
         background: 'radial-gradient(circle at 50% 50%, #D2E4F0 0%, #F7F7FF 80%)',
       }}
     >
-      <PixelGroundWave />
+      <PixelGroundWave hideCeiling />
       <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
       {/* Decorative Blur Backgrounds */}

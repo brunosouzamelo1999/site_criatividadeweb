@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-export function PixelGroundWave() {
+interface PixelGroundWaveProps {
+  hideCeiling?: boolean;
+}
+
+export function PixelGroundWave({ hideCeiling = false }: PixelGroundWaveProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const timeRef = useRef(0);
@@ -41,9 +45,11 @@ export function PixelGroundWave() {
       const rows = 12; // rows for left/right walls
       const boundaryPoints: { x: number; y: number; isFloor: boolean }[] = [];
 
-      // Ceiling points (y = 0)
-      for (let i = 0; i <= cols; i++) {
-        boundaryPoints.push({ x: (i / cols) * width, y: 0, isFloor: false });
+      // Ceiling points (y = 0) - only if hideCeiling is false
+      if (!hideCeiling) {
+        for (let i = 0; i <= cols; i++) {
+          boundaryPoints.push({ x: (i / cols) * width, y: 0, isFloor: false });
+        }
       }
       // Floor points (y = height)
       for (let i = 0; i <= cols; i++) {
@@ -104,21 +110,27 @@ export function PixelGroundWave() {
         const y2 = cy + (height - cy) * z;
 
         ctx.beginPath();
-        // Top edge (ceiling)
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y1);
-        // Right edge (right wall)
-        ctx.lineTo(x2, y2);
-
-        // Bottom edge (floor) - we draw it with wave ripples to preserve the "wavy ground" feel
-        for (let x = x2; x >= x1; x -= 20) {
-          const floorWave = Math.sin((x * 0.005) + (timeRef.current * 0.025)) * 12 * Math.pow(z, 2);
-          ctx.lineTo(x, y2 + floorWave);
+        if (hideCeiling) {
+          // If ceiling is hidden, draw a hollow U-shape (Left wall, wavy floor, Right wall)
+          ctx.moveTo(x2, y1);
+          ctx.lineTo(x2, y2);
+          for (let x = x2; x >= x1; x -= 20) {
+            const floorWave = Math.sin((x * 0.005) + (timeRef.current * 0.025)) * 12 * Math.pow(z, 2);
+            ctx.lineTo(x, y2 + floorWave);
+          }
+          ctx.lineTo(x1, y1);
+        } else {
+          // Draw full closed box (Ceiling, Right wall, wavy floor, Left wall)
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y1);
+          ctx.lineTo(x2, y2);
+          for (let x = x2; x >= x1; x -= 20) {
+            const floorWave = Math.sin((x * 0.005) + (timeRef.current * 0.025)) * 12 * Math.pow(z, 2);
+            ctx.lineTo(x, y2 + floorWave);
+          }
+          ctx.lineTo(x1, y2);
+          ctx.closePath();
         }
-        
-        // Left edge (left wall)
-        ctx.lineTo(x1, y2);
-        ctx.closePath();
         ctx.stroke();
       }
 
@@ -141,7 +153,7 @@ export function PixelGroundWave() {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', debouncedResize);
     };
-  }, []);
+  }, [hideCeiling]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>

@@ -139,7 +139,7 @@ export function FAQSection() {
 
   return (
     <section ref={sectionRef} id="faq" className="relative bg-bg-secondary py-20 md:py-32 overflow-hidden">
-      <PixelGroundWave />
+      <PixelGroundWave hideCeiling />
       <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
 

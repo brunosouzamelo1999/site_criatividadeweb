@@ -112,7 +112,7 @@ export function CTAFinalSection() {
         background: 'radial-gradient(ellipse at 50% 40%, #EDF1F5 0%, #F7F7FF 100%)',
       }}
     >
-      <PixelGroundWave />
+      <PixelGroundWave hideCeiling />
       <FireSparks count={80} className="inset-0 opacity-40" />
       <FloatingPixelElements count={10} />
 

@@ -86,7 +86,7 @@ export function TestimonialsSection() {
         background: 'linear-gradient(180deg, #F7F7FF 0%, #EDF1F5 100%)',
       }}
     >
-      <PixelGroundWave />
+      <PixelGroundWave hideCeiling />
       <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
       <div className="max-w-7xl mx-auto px-6 md:px-12">

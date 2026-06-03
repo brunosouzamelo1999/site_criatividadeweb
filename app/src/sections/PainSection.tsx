@@ -132,7 +132,7 @@ export function PainSection() {
         background: 'radial-gradient(ellipse at 50% 0%, #EDF1F5 0%, #F7F7FF 80%)',
       }}
     >
-      <PixelGroundWave />
+      <PixelGroundWave hideCeiling />
       <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
