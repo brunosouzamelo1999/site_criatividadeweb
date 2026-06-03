@@ -38,20 +38,30 @@ class Spark {
     } else {
       this.x = Math.random() * this.canvasWidth;
     }
-    this.y = randomY ? Math.random() * this.canvasHeight : this.canvasHeight + Math.random() * 20;
+    // We always initialize Y randomly across the canvas height to ensure sparks
+    // are distributed throughout the section (including the top transition area).
+    this.y = Math.random() * this.canvasHeight;
     this.size = 1.0 + Math.random() * 2.2;
     this.speedY = 0.2 + Math.random() * 0.6;
     this.speedX = (Math.random() - 0.5) * 0.4;
     this.maxLife = 100 + Math.random() * 150;
+    // On startup, randomize life. Otherwise, start from 0 for a smooth fade-in.
     this.life = randomY ? Math.random() * this.maxLife : 0;
-    this.opacity = 1;
+    this.opacity = 0;
   }
 
   update() {
     this.y -= this.speedY;
     this.x += this.speedX;
     this.life++;
-    this.opacity = Math.max(0, 1 - (this.life / this.maxLife));
+    
+    // Smooth fade in during the first 15% of life, then fade out during the rest
+    const lifeRatio = this.life / this.maxLife;
+    if (lifeRatio < 0.15) {
+      this.opacity = lifeRatio / 0.15;
+    } else {
+      this.opacity = Math.max(0, 1 - (lifeRatio - 0.15) / 0.85);
+    }
 
     if (this.life >= this.maxLife || this.y < -20) {
       this.init(false);
