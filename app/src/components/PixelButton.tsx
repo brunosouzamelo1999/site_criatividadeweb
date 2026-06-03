@@ -27,8 +27,8 @@ export function PixelButton({
     fullWidth && 'w-full',
     large ? 'px-10 py-4 text-base' : 'px-6 py-3',
     variant === 'primary' && [
-      'bg-gradient-to-r from-[#4A7FA7] to-[#B3CFE5] hover:from-[#B3CFE5] hover:to-[#4A7FA7] text-[#F6FAFD]',
-      'shadow-[0_0_15px_rgba(74, 127, 167,0.3)] hover:shadow-[0_0_25px_rgba(179, 207, 229,0.5)]',
+      'bg-gradient-to-r from-[#27187E] to-[#0145F2] hover:from-[#0145F2] hover:to-[#27187E] text-[#F7F7FF]',
+      'shadow-[0_0_15px_rgba(39, 24, 126,0.3)] hover:shadow-[0_0_25px_rgba(1, 69, 242,0.5)]',
       'hover:-translate-y-0.5 active:translate-y-0',
     ],
     variant === 'secondary' && [
@@ -37,19 +37,19 @@ export function PixelButton({
       'hover:-translate-y-0.5 active:translate-y-0',
     ],
     variant === 'accent' && [
-      'bg-[#B3CFE5] text-[#F6FAFD] shadow-[0_0_20px_rgba(179, 207, 229,0.4)]',
+      'bg-[#0145F2] text-[#F7F7FF] shadow-[0_0_20px_rgba(1, 69, 242,0.4)]',
       'hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0',
     ],
     variant === 'ghost' && [
       'bg-transparent text-text-secondary border border-white/5 hover:border-black/10 hover:text-text-primary',
     ],
     variant === 'ghost-blue' && [
-      'bg-[#FFFFFF] text-text-secondary border border-[#4A7FA7]/10',
-      'hover:bg-[#FFFFFF] hover:text-text-primary hover:border-[#B3CFE5]/25',
+      'bg-[#FFFFFF] text-text-secondary border border-[#27187E]/10',
+      'hover:bg-[#FFFFFF] hover:text-text-primary hover:border-[#0145F2]/25',
     ],
     variant === 'accent-purple' && [
-      'bg-gradient-to-r from-[#8b5cf6] to-[#4A7FA7] text-text-primary shadow-[0_0_20px_rgba(139,92,246,0.3)]',
-      'hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(179, 207, 229,0.5)]',
+      'bg-gradient-to-r from-[#8b5cf6] to-[#27187E] text-text-primary shadow-[0_0_20px_rgba(139,92,246,0.3)]',
+      'hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(1, 69, 242,0.5)]',
     ],
     className
   );

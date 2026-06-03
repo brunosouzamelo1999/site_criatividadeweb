@@ -72,9 +72,9 @@ export function FireSparks({ count = 80, className = '' }: FireSparksProps) {
     if (sCtx) {
       const gradient = sCtx.createRadialGradient(16, 16, 0, 16, 16, 16);
       gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      gradient.addColorStop(0.15, 'rgba(179, 207, 229, 0.95)');
-      gradient.addColorStop(0.4, 'rgba(74, 127, 167, 0.4)');
-      gradient.addColorStop(1, 'rgba(74, 127, 167, 0)');
+      gradient.addColorStop(0.15, 'rgba(1, 69, 242, 0.95)');
+      gradient.addColorStop(0.4, 'rgba(39, 24, 126, 0.4)');
+      gradient.addColorStop(1, 'rgba(39, 24, 126, 0)');
       sCtx.fillStyle = gradient;
       sCtx.fillRect(0, 0, 32, 32);
     }

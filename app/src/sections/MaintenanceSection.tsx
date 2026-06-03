@@ -105,7 +105,7 @@ export function MaintenanceSection() {
       id="manutencao"
       className="py-20 md:py-32 relative overflow-hidden"
       style={{
-        background: 'radial-gradient(circle at 50% 0%, #B3CFE5 0%, #F6FAFD 100%)',
+        background: 'radial-gradient(circle at 50% 0%, #0145F2 0%, #F7F7FF 100%)',
       }}
     >
       {/* Decorative Blur */}
@@ -142,7 +142,7 @@ export function MaintenanceSection() {
 
               {/* Icon & Name */}
               <div className="flex items-center gap-4 mb-6">
-                <div className={`p-3 rounded-lg bg-white/[0.03] border border-[#4A7FA7]/15`}>
+                <div className={`p-3 rounded-lg bg-white/[0.03] border border-[#27187E]/15`}>
                   {plan.name === 'SUPORTE BASE' ? <ShieldCheck size={24} className="text-orange-500" /> : 
                    plan.name === 'GESTÃO ATIVA' ? <Zap size={24} className="text-accent-yellow" /> : 
                    <BarChart3 size={24} className="text-red-500" />}

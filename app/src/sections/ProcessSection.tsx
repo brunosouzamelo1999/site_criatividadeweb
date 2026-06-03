@@ -147,7 +147,7 @@ export function ProcessSection() {
         <div ref={headlineRef} className="text-center opacity-0">
           <SectionLabel text="COMO FUNCIONA" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary">
-            O processo em <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B3CFE5] to-[#4A7FA7] drop-shadow-[0_0_15px_rgba(179, 207, 229,0.25)]">5 fases</span>
+            O processo em <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0145F2] to-[#27187E] drop-shadow-[0_0_15px_rgba(1, 69, 242,0.25)]">5 fases</span>
           </h2>
           <p className="font-body text-base md:text-lg text-text-secondary mt-4 max-w-[600px] mx-auto">
             Do primeiro contato à publicação, cada etapa é cuidadosamente planejada para entregar o melhor resultado.
@@ -158,7 +158,7 @@ export function ProcessSection() {
           {/* Connecting path */}
           <div
             ref={pathRef}
-            className="absolute left-7 top-0 bottom-0 w-0 border-l-[2px] border-dashed border-[#4A7FA7]/30 origin-top hidden md:block"
+            className="absolute left-7 top-0 bottom-0 w-0 border-l-[2px] border-dashed border-[#27187E]/30 origin-top hidden md:block"
           />
 
           {/* Steps */}
@@ -166,13 +166,13 @@ export function ProcessSection() {
             {steps.map((step, i) => (
               <div
                 key={i}
-                className="process-step relative premium-card border-white/5 p-6 md:p-7 flex items-start gap-5 md:gap-6 opacity-0 shadow-lg hover:border-[#4A7FA7]/30"
+                className="process-step relative premium-card border-white/5 p-6 md:p-7 flex items-start gap-5 md:gap-6 opacity-0 shadow-lg hover:border-[#27187E]/30"
               >
                 {/* Phase Number */}
                 <div
-                  className="phase-number relative flex-shrink-0 w-12 h-12 bg-gradient-to-r from-[#4A7FA7] to-[#B3CFE5] border border-black/10 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(74, 127, 167,0.2)]"
+                  className="phase-number relative flex-shrink-0 w-12 h-12 bg-gradient-to-r from-[#27187E] to-[#0145F2] border border-black/10 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(39, 24, 126,0.2)]"
                 >
-                  <span className="font-heading text-sm font-bold text-[#F6FAFD]">{step.number}</span>
+                  <span className="font-heading text-sm font-bold text-[#F7F7FF]">{step.number}</span>
                 </div>
 
                 {/* Content */}
@@ -186,7 +186,7 @@ export function ProcessSection() {
                 </div>
 
                 {/* Checkpoint */}
-                <div className="hidden md:block absolute left-[25px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#B3CFE5] rounded-full shadow-[0_0_8px_rgba(179, 207, 229,0.6)]" />
+                <div className="hidden md:block absolute left-[25px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#0145F2] rounded-full shadow-[0_0_8px_rgba(1, 69, 242,0.6)]" />
               </div>
             ))}
           </div>

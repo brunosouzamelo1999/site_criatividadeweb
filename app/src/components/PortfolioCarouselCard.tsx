@@ -47,7 +47,7 @@ export function PortfolioCarouselCard({
   const titleColorClass = color === 'yellow' ? 'text-accent-yellow' : 'text-accent-purple';
 
   return (
-    <div className={`relative bg-[#E6EEF4] rounded-lg border-2 ${borderColorClass} ${shadowClass} overflow-hidden transition-all duration-300 flex flex-col group h-full`}>
+    <div className={`relative bg-[#EDF1F5] rounded-lg border-2 ${borderColorClass} ${shadowClass} overflow-hidden transition-all duration-300 flex flex-col group h-full`}>
       
       {/* Header Info */}
       <div className="p-6 pb-4 border-b border-black/[0.05]">

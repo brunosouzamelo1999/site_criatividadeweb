@@ -107,7 +107,7 @@ export function BenefitsSection() {
         <div ref={headlineRef} className="text-center opacity-0">
           <SectionLabel text="BENEFÍCIOS" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary">
-            Por que ter um <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B3CFE5] to-[#4A7FA7] drop-shadow-[0_0_15px_rgba(179, 207, 229,0.25)]">site profissional</span>?
+            Por que ter um <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0145F2] to-[#27187E] drop-shadow-[0_0_15px_rgba(1, 69, 242,0.25)]">site profissional</span>?
           </h2>
           <p className="font-body text-base md:text-lg text-text-secondary mt-4 max-w-[600px] mx-auto">
             Um site bem feito é a sua vitrine digital 24h por dia, 7 dias por semana.

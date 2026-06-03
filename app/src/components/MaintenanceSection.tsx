@@ -103,7 +103,7 @@ export function MaintenanceSection() {
       id="manutencao"
       className="py-20 md:py-32 relative overflow-hidden"
       style={{
-        background: '#F6FAFD',
+        background: '#F7F7FF',
       }}
     >
       {/* Decorative Blur */}
@@ -131,7 +131,7 @@ export function MaintenanceSection() {
             >
               {/* Icon & Name */}
               <div className="flex items-center gap-4 mb-6">
-                <div className={`p-3 rounded-lg bg-white/[0.03] border border-[#4A7FA7]/15`}>
+                <div className={`p-3 rounded-lg bg-white/[0.03] border border-[#27187E]/15`}>
                   {plan.icon}
                 </div>
                 <h3 className="font-display text-sm tracking-widest text-text-primary">

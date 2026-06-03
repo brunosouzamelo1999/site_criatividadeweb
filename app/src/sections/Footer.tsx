@@ -15,13 +15,13 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#F6FAFD] border-t border-black/[0.04]">
+    <footer className="bg-[#F7F7FF] border-t border-black/[0.04]">
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-[#B3CFE5] text-glow-cyan text-lg">&#9670;</span>
+              <span className="text-[#0145F2] text-glow-cyan text-lg">&#9670;</span>
               <span className="font-display text-sm text-text-primary tracking-widest">
                 CRIATIVIDADE WEB
               </span>
@@ -33,7 +33,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-heading text-[10px] font-bold text-[#B3CFE5] tracking-widest mb-4">
+            <h4 className="font-heading text-[10px] font-bold text-[#0145F2] tracking-widest mb-4">
               CONTATO
             </h4>
             <ul className="space-y-3">
@@ -42,7 +42,7 @@ export function Footer() {
                   href="https://wa.me/5592999845217"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-body text-sm text-text-secondary hover:text-[#B3CFE5] transition-colors duration-300"
+                  className="font-body text-sm text-text-secondary hover:text-[#0145F2] transition-colors duration-300"
                 >
                   WhatsApp: (11) 99999-9999
                 </a>
@@ -50,7 +50,7 @@ export function Footer() {
               <li>
                 <a
                   href="mailto:contato@criatividadeweb.com"
-                  className="font-body text-sm text-text-secondary hover:text-[#B3CFE5] transition-colors duration-300"
+                  className="font-body text-sm text-text-secondary hover:text-[#0145F2] transition-colors duration-300"
                 >
                   contato@criatividadeweb.com
                 </a>
@@ -60,7 +60,7 @@ export function Footer() {
                   href="https://instagram.com/criatividadeweb"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-body text-sm text-text-secondary hover:text-[#B3CFE5] transition-colors duration-300"
+                  className="font-body text-sm text-text-secondary hover:text-[#0145F2] transition-colors duration-300"
                 >
                   @criatividadeweb
                 </a>
@@ -70,7 +70,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading text-[10px] font-bold text-[#B3CFE5] tracking-widest mb-4">
+            <h4 className="font-heading text-[10px] font-bold text-[#0145F2] tracking-widest mb-4">
               MENU
             </h4>
             <ul className="space-y-3">
@@ -78,7 +78,7 @@ export function Footer() {
                 <li key={link.target}>
                   <button
                     onClick={() => handleClick(link.target)}
-                    className="font-body text-sm text-text-secondary hover:text-[#B3CFE5] transition-colors duration-300"
+                    className="font-body text-sm text-text-secondary hover:text-[#0145F2] transition-colors duration-300"
                   >
                     {link.label}
                   </button>
@@ -89,8 +89,8 @@ export function Footer() {
 
           {/* Badge */}
           <div className="flex items-start justify-start lg:justify-end">
-            <div className="inline-flex flex-col items-center gap-2 bg-[#E6EEF4]/80 border border-[#4A7FA7]/25 rounded-2xl p-4 rotate-[-3deg] shadow-[0_0_20px_rgba(74, 127, 167,0.1)]">
-              <Trophy size={24} className="text-[#B3CFE5]" />
+            <div className="inline-flex flex-col items-center gap-2 bg-[#EDF1F5]/80 border border-[#27187E]/25 rounded-2xl p-4 rotate-[-3deg] shadow-[0_0_20px_rgba(39, 24, 126,0.1)]">
+              <Trophy size={24} className="text-[#0145F2]" />
               <span className="font-heading text-[9px] font-bold text-text-muted tracking-widest text-center uppercase">
                 100%<br />EXCLUSIVO
               </span>
@@ -99,7 +99,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-[#4A7FA7]/15 mt-12 pt-8 text-center">
+        <div className="border-t border-[#27187E]/15 mt-12 pt-8 text-center">
           <p className="font-body text-xs text-text-muted">
             &copy; 2025 Criatividade Web. Todos os direitos reservados.
           </p>

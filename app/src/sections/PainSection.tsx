@@ -124,9 +124,9 @@ export function PainSection() {
     <section
       ref={sectionRef}
       id="dores"
-      className="py-20 md:py-32 overflow-hidden bg-[#F6FAFD]"
+      className="py-20 md:py-32 overflow-hidden bg-[#F7F7FF]"
       style={{
-        background: 'radial-gradient(ellipse at 50% 0%, #E6EEF4 0%, #F6FAFD 80%)',
+        background: 'radial-gradient(ellipse at 50% 0%, #EDF1F5 0%, #F7F7FF 80%)',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -145,7 +145,7 @@ export function PainSection() {
         <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-12 lg:gap-16 items-start">
           
           {/* Left Side: Luxury Digital Analyzer Scanner Panel */}
-          <div className="lg:sticky lg:top-28 bg-[#E6EEF4]/70 border border-black/[0.04] backdrop-blur-md rounded-2xl p-8 shadow-[0_15px_40px_rgba(10, 25, 49, 0.06)]">
+          <div className="lg:sticky lg:top-28 bg-[#EDF1F5]/70 border border-black/[0.04] backdrop-blur-md rounded-2xl p-8 shadow-[0_15px_40px_rgba(39, 24, 126, 0.06)]">
             {/* Analyzer Header Bar */}
             <div className="flex items-center justify-between pb-6 border-b border-black/[0.04] mb-6">
               <div className="flex items-center gap-3">
@@ -203,7 +203,7 @@ export function PainSection() {
             {pains.map((pain, i) => (
               <div
                 key={i}
-                className={`group bg-[#E6EEF4]/40 border border-black/[0.04] border-l-4 border-l-red-500/70 rounded-2xl p-6 flex items-start gap-5 opacity-0 shadow-lg transition-all duration-300 hover:bg-[#E6EEF4]/75 hover:border-l-red-500 ${pain.borderGlow}`}
+                className={`group bg-[#EDF1F5]/40 border border-black/[0.04] border-l-4 border-l-red-500/70 rounded-2xl p-6 flex items-start gap-5 opacity-0 shadow-lg transition-all duration-300 hover:bg-[#EDF1F5]/75 hover:border-l-red-500 ${pain.borderGlow}`}
               >
                 {/* Icon Container */}
                 <div className="flex-shrink-0 p-3 rounded-xl bg-black/[0.02] border border-black/[0.04] group-hover:border-red-500/30 transition-all duration-300 shadow-sm">
@@ -233,7 +233,7 @@ export function PainSection() {
         {/* Solution CTA Box */}
         <div
           ref={solutionRef}
-          className="relative bg-gradient-to-b from-[#E6EEF4] to-[#FFFFFF] border border-[#4A7FA7]/20 hover:border-[#B3CFE5]/50 rounded-3xl p-8 md:p-12 text-center max-w-3xl mx-auto mt-24 opacity-0 shadow-[0_15px_45px_rgba(10, 25, 49, 0.06),0_0_35px_rgba(74, 127, 167,0.03)] transition-all duration-500"
+          className="relative bg-gradient-to-b from-[#EDF1F5] to-[#FFFFFF] border border-[#27187E]/20 hover:border-[#0145F2]/50 rounded-3xl p-8 md:p-12 text-center max-w-3xl mx-auto mt-24 opacity-0 shadow-[0_15px_45px_rgba(39, 24, 126, 0.06),0_0_35px_rgba(39, 24, 126,0.03)] transition-all duration-500"
         >
           <span className="inline-flex items-center gap-2 bg-[#2DC653]/15 text-accent-green border border-accent-green/20 font-heading text-[10px] font-bold tracking-wider px-4 py-1.5 rounded-full mb-6 shadow-[0_0_15px_rgba(45,198,83,0.15)] animate-pulse">
             <Trophy size={14} />
@@ -244,7 +244,7 @@ export function PainSection() {
             Nós construímos a sua ponte para o sucesso.
           </h3>
           <p className="font-body text-sm md:text-base text-text-secondary max-w-xl mx-auto mt-4 leading-relaxed">
-            Substituímos o amadorismo e a falta de visibilidade por um <strong className="text-[#B3CFE5] font-bold">site de elite</strong>: rápido, responsivo, com design de luxo e totalmente otimizado para transformar simples visitantes em clientes fiéis.
+            Substituímos o amadorismo e a falta de visibilidade por um <strong className="text-[#0145F2] font-bold">site de elite</strong>: rápido, responsivo, com design de luxo e totalmente otimizado para transformar simples visitantes em clientes fiéis.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
