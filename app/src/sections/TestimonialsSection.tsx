@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { PixelGroundWave } from '@/components/PixelGroundWave';
+import { FireSparks } from '@/components/FireSparks';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
@@ -84,6 +86,8 @@ export function TestimonialsSection() {
         background: 'linear-gradient(180deg, #F7F7FF 0%, #EDF1F5 100%)',
       }}
     >
+      <PixelGroundWave />
+      <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div ref={headlineRef} className="text-center opacity-0">

@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { PixelGroundWave } from '@/components/PixelGroundWave';
+import { FireSparks } from '@/components/FireSparks';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
@@ -109,6 +111,8 @@ export function MaintenanceSection() {
         background: 'radial-gradient(circle at 50% 0%, #EDF1F5 0%, #F7F7FF 100%)',
       }}
     >
+      <PixelGroundWave />
+      <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
       {/* Decorative Blur */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0145F2]/10 to-transparent" />

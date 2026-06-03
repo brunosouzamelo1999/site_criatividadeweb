@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { PixelGroundWave } from '@/components/PixelGroundWave';
+import { FireSparks } from '@/components/FireSparks';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
@@ -143,6 +145,8 @@ export function PlansSection() {
         background: 'radial-gradient(ellipse at 50% 50%, #D2E4F0 0%, #F7F7FF 100%)',
       }}
     >
+      <PixelGroundWave />
+      <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={8} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">

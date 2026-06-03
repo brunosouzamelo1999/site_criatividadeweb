@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { PixelGroundWave } from '@/components/PixelGroundWave';
+import { FireSparks } from '@/components/FireSparks';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
@@ -85,6 +87,8 @@ export function MissionSection() {
         background: 'radial-gradient(circle at 50% 50%, #D2E4F0 0%, #F7F7FF 80%)',
       }}
     >
+      <PixelGroundWave />
+      <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
       {/* Decorative Blur Backgrounds */}
       <div className="absolute top-1/4 left-1/10 w-72 h-72 rounded-full bg-[#27187E]/5 blur-[120px] pointer-events-none" />

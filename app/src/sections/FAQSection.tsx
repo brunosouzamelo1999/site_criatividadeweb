@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { PixelGroundWave } from '@/components/PixelGroundWave';
+import { FireSparks } from '@/components/FireSparks';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
@@ -137,6 +139,8 @@ export function FAQSection() {
 
   return (
     <section ref={sectionRef} id="faq" className="relative bg-bg-secondary py-20 md:py-32 overflow-hidden">
+      <PixelGroundWave />
+      <FireSparks count={60} className="inset-0 opacity-30" />
       <FloatingPixelElements count={6} />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12">

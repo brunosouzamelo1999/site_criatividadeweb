@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { PixelGroundWave } from '@/components/PixelGroundWave';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FireSparks } from '@/components/FireSparks';
@@ -237,6 +238,7 @@ export function PortfolioSection() {
         background: 'radial-gradient(ellipse at 50% 100%, #D2E4F0 0%, #F7F7FF 80%)',
       }}
     >
+      <PixelGroundWave />
       <FloatingPixelElements count={6} />
       {/* Ciano Particles Dust */}
       <FireSparks count={80} className="inset-0 opacity-50" />

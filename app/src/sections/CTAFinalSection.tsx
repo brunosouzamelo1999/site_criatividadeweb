@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { PixelGroundWave } from '@/components/PixelGroundWave';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FireSparks } from '@/components/FireSparks';
@@ -108,10 +109,11 @@ export function CTAFinalSection() {
       ref={sectionRef}
       className="relative py-24 md:py-40 overflow-hidden"
       style={{
-        background: 'radial-gradient(ellipse at 50% 40%, #0145F2 0%, #EDF1F5 50%, #F7F7FF 100%)',
+        background: 'radial-gradient(ellipse at 50% 40%, #EDF1F5 0%, #F7F7FF 100%)',
       }}
     >
-      <FireSparks count={150} className="inset-0 opacity-60" />
+      <PixelGroundWave />
+      <FireSparks count={80} className="inset-0 opacity-40" />
       <FloatingPixelElements count={10} />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 text-center">
@@ -120,7 +122,7 @@ export function CTAFinalSection() {
           className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary leading-[1.7] opacity-0"
         >
           Seu negócio merece um{' '}
-          <span className="text-accent-yellow text-glow-yellow">site profissional</span>{' '}
+          <span className="text-[#0145F2] text-glow-cyan">site profissional</span>{' '}
           que realmente gere resultados.
         </h2>
 
