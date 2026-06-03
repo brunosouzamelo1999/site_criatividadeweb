@@ -46,7 +46,7 @@ export function PixelGroundWave({
 
       // If ceiling and floor are hidden, we make the central corridor wider
       // by separating the vanishing points for the left and right sides.
-      const gapFraction = corridorGap !== undefined ? corridorGap : ((hideCeiling && hideFloor) ? 0.13 : 0);
+      const gapFraction = corridorGap !== undefined ? corridorGap : ((hideCeiling && hideFloor) ? 0.09 : 0);
       const gap = width * gapFraction;
       const leftCx = cx - gap;
       const rightCx = cx + gap;
