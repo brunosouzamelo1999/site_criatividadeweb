@@ -257,18 +257,20 @@ export function PortfolioSection() {
 
         {/* Tab Switcher (Wix style pill tabs, using abstract Lucide Icons!) */}
         <div className="flex justify-center mb-12">
-          <div className="bg-[#EDF1F5]/60 border border-white/5 backdrop-blur-md rounded-full p-1.5 flex flex-wrap justify-center gap-1.5 max-w-3xl shadow-[0_4px_30px_rgba(39, 24, 126,0.08)]">
+          <div className="bg-[#EDF1F5]/60 border border-[#27187E]/10 backdrop-blur-md rounded-full p-2 flex flex-wrap justify-center gap-2 max-w-4xl shadow-[0_6px_30px_rgba(39,24,126,0.06)]">
             {categories.map((cat, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveTab(idx)}
-                className={`flex items-center gap-2 font-heading text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 ${
+                className={`flex items-center gap-2.5 font-heading text-xs md:text-sm font-bold px-6 py-3 rounded-full transition-all duration-300 border ${
                   activeTab === idx
-                    ? 'bg-gradient-to-r from-[#27187E] to-[#0145F2] text-[#F7F7FF] shadow-[0_0_15px_rgba(39, 24, 126,0.4)]'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-black/5'
+                    ? 'bg-gradient-to-r from-[#27187E] to-[#0145F2] text-white border-[#0145F2]/20 shadow-[0_6px_20px_rgba(1,69,242,0.25)] scale-[1.03]'
+                    : 'bg-[#FFFFFF]/90 border-[#27187E]/10 text-[#27187E]/70 hover:text-[#27187E] hover:bg-[#FFFFFF] hover:border-[#0145F2]/30 shadow-[0_2px_10px_rgba(0,0,0,0.02)]'
                 }`}
               >
-                <span className="flex-shrink-0">{cat.icon}</span>
+                <span className={`flex-shrink-0 transition-colors duration-300 ${activeTab === idx ? 'text-white' : 'text-[#0145F2]'}`}>
+                  {cat.icon}
+                </span>
                 <span>{cat.title}</span>
               </button>
             ))}
@@ -276,16 +278,19 @@ export function PortfolioSection() {
         </div>
 
         {/* Active Category Meta */}
-        <div className="max-w-3xl mx-auto text-center mb-14 bg-[#EDF1F5]/35 border border-black/[0.03] backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-sm">
-          <h3 className="font-heading text-xl font-bold text-[#0145F2]">
+        <div className="max-w-3xl mx-auto text-center mb-14 bg-[#FFFFFF]/70 border-2 border-[#27187E]/15 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-[0_8px_32px_rgba(39,24,126,0.04)] relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-[#27187E] to-[#0145F2] text-white font-heading text-[10px] font-bold tracking-widest px-4 py-1 rounded-full uppercase shadow-md border border-[#0145F2]/20">
+            Categoria Selecionada
+          </div>
+          <h3 className="font-heading text-xl md:text-2xl font-black text-[#27187E] mt-2">
             {categories[activeTab].title}
           </h3>
-          <p className="font-body text-sm text-text-secondary mt-2">
+          <p className="font-body text-sm md:text-base text-text-secondary mt-2.5 max-w-2xl mx-auto leading-relaxed">
             {categories[activeTab].description}
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-text-muted tracking-wider uppercase bg-black/[0.02] border border-black/[0.04] px-4 py-1.5 rounded-full">
-            <Globe size={12} className="text-[#0145F2]" />
-            Tecnologia: <span className="text-text-primary font-bold ml-1">{categories[activeTab].tech}</span>
+          <div className="mt-5 inline-flex items-center gap-2 text-xs font-bold tracking-wider uppercase bg-[#EDF1F5]/80 border border-[#27187E]/15 px-5 py-2 rounded-full">
+            <Globe size={13} className="text-[#0145F2]" />
+            Tecnologia: <span className="text-[#0145F2] font-extrabold ml-1">{categories[activeTab].tech}</span>
           </div>
         </div>
 
