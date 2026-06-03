@@ -24,7 +24,7 @@ const plans = [
       'Suporte premium por 7 dias',
     ],
     cta: 'Quero começar meu site',
-    variant: 'ghost-blue' as const,
+    variant: 'primary' as const,
     highlighted: false,
     tag: null,
     customClasses: 'border border-[#27187E]/20 bg-[#EDF1F5]/40 backdrop-blur-md shadow-[0_0_20px_rgba(39, 24, 126,0.05)] hover:shadow-[0_0_35px_rgba(39, 24, 126,0.15)] hover:border-[#27187E]/50 transition-all duration-300',
