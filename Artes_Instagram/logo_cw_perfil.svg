@@ -1,0 +1,64 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1080" fill="#0A0A1A"/>
+  
+  <defs>
+    <!-- Glow Filters Enhanced -->
+    <filter id="pinkGlowProfile" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="yellowGlowProfile" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Gradients -->
+    <linearGradient id="pinkGradProf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2E63" />
+      <stop offset="100%" stop-color="#FF00A8" />
+    </linearGradient>
+    <linearGradient id="yellowGradProf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD60A" />
+      <stop offset="100%" stop-color="#CCFF00" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circular Safe Zone Guide (Invisible) -->
+  <circle cx="540" cy="540" r="500" stroke="none" fill="none"/>
+
+  <!-- Logo CW Group - Centralized for Profile -->
+  <g transform="translate(500, 500)">
+    <!-- Letter C (Pink Neon) -->
+    <path d="M0,-120 A120,120 0 1,0 0,120" 
+          stroke="url(#pinkGradProf)" 
+          stroke-width="30" 
+          stroke-linecap="round" 
+          filter="url(#pinkGlowProfile)"
+          fill="none"/>
+    
+    <!-- Letter W (Yellow Neon) - Interlocked -->
+    <path d="M-30,-20 L20,120 L80,-20 L140,120 L200,-120" 
+          stroke="url(#yellowGradProf)" 
+          stroke-width="30" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          filter="url(#yellowGlowProfile)"
+          fill="none"/>
+          
+    <!-- Core highlights -->
+    <path d="M0,-120 A120,120 0 1,0 0,120" 
+          stroke="#FFF" stroke-width="6" stroke-opacity="0.5" stroke-linecap="round" fill="none"/>
+    <path d="M-30,-20 L20,120 L80,-20 L140,120 L200,-120" 
+          stroke="#FFF" stroke-width="6" stroke-opacity="0.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- Text Label - Compact and Bold for Profile -->
+  <text x="540" y="850" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="70" font-weight="900" letter-spacing="2">
+    CRIATIVIDADE <tspan fill="#FFD60A">WEB</tspan>
+  </text>
+  
+  <text x="540" y="920" text-anchor="middle" fill="#FFF" fill-opacity="0.4" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="15">
+    ENGENHARIA DE SOFTWARE
+  </text>
+
+</svg>

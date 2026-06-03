@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amour Boutique // Presentes Afetivos de Luxo</title>
+    
+    <!-- Meta tags for premium SEO -->
+    <meta name="description" content="Amour Boutique - Experiência de presentes afetivos sob medida e caixas aromáticas exclusivas feitas à mão para emocionar quem você ama.">
+    <meta name="keywords" content="presentes afetivos, box personalizada, presentes de luxo, caixa aromática, presentes artesanais">
+    
+    <!-- Tailwind and Animation scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Google Fonts: Cormorant for elegant serif, Nunito for premium soft body, Playfair for micro-labels -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Nunito:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        amour: {
+                            bg: '#FCFAF9', // Warm premium ivory/cream
+                            lilac: '#D6C8E3', // Soft calming lilac
+                            dustyRose: '#D9A8A8', // Warm romantic dusty rose
+                            gold: '#D4AF37', // Luxurious accent gold
+                            text: '#4A3E4D', // Deep plum-grey body text
+                            dark: '#261C2C', // Deep majestic night plum
+                            glass: 'rgba(255, 255, 255, 0.75)',
+                            border: 'rgba(214, 200, 227, 0.4)'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Cormorant Garamond', 'serif'],
+                        body: ['Nunito', 'sans-serif'],
+                        decorative: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background-color: #FCFAF9; 
+            color: #4A3E4D; 
+            overflow-x: hidden;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .cormorant {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(214, 200, 227, 0.35);
+        }
+
+        .glass-panel-dark {
+            background: rgba(38, 28, 44, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(214, 200, 227, 0.15);
+        }
+
+        /* Pin interactive animations */
+        .feedback-pin {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: #D9A8A8;
+            border: 3px solid #FCFAF9;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg) translate(-50%, -50%);
+            box-shadow: 0 4px 10px rgba(74, 62, 77, 0.25);
+            cursor: pointer;
+            z-index: 40;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse-pin 2s infinite;
+        }
+        
+        .feedback-pin::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #261C2C;
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes pulse-pin {
+            0% { box-shadow: 0 0 0 0 rgba(217, 168, 168, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(217, 168, 168, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(217, 168, 168, 0); }
+        }
+
+        /* Marquee Scrolling animation */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Kraft serrated edges */
+        .kraft-paper {
+            background-color: #E2C7A8;
+            background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 0),
+                              radial-gradient(rgba(0,0,0,0.04) 1px, transparent 0);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+            position: relative;
+            color: #433222;
+            box-shadow: 0 20px 50px rgba(38, 28, 44, 0.3);
+        }
+
+        .kraft-paper::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(-135deg, transparent 5px, #E2C7A8 0),
+                        linear-gradient(135deg, transparent 5px, #E2C7A8 0);
+            background-size: 10px 20px;
+        }
+
+        .kraft-paper::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(-45deg, transparent 5px, #E2C7A8 0),
+                        linear-gradient(45deg, transparent 5px, #E2C7A8 0);
+            background-size: 10px 20px;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FCFAF9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D9A8A8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C49292;
+        }
+
+        /* Canvas paper heart particles */
+        #heart-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-amour-dustyRose selection:text-white relative">
+
+    <!-- Confetti heart canvas for registration reward -->
+    <canvas id="heart-canvas"></canvas>
+
+    <!-- Pin creation helper toast -->
+    <div id="pin-instruction-toast" class="fixed bottom-6 left-6 z-50 glass-panel p-4 rounded-2xl shadow-xl border border-amour-dustyRose/40 max-w-xs transition-all duration-500 transform translate-y-24 opacity-0 pointer-events-none">
+        <div class="flex items-start gap-3">
+            <div class="p-2 bg-amour-dustyRose/20 rounded-full text-amour-dustyRose">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h4 class="font-bold text-amour-dark text-sm">Modo de Pins Ativado</h4>
+                <p class="text-xs text-amour-text/80 mt-1">Clique em qualquer local da tela para fixar uma nota adesiva com suas ideias ou feedbacks criativos.</p>
+                <button onclick="togglePinMode()" class="mt-2 text-xs font-semibold uppercase text-amour-dustyRose hover:underline">Desativar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Pin Placement Modal overlay -->
+    <div id="pin-creation-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-amour-dark/40 backdrop-blur-sm hidden">
+        <div class="glass-panel p-6 rounded-3xl max-w-md w-full mx-4 shadow-2xl scale-95 opacity-0 transition-all duration-300" id="pin-modal-card">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-2 text-amour-dustyRose">
+                    <i data-lucide="flower" class="w-5 h-5 animate-spin-slow"></i>
+                    <span class="font-decorative italic font-bold">Fixar Afeto no Design</span>
+                </div>
+                <button onclick="closePinModal()" class="text-amour-text/60 hover:text-amour-dark"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-xs text-amour-text/70 mb-4">Deixe suas sugestões de novas caixas, fragrâncias ou mudanças estéticas na página.</p>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-amour-dark mb-1">Seu Nome / Autor</label>
+                    <input type="text" id="pin-author" placeholder="Ex: Bruno Design" class="w-full text-sm px-4 py-2.5 rounded-xl border border-amour-lilac/50 bg-white/50 focus:outline-none focus:border-amour-dustyRose">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-amour-dark mb-1">Nota Criativa / Comentário</label>
+                    <textarea id="pin-message" rows="3" placeholder="Sugerir caixa especial com pétalas de mini rosa seca e óleos essenciais..." class="w-full text-sm px-4 py-2.5 rounded-xl border border-amour-lilac/50 bg-white/50 focus:outline-none focus:border-amour-dustyRose"></textarea>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end gap-2">
+                <button onclick="closePinModal()" class="px-4 py-2 text-xs font-semibold text-amour-text/70 hover:bg-amour-lilac/10 rounded-xl">Cancelar</button>
+                <button onclick="saveFeedbackPin()" class="bg-amour-dustyRose text-white px-5 py-2 text-xs font-semibold rounded-xl hover:bg-amour-dark hover:text-white transition-all duration-300 shadow-md">Fixar Nota ♡</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Ribbon Announcement -->
+    <div class="bg-amour-dark text-amour-bg text-center py-2 px-4 text-[10px] sm:text-xs font-semibold tracking-[0.18em] uppercase flex items-center justify-center gap-2 relative z-50">
+        <span>Frete Grátis em Box Personalizadas para todo Brasil</span>
+        <span class="hidden sm:inline">•</span>
+        <span class="text-amour-dustyRose">Cupom ativo para novos membros: </span>
+        <span class="bg-amour-dustyRose/20 text-amour-dustyRose border border-amour-dustyRose/40 px-1.5 py-0.5 rounded font-mono font-bold select-all">AMOUR10</span>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="w-full bg-amour-bg/95 backdrop-blur-md sticky top-0 z-40 border-b border-amour-lilac/20 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <!-- Burger Menu Icon -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-amour-dark hover:text-amour-dustyRose transition-colors focus:outline-none" aria-label="Menu principal">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <nav class="hidden md:flex gap-8 text-xs font-bold text-amour-text/80 tracking-[0.2em] uppercase">
+                    <a href="#catalogo" class="hover:text-amour-dustyRose transition-colors relative group">
+                        Nossas Caixas
+                        <span class="absolute bottom-[-4px] left-0 w-0 h-[1.5px] bg-amour-dustyRose transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#experiencia" class="hover:text-amour-dustyRose transition-colors relative group">
+                        Fragrâncias
+                        <span class="absolute bottom-[-4px] left-0 w-0 h-[1.5px] bg-amour-dustyRose transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#sobre" class="hover:text-amour-dustyRose transition-colors relative group">
+                        Manifesto
+                        <span class="absolute bottom-[-4px] left-0 w-0 h-[1.5px] bg-amour-dustyRose transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </nav>
+            </div>
+            
+            <a href="#" class="font-heading text-3xl sm:text-4xl font-bold tracking-widest text-amour-dark hover:opacity-90 transition-opacity">
+                Amour<span class="text-amour-dustyRose font-light">.</span>
+            </a>
+            
+            <div class="flex items-center gap-3 sm:gap-5 text-amour-dark">
+                <!-- Pin Mode Toggle Button -->
+                <button onclick="togglePinMode()" id="pin-toggle-btn" class="p-2 rounded-full hover:bg-amour-lilac/20 text-amour-text/70 hover:text-amour-dustyRose transition-all duration-300 relative group" title="Modo Alfinete Creativo">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-amour-lilac rounded-full hidden" id="pin-active-dot"></span>
+                </button>
+
+                <!-- Club Button dynamically logs in -->
+                <button onclick="openClubModal()" id="club-nav-btn" class="flex items-center gap-2 hover:text-amour-dustyRose transition-colors focus:outline-none">
+                    <div class="p-2 rounded-full hover:bg-amour-lilac/20 relative">
+                        <i data-lucide="heart" class="w-5 h-5" id="club-heart-icon"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-amour-dustyRose rounded-full animate-ping" id="club-badge-glow"></span>
+                    </div>
+                    <span id="user-display-name" class="hidden md:inline text-xs font-bold tracking-widest uppercase text-amour-text/80">Entrar no Clube</span>
+                </button>
+
+                <!-- Cart Button -->
+                <button onclick="openCartDrawer()" class="p-2 rounded-full hover:bg-amour-lilac/20 relative hover:text-amour-dustyRose transition-all duration-300 focus:outline-none">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span id="cart-counter" class="absolute -top-1 -right-1 w-5 h-5 bg-amour-dustyRose text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-amour-bg transition-transform duration-300 scale-0">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-amour-dark/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="w-3/4 max-w-sm h-full bg-amour-bg shadow-2xl p-8 flex flex-col justify-between transform -translate-x-full transition-transform duration-300">
+            <div>
+                <div class="flex justify-between items-center mb-12">
+                    <span class="font-heading text-3xl font-bold tracking-widest text-amour-dark">Amour.</span>
+                    <button onclick="toggleMobileMenu()" class="text-amour-dark hover:text-amour-dustyRose"><i data-lucide="x" class="w-6 h-6"></i></button>
+                </div>
+                <nav class="flex flex-col gap-6 text-base font-bold tracking-widest uppercase text-amour-text">
+                    <a href="#catalogo" onclick="toggleMobileMenu()" class="hover:text-amour-dustyRose transition-colors py-2 border-b border-amour-lilac/20 flex justify-between items-center">
+                        <span>Nossas Caixas</span> <i data-lucide="chevron-right" class="w-4 h-4 text-amour-lilac"></i>
+                    </a>
+                    <a href="#experiencia" onclick="toggleMobileMenu()" class="hover:text-amour-dustyRose transition-colors py-2 border-b border-amour-lilac/20 flex justify-between items-center">
+                        <span>Fragrâncias Aromáticas</span> <i data-lucide="chevron-right" class="w-4 h-4 text-amour-lilac"></i>
+                    </a>
+                    <a href="#sobre" onclick="toggleMobileMenu()" class="hover:text-amour-dustyRose transition-colors py-2 border-b border-amour-lilac/20 flex justify-between items-center">
+                        <span>Nosso Manifesto</span> <i data-lucide="chevron-right" class="w-4 h-4 text-amour-lilac"></i>
+                    </a>
+                    <button onclick="toggleMobileMenu(); openClubModal();" class="text-left hover:text-amour-dustyRose transition-colors py-2 border-b border-amour-lilac/20 flex justify-between items-center w-full">
+                        <span>Clube Amour VIP</span> <i data-lucide="heart" class="w-4 h-4 text-amour-dustyRose"></i>
+                    </button>
+                </nav>
+            </div>
+            
+            <div class="border-t border-amour-lilac/30 pt-6">
+                <p class="text-xs text-amour-text/60 italic mb-4">Feito artesanalmente com carinho, fragrâncias frescas e fitas de algodão puro.</p>
+                <div class="flex gap-4 text-amour-dark text-xs font-bold tracking-widest uppercase">
+                    <a href="#" class="hover:text-amour-dustyRose">Instagram</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-amour-dustyRose">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="min-h-[85vh] relative flex items-center justify-center pt-8 pb-16 overflow-hidden">
+        <!-- Floating organic aesthetic gradients -->
+        <div class="absolute w-96 h-96 bg-amour-lilac/45 rounded-full filter blur-[80px] -top-20 -left-20 animate-[pulse_10s_infinite]"></div>
+        <div class="absolute w-[450px] h-[450px] bg-amour-dustyRose/25 rounded-full filter blur-[100px] -bottom-20 -right-20 animate-[pulse_15s_infinite_2s]"></div>
+        
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center z-10 w-full relative">
+            <div data-aos="fade-up" data-aos-duration="1200" class="text-left">
+                <div class="inline-flex items-center gap-2 bg-amour-dustyRose/15 text-amour-dustyRose border border-amour-dustyRose/25 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-pulse"></i>
+                    Alta Costura em Presentes
+                </div>
+                <h1 class="cormorant text-6xl sm:text-7xl lg:text-8xl font-medium leading-[0.95] text-amour-dark mb-6">
+                    Memórias <br>
+                    <span class="italic text-amour-dustyRose">embaladas</span> <br>
+                    com afeto.
+                </h1>
+                <p class="text-base sm:text-lg text-amour-text/80 font-light mb-10 max-w-md leading-relaxed">
+                    Caixas personalizadas de luxo, aromatizadas artesanalmente e finalizadas com raminhos de flores secas. Crie instantes inesquecíveis para quem você mais ama.
+                </p>
+                <div class="flex flex-wrap gap-4 items-center">
+                    <a href="#catalogo" class="bg-amour-dark text-white font-bold text-xs uppercase tracking-widest px-8 py-4.5 rounded-full hover:bg-amour-dustyRose transition-all duration-300 shadow-lg shadow-amour-dark/15 hover:shadow-amour-dustyRose/25">
+                        Explorar Caixas
+                    </a>
+                    <button onclick="openCartDrawer()" class="font-heading italic text-xl border-b border-amour-dark/80 text-amour-dark hover:text-amour-dustyRose hover:border-amour-dustyRose transition-all duration-300 pb-0.5">
+                        Monte a sua Box
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative flex justify-center items-center" data-aos="zoom-in" data-aos-duration="1500">
+                <div class="w-full max-w-[420px] aspect-square rounded-full border border-amour-lilac/60 p-4 relative animate-[spin_80s_linear_infinite]">
+                    <div class="w-full h-full rounded-full border border-amour-dustyRose/40 border-dashed"></div>
+                </div>
+                
+                <!-- Double overlay frame for extremely premium feels -->
+                <div class="absolute inset-0 flex items-center justify-center transform hover:scale-105 transition-transform duration-700">
+                    <div class="relative w-3/4 h-3/4 rounded-[48px] overflow-hidden shadow-2xl border-4 border-white shadow-amour-dark/10 group">
+                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" alt="Premium curated gift box Amour" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1200ms]">
+                        <!-- Elegant hover glass label -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-amour-dark/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                            <div>
+                                <span class="font-decorative italic text-white text-lg block">Amour Signature Box</span>
+                                <span class="text-[10px] text-amour-lilac tracking-widest uppercase font-bold">Edição Flores e Lavanda</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating mini interactive elements -->
+                <div class="absolute top-8 left-12 bg-white/95 backdrop-blur px-4 py-2.5 rounded-2xl shadow-xl border border-amour-lilac/30 flex items-center gap-2 animate-bounce" style="animation-duration: 4s;">
+                    <i data-lucide="feather" class="w-4 h-4 text-amour-dustyRose"></i>
+                    <span class="text-[10px] font-bold tracking-widest text-amour-dark uppercase">Seda Perfumada</span>
+                </div>
+
+                <div class="absolute bottom-8 right-12 bg-white/95 backdrop-blur px-4 py-2.5 rounded-2xl shadow-xl border border-amour-lilac/30 flex items-center gap-2 animate-bounce" style="animation-duration: 6s; animation-delay: 1s;">
+                    <i data-lucide="flower" class="w-4 h-4 text-amour-gold"></i>
+                    <span class="text-[10px] font-bold tracking-widest text-amour-dark uppercase">Lacre de Cera Real</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Banner with exquisite decorative items -->
+    <div class="bg-amour-lilac/20 py-5 marquee-container border-y border-amour-lilac/35 shadow-sm">
+        <div class="marquee-content font-heading italic text-xl sm:text-2xl text-amour-dark tracking-wide">
+            <span class="mx-12 inline-flex items-center gap-3">♡ Papel de Seda com Essências Orgânicas</span>
+            <span class="mx-12 inline-flex items-center gap-3">✿ Flores e Raminhos Colhidos à Mão</span>
+            <span class="mx-12 inline-flex items-center gap-3">☆ Cartas Caligrafadas Personalizadas</span>
+            <span class="mx-12 inline-flex items-center gap-3">♡ Curadoria de Peças Artesanais e Gourmet</span>
+            <span class="mx-12 inline-flex items-center gap-3">✿ Papel de Seda com Essências Orgânicas</span>
+            <span class="mx-12 inline-flex items-center gap-3">☆ Flores e Raminhos Colhidos à Mão</span>
+            <span class="mx-12 inline-flex items-center gap-3">♡ Cartas Caligrafadas Personalizadas</span>
+        </div>
+    </div>
+
+    <!-- Elegant Design Highlights / Interactive section -->
+    <section id="sobre" class="py-20 bg-white/60 relative">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div class="p-8 rounded-3xl bg-amour-bg border border-amour-lilac/20 flex flex-col justify-between group hover:border-amour-dustyRose/40 transition-all duration-300" data-aos="fade-up" data-aos-delay="0">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-amour-dustyRose/15 text-amour-dustyRose flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="cormorant text-2xl font-bold text-amour-dark mb-3">Toque Aromático</h3>
+                    <p class="text-xs sm:text-sm text-amour-text/75 leading-relaxed font-light">Todas as nossas caixas são levemente aspergidas com uma bruma botânica artesanal de sua preferência (Lavanda, Vanilla ou Cerejeira), aromatizando o papel de seda.</p>
+                </div>
+                <div class="mt-6 text-amour-dustyRose font-bold text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-1.5">
+                    Descubra mais <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </div>
+            </div>
+
+            <div class="p-8 rounded-3xl bg-amour-bg border border-amour-lilac/20 flex flex-col justify-between group hover:border-amour-dustyRose/40 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-amour-lilac/30 text-amour-text flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="flower-2" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="cormorant text-2xl font-bold text-amour-dark mb-3">Flores Desidratadas</h3>
+                    <p class="text-xs sm:text-sm text-amour-text/75 leading-relaxed font-light">Os embrulhos e fitas externas recebem um toque floral exclusivo. Na Amour, você escolhe qual raminho de cortesia quer fixar na caixa como presente de afeto da casa.</p>
+                </div>
+                <div class="mt-6 text-amour-dustyRose font-bold text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-1.5">
+                    Cortesia gratuita <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </div>
+            </div>
+
+            <div class="p-8 rounded-3xl bg-amour-bg border border-amour-lilac/20 flex flex-col justify-between group hover:border-amour-dustyRose/40 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-amour-dark text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="cormorant text-2xl font-bold text-amour-dark mb-3">Ledger de Envio Seguro</h3>
+                    <p class="text-xs sm:text-sm text-amour-text/75 leading-relaxed font-light">Cada caixa é montada por nossas artesãs e auditada digitalmente, gerando um recibo com hash SHA-256 e logs do terminal de embalagem garantindo máxima integridade.</p>
+                </div>
+                <div class="mt-6 text-amour-dustyRose font-bold text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-1.5">
+                    Rastrear auditoria <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Catalog - Compact aligned vertical cards in Tech Lab style -->
+    <section id="catalogo" class="py-24 bg-amour-bg relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="font-decorative italic text-amour-dustyRose text-lg block mb-2">Gift Collection</span>
+                <h2 class="cormorant text-4xl sm:text-5xl font-bold text-amour-dark">Coleções Mais Desejadas</h2>
+                <div class="w-16 h-[1.5px] bg-amour-dustyRose mx-auto mt-4"></div>
+                <p class="text-amour-text/70 text-xs sm:text-sm font-light mt-4 max-w-md mx-auto">Seleções de boxes finamente decoradas para causar uma impressão eterna.</p>
+            </div>
+            
+            <!-- Cards alignment matches Tech Lab perfectly (no md:mt layout shifts, uniform height) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Prod 1 -->
+                <div class="rounded-[24px] bg-white border border-amour-lilac/30 p-5 shadow-[0_8px_30px_rgba(214,200,227,0.15)] hover:shadow-[0_15px_40px_rgba(214,200,227,0.35)] transition-all duration-500 cursor-pointer flex flex-col justify-between group relative overflow-hidden" data-aos="fade-up" data-aos-delay="0">
+                    <div class="aspect-[4/3] rounded-[18px] overflow-hidden relative bg-amour-bg mb-4">
+                        <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=1974&auto=format&fit=crop" alt="Box Lavanda & Paz" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-amour-dark/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-1.5">
+                                <h3 class="cormorant text-xl font-bold text-amour-dark group-hover:text-amour-dustyRose transition-colors">Box Lavanda & Paz</h3>
+                                <span class="text-amour-dustyRose font-bold font-mono text-sm shrink-0">R$ 149,90</span>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-amour-text/70 leading-relaxed font-light mb-4">Vela vegetal aromática, sabonete calêndula artesanal e sais de banho relaxantes.</p>
+                        </div>
+                        <button onclick="addToCart('Box Lavanda & Paz', 149.90, 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=1974&auto=format&fit=crop')" class="w-full bg-amour-bg group-hover:bg-amour-dustyRose text-amour-dark group-hover:text-white font-bold text-[10px] tracking-widest uppercase py-3 rounded-xl border border-amour-lilac/30 transition-all duration-300 flex items-center justify-center gap-1.5">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            Adicionar Box
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Prod 2 -->
+                <div class="rounded-[24px] bg-white border border-amour-lilac/30 p-5 shadow-[0_8px_30px_rgba(214,200,227,0.15)] hover:shadow-[0_15px_40px_rgba(214,200,227,0.35)] transition-all duration-500 cursor-pointer flex flex-col justify-between group relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute top-3.5 left-3.5 z-10 bg-amour-dark text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+                        <i data-lucide="heart" class="w-3 h-3 text-amour-dustyRose fill-amour-dustyRose"></i> Best Seller
+                    </div>
+                    <div class="aspect-[4/3] rounded-[18px] overflow-hidden relative bg-amour-bg mb-4">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop" alt="Cesta Doce Manhã" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-amour-dark/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-1.5">
+                                <h3 class="cormorant text-xl font-bold text-amour-dark group-hover:text-amour-dustyRose transition-colors">Cesta Doce Manhã</h3>
+                                <span class="text-amour-dustyRose font-bold font-mono text-sm shrink-0">R$ 289,00</span>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-amour-text/70 leading-relaxed font-light mb-4">Café premium moído, caneca em cerâmica artesanal, mel silvestre e chocolates belgas.</p>
+                        </div>
+                        <button onclick="addToCart('Cesta Doce Manhã', 289.00, 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop')" class="w-full bg-amour-bg group-hover:bg-amour-dustyRose text-amour-dark group-hover:text-white font-bold text-[10px] tracking-widest uppercase py-3 rounded-xl border border-amour-lilac/30 transition-all duration-300 flex items-center justify-center gap-1.5">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            Adicionar Box
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Prod 3 -->
+                <div class="rounded-[24px] bg-white border border-amour-lilac/30 p-5 shadow-[0_8px_30px_rgba(214,200,227,0.15)] hover:shadow-[0_15px_40px_rgba(214,200,227,0.35)] transition-all duration-500 cursor-pointer flex flex-col justify-between group relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="aspect-[4/3] rounded-[18px] overflow-hidden relative bg-amour-bg mb-4">
+                        <img src="https://images.unsplash.com/photo-1604917621956-10dfa7cce2e7?q=80&w=2070&auto=format&fit=crop" alt="Kit Bebê Aconchego" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-amour-dark/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-1.5">
+                                <h3 class="cormorant text-xl font-bold text-amour-dark group-hover:text-amour-dustyRose transition-colors">Kit Bebê Aconchego</h3>
+                                <span class="text-amour-dustyRose font-bold font-mono text-sm shrink-0">R$ 195,50</span>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-amour-text/70 leading-relaxed font-light mb-4">Manta de toque macio algodão cru, mordedor ecológico em madeira e naninha artesanal.</p>
+                        </div>
+                        <button onclick="addToCart('Kit Bebê Aconchego', 195.50, 'https://images.unsplash.com/photo-1604917621956-10dfa7cce2e7?q=80&w=2070&auto=format&fit=crop')" class="w-full bg-amour-bg group-hover:bg-amour-dustyRose text-amour-dark group-hover:text-white font-bold text-[10px] tracking-widest uppercase py-3 rounded-xl border border-amour-lilac/30 transition-all duration-300 flex items-center justify-center gap-1.5">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            Adicionar Box
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Prod 4 -->
+                <div class="rounded-[24px] bg-white border border-amour-lilac/30 p-5 shadow-[0_8px_30px_rgba(214,200,227,0.15)] hover:shadow-[0_15px_40px_rgba(214,200,227,0.35)] transition-all duration-500 cursor-pointer flex flex-col justify-between group relative overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                    <div class="aspect-[4/3] rounded-[18px] overflow-hidden relative bg-amour-bg mb-4">
+                        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?q=80&w=2070&auto=format&fit=crop" alt="Box Aroma da Alma" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-amour-dark/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-1.5">
+                                <h3 class="cormorant text-xl font-bold text-amour-dark group-hover:text-amour-dustyRose transition-colors">Box Aroma da Alma</h3>
+                                <span class="text-amour-dustyRose font-bold font-mono text-sm shrink-0">R$ 135,00</span>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-amour-text/70 leading-relaxed font-light mb-4">Chás botânicos selecionados, infusor inox premium, colher entalhada e mel de flor laranjeira.</p>
+                        </div>
+                        <button onclick="addToCart('Box Aroma da Alma', 135.00, 'https://images.unsplash.com/photo-1512909006721-3d6018887383?q=80&w=2070&auto=format&fit=crop')" class="w-full bg-amour-bg group-hover:bg-amour-dustyRose text-amour-dark group-hover:text-white font-bold text-[10px] tracking-widest uppercase py-3 rounded-xl border border-amour-lilac/30 transition-all duration-300 flex items-center justify-center gap-1.5">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            Adicionar Box
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button onclick="openCartDrawer()" class="bg-amour-dark text-white font-bold text-xs uppercase tracking-widest px-10 py-4.5 rounded-full hover:bg-amour-dustyRose transition-all duration-300 shadow-md">
+                    Montar Caixa 100% Personalizada
+                </button>
+                <div class="text-amour-text/60 text-xs italic">Ou assine nosso Clube de afeto mensal por R$ 120,00/mês</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Fragrance Interactive Ritual (Manifesto Section) -->
+    <section id="experiencia" class="py-24 bg-white relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="relative" data-aos="fade-right">
+                <div class="absolute -inset-4 bg-amour-lilac/25 rounded-[32px] filter blur-xl"></div>
+                <div class="relative aspect-square max-w-[450px] mx-auto rounded-[32px] overflow-hidden shadow-2xl border border-amour-lilac/30">
+                    <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=1974&auto=format&fit=crop" alt="Aroma ritual dry flowers" class="w-full h-full object-cover">
+                    <!-- Elegant quote card overlays -->
+                    <div class="absolute bottom-6 left-6 right-6 glass-panel p-5 rounded-2xl border border-white/40">
+                        <p class="font-heading italic text-amour-dark text-lg mb-1">"O aroma é a assinatura duradoura de uma lembrança afetiva."</p>
+                        <span class="text-[9px] text-amour-text/70 uppercase font-bold tracking-widest">Maison de l'Amour</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-aos="fade-left">
+                <span class="font-decorative italic text-amour-dustyRose text-lg block mb-2">Ritual de Embalagem</span>
+                <h2 class="cormorant text-4xl sm:text-5xl font-bold text-amour-dark mb-6">A Bruma Aromática das Nossas Artesãs</h2>
+                <p class="text-sm sm:text-base text-amour-text/80 font-light mb-8 leading-relaxed">
+                    Antes de fechar a caixa com nosso clássico lacre de cera, o papel de seda é delicadamente aspergido com uma infusão botânica fresca. Escolha a fragrância favorita abaixo para testar as simulações e sentir o cuidado por trás de cada detalhe:
+                </p>
+                
+                <!-- Interactive Fragrance selection for VIP experience -->
+                <div class="space-y-4">
+                    <button onclick="selectRitualFragrance('Lavanda')" id="frag-btn-Lavanda" class="w-full text-left p-4 rounded-2xl border border-amour-lilac/50 bg-amour-bg flex items-center justify-between group hover:border-amour-dustyRose transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl bg-purple-100 text-purple-600"><i data-lucide="flower" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-sm text-amour-dark">Lavanda & Calma Silvestre</h4>
+                                <p class="text-xs text-amour-text/70">Toques herbáceos de tranquilidade e aconchego imediato.</p>
+                            </div>
+                        </div>
+                        <i data-lucide="circle-dot" class="w-4 h-4 text-amour-dustyRose scale-100 transition-all select-indicator"></i>
+                    </button>
+
+                    <button onclick="selectRitualFragrance('Cerejeira')" id="frag-btn-Cerejeira" class="w-full text-left p-4 rounded-2xl border border-amour-lilac/20 bg-white flex items-center justify-between group hover:border-amour-dustyRose transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl bg-pink-100 text-pink-500"><i data-lucide="heart" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-sm text-amour-dark">Flor de Cerejeira Romântica</h4>
+                                <p class="text-xs text-amour-text/70">Aroma adocicado, floral vibrante e de extrema sofisticação.</p>
+                            </div>
+                        </div>
+                        <i data-lucide="circle" class="w-4 h-4 text-amour-lilac scale-100 transition-all select-indicator"></i>
+                    </button>
+
+                    <button onclick="selectRitualFragrance('Vanilla')" id="frag-btn-Vanilla" class="w-full text-left p-4 rounded-2xl border border-amour-lilac/20 bg-white flex items-center justify-between group hover:border-amour-dustyRose transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl bg-yellow-50 text-amber-600"><i data-lucide="sparkles" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-sm text-amour-dark">Vanilla & Fava de Baunilha Real</h4>
+                                <p class="text-xs text-amour-text/70">Nota acolhedora, quente, adocicada e imersiva.</p>
+                            </div>
+                        </div>
+                        <i data-lucide="circle" class="w-4 h-4 text-amour-lilac scale-100 transition-all select-indicator"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Co-Creation Section: Interactive Comment Pins & Likes -->
+    <section class="py-20 bg-amour-bg border-t border-amour-lilac/20 relative" id="pins-interaction-container">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <span class="font-decorative italic text-amour-dustyRose text-lg block mb-2">Comunidade de Afeto</span>
+            <h2 class="cormorant text-4xl sm:text-5xl font-bold text-amour-dark">Espaço de Ressalvas Criativas</h2>
+            <p class="text-amour-text/70 text-xs sm:text-sm font-light mt-4 max-w-lg mx-auto leading-relaxed">
+                Nossos clientes participam diretamente sugerindo ideias e deixando feedbacks na tela. Ative o <b>Modo Pin</b> na barra superior ou clique no botão abaixo para fixar sua opinião!
+            </p>
+            
+            <div class="mt-8 flex justify-center gap-4">
+                <button onclick="togglePinMode()" id="pin-activation-btn" class="bg-amour-dark text-white font-bold text-xs uppercase tracking-widest px-8 py-3.5 rounded-full hover:bg-amour-dustyRose transition-all duration-300 shadow-md flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i> Ativar Modo Pin
+                </button>
+                
+                <!-- Dynamic Likes counter -->
+                <button onclick="incrementLikes()" class="border border-amour-lilac/60 bg-white text-amour-dark font-bold text-xs uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-amour-lilac/30 transition-all duration-300 flex items-center gap-2" id="likes-btn">
+                    <i data-lucide="heart" class="w-4 h-4 text-amour-dustyRose fill-amour-dustyRose"></i> Curtidas: <span id="likes-count" class="font-mono text-sm">142</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-amour-dark text-amour-bg/90 pt-20 pb-10 relative z-30">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="font-heading text-4xl font-bold text-amour-bg tracking-widest mb-4">Amour<span class="text-amour-dustyRose">.</span></h2>
+            <p class="text-amour-lilac/70 font-light max-w-sm mx-auto mb-10 text-xs sm:text-sm leading-relaxed">
+                Encurtando distâncias e conectando corações através de detalhes caligrafados e presentes desembalados com emoção.
+            </p>
+            
+            <div class="flex justify-center gap-8 mb-16 text-xs sm:text-sm font-bold tracking-widest uppercase text-amour-lilac/90">
+                <a href="#catalogo" class="hover:text-amour-dustyRose transition-colors">Caixas</a>
+                <a href="#experiencia" class="hover:text-amour-dustyRose transition-colors">Fragrâncias</a>
+                <a href="#pins-interaction-container" class="hover:text-amour-dustyRose transition-colors">Ressalvas</a>
+                <a href="#" class="hover:text-amour-dustyRose transition-colors">Instagram</a>
+            </div>
+            
+            <div class="w-20 h-[1px] bg-amour-lilac/20 mx-auto mb-10"></div>
+            
+            <div class="text-[10px] font-semibold tracking-widest uppercase text-amour-lilac/40">
+                &copy; 2026 Amour Presentes Afetivos Ltda. Design refinado Retro Pixel. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==================== SIDE DRAWER & MODALS INTERACTIVE SYSTEM ==================== -->
+
+    <!-- Clube Amour VIP Registration Modal -->
+    <div id="club-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-amour-dark/60 backdrop-blur-sm hidden">
+        <div class="glass-panel p-8 sm:p-10 rounded-[32px] max-w-md w-full mx-4 shadow-2xl scale-95 opacity-0 transition-all duration-300 relative border border-amour-lilac/30" id="club-modal-card">
+            <!-- absolute floral details -->
+            <div class="absolute top-4 right-4">
+                <button onclick="closeClubModal()" class="text-amour-text/60 hover:text-amour-dark p-1.5 hover:bg-amour-lilac/10 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-full bg-amour-dustyRose/20 text-amour-dustyRose flex items-center justify-center mx-auto mb-4 border border-amour-dustyRose/40">
+                    <i data-lucide="heart" class="w-8 h-8 fill-amour-dustyRose"></i>
+                </div>
+                <h3 class="cormorant text-3xl font-bold text-amour-dark">Clube de Afeto Amour</h3>
+                <p class="text-xs text-amour-text/70 mt-1">Torne-se VIP para ganhar frete grátis, acompanhar a auditoria botânica e receber descontos exclusivos.</p>
+            </div>
+            
+            <!-- VIP Form -->
+            <form id="club-form" onsubmit="registerUser(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold tracking-widest uppercase text-amour-dark mb-1">Nome Completo</label>
+                    <input type="text" id="vip-name" required placeholder="Ex: Bruno Silva" class="w-full text-sm px-4 py-3 rounded-xl border border-amour-lilac/50 bg-white/50 focus:outline-none focus:border-amour-dustyRose focus:bg-white transition-all">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold tracking-widest uppercase text-amour-dark mb-1">E-mail VIP</label>
+                    <input type="email" id="vip-email" required placeholder="Ex: bruno@criatividade.com" class="w-full text-sm px-4 py-3 rounded-xl border border-amour-lilac/50 bg-white/50 focus:outline-none focus:border-amour-dustyRose focus:bg-white transition-all">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold tracking-widest uppercase text-amour-dark mb-1">Próxima Ocasião</label>
+                        <select id="vip-occasion" class="w-full text-sm px-3 py-3 rounded-xl border border-amour-lilac/50 bg-white/50 focus:outline-none focus:border-amour-dustyRose focus:bg-white transition-all">
+                            <option value="Dia dos Namorados">Namorados</option>
+                            <option value="Aniversário de Namoro">Aniversário</option>
+                            <option value="Maternidade">Maternidade</option>
+                            <option value="Agradecimento Especial">Agradecimento</option>
+                            <option value="Casamento">Casamento</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold tracking-widest uppercase text-amour-dark mb-1">Aroma Favorito</label>
+                        <select id="vip-scent" class="w-full text-sm px-3 py-3 rounded-xl border border-amour-lilac/50 bg-white/50 focus:outline-none focus:border-amour-dustyRose focus:bg-white transition-all">
+                            <option value="Lavanda">Lavanda</option>
+                            <option value="Cerejeira">Cerejeira</option>
+                            <option value="Vanilla">Vanilla</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-amour-dark text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-amour-dustyRose transition-all duration-300 shadow-lg shadow-amour-dark/15 mt-2 flex items-center justify-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i> Criar Meu Cadastro VIP
+                </button>
+            </form>
+
+            <!-- Success celebration container, hidden by default -->
+            <div id="registration-success-box" class="hidden text-center py-4 space-y-4">
+                <div class="p-4 bg-green-50 text-green-700 border border-green-200 rounded-2xl flex items-center gap-3 justify-center">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    <span class="font-bold text-xs">Parabéns! Cadastro de Elite Confirmado!</span>
+                </div>
+                <p class="text-xs text-amour-text/80 leading-relaxed">Você recebeu <b>10% OFF</b> na primeira compra! Use o cupom premium abaixo no carrinho:</p>
+                <div class="bg-amour-bg p-3.5 rounded-xl border border-amour-dustyRose border-dashed flex justify-between items-center gap-4">
+                    <span class="font-mono text-base font-bold text-amour-dark select-all tracking-wider">AMOUR10</span>
+                    <button onclick="copyCouponText()" class="text-xs font-bold uppercase text-amour-dustyRose hover:text-amour-dark flex items-center gap-1">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar
+                    </button>
+                </div>
+                <button onclick="closeClubModal()" class="w-full border border-amour-lilac text-amour-dark font-bold text-xs uppercase tracking-widest py-3 rounded-xl hover:bg-amour-lilac/10 transition-colors">
+                    Voltar às Compras
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sacola Drawer & Box Scoper Calculator (Rigth drawer overlay) -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 z-50 bg-amour-dark/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300" onclick="closeCartDrawer()">
+        <!-- Stop click event bubbling inside drawer -->
+        <div class="fixed top-0 right-0 w-full max-w-md h-full bg-amour-bg shadow-2xl p-6 sm:p-8 flex flex-col justify-between transform translate-x-full transition-transform duration-300" onclick="event.stopPropagation()">
+            
+            <!-- Drawer Header -->
+            <div class="flex justify-between items-center border-b border-amour-lilac/35 pb-5 shrink-0">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-amour-dustyRose"></i>
+                    <h3 class="cormorant text-2xl font-bold text-amour-dark">Sua Sacola de Presentes</h3>
+                </div>
+                <button onclick="closeCartDrawer()" class="text-amour-dark hover:text-amour-dustyRose p-1 hover:bg-amour-lilac/25 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            
+            <!-- Drawer Body -->
+            <div class="flex-grow overflow-y-auto py-5 space-y-6 scrollbar-thin">
+                
+                <!-- Items list -->
+                <div id="cart-items-container" class="space-y-4">
+                    <!-- Dynamic Cart Items injected here -->
+                    <div class="text-center py-10 text-amour-text/50">
+                        <i data-lucide="heart" class="w-8 h-8 mx-auto mb-2 text-amour-lilac animate-pulse"></i>
+                        <p class="text-xs italic">Sua sacola de afeto está vazia.</p>
+                    </div>
+                </div>
+
+                <!-- Add custom Gift Box add-on (Box Scoper Calculator) -->
+                <div class="p-5 rounded-2xl bg-white border border-amour-lilac/35 space-y-3">
+                    <div class="flex items-center gap-2 text-amour-dark">
+                        <i data-lucide="plus-circle" class="w-4 h-4 text-amour-dustyRose"></i>
+                        <h4 class="text-[11px] font-bold uppercase tracking-widest">Incluir Customizações Extras</h4>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="flex items-center justify-between p-2 rounded-lg bg-amour-bg/50 hover:bg-amour-lilac/10 cursor-pointer transition-colors text-xs">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" id="add-on-packaging" onchange="toggleAddon('Embalagem Especial de Cetim e Seda', 25.00)" class="rounded text-amour-dustyRose focus:ring-amour-dustyRose">
+                                Embalagem Especial de Cetim (+ R$ 25,00)
+                            </span>
+                            <span class="font-bold text-amour-dustyRose">R$ 25,00</span>
+                        </label>
+                        
+                        <label class="flex items-center justify-between p-2 rounded-lg bg-amour-bg/50 hover:bg-amour-lilac/10 cursor-pointer transition-colors text-xs">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" id="add-on-card" onchange="toggleAddon('Carta Caligrafada à Mão', 15.00)" class="rounded text-amour-dustyRose focus:ring-amour-dustyRose">
+                                Carta Caligrafada à Mão (+ R$ 15,00)
+                            </span>
+                            <span class="font-bold text-amour-dustyRose">R$ 15,00</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Toque de Afeto: Cortesia Botânica (Chef's complimentary wrapping selector) -->
+                <div class="p-5 rounded-2xl bg-white border border-amour-lilac/35 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-amour-dark">
+                            <i data-lucide="flower" class="w-4 h-4 text-amour-gold animate-spin-slow"></i>
+                            <h4 class="text-[11px] font-bold uppercase tracking-widest">Cortesia Botânica da Casa</h4>
+                        </div>
+                        <span class="text-[9px] bg-amour-gold/20 text-amour-gold font-bold uppercase tracking-widest px-2 py-0.5 rounded">R$ 0,00</span>
+                    </div>
+                    <p class="text-[10px] text-amour-text/70 italic">Escolha exatamente um raminho botânico decorativo gratuito para adornar sua caixa:</p>
+                    
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <label class="flex items-center gap-2 p-2 rounded-xl border border-amour-dustyRose bg-amour-bg/40 cursor-pointer hover:border-amour-dustyRose transition-all" id="courtesy-label-lavanda">
+                            <input type="radio" name="botanical-courtesy" value="Raminho de Lavanda Perfumada" checked onchange="updateSelectedCourtesy()" class="text-amour-dustyRose focus:ring-amour-dustyRose">
+                            <span>Lavanda ♡</span>
+                        </label>
+
+                        <label class="flex items-center gap-2 p-2 rounded-xl border border-amour-lilac/35 bg-white cursor-pointer hover:border-amour-dustyRose transition-all" id="courtesy-label-rosa">
+                            <input type="radio" name="botanical-courtesy" value="Botão de Mini Rosa Desidratada" onchange="updateSelectedCourtesy()" class="text-amour-dustyRose focus:ring-amour-dustyRose">
+                            <span>Mini Rosa ✿</span>
+                        </label>
+
+                        <label class="flex items-center gap-2 p-2 rounded-xl border border-amour-lilac/35 bg-white cursor-pointer hover:border-amour-dustyRose transition-all" id="courtesy-label-alecrim">
+                            <input type="radio" name="botanical-courtesy" value="Raminho de Alecrim Aromático" onchange="updateSelectedCourtesy()" class="text-amour-dustyRose focus:ring-amour-dustyRose">
+                            <span>Alecrim ☆</span>
+                        </label>
+
+                        <label class="flex items-center gap-2 p-2 rounded-xl border border-amour-lilac/35 bg-white cursor-pointer hover:border-amour-dustyRose transition-all" id="courtesy-label-trigo">
+                            <input type="radio" name="botanical-courtesy" value="Folhas Secas de Trigo da Sorte" onchange="updateSelectedCourtesy()" class="text-amour-dustyRose focus:ring-amour-dustyRose">
+                            <span>Trigo da Sorte ♡</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Coupon discount section -->
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-bold tracking-widest uppercase text-amour-dark">Cupom de Desconto</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="cart-coupon-input" placeholder="Digite seu cupom VIP" class="flex-grow text-xs px-3.5 py-2.5 rounded-xl border border-amour-lilac/50 bg-white/50 focus:outline-none focus:border-amour-dustyRose">
+                        <button onclick="applyCoupon()" class="bg-amour-dark hover:bg-amour-dustyRose text-white text-[10px] font-bold tracking-widest uppercase px-4 py-2.5 rounded-xl transition-all duration-300">Aplicar</button>
+                    </div>
+                    <div id="coupon-alert" class="hidden text-[10px] font-bold uppercase tracking-wider mt-1"></div>
+                </div>
+
+            </div>
+
+            <!-- Drawer Footer: Calculations and final triggers -->
+            <div class="border-t border-amour-lilac/35 pt-5 space-y-4 shrink-0 bg-amour-bg">
+                <div class="space-y-2.5 text-xs">
+                    <div class="flex justify-between items-center text-amour-text/80">
+                        <span>Subtotal Itens</span>
+                        <span id="subtotal-display" class="font-mono font-bold">R$ 0,00</span>
+                    </div>
+                    <div id="discount-row" class="justify-between items-center text-green-600 hidden">
+                        <span>Desconto VIP (10% OFF)</span>
+                        <span id="discount-display" class="font-mono font-bold">- R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-amour-text/80">
+                        <span>Taxa de Embalagem & Laço</span>
+                        <span id="packaging-fee-display" class="font-mono font-bold">R$ 15,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-amour-text/80">
+                        <span>Brinde Botânico Cortesia</span>
+                        <span class="font-mono text-green-600 font-bold">R$ 0,00</span>
+                    </div>
+                    <div class="border-t border-amour-lilac/30 my-2 pt-2 flex justify-between items-center text-amour-dark">
+                        <span class="font-bold text-sm">Total Geral</span>
+                        <span id="total-display" class="font-mono text-lg font-bold text-amour-dustyRose">R$ 15,00</span>
+                    </div>
+                </div>
+
+                <button onclick="triggerFulfillmentRitual()" id="checkout-btn" class="w-full bg-amour-dark text-white font-bold text-xs uppercase tracking-widest py-4.5 rounded-xl hover:bg-amour-dustyRose transition-all duration-300 shadow-lg shadow-amour-dark/20 flex items-center justify-center gap-2">
+                    <i data-lucide="lock" class="w-4 h-4"></i> Finalizar & Auditar Box
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Fulfillment Ledger Console Terminal overlay -->
+    <div id="ledger-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-amour-dark/75 backdrop-blur-md hidden">
+        <div class="glass-panel-dark p-6 sm:p-8 rounded-[28px] max-w-lg w-full mx-4 shadow-2xl border border-amour-lilac/25 text-amour-bg flex flex-col justify-between max-h-[90vh]">
+            <div class="flex justify-between items-center border-b border-amour-lilac/10 pb-4 mb-4">
+                <div class="flex items-center gap-2 text-amour-dustyRose">
+                    <i data-lucide="terminal" class="w-5 h-5 animate-pulse"></i>
+                    <span class="font-mono text-xs uppercase tracking-wider">Ledger de Embalagem & Rastreamento</span>
+                </div>
+                <span class="text-[9px] bg-amour-dustyRose/20 text-amour-dustyRose font-mono px-2 py-0.5 rounded">ONLINE</span>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="flex-grow overflow-y-auto bg-amour-dark/45 p-4 rounded-xl border border-amour-lilac/10 min-h-[220px] font-mono text-[10px] sm:text-xs text-amour-lilac/95 space-y-2" id="terminal-logs">
+                <div class="text-amour-dustyRose font-bold">> Inicializando montagem da caixa artesanal VIP...</div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="my-4">
+                <div class="flex justify-between items-center text-[10px] font-mono text-amour-lilac/60 mb-1">
+                    <span>Sincronizando integridade SHA-256...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="w-full h-1 bg-amour-dark/80 rounded-full overflow-hidden border border-amour-lilac/10">
+                    <div id="progress-bar-fill" class="h-full bg-amour-dustyRose transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button id="ledger-abort-btn" onclick="abortLedger()" class="border border-amour-lilac/30 text-amour-lilac/75 hover:bg-amour-lilac/10 font-bold text-[10px] tracking-widest uppercase px-5 py-3 rounded-lg transition-colors">
+                    Cancelar Processo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kraft Thermal Receipt Docket Invoice Modal -->
+    <div id="invoice-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-amour-dark/70 backdrop-blur-sm hidden overflow-y-auto py-10">
+        <div class="kraft-paper p-8 sm:p-10 rounded-sm max-w-sm w-full mx-4 my-auto relative flex flex-col justify-between" id="invoice-card">
+            
+            <!-- Close absolute button -->
+            <button onclick="closeInvoice()" class="absolute top-4 right-4 text-[#5A4532] hover:text-[#261C2C]"><i data-lucide="x" class="w-5 h-5"></i></button>
+
+            <!-- Store Brand -->
+            <div class="text-center border-b-2 border-dashed border-[#5A4532]/40 pb-4">
+                <h2 class="cormorant text-3xl font-bold tracking-wider text-[#433222] italic">Amour Boutique</h2>
+                <p class="text-[9px] uppercase tracking-[0.2em] font-bold text-[#5A4532]/80 mt-1">Presentes Afetivos & Customizados</p>
+                <p class="text-[8px] font-mono text-[#5A4532]/60 mt-0.5">Av. das Rosas, 1010 - Florescer / BR</p>
+            </div>
+
+            <!-- Client Metadata info -->
+            <div class="py-4 border-b border-dashed border-[#5A4532]/40 space-y-1.5 text-[9px] font-mono text-[#433222]/90">
+                <div class="flex justify-between">
+                    <span>EMISSÃO:</span>
+                    <span id="invoice-date">28/05/2026 16:35</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>VIP CLIENTE:</span>
+                    <span id="invoice-client-name" class="font-bold">CONVIDADO ESPECIAL</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>OCASIÃO:</span>
+                    <span id="invoice-client-occasion" class="font-bold">PRESENTE GERAL</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>AROMA BRUMA:</span>
+                    <span id="invoice-client-scent" class="font-bold">LAVANDA</span>
+                </div>
+            </div>
+
+            <!-- Curated list of Items -->
+            <div class="py-4 border-b border-dashed border-[#5A4532]/40 space-y-3">
+                <div class="flex justify-between items-center text-[10px] font-bold text-[#433222] tracking-wider">
+                    <span>ITEM DA BOX</span>
+                    <span>VALOR</span>
+                </div>
+                <div id="invoice-items-list" class="space-y-2 text-[9px] font-mono text-[#433222]">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+
+            <!-- Ledger audits info -->
+            <div class="py-4 border-b border-dashed border-[#5A4532]/40 space-y-1.5 text-[8px] font-mono text-[#5A4532]/80">
+                <div class="flex justify-between">
+                    <span>AUDITORIA:</span>
+                    <span>COMPILADO E EMBALADO OK</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>LACRE DE SEGURANÇA:</span>
+                    <span>CERA DE ABELHA ORGÂNICA</span>
+                </div>
+            </div>
+
+            <!-- Totals invoice block -->
+            <div class="py-4 space-y-2 text-[10px] font-mono text-[#433222] border-b border-dashed border-[#5A4532]/40">
+                <div class="flex justify-between">
+                    <span>SUBTOTAL ITENS</span>
+                    <span id="invoice-subtotal">R$ 0,00</span>
+                </div>
+                <div id="invoice-discount-row" class="flex justify-between text-green-700 hidden">
+                    <span>CUPOM AMOUR10</span>
+                    <span id="invoice-discount">- R$ 0,00</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>TAXA DE EMBALAGEM</span>
+                    <span>R$ 15,00</span>
+                </div>
+                <div class="flex justify-between font-bold text-xs pt-1 border-t border-dashed border-[#5A4532]/20 text-[#261C2C]">
+                    <span>TOTAL LIQUIDADO</span>
+                    <span id="invoice-total">R$ 15,00</span>
+                </div>
+            </div>
+
+            <!-- Cryptographic Signature at footer -->
+            <div class="pt-5 text-center space-y-3">
+                <!-- Barcode drawing -->
+                <div class="flex justify-center items-center gap-[1px] h-8 bg-transparent" id="invoice-barcode">
+                    <!-- Dynamic simulated barcode lines -->
+                </div>
+                <p class="text-[8px] font-mono tracking-widest text-[#5A4532]/60 select-all" id="invoice-sha-hash">
+                    SHA-256: 7f83b1a2d3e4f5a6b7c8d9e0f1a2b3c4...
+                </p>
+                <div class="text-[8px] italic font-semibold text-[#5A4532]">
+                    Agradecemos a confiança de embalar seu afeto ♡
+                </div>
+                <button onclick="closeInvoice()" class="w-full bg-[#433222] hover:bg-[#261C2C] text-[#E2C7A8] font-bold text-[9px] tracking-widest uppercase py-3.5 rounded mt-2 shadow transition-all duration-300">
+                    Imprimir e Concluir Pedido
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ==================== CORE INTERACTIVE JAVASCRIPT SYSTEM ==================== -->
+    <script>
+        // Global State variables
+        let cart = [];
+        let appliedCoupon = null;
+        let isPinModeActive = false;
+        let selectedRitualFragrance = 'Lavanda';
+        
+        // Add-ons tracking
+        let addons = {
+            'Embalagem Especial de Cetim e Seda': { price: 25.00, enabled: false },
+            'Carta Caligrafada à Mão': { price: 15.00, enabled: false }
+        };
+
+        // Static values
+        const packagingBaseFee = 15.00;
+
+        // Initialize elements once DOM loads
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            try {
+                AOS.init({ 
+                    once: true, 
+                    offset: 50,
+                    duration: 1000
+                });
+            } catch (e) {
+                console.warn("AOS failed to initialize, showing all animated sections.", e);
+                const aosElements = document.querySelectorAll('[data-aos]');
+                aosElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+            }
+            
+            // Restore persistent profile, likes, and comment pins
+            restoreProfile();
+            restoreLikes();
+            loadFeedbackPins();
+            
+            // Setup default courtesy choice highlights
+            updateSelectedCourtesy();
+        });
+
+        // 1. Mobile Menu functions
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('pointer-events-none')) {
+                menu.classList.remove('pointer-events-none', 'opacity-0');
+                menu.classList.add('opacity-100');
+                menu.querySelector('div').classList.remove('-translate-x-full');
+            } else {
+                menu.classList.add('pointer-events-none', 'opacity-0');
+                menu.classList.remove('opacity-100');
+                menu.querySelector('div').classList.add('-translate-x-full');
+            }
+        }
+
+        // 2. Club membership registration & confetti celebration
+        function openClubModal() {
+            const modal = document.getElementById('club-modal');
+            const card = document.getElementById('club-modal-card');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeClubModal() {
+            const modal = document.getElementById('club-modal');
+            const card = document.getElementById('club-modal-card');
+            card.classList.add('scale-95', 'opacity-0');
+            card.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function registerUser(event) {
+            event.preventDefault();
+            const name = document.getElementById('vip-name').value.trim();
+            const email = document.getElementById('vip-email').value.trim();
+            const occasion = document.getElementById('vip-occasion').value;
+            const scent = document.getElementById('vip-scent').value;
+
+            if (!name || !email) return;
+
+            const profile = { name, email, occasion, scent };
+            localStorage.setItem('amour_profile', JSON.stringify(profile));
+
+            // Apply updates
+            updateProfileUI(profile);
+            
+            // Scent ritual also changes to their preferred scent
+            selectRitualFragrance(scent);
+
+            // Display Celebration Confetti
+            launchConfettiHearts();
+
+            // Toggle views in modal
+            document.getElementById('club-form').classList.add('hidden');
+            document.getElementById('registration-success-box').classList.remove('hidden');
+        }
+
+        function restoreProfile() {
+            const profileStr = localStorage.getItem('amour_profile');
+            if (profileStr) {
+                try {
+                    const profile = JSON.parse(profileStr);
+                    updateProfileUI(profile);
+                } catch(e) {
+                    console.error("Erro ao ler perfil", e);
+                }
+            }
+        }
+
+        function updateProfileUI(profile) {
+            const displayNameSpan = document.getElementById('user-display-name');
+            const heartIcon = document.getElementById('club-heart-icon');
+            const badgeGlow = document.getElementById('club-badge-glow');
+
+            if (profile && profile.name) {
+                // Short name to prevent cuts
+                const shortName = profile.name.split(' ')[0];
+                displayNameSpan.textContent = `Olá, ${shortName} ♡`;
+                displayNameSpan.classList.remove('hidden');
+                
+                // Colorize logged in heart to premium Rose-gold
+                heartIcon.classList.add('text-amour-dustyRose', 'fill-amour-dustyRose');
+                badgeGlow.classList.add('bg-green-400');
+                badgeGlow.classList.remove('bg-amour-dustyRose');
+            }
+        }
+
+        // Heart particle confetti physics code
+        function launchConfettiHearts() {
+            const canvas = document.getElementById('heart-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const hearts = [];
+            const colors = ['#D9A8A8', '#D6C8E3', '#FCFAF9', '#D4AF37', '#E2C7A8'];
+
+            for (let i = 0; i < 75; i++) {
+                hearts.push({
+                    x: Math.random() * canvas.width,
+                    y: canvas.height + Math.random() * 100,
+                    size: Math.random() * 12 + 6,
+                    speedY: -Math.random() * 4 - 3,
+                    speedX: Math.random() * 4 - 2,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: Math.random() * 0.05 - 0.025,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    opacity: 1
+                });
+            }
+
+            function drawHeart(ctx, x, y, size, angle, color, opacity) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.globalAlpha = opacity;
+                ctx.beginPath();
+                ctx.fillStyle = color;
+                
+                // Heart shape equation
+                const topCurveHeight = size * 0.3;
+                ctx.moveTo(0, topCurveHeight);
+                ctx.bezierCurveTo(-size / 2, -size / 2, -size, topCurveHeight, 0, size);
+                ctx.bezierCurveTo(size, topCurveHeight, size / 2, -size / 2, 0, topCurveHeight);
+                
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let alive = false;
+
+                hearts.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.angle += p.spin;
+                    p.opacity -= 0.008;
+
+                    if (p.opacity > 0) {
+                        alive = true;
+                        drawHeart(ctx, p.x, p.y, p.size, p.angle, p.color, p.opacity);
+                    }
+                });
+
+                if (alive) {
+                    requestAnimationFrame(animateConfetti);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+            animateConfetti();
+        }
+
+        function copyCouponText() {
+            navigator.clipboard.writeText("AMOUR10").then(() => {
+                alert("Cupom premium AMOUR10 copiado com sucesso! Adicione à sacola de presentes.");
+            });
+        }
+
+        // 3. Cart & Scoper Calculator controllers
+        function openCartDrawer() {
+            const drawer = document.getElementById('cart-drawer-overlay');
+            drawer.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                drawer.querySelector('.fixed').classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeCartDrawer() {
+            const drawer = document.getElementById('cart-drawer-overlay');
+            drawer.querySelector('.fixed').classList.add('translate-x-full');
+            setTimeout(() => {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+            }, 300);
+        }
+
+        function addToCart(title, price, img) {
+            const existingItem = cart.find(item => item.title === title);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ title, price, img, quantity: 1 });
+            }
+            updateCart();
+            openCartDrawer();
+            
+            // GSAP float micro-animation on shopping-bag icon
+            gsap.fromTo("#cart-counter", 
+                { scale: 0.5, rotation: -15 }, 
+                { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2)" }
+            );
+        }
+
+        function updateCart() {
+            const container = document.getElementById('cart-items-container');
+            const cartCounter = document.getElementById('cart-counter');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 text-amour-text/50">
+                        <i data-lucide="heart" class="w-8 h-8 mx-auto mb-2 text-amour-lilac animate-pulse"></i>
+                        <p class="text-xs italic">Sua sacola de afeto está vazia.</p>
+                    </div>
+                `;
+                cartCounter.classList.add('scale-0');
+                cartCounter.textContent = '0';
+                lucide.createIcons();
+                calculateTotals();
+                return;
+            }
+
+            // Update Counter
+            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCounter.classList.remove('scale-0');
+            cartCounter.textContent = totalQty;
+
+            // Draw list
+            container.innerHTML = cart.map((item, index) => `
+                <div class="flex items-center gap-3.5 bg-white p-3.5 rounded-2xl border border-amour-lilac/30 shadow-sm transition-all hover:border-amour-dustyRose/40">
+                    <img src="${item.img}" class="w-14 h-14 rounded-xl object-cover" alt="${item.title}">
+                    <div class="flex-grow min-w-0">
+                        <h4 class="text-xs font-bold text-amour-dark truncate">${item.title}</h4>
+                        <span class="text-xs text-amour-dustyRose font-semibold font-mono block mt-0.5">R$ ${item.price.toFixed(2)}</span>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="changeQty(${index}, -1)" class="w-5 h-5 rounded-full bg-amour-bg flex items-center justify-center hover:bg-amour-lilac/30 text-amour-dark"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                            <span class="text-xs font-bold font-mono">${item.quantity}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-5 h-5 rounded-full bg-amour-bg flex items-center justify-center hover:bg-amour-lilac/30 text-amour-dark"><i data-lucide="plus" class="w-3 h-3"></i></button>
+                        </div>
+                    </div>
+                    <button onclick="removeItem(${index})" class="text-amour-text/40 hover:text-amour-dustyRose p-1 transition-colors shrink-0">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+            calculateTotals();
+        }
+
+        function changeQty(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleAddon(title, price) {
+            if (title.includes('Embalagem')) {
+                addons['Embalagem Especial de Cetim e Seda'].enabled = document.getElementById('add-on-packaging').checked;
+            } else {
+                addons['Carta Caligrafada à Mão'].enabled = document.getElementById('add-on-card').checked;
+            }
+            calculateTotals();
+        }
+
+        function updateSelectedCourtesy() {
+            // Apply outline borders dynamically for botanicalsprigs selection
+            const types = ['lavanda', 'rosa', 'alecrim', 'trigo'];
+            const checkedValue = document.querySelector('input[name="botanical-courtesy"]:checked').value;
+            
+            types.forEach(t => {
+                const label = document.getElementById(`courtesy-label-${t}`);
+                if (label) {
+                    label.classList.remove('border-amour-dustyRose', 'bg-amour-bg/40');
+                    label.classList.add('border-amour-lilac/35', 'bg-white');
+                }
+            });
+
+            if (checkedValue.includes('Lavanda')) {
+                document.getElementById('courtesy-label-lavanda').classList.add('border-amour-dustyRose', 'bg-amour-bg/40');
+            } else if (checkedValue.includes('Rosa')) {
+                document.getElementById('courtesy-label-rosa').classList.add('border-amour-dustyRose', 'bg-amour-bg/40');
+            } else if (checkedValue.includes('Alecrim')) {
+                document.getElementById('courtesy-label-alecrim').classList.add('border-amour-dustyRose', 'bg-amour-bg/40');
+            } else {
+                document.getElementById('courtesy-label-trigo').classList.add('border-amour-dustyRose', 'bg-amour-bg/40');
+            }
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('cart-coupon-input').value.trim().toUpperCase();
+            const alertBox = document.getElementById('coupon-alert');
+            
+            if (code === 'AMOUR10') {
+                appliedCoupon = 'AMOUR10';
+                alertBox.textContent = 'Cupom AMOUR10 aplicado: 10% de Desconto VIP!';
+                alertBox.className = 'text-[10px] font-bold uppercase tracking-wider mt-1 text-green-600';
+                calculateTotals();
+            } else if (code === '') {
+                appliedCoupon = null;
+                alertBox.className = 'hidden';
+                calculateTotals();
+            } else {
+                alertBox.textContent = 'Cupom inválido ou expirado.';
+                alertBox.className = 'text-[10px] font-bold uppercase tracking-wider mt-1 text-red-500';
+            }
+        }
+
+        function calculateTotals() {
+            let itemsSubtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Add custom items from checkboxes
+            let addonsTotal = 0;
+            Object.keys(addons).forEach(key => {
+                if (addons[key].enabled) {
+                    addonsTotal += addons[key].price;
+                }
+            });
+
+            let combinedSubtotal = itemsSubtotal + addonsTotal;
+            let discountAmount = 0;
+            
+            if (appliedCoupon === 'AMOUR10') {
+                discountAmount = combinedSubtotal * 0.10;
+                document.getElementById('discount-row').classList.remove('hidden');
+                document.getElementById('discount-row').classList.add('flex');
+            } else {
+                document.getElementById('discount-row').classList.add('hidden');
+                document.getElementById('discount-row').classList.remove('flex');
+            }
+
+            let packagingFee = combinedSubtotal > 0 ? packagingBaseFee : 0;
+            let finalTotal = combinedSubtotal - discountAmount + packagingFee;
+
+            // Update DOM displays
+            document.getElementById('subtotal-display').textContent = `R$ ${combinedSubtotal.toFixed(2)}`;
+            document.getElementById('discount-display').textContent = `- R$ ${discountAmount.toFixed(2)}`;
+            document.getElementById('packaging-fee-display').textContent = `R$ ${packagingFee.toFixed(2)}`;
+            document.getElementById('total-display').textContent = `R$ ${finalTotal.toFixed(2)}`;
+        }
+
+        // 4. Scent ritual selector
+        function selectRitualFragrance(fragrance) {
+            selectedRitualFragrance = fragrance;
+            
+            const frags = ['Lavanda', 'Cerejeira', 'Vanilla'];
+            frags.forEach(f => {
+                const btn = document.getElementById(`frag-btn-${f}`);
+                const icon = btn.querySelector('.select-indicator');
+                if (f === fragrance) {
+                    btn.classList.add('border-amour-dustyRose', 'bg-amour-bg');
+                    btn.classList.remove('border-amour-lilac/20', 'bg-white');
+                    icon.setAttribute('data-lucide', 'circle-dot');
+                    icon.classList.add('text-amour-dustyRose');
+                    icon.classList.remove('text-amour-lilac');
+                } else {
+                    btn.classList.remove('border-amour-dustyRose', 'bg-amour-bg');
+                    btn.classList.add('border-amour-lilac/20', 'bg-white');
+                    icon.setAttribute('data-lucide', 'circle');
+                    icon.classList.remove('text-amour-dustyRose');
+                    icon.classList.add('text-amour-lilac');
+                }
+            });
+            lucide.createIcons();
+        }
+
+        // 5. Packaging Ledger Console Audit simulation & Kraft receipt emission
+        let ledgerTimeoutIds = [];
+        function triggerFulfillmentRitual() {
+            if (cart.length === 0) {
+                alert("Por favor, adicione pelo menos uma Box à sacola antes de auditar!");
+                return;
+            }
+
+            closeCartDrawer();
+            
+            // Reset and show Ledger Terminal
+            const ledgerModal = document.getElementById('ledger-modal');
+            const terminal = document.getElementById('terminal-logs');
+            const fill = document.getElementById('progress-bar-fill');
+            const percent = document.getElementById('progress-percent');
+            
+            ledgerModal.classList.remove('hidden');
+            terminal.innerHTML = '';
+            fill.style.width = '0%';
+            percent.textContent = '0%';
+
+            // Gather values for logging
+            const profileStr = localStorage.getItem('amour_profile');
+            let vipName = 'CONVIDADO VIP';
+            let chosenFragrance = selectedRitualFragrance;
+            if (profileStr) {
+                try {
+                    const prof = JSON.parse(profileStr);
+                    vipName = prof.name.toUpperCase();
+                    chosenFragrance = prof.scent;
+                } catch(e) {}
+            }
+
+            const botanicalCourtesy = document.querySelector('input[name="botanical-courtesy"]:checked').value;
+
+            // Simulated logging script steps
+            const logSteps = [
+                { text: `> Inicializando montagem da caixa artesanal VIP...`, delay: 0, p: 5 },
+                { text: `> [OK] Vinculado cadastro do cliente: ${vipName}`, delay: 700, p: 15 },
+                { text: `> Buscando bruma aromática favorita no perfil do membro...`, delay: 1500, p: 25 },
+                { text: `> [Ritual] Aromatizando papel de seda com essência natural de: ${chosenFragrance} ✿`, delay: 2400, p: 40 },
+                { text: `> Acomodando palha decorativa vegetal e laço especial de algodão puro...`, delay: 3500, p: 55 },
+                { text: `> [Cortesia] Fixando a guarnição botânica de luxo selecionada:`, delay: 4400, p: 70 },
+                { text: `  -> "${botanicalCourtesy}" ♡ (R$ 0,00)`, delay: 5000, p: 80 },
+                { text: `> [Auditoria] Calculando integridade do lacre de cera real quente...`, delay: 6200, p: 90 },
+                { text: `> [Segurança] Criptografando logs e gerando assinatura Hash SHA-256...`, delay: 7300, p: 98 },
+                { text: `> [Concluído] Caixa selada com sucesso! Emitindo etiqueta Kraft.`, delay: 8400, p: 100 }
+            ];
+
+            ledgerTimeoutIds = [];
+            logSteps.forEach((step, idx) => {
+                const timeoutId = setTimeout(() => {
+                    const line = document.createElement('div');
+                    line.textContent = step.text;
+                    if (step.text.includes('[OK]') || step.text.includes('[Concluído]')) {
+                        line.className = 'text-green-400 font-bold';
+                    } else if (step.text.includes('[Ritual]') || step.text.includes('[Cortesia]')) {
+                        line.className = 'text-amour-dustyRose font-bold';
+                    }
+                    terminal.appendChild(line);
+                    terminal.scrollTop = terminal.scrollHeight;
+                    
+                    fill.style.width = `${step.p}%`;
+                    percent.textContent = `${step.p}%`;
+
+                    // On final step, show Kraft receipt docket modal
+                    if (idx === logSteps.length - 1) {
+                        setTimeout(() => {
+                            ledgerModal.classList.add('hidden');
+                            emitKraftInvoice();
+                        }, 1200);
+                    }
+                }, step.delay);
+                ledgerTimeoutIds.push(timeoutId);
+            });
+        }
+
+        function abortLedger() {
+            ledgerTimeoutIds.forEach(id => clearTimeout(id));
+            document.getElementById('ledger-modal').classList.add('hidden');
+        }
+
+        // Kraft Invoice Emission
+        function emitKraftInvoice() {
+            const invoice = document.getElementById('invoice-modal');
+            const card = document.getElementById('invoice-card');
+            
+            // Format current date
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('invoice-date').textContent = dateStr;
+
+            // Profile info
+            const profileStr = localStorage.getItem('amour_profile');
+            let vipName = 'CONVIDADO ESPECIAL';
+            let vipOccasion = 'PRESENTE AFETIVO';
+            let vipScent = selectedRitualFragrance.toUpperCase();
+            
+            if (profileStr) {
+                try {
+                    const prof = JSON.parse(profileStr);
+                    vipName = prof.name.toUpperCase();
+                    vipOccasion = prof.occasion.toUpperCase();
+                    vipScent = prof.scent.toUpperCase();
+                } catch(e) {}
+            }
+
+            document.getElementById('invoice-client-name').textContent = vipName;
+            document.getElementById('invoice-client-occasion').textContent = vipOccasion;
+            document.getElementById('invoice-client-scent').textContent = vipScent;
+
+            // Populate Items List
+            const itemsList = document.getElementById('invoice-items-list');
+            let itemsHTML = '';
+            
+            cart.forEach(item => {
+                itemsHTML += `
+                    <div class="flex justify-between items-start gap-4">
+                        <span>${item.quantity}x ${item.title.toUpperCase()}</span>
+                        <span>R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            // Include selected Add-ons
+            Object.keys(addons).forEach(key => {
+                if (addons[key].enabled) {
+                    itemsHTML += `
+                        <div class="flex justify-between items-start gap-4">
+                            <span>1x + ${key.toUpperCase()}</span>
+                            <span>R$ ${addons[key].price.toFixed(2)}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            // Include Courtesy Botanical wrapping sprig
+            const botanicalCourtesy = document.querySelector('input[name="botanical-courtesy"]:checked').value;
+            itemsHTML += `
+                <div class="flex justify-between items-start gap-4 text-green-700 font-bold">
+                    <span>★ CORTEZIA: ${botanicalCourtesy.toUpperCase()}</span>
+                    <span>R$ 0,00</span>
+                </div>
+            `;
+
+            itemsList.innerHTML = itemsHTML;
+
+            // Math calculations mirroring cart calculations
+            let itemsSubtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let addonsTotal = 0;
+            Object.keys(addons).forEach(key => {
+                if (addons[key].enabled) {
+                    addonsTotal += addons[key].price;
+                }
+            });
+
+            let combinedSubtotal = itemsSubtotal + addonsTotal;
+            let discountAmount = 0;
+            
+            if (appliedCoupon === 'AMOUR10') {
+                discountAmount = combinedSubtotal * 0.10;
+                document.getElementById('invoice-discount-row').classList.remove('hidden');
+                document.getElementById('invoice-discount-row').classList.add('flex');
+            } else {
+                document.getElementById('invoice-discount-row').classList.add('hidden');
+                document.getElementById('invoice-discount-row').classList.remove('flex');
+            }
+
+            let packagingFee = combinedSubtotal > 0 ? packagingBaseFee : 0;
+            let finalTotal = combinedSubtotal - discountAmount + packagingFee;
+
+            document.getElementById('invoice-subtotal').textContent = `R$ ${combinedSubtotal.toFixed(2)}`;
+            document.getElementById('invoice-discount').textContent = `- R$ ${discountAmount.toFixed(2)}`;
+            document.getElementById('invoice-total').textContent = `R$ ${finalTotal.toFixed(2)}`;
+
+            // Generate unique simulated barcode divs
+            const barcodeContainer = document.getElementById('invoice-barcode');
+            barcodeContainer.innerHTML = '';
+            for (let i = 0; i < 48; i++) {
+                const w = Math.random() > 0.4 ? 'w-[1px]' : 'w-[2px]';
+                const opacity = Math.random() > 0.15 ? 'bg-[#433222]' : 'bg-transparent';
+                const bar = document.createElement('div');
+                bar.className = `${w} ${opacity} h-full`;
+                barcodeContainer.appendChild(bar);
+            }
+
+            // Generate Simulated SHA Hash
+            const generatedHash = generateSHA256Hash(vipName + finalTotal.toString());
+            document.getElementById('invoice-sha-hash').innerHTML = `<span class="font-bold">AUDIT HASH:</span> ${generatedHash.substring(0, 32)}<br>${generatedHash.substring(32)}`;
+
+            // Open Invoice Modal
+            invoice.classList.remove('hidden');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+
+        function generateSHA256Hash(input) {
+            // Static simulation of SHA-256 for browser safety & speed
+            let hash = 0;
+            for (let i = 0; i < input.length; i++) {
+                const char = input.charCodeAt(i);
+                hash = (hash << 5) - hash + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            let hex = Math.abs(hash).toString(16);
+            while (hex.length < 8) hex = '0' + hex;
+            
+            // Append secondary random keys to build 64 characters length
+            return hex + "a8d29b04f1e3c87a552b904e578c7b89d4d29f8c6e7a552c8b9d0e4f" + hex.substring(0, 4);
+        }
+
+        function closeInvoice() {
+            const invoice = document.getElementById('invoice-modal');
+            invoice.classList.add('hidden');
+            // Empty cart upon successful delivery checklist validation!
+            cart = [];
+            appliedCoupon = null;
+            document.getElementById('cart-coupon-input').value = '';
+            document.getElementById('coupon-alert').className = 'hidden';
+            
+            // Uncheck add-ons
+            document.getElementById('add-on-packaging').checked = false;
+            document.getElementById('add-on-card').checked = false;
+            addons['Embalagem Especial de Cetim e Seda'].enabled = false;
+            addons['Carta Caligrafada à Mão'].enabled = false;
+
+            updateCart();
+            alert("Sua box de presentes de afeto foi enviada com sucesso para nossa equipe de artesãs! Verifique o console de auditoria digital.");
+        }
+
+        // 6. Community Feedback Pins persistence system
+        let lastClickedCoordinates = { x: 0, y: 0 };
+        
+        function togglePinMode() {
+            isPinModeActive = !isPinModeActive;
+            const btn = document.getElementById('pin-toggle-btn');
+            const activeDot = document.getElementById('pin-active-dot');
+            const activationBtn = document.getElementById('pin-activation-btn');
+            const toast = document.getElementById('pin-instruction-toast');
+
+            if (isPinModeActive) {
+                // Enabled state styling
+                btn.classList.add('bg-amour-dustyRose/20', 'text-amour-dustyRose');
+                activeDot.classList.remove('hidden');
+                
+                if (activationBtn) {
+                    activationBtn.textContent = 'Modo Pin Ativo!';
+                    activationBtn.className = 'bg-amour-dustyRose text-white font-bold text-xs uppercase tracking-widest px-8 py-3.5 rounded-full hover:bg-amour-dark transition-all duration-300 shadow-md flex items-center gap-2';
+                }
+
+                // Show helper instructions
+                toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+                toast.classList.add('translate-y-0', 'opacity-100');
+
+                // Bind page-level listener
+                document.body.addEventListener('click', pageClickCapture);
+            } else {
+                // Disabled state styling
+                btn.classList.remove('bg-amour-dustyRose/20', 'text-amour-dustyRose');
+                activeDot.classList.add('hidden');
+                
+                if (activationBtn) {
+                    activationBtn.textContent = 'Ativar Modo Pin';
+                    activationBtn.className = 'bg-amour-dark text-white font-bold text-xs uppercase tracking-widest px-8 py-3.5 rounded-full hover:bg-amour-dustyRose transition-all duration-300 shadow-md flex items-center gap-2';
+                }
+
+                // Hide helper instructions
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+
+                // Unbind page-level listener
+                document.body.removeEventListener('click', pageClickCapture);
+            }
+        }
+
+        function pageClickCapture(e) {
+            // Prevent placing pins on headers, nav elements, or buttons
+            if (e.target.closest('header') || e.target.closest('button') || e.target.closest('input') || e.target.closest('select') || e.target.closest('form') || e.target.closest('.fixed') || e.target.closest('a') || e.target.closest('textarea')) {
+                return;
+            }
+
+            // Capture exact click coordinates relative to document flow
+            const x = e.pageX;
+            const y = e.pageY;
+            
+            lastClickedCoordinates = { x, y };
+
+            // Open creation dialog
+            openPinModal();
+        }
+
+        function openPinModal() {
+            const modal = document.getElementById('pin-creation-modal');
+            const card = document.getElementById('pin-modal-card');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closePinModal() {
+            const modal = document.getElementById('pin-creation-modal');
+            const card = document.getElementById('pin-modal-card');
+            card.classList.add('scale-95', 'opacity-0');
+            card.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function saveFeedbackPin() {
+            const author = document.getElementById('pin-author').value.trim() || 'Amante da Amour';
+            const message = document.getElementById('pin-message').value.trim();
+
+            if (!message) {
+                alert("Por favor, preencha a sugestão ou feedback!");
+                return;
+            }
+
+            // Load existing pins
+            let pins = [];
+            const savedPinsStr = localStorage.getItem('amour_feedback_pins');
+            if (savedPinsStr) {
+                try { pins = JSON.parse(savedPinsStr); } catch(e) {}
+            }
+
+            // Save new Pin
+            const newPin = {
+                id: 'pin_' + Date.now(),
+                x: lastClickedCoordinates.x,
+                y: lastClickedCoordinates.y,
+                author,
+                message,
+                timestamp: new Date().toLocaleDateString('pt-BR')
+            };
+
+            pins.push(newPin);
+            localStorage.setItem('amour_feedback_pins', JSON.stringify(pins));
+
+            // Render pin immediately
+            renderPinElement(newPin);
+
+            // Clean inputs and exit
+            document.getElementById('pin-author').value = '';
+            document.getElementById('pin-message').value = '';
+            closePinModal();
+            togglePinMode(); // Autoclose pin mode to let them review
+        }
+
+        function loadFeedbackPins() {
+            // Clear any previously generated pins to prevent duplicates
+            const oldPins = document.querySelectorAll('.feedback-pin-marker');
+            oldPins.forEach(p => p.remove());
+
+            let pins = [];
+            const savedPinsStr = localStorage.getItem('amour_feedback_pins');
+            if (savedPinsStr) {
+                try { pins = JSON.parse(savedPinsStr); } catch(e) {}
+            }
+
+            pins.forEach(pin => renderPinElement(pin));
+        }
+
+        function renderPinElement(pin) {
+            const marker = document.createElement('div');
+            marker.className = 'feedback-pin feedback-pin-marker group';
+            marker.style.left = `${pin.x}px`;
+            marker.style.top = `${pin.y}px`;
+            marker.style.position = 'absolute';
+            
+            // Hover card detailed tooltip overlay
+            marker.innerHTML = `
+                <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 w-60 p-4 bg-white/95 backdrop-blur rounded-2xl shadow-2xl border border-amour-lilac/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50 text-left rotate-45">
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="font-bold text-[10px] uppercase text-amour-dustyRose tracking-widest">${pin.author}</span>
+                        <span class="text-[8px] font-mono text-amour-text/40">${pin.timestamp}</span>
+                    </div>
+                    <p class="text-xs text-amour-text leading-relaxed font-light">"${pin.message}"</p>
+                    <div class="mt-2 text-[8px] italic font-semibold text-amour-text/50 flex justify-between items-center">
+                        <span>Alfinete Criativo ♡</span>
+                        <button onclick="event.stopPropagation(); deleteFeedbackPin('${pin.id}');" class="text-red-400 hover:text-red-600 pointer-events-auto">Remover</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(marker);
+        }
+
+        function deleteFeedbackPin(id) {
+            let pins = [];
+            const savedPinsStr = localStorage.getItem('amour_feedback_pins');
+            if (savedPinsStr) {
+                try { pins = JSON.parse(savedPinsStr); } catch(e) {}
+            }
+
+            pins = pins.filter(p => p.id !== id);
+            localStorage.setItem('amour_feedback_pins', JSON.stringify(pins));
+            
+            // Reload all elements
+            loadFeedbackPins();
+        }
+
+        // 7. Community Likes controller
+        function restoreLikes() {
+            let count = localStorage.getItem('amour_likes');
+            if (!count) {
+                count = '142';
+                localStorage.setItem('amour_likes', '142');
+            }
+            document.getElementById('likes-count').textContent = count;
+        }
+
+        function incrementLikes() {
+            let count = parseInt(localStorage.getItem('amour_likes') || '142');
+            count += 1;
+            localStorage.setItem('amour_likes', count.toString());
+            document.getElementById('likes-count').textContent = count;
+
+            // Micro-animation with GSAP scaling count
+            gsap.fromTo("#likes-count", 
+                { scale: 0.7 }, 
+                { scale: 1, duration: 0.4, ease: "back.out(2)" }
+            );
+
+            // Floating mini confetti hearts from heart button
+            const btn = document.getElementById('likes-btn');
+            const rect = btn.getBoundingClientRect();
+            const canvas = document.getElementById('heart-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const extraHearts = [];
+            const colors = ['#D9A8A8', '#D6C8E3', '#D4AF37'];
+
+            for (let i = 0; i < 15; i++) {
+                extraHearts.push({
+                    x: rect.left + rect.width / 2 + window.scrollX,
+                    y: rect.top + window.scrollY,
+                    size: Math.random() * 8 + 4,
+                    speedY: -Math.random() * 3 - 2,
+                    speedX: Math.random() * 4 - 2,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: Math.random() * 0.04 - 0.02,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    opacity: 1
+                });
+            }
+
+            function drawSingleHeart(ctx, x, y, size, angle, color, opacity) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.globalAlpha = opacity;
+                ctx.beginPath();
+                ctx.fillStyle = color;
+                
+                const topCurveHeight = size * 0.3;
+                ctx.moveTo(0, topCurveHeight);
+                ctx.bezierCurveTo(-size / 2, -size / 2, -size, topCurveHeight, 0, size);
+                ctx.bezierCurveTo(size, topCurveHeight, size / 2, -size / 2, 0, topCurveHeight);
+                
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function animateExtraHearts() {
+                ctx.clearRect(rect.left - 50 + window.scrollX, rect.top - 150 + window.scrollY, 200, 200);
+                let alive = false;
+
+                extraHearts.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.angle += p.spin;
+                    p.opacity -= 0.015;
+
+                    if (p.opacity > 0) {
+                        alive = true;
+                        drawSingleHeart(ctx, p.x, p.y, p.size, p.angle, p.color, p.opacity);
+                    }
+                });
+
+                if (alive) {
+                    requestAnimationFrame(animateExtraHearts);
+                }
+            }
+
+            animateExtraHearts();
+        }
+    </script>
+</body>
+</html>

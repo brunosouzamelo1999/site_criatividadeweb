@@ -1,0 +1,40 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1350" fill="#0A0A0A"/>
+  
+  <defs>
+    <filter id="cyanGlowPort" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="20" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Geometry -->
+  <rect x="600" y="-100" width="600" height="600" rx="300" fill="#00D1FF" fill-opacity="0.05" filter="url(#cyanGlowPort)"/>
+
+  <!-- Brand Label -->
+  <text x="540" y="120" text-anchor="middle" fill="#00D1FF" fill-opacity="0.6" font-family="Arial, sans-serif" font-size="24" font-weight="900" letter-spacing="6">CRIATIVIDADE WEB // SOLUÇÕES</text>
+
+  <!-- Main Headline -->
+  <text x="540" y="420" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="70" font-weight="900" leading="1.1">
+    <tspan x="540" dy="0">O SITE IDEAL PARA</tspan>
+    <tspan x="540" dy="90" fill="#00D1FF" filter="url(#cyanGlowPort)">O SEU NEGÓCIO</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="540" y="720" text-anchor="middle" fill="#999" font-family="Arial, sans-serif" font-size="34" font-weight="500">
+    <tspan x="540" dy="0">Conheça os modelos que vão</tspan>
+    <tspan x="540" dy="55">elevar o nível da sua marca.</tspan>
+  </text>
+
+  <!-- Visual Element: Portfolio Cards Stack -->
+  <g transform="translate(540, 950)">
+    <rect x="-150" y="0" width="200" height="140" rx="10" fill="#222" stroke="#00D1FF" stroke-width="2" transform="rotate(-10)"/>
+    <rect x="-50" y="-20" width="200" height="140" rx="10" fill="#111" stroke="#00D1FF" stroke-width="2" transform="rotate(5)"/>
+    <rect x="50" y="10" width="200" height="140" rx="10" fill="#333" stroke="#00D1FF" stroke-width="2" transform="rotate(15)"/>
+  </g>
+
+  <!-- Footer Action -->
+  <rect x="0" y="1250" width="1080" height="100" fill="#00D1FF" fill-opacity="0.1"/>
+  <text x="540" y="1310" text-anchor="middle" fill="#00D1FF" font-family="Arial, sans-serif" font-size="30" font-weight="900" letter-spacing="4">ARRASTE PARA CONHECER »</text>
+
+</svg>

@@ -1,0 +1,222 @@
+/* Stories Retro Pixel Aesthetic */
+.stories-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  font-family: 'Inter', sans-serif;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+.stories-container.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.story-wrapper {
+  width: 100%;
+  max-width: 450px;
+  height: 100%;
+  max-height: 800px;
+  position: relative;
+  overflow: hidden;
+  background: #1a1a1a;
+  border: 2px solid #333;
+  box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+}
+
+/* Retro Pixel Border */
+.story-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 4px solid transparent;
+  background: linear-gradient(90deg, #00ff9d, #9d00ff) border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.story-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.story-slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.story-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.6) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  color: #fff;
+}
+
+.story-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  color: #00ff9d;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px #000, 0 0 10px rgba(0, 255, 157, 0.5);
+}
+
+.story-description {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #eee;
+  margin-bottom: 1.5rem;
+}
+
+.story-cta {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #00ff9d;
+  color: #000;
+  text-decoration: none;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  pointer-events: all;
+  align-self: flex-start;
+}
+
+.story-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(0, 255, 157, 0.6);
+}
+
+/* Progress Bars */
+.story-progress-container {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  gap: 5px;
+  z-index: 20;
+}
+
+.story-progress-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.story-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #00ff9d;
+  box-shadow: 0 0 10px #00ff9d;
+}
+
+/* Navigation Zones */
+.story-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  z-index: 15;
+  cursor: pointer;
+}
+
+.story-nav-prev { left: 0; }
+.story-nav-next { right: 0; width: 70%; }
+/* Highlights (Instagram circles) */
+.stories-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.story-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.story-circle:hover {
+  transform: scale(1.05);
+}
+
+.circle-inner {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(45deg, #00ff9d, #9d00ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+}
+
+.circle-inner img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #000;
+}
+
+.story-circle span {
+  font-size: 0.75rem;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+/* Close button */
+.story-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 30;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  text-shadow: 0 0 5px #000;
+}
+
+/* Animations */
+@keyframes fillProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}

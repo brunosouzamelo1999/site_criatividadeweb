@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELOCITY // High-Performance Sports Cap (Sandbox)</title>
+    
+    <!-- Tailwind CSS & AOS Stylesheet -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Google Fonts: Space Grotesk (technical headings), Manrope (body text), Inter (industrial labels) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons, GSAP & Confetti CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        velo: {
+                            bg: '#131313',
+                            primary: '#ffffff',
+                            lime: '#c3f400',
+                            blue: '#0356ff',
+                            low: '#1b1b1b',
+                            high: '#2a2a2a',
+                            highest: '#353535',
+                            lowest: '#0e0e0e',
+                            outline: 'rgba(255,255,255,0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Space Grotesk', 'sans-serif'],
+                        body: ['Manrope', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        label: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #131313; color: #ffffff; }
+        
+        /* STRICT 0px BORDER RADIUS STANDARDS */
+        * {
+            border-radius: 0px !important;
+        }
+
+        /* Ambient subtle glowing atmospheric shadows for modals/tooltips */
+        .ambient-glow {
+            box-shadow: 0px 10px 40px rgba(195, 244, 0, 0.05);
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #131313; }
+        ::-webkit-scrollbar-thumb { background: #c3f400; }
+
+        /* Kinetic Offset Shadow Button Hover Animation */
+        .btn-kinetic {
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-kinetic:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0px #0356ff;
+        }
+        .btn-kinetic:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px #0356ff;
+        }
+
+        /* SVG Component Hover Highlights */
+        #svg-crown, #svg-visor, #svg-buckle, #svg-ventilation {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #svg-crown:hover {
+            stroke: #c3f400;
+            stroke-width: 4px;
+            fill: #1b1b1b;
+        }
+        #svg-visor:hover {
+            stroke: #0356ff;
+            stroke-width: 4px;
+        }
+        #svg-buckle:hover {
+            stroke: #c3f400;
+            stroke-width: 3px;
+            fill: #0047df;
+        }
+        #svg-ventilation:hover circle {
+            fill: #c3f400;
+            fill-opacity: 1;
+            r: 5px;
+        }
+
+        /* Feedback pins */
+        .feedback-pin {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 40;
+        }
+        .feedback-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translate(-50%, 10px);
+        }
+        .feedback-pin:hover .feedback-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-velo-lime selection:text-velo-lowest relative overflow-x-hidden">
+
+    <!-- Top Running HUD Band -->
+    <div class="bg-velo-lowest text-velo-lime text-[10px] py-2 px-6 flex justify-between items-center z-20 border-b border-white/5 font-mono font-bold uppercase tracking-[0.2em] select-none">
+        <div>// WIND TUNNEL ONLINE // TESTED AT 80KM/H</div>
+        <div class="flex gap-4">
+            <span class="text-white animate-pulse">● TELEMETRIA LIVE</span>
+            <span>|</span>
+            <span>SHARP EDGES SYSTEM v1.0</span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="w-full bg-velo-bg/85 backdrop-blur-md py-5 sticky top-0 z-50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <!-- Hamburger Menu Trigger (Mobile) -->
+                <button onclick="toggleMobileMenu()" class="md:hidden flex flex-col justify-center items-start w-6 h-6 gap-1.5 focus:outline-none group" id="hamburger-btn" aria-label="Menu">
+                    <span class="w-5 h-[2px] bg-white transition-all duration-300 origin-center" id="ham-line-1"></span>
+                    <span class="w-4 h-[2px] bg-white transition-all duration-300 origin-center group-hover:w-5" id="ham-line-2"></span>
+                    <span class="w-5 h-[2px] bg-white transition-all duration-300 origin-center" id="ham-line-3"></span>
+                </button>
+                <a href="#" class="font-heading text-3xl font-bold uppercase tracking-tight text-white select-none">
+                    VELOCITY<span class="text-velo-lime">.</span>
+                </a>
+            </div>
+            
+            <div class="hidden md:flex gap-10 font-heading text-sm font-bold uppercase tracking-widest text-white">
+                <a href="#showroom" class="hover:text-velo-lime transition-colors">Showroom</a>
+                <a href="javascript:void(0)" onclick="toggleFeedbackPanel(true)" class="hover:text-velo-lime transition-colors flex items-center gap-1.5">
+                    <i data-lucide="message-square" class="w-4 h-4 text-velo-lime"></i> Co-Criação
+                </a>
+                <a href="#contact" class="hover:text-velo-lime transition-colors">Contato</a>
+            </div>
+            
+            <button onclick="openConfiguratorDrawer()" class="bg-velo-lime text-velo-lowest font-heading font-bold uppercase tracking-widest text-xs px-5 py-3 btn-kinetic border border-velo-lime">
+                Configurar Cap
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-[#131313]/98 backdrop-blur-lg z-40 flex flex-col justify-center items-center transition-all duration-500 transform -translate-y-full opacity-0 pointer-events-none border-b-4 border-velo-lime">
+        <div class="flex flex-col items-center justify-center space-y-8 text-center px-6">
+            <a href="#showroom" onclick="toggleMobileMenu(false)" class="font-heading text-3xl font-bold tracking-wider text-white hover:text-velo-lime transition-colors uppercase">Showroom</a>
+            <a href="javascript:void(0)" onclick="toggleMobileMenu(false); toggleFeedbackPanel(true)" class="font-heading text-3xl font-bold tracking-wider text-white hover:text-velo-lime transition-colors uppercase">Co-Criação</a>
+            <a href="#contact" onclick="toggleMobileMenu(false)" class="font-heading text-3xl font-bold tracking-wider text-white hover:text-velo-lime transition-colors uppercase">Contato</a>
+            
+            <div class="h-[2px] w-12 bg-white/20 my-2"></div>
+            
+            <p class="font-mono text-[10px] tracking-[0.2em] text-white/50 uppercase">VELOCITY HUD INTERACTIVE</p>
+            <button onclick="toggleMobileMenu(false); openConfiguratorDrawer()" class="text-xs font-heading font-bold text-velo-lowest tracking-widest uppercase border border-velo-lime px-8 py-3.5 bg-velo-lime btn-kinetic">Customizar Cap</button>
+        </div>
+    </div>
+
+    <!-- Active Sandbox Alert Banner -->
+    <div class="bg-velo-lime text-velo-lowest font-mono text-[10px] sm:text-xs py-2.5 px-4 text-center tracking-widest uppercase flex items-center justify-center gap-2.5 relative z-30 font-bold border-b border-velo-lime/20 shadow-sm">
+        <i data-lucide="zap" class="w-4 h-4 animate-pulse text-velo-blue"></i>
+        VELOCITY CAP // SANDBOX CONCEITO ATIVO — PERSONALIZE E SIMULE SEU PEDIDO AGORA!
+    </div>
+
+    <!-- Hero Fold Section (Editorial & Interactive Blueprint) -->
+    <section class="py-16 lg:py-24 relative overflow-hidden bg-velo-lowest">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Column: Aggressive Copy & Specs -->
+            <div class="lg:col-span-5 space-y-8" data-aos="fade-right">
+                <div class="inline-flex bg-velo-low border border-white/10 px-3.5 py-1.5 text-[10px] font-mono uppercase tracking-widest text-velo-lime">
+                    ⚡️ Coleção 2026 // Aerodinâmica Avançada
+                </div>
+                
+                <h1 class="font-heading text-5xl sm:text-7xl font-bold uppercase leading-[0.9] text-white tracking-tighter select-none">
+                    Performance <br>
+                    E Estilo <br>
+                    <span class="text-velo-lime">Em Qualquer</span> <br>
+                    Lugar<span class="text-velo-lime">.</span>
+                </h1>
+                
+                <p class="text-sm font-medium text-gray-400 max-w-sm leading-relaxed">
+                    A proteção que você precisa com o estilo brutalista que você merece. Engenharia têxtil aplicada ao Chapéu Esportivo Premium com fecho magnético Fidlock.
+                </p>
+                
+                <!-- Micro Spec Grid (No dividers, just background shift) -->
+                <div class="grid grid-cols-3 gap-1 bg-velo-low p-4 border border-white/5 text-center">
+                    <div class="p-2">
+                        <span class="text-[10px] text-gray-500 font-mono block uppercase">Arrasto</span>
+                        <span class="font-heading text-lg font-bold text-velo-lime uppercase tracking-tight mt-0.5 block">0.32 Cd</span>
+                    </div>
+                    <div class="p-2">
+                        <span class="text-[10px] text-gray-500 font-mono block uppercase">Resistência</span>
+                        <span class="font-heading text-lg font-bold text-velo-lime uppercase tracking-tight mt-0.5 block">10.000mm</span>
+                    </div>
+                    <div class="p-2">
+                        <span class="text-[10px] text-gray-500 font-mono block uppercase">Peso Líquido</span>
+                        <span class="font-heading text-lg font-bold text-velo-lime uppercase tracking-tight mt-0.5 block">42g</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="openConfiguratorDrawer()" class="bg-velo-lime text-velo-lowest border border-velo-lime px-8 py-4 font-heading font-bold uppercase tracking-wider text-sm btn-kinetic">
+                        Simular Customização
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Right Column: Hero Product Image -->
+            <div class="lg:col-span-7 flex flex-col items-center lg:items-stretch gap-0" data-aos="zoom-in" data-aos-delay="100">
+                <div class="relative w-full max-w-2xl overflow-hidden group select-none bg-velo-lowest">
+                    <!-- Ambient glow behind image -->
+                    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(195,244,0,0.08)_0%,transparent_70%)] pointer-events-none z-10"></div>
+
+                    <!-- Product Image -->
+                    <img
+                        src="velocity_cap_hero.png"
+                        alt="VELOCITY Cap — Boné esportivo de alta performance com aba neon lime e tecido Ripstop hidrofóbico"
+                        class="w-full object-cover block transition-transform duration-700 ease-out group-hover:scale-105"
+                        style="aspect-ratio: 4/3; object-position: center;"
+                    />
+
+                    <!-- Bottom-left HUD label overlay -->
+                    <div class="absolute bottom-4 left-4 z-20 flex flex-col gap-1.5">
+                        <div class="bg-velo-lowest/90 border border-velo-lime/40 px-3 py-1.5 font-mono text-[9px] tracking-widest text-velo-lime uppercase">
+                            VELOCITY // COLEÇÃO 2026
+                        </div>
+                        <div class="bg-velo-lime text-velo-lowest px-3 py-1 font-mono text-[9px] tracking-widest font-bold uppercase">
+                            ⚡ AERODINÂMICA AVANÇADA
+                        </div>
+                    </div>
+
+                    <!-- Top-right badge -->
+                    <div class="absolute top-4 right-4 z-20 bg-velo-blue border border-white/10 px-3 py-1.5 font-mono text-[9px] tracking-widest text-white uppercase">
+                        42g // ULTRA LIGHT
+                    </div>
+
+                    <!-- Subtle scan line overlay -->
+                    <div class="absolute inset-0 pointer-events-none z-10" style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showroom Section (No borders, layout defined by background shifts) -->
+    <section id="showroom" class="py-24 bg-velo-low relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16" data-aos="fade-up">
+                <div>
+                    <span class="text-velo-lime font-mono text-xs tracking-[0.25em] uppercase mb-2.5 block">// CHASSIS GOURMET DE TECNOLOGIA ESPORTIVA</span>
+                    <h2 class="font-heading text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white">Vanguard Velocity Line</h2>
+                </div>
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap gap-2 mt-6 md:mt-0 font-heading text-xs font-bold uppercase tracking-widest">
+                    <button onclick="filterShowroom('all')" id="tab-all" class="px-5 py-2.5 bg-velo-lime text-velo-lowest transition-all">Todos</button>
+                    <button onclick="filterShowroom('stealth')" id="tab-stealth" class="px-5 py-2.5 bg-velo-high text-white hover:bg-velo-highest transition-all">Stealth</button>
+                    <button onclick="filterShowroom('storm')" id="tab-storm" class="px-5 py-2.5 bg-velo-high text-white hover:bg-velo-highest transition-all">Storm</button>
+                    <button onclick="filterShowroom('glow')" id="tab-glow" class="px-5 py-2.5 bg-velo-high text-white hover:bg-velo-highest transition-all">AeroGlow</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="showroom-grid">
+                
+                <!-- Cap Model 1 -->
+                <div data-velo-cat="stealth" class="bg-velo-lowest p-6 flex flex-col justify-between shadow-lg relative group transition-all duration-500 hover:shadow-2xl" data-aos="fade-up">
+                    <div class="overflow-hidden aspect-[4/3] mb-6 relative bg-velo-high/40">
+                        <img src="cap_stealth_carbon.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 hover:scale-105" alt="Velocity Stealth Carbon Premium Sports Cap">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-velo-lowest font-heading text-[10px] font-bold px-4 py-2 uppercase tracking-widest">Especificações</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div class="mb-6 space-y-2">
+                            <div class="flex justify-between items-start gap-4">
+                                <h3 class="font-heading text-xl font-bold uppercase text-white tracking-wide">Stealth Carbon</h3>
+                                <span class="font-mono text-sm font-bold text-velo-lime whitespace-nowrap">R$ 149,00</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed font-medium">
+                                Construído para corredores de rua. Silhueta aerodinâmica cortada a laser, painéis tecno-dry de escoamento e fivela traseira de nylon ultra-leve.
+                            </p>
+                        </div>
+                        <button onclick="quickSelectAndConfigure('stealth')" class="w-full bg-velo-lime text-velo-lowest py-3.5 font-heading text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 btn-kinetic transition-all">
+                            <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+                            Orçar este Estilo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cap Model 2 -->
+                <div data-velo-cat="storm" class="bg-velo-lowest p-6 flex flex-col justify-between shadow-lg relative group transition-all duration-500 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="overflow-hidden aspect-[4/3] mb-6 relative bg-velo-high/40">
+                        <img src="cap_storm_elementproof.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 hover:scale-105" alt="Velocity Storm Impermeável Cap">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-velo-lowest font-heading text-[10px] font-bold px-4 py-2 uppercase tracking-widest">Especificações</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div class="mb-6 space-y-2">
+                            <div class="flex justify-between items-start gap-4">
+                                <h3 class="font-heading text-xl font-bold uppercase text-white tracking-wide">Storm Element-Proof</h3>
+                                <span class="font-mono text-sm font-bold text-velo-lime whitespace-nowrap">R$ 189,00</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed font-medium">
+                                Ripstop de nylon impermeável com coluna de resistência de 10.000mm. Proteção absoluta contra rajadas de chuva e tempestades sob ventos de alta velocidade.
+                            </p>
+                        </div>
+                        <button onclick="quickSelectAndConfigure('storm')" class="w-full bg-velo-lime text-velo-lowest py-3.5 font-heading text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 btn-kinetic transition-all">
+                            <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+                            Orçar este Estilo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cap Model 3 -->
+                <div data-velo-cat="glow" class="bg-velo-lowest p-6 flex flex-col justify-between shadow-lg relative group transition-all duration-500 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="overflow-hidden aspect-[4/3] mb-6 relative bg-velo-high/40">
+                        <img src="cap_aeroglow_reflective.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 hover:scale-105" alt="Velocity AeroGlow Reflective Cap">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-velo-lowest font-heading text-[10px] font-bold px-4 py-2 uppercase tracking-widest">Especificações</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div class="mb-6 space-y-2">
+                            <div class="flex justify-between items-start gap-4">
+                                <h3 class="font-heading text-xl font-bold uppercase text-white tracking-wide">AeroGlow Reflective</h3>
+                                <span class="font-mono text-sm font-bold text-velo-lime whitespace-nowrap">R$ 219,00</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed font-medium">
+                                Segurança de treino em alta visibilidade 360°. Filamentos refletores micro-tecidos na carcaça do cap e bordas brilhantes ativas na aba sob luz direta.
+                            </p>
+                        </div>
+                        <button onclick="quickSelectAndConfigure('glow')" class="w-full bg-velo-lime text-velo-lowest py-3.5 font-heading text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 btn-kinetic transition-all">
+                            <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+                            Orçar este Estilo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Feedback Callout -->
+    <section id="contact" class="py-24 bg-velo-lowest text-center">
+        <div class="max-w-4xl mx-auto px-6 space-y-8" data-aos="zoom-in">
+            <h2 class="font-heading text-5xl sm:text-7xl font-bold uppercase tracking-tighter text-white">Desafie Seus Limites</h2>
+            <p class="text-sm font-medium text-gray-400 max-w-lg mx-auto leading-relaxed">Desenvolva seu próprio cockpit esportivo com customização total de cores do cap no blueprint interativo e simule testes no túnel de vento digital!</p>
+            <div class="flex flex-wrap items-center justify-center gap-6">
+                <button onclick="openConfiguratorDrawer()" class="bg-velo-lime text-velo-lowest border border-velo-lime px-10 py-5 font-heading font-bold uppercase tracking-widest text-sm btn-kinetic">
+                    Personalizar Combo Cap
+                </button>
+                <button onclick="toggleFeedbackPanel(true)" class="bg-velo-low text-white border border-white/10 px-8 py-4.5 font-heading font-bold uppercase tracking-widest text-xs flex items-center gap-2 hover:bg-velo-high transition-all">
+                    <i data-lucide="message-square" class="w-4 h-4 text-velo-lime"></i> Adicionar Comentário Visual
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-velo-lowest py-16 border-t border-white/5 text-center font-bold text-white">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-6">
+            <h2 class="font-heading text-3xl uppercase tracking-widest">VELOCITY<span class="text-velo-lime">.</span></h2>
+            <p class="text-xs font-mono text-gray-500 uppercase tracking-widest">Velocity Brutalism Sports Labs &copy; 2026. All Technical Details Simulation Active.</p>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE SYSTEM & CHECKOUT DRAWERS -->
+    <!-- ========================================== -->
+
+    <!-- Dynamic Targets for Custom Feedback Pins on Page -->
+    <div id="pins-container" class="absolute inset-0 pointer-events-none z-30 hidden"></div>
+
+    <!-- Product Customizer Drawer (VELOCITY Configurator Scoper) -->
+    <div id="budget-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-[#1b1b1b] border-l border-white/10 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <div class="h-full flex flex-col justify-between">
+            <!-- Header -->
+            <div class="p-6 bg-velo-lime flex items-center justify-between text-velo-lowest">
+                <div class="flex items-center gap-2 font-heading text-xl font-bold uppercase tracking-widest">
+                    <i data-lucide="cpu" class="w-5 h-5 text-velo-blue animate-pulse"></i>
+                    <span>Configurar Velocity Cap</span>
+                </div>
+                <button onclick="toggleBudgetDrawer(false)" class="text-velo-lowest hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Content Area (Customizer Configuration Form) -->
+            <div class="flex-grow p-6 overflow-y-auto space-y-6 text-white font-mono text-xs">
+                
+                <!-- STEP 1: Escolha a Carcaça Base -->
+                <div class="space-y-3">
+                    <span class="text-xs font-bold text-velo-lime uppercase tracking-wider block font-heading">// 1. SELECIONE A CARCAÇA BASE</span>
+                    <div class="space-y-2.5 font-body text-white">
+                        <!-- Model 1 -->
+                        <label class="flex items-start gap-3 bg-velo-lowest p-3 border border-white/5 cursor-pointer hover:border-velo-lime transition-all select-none">
+                            <input type="radio" name="cap-model" id="model-stealth" value="stealth" checked onchange="calculateScope()" class="mt-1 accent-velo-lime">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-white block">Stealth Carbon</span>
+                                <span class="text-[10px] text-gray-500 block mt-0.5">Visor a laser e painéis tecno-dry esportivos.</span>
+                                <span class="text-xs text-velo-lime font-mono font-bold block mt-1">R$ 149,00</span>
+                            </div>
+                        </label>
+                        <!-- Model 2 -->
+                        <label class="flex items-start gap-3 bg-velo-lowest p-3 border border-white/5 cursor-pointer hover:border-velo-lime transition-all select-none">
+                            <input type="radio" name="cap-model" id="model-storm" value="storm" onchange="calculateScope()" class="mt-1 accent-velo-lime">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-white block">Storm Element-Proof</span>
+                                <span class="text-[10px] text-gray-500 block mt-0.5">Impermeável ripstop e coluna d'água 10.000mm.</span>
+                                <span class="text-xs text-velo-lime font-mono font-bold block mt-1">R$ 189,00</span>
+                            </div>
+                        </label>
+                        <!-- Model 3 -->
+                        <label class="flex items-start gap-3 bg-velo-lowest p-3 border border-white/5 cursor-pointer hover:border-velo-lime transition-all select-none">
+                            <input type="radio" name="cap-model" id="model-glow" value="glow" onchange="calculateScope()" class="mt-1 accent-velo-lime">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-white block">AeroGlow Reflective</span>
+                                <span class="text-[10px] text-gray-500 block mt-0.5">Visibilidade reflexiva 360° em microfilamentos.</span>
+                                <span class="text-xs text-velo-lime font-mono font-bold block mt-1">R$ 219,00</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Upgrades Técnicos de Hardware -->
+                <div class="space-y-3">
+                    <span class="text-xs font-bold text-velo-lime uppercase tracking-wider block font-heading">// 2. ADICIONAIS DE HARDWARE ESPORTIVO</span>
+                    <div class="space-y-2.5 font-body">
+                        <!-- Upgrade Fidlock -->
+                        <label class="flex items-center gap-3 bg-velo-lowest p-3 border border-white/5 cursor-pointer hover:border-velo-lime transition-all select-none">
+                            <input type="checkbox" id="up-fidlock" onchange="calculateScope()" class="accent-velo-lime h-4 w-4">
+                            <div class="flex-grow">
+                                <span class="text-xs font-bold text-white block">Fivela Magnética Fidlock</span>
+                                <span class="text-[9px] text-gray-500 block">Fecho com engate magnético de milissegundos.</span>
+                                <span class="text-[10px] text-velo-lime font-mono font-bold block mt-0.5">+ R$ 35,00</span>
+                            </div>
+                        </label>
+                        <!-- Upgrade Perfurações Laser -->
+                        <label class="flex items-center gap-3 bg-velo-lowest p-3 border border-white/5 cursor-pointer hover:border-velo-lime transition-all select-none">
+                            <input type="checkbox" id="up-laser" onchange="calculateScope()" class="accent-velo-lime h-4 w-4">
+                            <div class="flex-grow">
+                                <span class="text-xs font-bold text-white block">Painéis Microperfurados a Laser</span>
+                                <span class="text-[9px] text-gray-500 block">Orifícios de ventilação lateral para escoamento de calor.</span>
+                                <span class="text-[10px] text-velo-lime font-mono font-bold block mt-0.5">+ R$ 30,00</span>
+                            </div>
+                        </label>
+                        <!-- Upgrade Banda Tecno Dry -->
+                        <label class="flex items-center gap-3 bg-velo-lowest p-3 border border-white/5 cursor-pointer hover:border-velo-lime transition-all select-none">
+                            <input type="checkbox" id="up-band" onchange="calculateScope()" class="accent-velo-lime h-4 w-4">
+                            <div class="flex-grow">
+                                <span class="text-xs font-bold text-white block">Banda Interna Tecno-Dry</span>
+                                <span class="text-[9px] text-gray-500 block">Banda ultra absorvente contra suor e secagem instantânea.</span>
+                                <span class="text-[10px] text-velo-lime font-mono font-bold block mt-0.5">+ R$ 20,00</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Seletor Dinâmico de Cores (Altera o Vetor SVG Live!) -->
+                <div class="space-y-4 bg-velo-lowest p-4 border border-white/5">
+                    <span class="text-xs font-bold text-velo-lime uppercase tracking-wider block font-heading">// 3. CUSTOMIZADOR TÊXTIL DE CORES (VETOR)</span>
+                    
+                    <div class="space-y-3 font-body">
+                        <!-- Crown Color -->
+                        <div>
+                            <span class="text-[10px] text-gray-400 block mb-1">Copa (Crown):</span>
+                            <div class="flex gap-2">
+                                <button onclick="recolorCapPart('crown', '#131313')" class="w-6 h-6 bg-black border border-white/20 hover:scale-110 transition-transform" title="Black"></button>
+                                <button onclick="recolorCapPart('crown', '#c3f400')" class="w-6 h-6 bg-[#c3f400] border border-white/20 hover:scale-110 transition-transform" title="Lime"></button>
+                                <button onclick="recolorCapPart('crown', '#0356ff')" class="w-6 h-6 bg-[#0356ff] border border-white/20 hover:scale-110 transition-transform" title="Blue"></button>
+                                <button onclick="recolorCapPart('crown', '#ffffff')" class="w-6 h-6 bg-white border border-white/20 hover:scale-110 transition-transform" title="White"></button>
+                            </div>
+                        </div>
+
+                        <!-- Visor Color -->
+                        <div>
+                            <span class="text-[10px] text-gray-400 block mb-1">Aba (Visor):</span>
+                            <div class="flex gap-2">
+                                <button onclick="recolorCapPart('visor', '#131313')" class="w-6 h-6 bg-black border border-white/20 hover:scale-110 transition-transform" title="Black"></button>
+                                <button onclick="recolorCapPart('visor', '#c3f400')" class="w-6 h-6 bg-[#c3f400] border border-white/20 hover:scale-110 transition-transform" title="Lime"></button>
+                                <button onclick="recolorCapPart('visor', '#0356ff')" class="w-6 h-6 bg-[#0356ff] border border-white/20 hover:scale-110 transition-transform" title="Blue"></button>
+                                <button onclick="recolorCapPart('visor', '#ffffff')" class="w-6 h-6 bg-white border border-white/20 hover:scale-110 transition-transform" title="White"></button>
+                            </div>
+                        </div>
+
+                        <!-- Strap/Buckle Color -->
+                        <div>
+                            <span class="text-[10px] text-gray-400 block mb-1">Ajustador e Fivela (Strap & Buckle):</span>
+                            <div class="flex gap-2">
+                                <button onclick="recolorCapPart('strap', '#2a2a2a'); recolorCapPart('buckle', '#131313')" class="w-6 h-6 bg-black border border-white/20 hover:scale-110 transition-transform" title="Black"></button>
+                                <button onclick="recolorCapPart('strap', '#c3f400'); recolorCapPart('buckle', '#c3f400')" class="w-6 h-6 bg-[#c3f400] border border-white/20 hover:scale-110 transition-transform" title="Lime"></button>
+                                <button onclick="recolorCapPart('strap', '#0356ff'); recolorCapPart('buckle', '#0356ff')" class="w-6 h-6 bg-[#0356ff] border border-white/20 hover:scale-110 transition-transform" title="Blue"></button>
+                                <button onclick="recolorCapPart('strap', '#ffffff'); recolorCapPart('buckle', '#ffffff')" class="w-6 h-6 bg-white border border-white/20 hover:scale-110 transition-transform" title="White"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Briefing de Entrega -->
+                <div class="space-y-4 bg-white/5 p-4 border border-white/10">
+                    <span class="text-xs font-bold text-velo-lime uppercase tracking-wider block font-heading">// COORDENADAS DO ATLETA</span>
+                    <div class="space-y-3 font-body text-velo-lowest font-bold">
+                        <input required id="lead-name" type="text" placeholder="Nome Completo do Atleta" class="w-full bg-[#2a2a2a] text-white outline-none px-3.5 py-3 border border-white/10 focus:border-velo-lime text-xs placeholder-gray-500">
+                        <input required id="lead-email" type="email" placeholder="E-mail de Performance" class="w-full bg-[#2a2a2a] text-white outline-none px-3.5 py-3 border border-white/10 focus:border-velo-lime text-xs placeholder-gray-500">
+                        <input required id="lead-address" type="text" placeholder="Endereço de Postagem" class="w-full bg-[#2a2a2a] text-white outline-none px-3.5 py-3 border border-white/10 focus:border-velo-lime text-xs placeholder-gray-500">
+                        <select id="lead-type" onchange="calculateScope()" class="w-full bg-[#2a2a2a] text-white outline-none px-3.5 py-3 border border-white/10 focus:border-velo-lime font-heading text-xs font-bold uppercase tracking-widest">
+                            <option value="express">Transporte Expresso (Sedex Performance - R$ 15,00)</option>
+                            <option value="frete_zero">Frete Econômico (PAC Standard - R$ 0,00)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cupom de Desconto -->
+                <div class="space-y-2 bg-white/5 p-4 border border-white/10">
+                    <span class="text-xs font-bold text-velo-lime uppercase tracking-wider block font-heading">// CÓDIGO PROMOCIONAL</span>
+                    <div class="flex gap-2 font-body text-velo-lowest font-bold">
+                        <input id="coupon-input" type="text" placeholder="Ex: VELOCITY20" class="flex-grow text-xs px-3.5 py-3 bg-[#2a2a2a] text-white outline-none border border-white/10 focus:border-velo-lime placeholder-gray-500">
+                        <button onclick="applyCoupon()" class="bg-velo-lime text-velo-lowest hover:bg-white text-xs font-heading font-black px-5 py-3 border border-velo-lime transition-colors uppercase">Validar</button>
+                    </div>
+                    <div id="coupon-alert" class="text-[11px] font-bold hidden font-mono tracking-wide leading-tight"></div>
+                </div>
+            </div>
+
+            <!-- Footer Calculadora -->
+            <div class="p-6 bg-velo-lowest text-white font-heading border-t border-white/10">
+                <div class="space-y-1.5 border-b border-white/10 pb-4 text-[11px] font-mono font-bold uppercase tracking-wider text-gray-400">
+                    <div class="flex justify-between items-center">
+                        <span>Carcaça Base Cap</span>
+                        <span id="scope-base-val" class="text-white">R$ 149,00</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span>Upgrades de Hardware</span>
+                        <span id="scope-upgrades-val" class="text-white">R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span>Frete Postal</span>
+                        <span id="scope-shipping-val" class="text-white">R$ 15,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-velo-lime font-black hidden" id="scope-discount-row">
+                        <span>Desconto Aplicado (20%)</span>
+                        <span id="scope-discount-val">-R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center my-4">
+                    <span class="text-xl font-bold uppercase tracking-tight">Total Estimado</span>
+                    <span id="scope-total" class="text-2xl font-black text-velo-lime">R$ 164,00</span>
+                </div>
+                <button onclick="triggerPerformanceTest()" class="w-full bg-velo-lime text-velo-lowest hover:bg-white hover:text-velo-lowest py-4 font-heading font-black uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-2 border border-velo-lime">
+                    Simular Teste Túnel de Vento
+                    <i data-lucide="activity" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monospace Wind Tunnel Telemetry Console Overlay -->
+    <div id="transaction-loader" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[60] flex items-center justify-center p-4 hidden">
+        <div class="max-w-xl w-full bg-velo-lowest border-4 border-velo-lime p-6 sm:p-8 space-y-6 shadow-2xl relative font-mono text-xs">
+            <div class="flex items-center gap-3 border-b border-velo-lime pb-4 text-velo-lime">
+                <div class="w-3.5 h-3.5 bg-velo-blue rounded-full animate-ping border border-white"></div>
+                <h4 class="text-base font-heading font-bold tracking-tight uppercase text-velo-lime">// TESTES DE RIGIDEZ TÚNEL DE VENTO DIGITAL v1.0</h4>
+            </div>
+            
+            <div class="bg-black p-4 border border-white/10 rounded-none min-h-[180px] font-mono text-[10px] sm:text-xs text-velo-lime space-y-2.5 leading-relaxed max-h-[260px] overflow-y-auto" id="console-logs">
+                <p class="text-gray-500">> Conectando ao painel aerodinâmico principal...</p>
+            </div>
+            
+            <div class="text-center font-heading font-bold text-velo-lowest bg-velo-lime text-xs tracking-widest uppercase py-3 border border-velo-lime" id="loader-status-text">
+                INICIANDO PROPULSÃO AXIAL 40 KM/H...
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Specification Pack Sheet (Docket Modal) -->
+    <div id="receipt-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[65] flex items-start justify-center p-4 overflow-y-auto py-10 hidden">
+        <div class="max-w-md w-full bg-white p-6 sm:p-8 space-y-5 shadow-2xl relative text-left text-velo-lowest select-text border-t-8 border-velo-blue font-mono text-xs">
+            
+            <!-- Timbrado Spec Header -->
+            <div class="text-center border-b-2 border-dashed border-velo-lowest pb-4 relative">
+                <h3 class="font-heading text-3xl font-bold tracking-tighter uppercase text-velo-lowest">VELOCITY SPEC SHEET</h3>
+                <p class="text-[9px] text-gray-500 font-mono mt-1" id="receipt-docket-id">SERIAL SPEC #VL-88220</p>
+                
+                <div class="mt-2.5">
+                    <span class="text-[9px] font-sans font-black text-white bg-velo-blue px-3 py-1 uppercase tracking-wider">ESTÁVEL // APROVADO</span>
+                </div>
+            </div>
+
+            <!-- Athlete shipping coordinates -->
+            <div class="space-y-1 text-[10px] text-gray-600 border-b border-dashed border-velo-lowest pb-4">
+                <div>
+                    <span class="text-velo-lowest font-bold block text-[11px] mb-1">// DADOS DO ATLETA:</span>
+                    <span class="text-velo-lowest block font-bold" id="receipt-lead-name">-</span>
+                    <span class="block" id="receipt-lead-email">-</span>
+                    <span class="block text-gray-500 mt-1">Endereço de Postagem:</span>
+                    <span class="text-velo-lowest block font-bold leading-tight" id="receipt-lead-address">-</span>
+                    <span class="block mt-1">Modalidade Postal: <span id="receipt-lead-type" class="text-velo-lowest font-bold">-</span></span>
+                </div>
+                <div class="pt-2 border-t border-gray-200 mt-2">
+                    <span class="text-velo-blue font-bold block text-[11px] mb-0.5">// METROLOGIA LABORATORIAL:</span>
+                    <span class="block">EFICIÊNCIA TÉRMICA: <span class="text-velo-lowest font-bold">94% ESTÁVEL</span></span>
+                    <span class="block">ARRASTO AERODINÂMICO: <span class="text-velo-lowest font-bold">0.32 CD REGISTRADO</span></span>
+                    <span class="block">PROSPECÇÃO SHIELD: <span class="text-velo-lowest font-bold">NANOTECH ATIVO</span></span>
+                </div>
+            </div>
+
+            <!-- Custom Selected Items List -->
+            <div class="space-y-2 border-b border-dashed border-velo-lowest pb-4 text-velo-lowest" id="receipt-items-list">
+                <!-- Dynamic Spec Items List Inject -->
+            </div>
+
+            <!-- Flex Barcode -->
+            <div class="py-2.5 border-t border-b border-dashed border-velo-lowest flex flex-col items-center justify-center gap-1 select-none">
+                <div class="w-full flex items-stretch h-8 justify-center gap-[1px]">
+                    <div class="bg-black w-[3px]"></div><div class="bg-black w-[1px]"></div><div class="bg-black w-[2px]"></div>
+                    <div class="bg-black w-[4px]"></div><div class="bg-black w-[1px]"></div><div class="bg-black w-[3px]"></div>
+                    <div class="bg-black w-[2px]"></div><div class="bg-black w-[1px]"></div><div class="bg-black w-[4px]"></div>
+                    <div class="bg-black w-[2px]"></div><div class="bg-black w-[3px]"></div><div class="bg-black w-[1px]"></div>
+                    <div class="bg-black w-[4px]"></div><div class="bg-black w-[2px]"></div><div class="bg-black w-[1px]"></div>
+                    <div class="bg-black w-[3px]"></div><div class="bg-black w-[2px]"></div><div class="bg-black w-[4px]"></div>
+                </div>
+                <span class="text-[9px] font-mono font-bold tracking-widest text-velo-lowest mt-1">VELOCITY-PERFORMANCE-SHEET-2026</span>
+            </div>
+
+            <!-- Simulated PIX Payment key -->
+            <div class="bg-gray-100 p-4 border border-velo-lowest space-y-3">
+                <div class="flex items-center gap-2 justify-between">
+                    <span class="text-[10px] font-bold text-velo-lowest block">// PIX POSTAGEM DIRETO:</span>
+                    <span class="text-[8px] bg-blue-100 text-blue-700 font-bold px-1.5 py-0.5 rounded">FATURAMENTO RÁPIDO</span>
+                </div>
+                <div class="flex gap-2">
+                    <input readonly id="pix-key-val" type="text" value="00020126580014BR.GOV.BCB.PIX0136velocitycap2026paydigitalcode" class="flex-grow text-[9px] px-2.5 py-2.5 bg-white border border-velo-lowest rounded-none font-mono text-gray-500 overflow-hidden select-all">
+                    <button onclick="copyPixKey()" id="btn-copy-pix" class="bg-velo-lowest hover:bg-velo-blue text-white text-[9px] font-bold px-3 py-2.5 border border-velo-lowest uppercase transition-all flex items-center gap-1.5 whitespace-nowrap">
+                        <i data-lucide="copy" class="w-3 h-3"></i> Copiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Total Print Out -->
+            <div class="flex justify-between items-center text-xs font-mono font-bold border-t border-dashed border-velo-lowest pt-3">
+                <span class="text-gray-500">VALOR TOTAL DO TICKET:</span>
+                <span class="font-black text-velo-blue text-xl" id="receipt-grand-total">R$ 0,00</span>
+            </div>
+
+            <!-- Transaction signature hash -->
+            <div class="bg-black text-velo-lime p-3 border border-velo-lowest text-center text-[8px] break-all leading-normal uppercase select-all" id="receipt-hash">
+                HASH: VL2026_SHA256_SECURE_DIRECT_LEDGER
+            </div>
+
+            <button onclick="closeReceipt()" class="w-full bg-velo-lowest text-white hover:bg-velo-blue hover:text-white transition-colors py-3.5 border border-velo-lowest text-xs font-heading font-bold uppercase tracking-widest text-center">
+                Fechar Ficha de Metrologia
+            </button>
+        </div>
+    </div>
+
+    <!-- Annotation Co-Creation Panel Drawer (Right side) -->
+    <div id="feedback-panel" class="fixed inset-y-0 right-0 max-w-sm w-full bg-[#1b1b1b] border-l border-white/10 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <!-- Header -->
+        <div class="p-6 border-b border-white/10 bg-black/30 flex items-center justify-between text-white">
+            <div class="flex items-center gap-2">
+                <i data-lucide="message-square" class="w-5 h-5 text-velo-lime animate-pulse"></i>
+                <span class="font-heading text-xl font-bold tracking-tight uppercase">// CO-CRIAÇÃO TÉCNICA</span>
+            </div>
+            <button onclick="toggleFeedbackPanel(false)" class="text-gray-400 hover:text-velo-lime transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Annotation Switch & Reviews -->
+        <div class="flex-grow p-6 overflow-y-auto space-y-6 text-white font-mono text-xs">
+            <!-- Pin Placement Controller Button -->
+            <button id="pin-tool-btn" onclick="toggleAnnotationMode()" class="w-full border border-velo-lime text-velo-lime hover:bg-velo-lime/10 py-3.5 font-heading font-bold tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-velo-lime animate-bounce"></i>
+                <span>Feedback Visual no Blueprint</span>
+            </button>
+            <div id="pin-tool-active-banner" class="text-center py-3 bg-velo-lime/10 border border-velo-lime/30 text-velo-lime text-[10px] font-body font-medium rounded-none animate-pulse hidden leading-relaxed">
+                MODO ATIVO: CLIQUE EM QUALQUER DETALHE DO VETOR PARA MARCAR SEU COMENTÁRIO VISUAL!
+            </div>
+
+            <!-- Like & Avaliação Rápida -->
+            <div class="bg-white/5 border border-white/10 p-4 rounded-none space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="font-heading text-xs font-bold uppercase text-velo-lime tracking-wider">// RATING DE INOVAÇÃO</span>
+                    <button onclick="toggleLikeProject()" id="like-btn" class="flex items-center gap-2 px-3 py-1.5 border border-white/20 hover:bg-white/10 transition-all duration-300 group font-mono text-xs">
+                        <i id="like-icon" data-lucide="heart" class="w-4 h-4 text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                        <span id="like-count" class="text-white font-bold">184</span>
+                    </button>
+                </div>
+                
+                <div class="space-y-2">
+                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block font-heading">Feedback Rápido:</span>
+                    <div class="grid grid-cols-2 gap-2 text-[9px] font-body text-velo-lowest font-bold">
+                        <button onclick="submitQuickFeedback('Brutalismo aerodinâmico incrível!')" class="py-2.5 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 rounded-none transition-colors text-center uppercase tracking-wider font-mono">Sensacional</button>
+                        <button onclick="submitQuickFeedback(' Blueprint e telemetria live fantásticos')" class="py-2.5 border border-blue-500/40 text-blue-400 hover:bg-blue-500/10 rounded-none transition-colors text-center uppercase tracking-wider font-mono">Blueprint OK</button>
+                        <button onclick="submitQuickFeedback('Aumentar o tamanho do visor da aba')" class="py-2.5 border border-amber-500/40 text-amber-400 hover:bg-amber-500/10 rounded-none transition-colors text-center uppercase tracking-wider font-mono">Mais Aba</button>
+                        <button onclick="submitQuickFeedback('Falta opção de fecho de corda elástica')" class="py-2.5 border border-red-500/40 text-red-400 hover:bg-red-500/10 rounded-none transition-colors text-center uppercase tracking-wider font-mono">Outro Fecho</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialist Reviews Logs -->
+            <div class="space-y-3">
+                <span class="font-heading text-xs font-bold text-velo-lime uppercase tracking-wider block">// AUDITORIA DE PROJETO</span>
+                <div class="bg-white/5 border border-white/10 p-4 rounded-none space-y-1 text-[11px] font-body font-medium leading-relaxed">
+                    <div class="flex justify-between items-center mb-1 font-mono text-[9px]">
+                        <span class="font-bold text-white uppercase tracking-wider">Bruno G. (Lead Designer)</span>
+                        <span class="text-[8px] font-bold text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded uppercase">Homologado</span>
+                    </div>
+                    <p class="text-gray-400 italic">
+                        "Estratégia Velocity Brutalism implementada com absoluto rigor. A ausência de cantos arredondados e a telemetria HUD live dão uma pegada industrial premium fantástica."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Custom User Pins List -->
+            <div id="saved-pins-section" class="space-y-3 hidden">
+                <span class="font-heading text-xs font-bold text-velo-lime uppercase tracking-wider block">// SUAS RESSALVAS</span>
+                <div id="saved-pins-list" class="space-y-2 max-h-[160px] overflow-y-auto pr-2">
+                    <!-- Dynamic comment pins list inject -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Approve Button -->
+        <div class="p-6 border-t border-white/10 bg-black/40">
+            <button onclick="approveLayoutProject()" class="w-full bg-velo-lime text-velo-lowest py-4 text-xs font-heading font-black uppercase tracking-widest transition-all duration-300 shadow-lg flex items-center justify-center gap-2 border border-velo-lime">
+                <i data-lucide="award" class="w-5 h-5"></i>
+                Homologar Site
+            </button>
+        </div>
+    </div>
+
+    <!-- Comment Pin Submission Form Modal -->
+    <div id="feedback-pin-form-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[70] flex items-center justify-center p-4 hidden">
+        <div class="max-w-sm w-full bg-white p-6 rounded-none shadow-2xl relative text-left text-velo-lowest font-mono text-xs">
+            <h4 class="font-heading text-2xl font-black uppercase tracking-tight text-velo-lowest mb-4 transform -skew-x-3">// COMENTÁRIO VISUAL</h4>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase tracking-widest font-bold block mb-1.5">Insira seu comentário técnico:</label>
+                    <textarea id="pin-comment-text" placeholder="Ex: Alterar a cor da aba para neon lime vibrante..." rows="3" class="w-full bg-gray-100 outline-none p-3 border border-velo-lowest font-body font-medium placeholder-gray-400 text-xs"></textarea>
+                </div>
+                
+                <div class="flex gap-3 font-heading font-bold text-xs uppercase tracking-wider mt-2">
+                    <button onclick="cancelPinPlacement()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 border border-gray-300 transition-colors">Cancelar</button>
+                    <button onclick="savePinPlacement()" class="flex-1 bg-velo-blue hover:bg-velo-lowest text-white py-3 border border-velo-lowest transition-all">Fixar Pin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration of Approval Modal -->
+    <div id="approval-celebration-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[80] flex items-center justify-center p-4 hidden">
+        <div class="max-w-md w-full bg-white p-8 shadow-2xl relative text-center text-velo-lowest border-t-8 border-velo-lime font-mono text-xs">
+            <div class="w-20 h-20 bg-velo-lime rounded-none flex items-center justify-center mx-auto border border-velo-lime mb-6">
+                <i data-lucide="check" class="w-10 h-10 text-velo-lowest"></i>
+            </div>
+            
+            <h3 class="font-heading text-4xl font-black uppercase tracking-tight text-velo-lowest mb-4 transform -skew-x-6 select-none">SITE HOMOLOGADO!</h3>
+            <p class="text-sm font-body text-gray-600 leading-relaxed mb-6 font-medium">Você aprovou a versão conceitual interativa do **VELOCITY Cap** com sucesso total de aerodinâmica.</p>
+            
+            <button onclick="closeApprovalCelebration()" class="w-full bg-velo-blue hover:bg-velo-lowest text-white font-heading font-bold uppercase text-sm tracking-wider py-4 border border-velo-blue transition-all shadow-md">
+                Voltar à Edição
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT LOGIC & SIMULATION SYSTEM -->
+    <!-- ========================================== -->
+    <script>
+        // Init libraries
+        lucide.createIcons();
+
+        // Features Blueprint HUD Database
+        const hudDatabase = {
+            'visor': {
+                label1: 'Red. Arrasto', val1: '0.32 Cd', progress1: 32,
+                label2: 'Escoamento', val2: '+15.2%', progress2: 75,
+                label3: 'Espessura', val3: '1.8 mm', progress3: 18,
+                title: 'VISOR AERODINÂMICO // ABAS CURVAS'
+            },
+            'ventilation': {
+                label1: 'Vazão Vent', val1: '18.4 L/s', progress1: 82,
+                label2: 'Resf. Térmico', val2: '94%', progress2: 94,
+                label3: 'Aeração Laser', val3: 'Micro-furos', progress3: 65,
+                title: 'PERFURAÇÕES A LASER // TECNO-DRY'
+            },
+            'buckle': {
+                label1: 'Ajuste Fidlock', val1: 'Ímã N52', progress1: 95,
+                label2: 'Carga Máx', val2: '48 Newtons', progress2: 48,
+                label3: 'Snap-Lock', val3: '15 ms', progress3: 15,
+                title: 'FECHO MAGNÉTICO // ENCAIXE RÁPIDO'
+            },
+            'fabric': {
+                label1: 'Impermeável', val1: '10.000 mm', progress1: 100,
+                label2: 'Filtro UV', val2: 'UPF 50+', progress2: 90,
+                label3: 'Massa Leve', val3: '42g Tecido', progress3: 42,
+                title: 'FABRIC NYLON // NANOTECH SHIELD'
+            }
+        };
+
+        let selectedModel = 'stealth';
+        let scopeCouponApplied = false;
+
+        // HUD Interactive cap part triggers
+        function highlightFeature(part) {
+            const data = hudDatabase[part];
+            
+            document.getElementById('hud-active-part').innerText = data.title;
+
+            // Update telemetry data dynamically
+            document.getElementById('hud-metric-label-1').innerText = data.label1;
+            document.getElementById('hud-metric-val-1').innerText = data.val1;
+            document.getElementById('hud-progress-bar-1').style.width = data.progress1 + '%';
+
+            document.getElementById('hud-metric-label-2').innerText = data.label2;
+            document.getElementById('hud-metric-val-2').innerText = data.val2;
+            document.getElementById('hud-progress-bar-2').style.width = data.progress2 + '%';
+
+            document.getElementById('hud-metric-label-3').innerText = data.label3;
+            document.getElementById('hud-metric-val-3').innerText = data.val3;
+            document.getElementById('hud-progress-bar-3').style.width = data.progress3 + '%';
+
+            // Visual pulsing feedback on SVG cap blueprint
+            gsap.fromTo('#blueprint-svg', 
+                { scale: 1 }, 
+                { scale: 1.02, duration: 0.15, yoyo: true, repeat: 1, ease: 'power1.out' }
+            );
+        }
+
+        // Color customized live recoloring on SVG
+        function recolorCapPart(partId, hexColor) {
+            const el = document.getElementById(`svg-${partId}`);
+            if (el) {
+                el.style.fill = hexColor;
+                
+                // Animate change with GSAP
+                gsap.fromTo(el, 
+                    { opacity: 0.7 }, 
+                    { opacity: 1, duration: 0.3, ease: 'power2.out' }
+                );
+            }
+        }
+
+        // Drawer Controls
+        function toggleBudgetDrawer(open) {
+            const drawer = document.getElementById('budget-drawer');
+            if (open) {
+                calculateScope();
+                drawer.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function openConfiguratorDrawer() {
+            toggleBudgetDrawer(true);
+        }
+
+        // Map menu or card selectors to actual configurator options
+        function quickSelectAndConfigure(model) {
+            selectedModel = model;
+            
+            if (model === 'stealth') {
+                document.getElementById('model-stealth').checked = true;
+                recolorCapPart('crown', '#131313');
+                recolorCapPart('visor', '#c3f400');
+            }
+            if (model === 'storm') {
+                document.getElementById('model-storm').checked = true;
+                recolorCapPart('crown', '#0356ff');
+                recolorCapPart('visor', '#131313');
+            }
+            if (model === 'glow') {
+                document.getElementById('model-glow').checked = true;
+                recolorCapPart('crown', '#ffffff');
+                recolorCapPart('visor', '#c3f400');
+            }
+
+            openConfiguratorDrawer();
+        }
+
+        // Showroom category filtering
+        function filterShowroom(cat) {
+            const items = document.querySelectorAll('[data-velo-cat]');
+            items.forEach(i => {
+                if (cat === 'all' || i.getAttribute('data-velo-cat') === cat) {
+                    i.style.display = 'flex';
+                } else {
+                    i.style.display = 'none';
+                }
+            });
+
+            // Tabs styling shift
+            const tabs = ['all', 'stealth', 'storm', 'glow'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === cat) {
+                    btn.classList.remove('bg-velo-high', 'text-white');
+                    btn.classList.add('bg-velo-lime', 'text-velo-lowest');
+                } else {
+                    btn.classList.add('bg-velo-high', 'text-white');
+                    btn.classList.remove('bg-velo-lime', 'text-velo-lowest');
+                }
+            });
+        }
+
+        // Real-time customizer pricing calculation
+        function calculateScope() {
+            let basePrice = 149.00;
+            let upgradesPrice = 0.00;
+            let shippingPrice = 15.00;
+
+            // Model selection
+            if (document.getElementById('model-stealth').checked) basePrice = 149.00;
+            if (document.getElementById('model-storm').checked) basePrice = 189.00;
+            if (document.getElementById('model-glow').checked) basePrice = 219.00;
+
+            // Upgrades
+            if (document.getElementById('up-fidlock').checked) upgradesPrice += 35.00;
+            if (document.getElementById('up-laser').checked) upgradesPrice += 30.00;
+            if (document.getElementById('up-band').checked) upgradesPrice += 20.00;
+
+            // Shipping
+            const shippingVal = document.getElementById('lead-type').value;
+            if (shippingVal === 'express') shippingPrice = 15.00;
+            if (shippingVal === 'frete_zero') shippingPrice = 0.00;
+
+            let subtotal = basePrice + upgradesPrice + shippingPrice;
+            let total = subtotal;
+
+            document.getElementById('scope-base-val').innerText = 'R$ ' + basePrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('scope-upgrades-val').innerText = 'R$ ' + upgradesPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('scope-shipping-val').innerText = 'R$ ' + shippingPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            if (scopeCouponApplied) {
+                let discount = subtotal * 0.20;
+                total = subtotal - discount;
+                document.getElementById('scope-discount-val').innerText = '-R$ ' + discount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                document.getElementById('scope-discount-row').classList.remove('hidden');
+            } else {
+                document.getElementById('scope-discount-row').classList.add('hidden');
+            }
+
+            document.getElementById('scope-total').innerText = 'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Apply coupon code logic
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const alertBox = document.getElementById('coupon-alert');
+
+            alertBox.classList.remove('hidden', 'text-green-400', 'text-red-500');
+
+            if (input === 'VELOCITY20') {
+                scopeCouponApplied = true;
+                alertBox.innerText = 'CUPOM APLICADO! 20% DE DESCONTO EM TODA A FISCALIZAÇÃO.';
+                alertBox.classList.add('text-green-400');
+                calculateScope();
+            } else {
+                alertBox.innerText = 'CUPOM INVÁLIDO OU EXPIRADO.';
+                alertBox.classList.add('text-red-500');
+            }
+        }
+
+        // Wind Tunnel Monospace Aerodynamic & stress simulation
+        function triggerPerformanceTest() {
+            const name = document.getElementById('lead-name').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const address = document.getElementById('lead-address').value.trim();
+
+            if (!name || !email || !address) {
+                alert('Por favor, digite seu nome, e-mail e endereço para simular o teste.');
+                return;
+            }
+
+            // Close configure drawer
+            toggleBudgetDrawer(false);
+
+            // Open preparing console terminal modal
+            const loader = document.getElementById('transaction-loader');
+            loader.classList.remove('hidden');
+
+            const consoleLogs = document.getElementById('console-logs');
+            consoleLogs.innerHTML = '<p class="text-gray-500">> Conectando ao painel aerodinâmico principal...</p>';
+
+            const shippingTypeText = document.getElementById('lead-type').options[document.getElementById('lead-type').selectedIndex].text;
+
+            // Generate terminal logging sequence
+            const logs = [
+                `> Conectando ao painel de testes VELOCITY-AERO-TUNNEL...`,
+                `> Nova ordem de cap recebida: Atleta [${name}]`,
+                `> Registrando coordenadas de postagem: ${address}`,
+                `> Iniciando propulsão axial das turbinas primárias...`,
+                `> Estabilizando fluxo a 40 km/h...`,
+                `> Analisando arrasto do fluxo de ar... Coeficiente de arrasto: 0.32 Cd (Excelente)`,
+                `> Elevando vento para 80 km/h (Rajada Ciclônica de Pico)...`,
+                document.getElementById('up-fidlock').checked ? `> Testando rigidez do fecho magnético Fidlock sob tensão de 48N... Estável [OK]` : `> Testando fivela traseira sob tensão de 25N... Estável [OK]`,
+                document.getElementById('up-laser').checked ? `> Auditando taxas de dissipação de calor lateral via microperfurações a laser... Eficiência: 94% [OK]` : `> Auditando estabilidade térmica... Eficiência: 80% [OK]`,
+                `> Aplicando spray sob pressão de coluna d'água de 10.000mm...`,
+                `> Vedação ativa. Eficiência hidrofóbica: 100%. Umidade interna: 0% [OK]`,
+                `> Registrando transação física no ledger de faturamento...`,
+                `> Gerando assinatura técnica de performance SHA-256...`,
+                `> Testes laboratoriais finalizados com sucesso total!`
+            ];
+
+            let logIndex = 0;
+            const timer = setInterval(() => {
+                if (logIndex < logs.length) {
+                    const p = document.createElement('p');
+                    p.innerText = logs[logIndex];
+                    consoleLogs.appendChild(p);
+                    consoleLogs.scrollTop = consoleLogs.scrollHeight;
+                    logIndex++;
+                } else {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        showProposalDocket(name, email, address, shippingTypeText);
+                    }, 1000);
+                }
+            }, 600);
+        }
+
+        // Show spec receipt modal
+        function showProposalDocket(name, email, address, shippingTypeText) {
+            document.getElementById('receipt-lead-name').innerText = name;
+            document.getElementById('receipt-lead-email').innerText = email;
+            document.getElementById('receipt-lead-address').innerText = address;
+            document.getElementById('receipt-lead-type').innerText = shippingTypeText;
+
+            const list = document.getElementById('receipt-items-list');
+            list.innerHTML = '';
+
+            let basePrice = 149.00;
+            let upgradesPrice = 0.00;
+            let shippingPrice = 15.00;
+            let capTitle = "Stealth Carbon";
+
+            // Step 1: Base Cap Choice
+            if (document.getElementById('model-stealth').checked) {
+                basePrice = 149.00;
+                capTitle = "Stealth Carbon Base Cap";
+            }
+            if (document.getElementById('model-storm').checked) {
+                basePrice = 189.00;
+                capTitle = "Storm Element-Proof Base Cap";
+            }
+            if (document.getElementById('model-glow').checked) {
+                basePrice = 219.00;
+                capTitle = "AeroGlow Reflective Base Cap";
+            }
+
+            list.innerHTML += `<div class="flex justify-between font-bold"><span>1x ${capTitle}</span><span>R$ ${basePrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>`;
+
+            // Step 2: Upgrades Choices
+            if (document.getElementById('up-fidlock').checked) {
+                upgradesPrice += 35.00;
+                list.innerHTML += `<div class="flex justify-between text-gray-500 pl-4"><span>+ Fecho Fidlock Magnético</span><span>R$ 35,00</span></div>`;
+            }
+            if (document.getElementById('up-laser').checked) {
+                upgradesPrice += 30.00;
+                list.innerHTML += `<div class="flex justify-between text-gray-500 pl-4"><span>+ Microfuros Corte Laser</span><span>R$ 30,00</span></div>`;
+            }
+            if (document.getElementById('up-band').checked) {
+                upgradesPrice += 20.00;
+                list.innerHTML += `<div class="flex justify-between text-gray-500 pl-4"><span>+ Banda Tecno-Dry Suor</span><span>R$ 20,00</span></div>`;
+            }
+
+            // Step 3: Shipping
+            const shippingVal = document.getElementById('lead-type').value;
+            if (shippingVal === 'express') {
+                shippingPrice = 15.00;
+                list.innerHTML += `<div class="flex justify-between font-bold"><span>Transporte Expresso (Sedex)</span><span>R$ 15,00</span></div>`;
+            } else {
+                shippingPrice = 0.00;
+                list.innerHTML += `<div class="flex justify-between font-bold"><span>Transporte Econômico (PAC)</span><span>R$ 0,00</span></div>`;
+            }
+
+            let subtotal = basePrice + upgradesPrice + shippingPrice;
+            let grandTotal = subtotal;
+
+            if (scopeCouponApplied) {
+                let discount = subtotal * 0.20;
+                grandTotal = subtotal - discount;
+                list.innerHTML += `<div class="flex justify-between text-velo-blue font-bold border-t border-dashed border-gray-200 pt-2"><span>Desconto Cupom (20%)</span><span>-R$ ${discount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>`;
+            }
+
+            document.getElementById('receipt-grand-total').innerText = 'R$ ' + grandTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('receipt-docket-id').innerText = `SERIAL SPEC #VL-${Math.floor(Math.random() * 90000 + 10000)}`;
+            document.getElementById('receipt-hash').innerText = `HASH: VL2026_SHA256_${Math.random().toString(36).substring(2, 12).toUpperCase()}`;
+
+            // Reset copy button styling
+            const btnCopy = document.getElementById('btn-copy-pix');
+            btnCopy.innerHTML = '<i data-lucide="copy" class="w-3 h-3"></i> Copiar';
+            btnCopy.classList.remove('bg-velo-blue');
+            btnCopy.classList.add('bg-velo-lowest');
+            lucide.createIcons();
+
+            document.getElementById('receipt-modal').classList.remove('hidden');
+
+            // Fire Confetti
+            try {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } catch(e) {}
+        }
+
+        // Copy Simulated PIX key
+        function copyPixKey() {
+            const input = document.getElementById('pix-key-val');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            
+            try {
+                navigator.clipboard.writeText(input.value);
+            } catch(e) {
+                document.execCommand('copy');
+            }
+
+            const btn = document.getElementById('btn-copy-pix');
+            btn.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i> Copiado!';
+            btn.classList.remove('bg-velo-lowest');
+            btn.classList.add('bg-velo-blue');
+            lucide.createIcons();
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+            // Clear inputs
+            document.getElementById('lead-name').value = '';
+            document.getElementById('lead-email').value = '';
+            document.getElementById('lead-address').value = '';
+            // Reset extras
+            document.getElementById('up-fidlock').checked = false;
+            document.getElementById('up-laser').checked = false;
+            document.getElementById('up-band').checked = false;
+            document.getElementById('lead-type').value = 'express';
+            document.getElementById('coupon-input').value = '';
+            document.getElementById('coupon-alert').classList.add('hidden');
+            scopeCouponApplied = false;
+        }
+
+        // Annotation & Feedback Pins System State
+        let annotationModeActive = false;
+        let pendingClickCoords = null;
+        let feedbackPins = [];
+
+        function updatePinsVisibility() {
+            const container = document.getElementById('pins-container');
+            if (!container) return;
+            const panel = document.getElementById('feedback-panel');
+            const drawerOpen = panel && !panel.classList.contains('translate-x-full');
+            if (drawerOpen || annotationModeActive) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function toggleFeedbackPanel(open) {
+            const drawer = document.getElementById('feedback-panel');
+            if (open) {
+                drawer.classList.remove('translate-x-full');
+                renderPins();
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+            updatePinsVisibility();
+        }
+
+        function toggleAnnotationMode() {
+            annotationModeActive = !annotationModeActive;
+            const btn = document.getElementById('pin-tool-btn');
+            const banner = document.getElementById('pin-tool-active-banner');
+
+            if (annotationModeActive) {
+                btn.classList.add('bg-velo-lime/20', 'border-velo-lime');
+                banner.classList.remove('hidden');
+                document.body.style.cursor = 'crosshair';
+                toggleFeedbackPanel(false);
+            } else {
+                btn.classList.remove('bg-velo-lime/20', 'border-velo-lime');
+                banner.classList.add('hidden');
+                document.body.style.cursor = 'default';
+            }
+            updatePinsVisibility();
+        }
+
+        window.addEventListener('click', (e) => {
+            if (!annotationModeActive) return;
+            // Prevent triggers from inside drawers/modals
+            if (e.target.closest('#feedback-panel') || e.target.closest('#feedback-pin-form-modal') || e.target.closest('#hamburger-btn') || e.target.closest('header') || e.target.closest('#budget-drawer') || e.target.closest('#receipt-modal')) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const x = ((e.pageX / document.documentElement.scrollWidth) * 100).toFixed(2);
+            const y = ((e.pageY / document.documentElement.scrollHeight) * 100).toFixed(2);
+
+            pendingClickCoords = { x, y };
+
+            // Open comment input modal
+            document.getElementById('pin-comment-text').value = '';
+            document.getElementById('feedback-pin-form-modal').classList.remove('hidden');
+            
+            // Turn off annotation mode cursor immediately to focus on form
+            annotationModeActive = false;
+            document.body.style.cursor = 'default';
+            document.getElementById('pin-tool-active-banner').classList.add('hidden');
+            document.getElementById('pin-tool-btn').classList.remove('bg-velo-lime/20', 'border-velo-lime');
+            updatePinsVisibility();
+        });
+
+        function cancelPinPlacement() {
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+            updatePinsVisibility();
+        }
+
+        function savePinPlacement() {
+            const comment = document.getElementById('pin-comment-text').value.trim();
+            if (!comment) return;
+
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: pendingClickCoords.x,
+                y: pendingClickCoords.y,
+                comment: comment,
+                author: 'Atleta Revisor',
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('velocity_feedback_pins', JSON.stringify(feedbackPins));
+            
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+            
+            renderPins();
+            toggleFeedbackPanel(true);
+        }
+
+        function renderPins() {
+            const container = document.getElementById('pins-container');
+            const list = document.getElementById('saved-pins-list');
+            const section = document.getElementById('saved-pins-section');
+
+            container.innerHTML = '';
+            list.innerHTML = '';
+
+            if (feedbackPins.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+
+            feedbackPins.forEach((pin, idx) => {
+                // Render pin on page
+                const pinEl = document.createElement('div');
+                pinEl.className = 'feedback-pin pointer-events-auto';
+                pinEl.style.left = pin.x + '%';
+                pinEl.style.top = pin.y + '%';
+                pinEl.innerHTML = `
+                    <div class="relative group font-body">
+                        <div class="w-7 h-7 rounded-none bg-velo-lime border border-white flex items-center justify-center text-xs font-bold text-velo-lowest shadow-lg cursor-pointer transform hover:scale-110 transition-transform select-none">
+                            ${idx + 1}
+                        </div>
+                        <div class="feedback-tooltip absolute bottom-9 left-1/2 -translate-x-1/2 bg-velo-lowest border border-velo-lime p-3 rounded-none shadow-xl w-48 text-left text-[11px] pointer-events-none text-gray-300">
+                            <span class="font-bold text-white block">${pin.author}</span>
+                            <span class="text-gray-400 block mt-1 leading-normal font-medium">${pin.comment}</span>
+                            <span class="text-gray-600 text-[8px] font-mono block mt-1.5">${pin.date}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(pinEl);
+
+                // Render list item in panel
+                const item = document.createElement('div');
+                item.className = 'bg-white/5 border border-white/10 p-3.5 rounded-none text-[11px] space-y-1 relative group font-body';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center font-mono text-[9px]">
+                        <span class="font-black text-white uppercase tracking-wider">Anotação #${idx + 1}</span>
+                        <button onclick="removePin('${pin.id}')" class="text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                    <p class="text-gray-300 leading-normal italic">"${pin.comment}"</p>
+                    <span class="text-gray-600 text-[8px] font-mono block mt-1.5">${pin.date}</span>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        function removePin(pinId) {
+            feedbackPins = feedbackPins.filter(pin => pin.id !== pinId);
+            localStorage.setItem('velocity_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+            updatePinsVisibility();
+        }
+
+        function submitQuickFeedback(msg) {
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: (25 + Math.random() * 50).toFixed(2),
+                y: (35 + Math.random() * 40).toFixed(2),
+                comment: msg,
+                author: 'Reviewer Atleta',
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('velocity_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+            updatePinsVisibility();
+
+            try {
+                confetti({
+                    particleCount: 50,
+                    spread: 40,
+                    colors: ['#c3f400', '#0356ff']
+                });
+            } catch(e) {}
+        }
+
+        function toggleLikeProject() {
+            let likes = parseInt(localStorage.getItem('velocity_likes') || '184');
+            const liked = localStorage.getItem('velocity_liked') === 'true';
+            const icon = document.getElementById('like-icon');
+
+            if (liked) {
+                likes -= 1;
+                localStorage.setItem('velocity_liked', 'false');
+                icon.classList.remove('text-red-500', 'fill-red-500');
+                icon.classList.add('text-gray-400');
+            } else {
+                likes += 1;
+                localStorage.setItem('velocity_liked', 'true');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+                
+                // GSAP heartbeat animation
+                gsap.fromTo('#like-btn', 
+                    { scale: 1 }, 
+                    { scale: 1.2, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }
+                );
+
+                try {
+                    confetti({
+                        particleCount: 40,
+                        spread: 30,
+                        colors: ['#0356ff']
+                    });
+                } catch(e) {}
+            }
+
+            localStorage.setItem('velocity_likes', likes);
+            document.getElementById('like-count').innerText = likes;
+        }
+
+        function approveLayoutProject() {
+            toggleFeedbackPanel(false);
+            document.getElementById('approval-celebration-modal').classList.remove('hidden');
+
+            try {
+                const duration = 2.5 * 1000;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 4,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#c3f400', '#0356ff', '#ffffff']
+                    });
+                    confetti({
+                        particleCount: 4,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#c3f400', '#0356ff', '#ffffff']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            } catch(e) {}
+        }
+
+        function closeApprovalCelebration() {
+            document.getElementById('approval-celebration-modal').classList.add('hidden');
+        }
+
+        // Mobile Hamburger menu drawer logic
+        let mobileMenuOpen = false;
+        function toggleMobileMenu(forcedState) {
+            mobileMenuOpen = forcedState !== undefined ? forcedState : !mobileMenuOpen;
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const l1 = document.getElementById('ham-line-1');
+            const l2 = document.getElementById('ham-line-2');
+            const l3 = document.getElementById('ham-line-3');
+
+            if (mobileMenuOpen) {
+                overlay.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'translateY(8px) rotate(45deg)';
+                l1.style.backgroundColor = '#c3f400';
+                l2.style.opacity = '0';
+                l3.style.transform = 'translateY(-8px) rotate(-45deg)';
+                l3.style.backgroundColor = '#c3f400';
+            } else {
+                overlay.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'none';
+                l1.style.backgroundColor = '';
+                l2.style.opacity = '1';
+                l3.style.transform = 'none';
+                l3.style.backgroundColor = '';
+            }
+        }
+
+        // Initial setup and storage load
+        window.addEventListener('load', () => {
+            // Load pins
+            const savedPins = localStorage.getItem('velocity_feedback_pins');
+            if (savedPins) {
+                feedbackPins = JSON.parse(savedPins);
+                renderPins();
+            }
+
+            // Load likes
+            let likes = localStorage.getItem('velocity_likes');
+            if (likes === null) {
+                likes = 184;
+                localStorage.setItem('velocity_likes', likes);
+            }
+            document.getElementById('like-count').innerText = likes;
+
+            const liked = localStorage.getItem('velocity_liked') === 'true';
+            if (liked) {
+                const icon = document.getElementById('like-icon');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-red-500', 'fill-red-500');
+                }
+            }
+
+            // Init libraries defensively
+            try {
+                lucide.createIcons();
+            } catch (e) {
+                console.error("Lucide failed to load", e);
+            }
+
+            try {
+                AOS.init({
+                    duration: 800,
+                    once: true,
+                    offset: 50
+                });
+            } catch (e) {
+                console.warn("AOS failed to load, disabling animations", e);
+                // Fallback: Remove all data-aos attributes and set opacity/transform to default
+                document.querySelectorAll('[data-aos]').forEach(el => {
+                    el.removeAttribute('data-aos');
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valenza & Associados // Advocacia Estratégica (Demonstrativo Interativo)</title>
+    
+    <!-- Scripts & Stylesheets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts: EB Garamond for authority, Montserrat for clarity -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,800;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons & GSAP CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        law: {
+                            navy: '#0A1128',
+                            gold: '#D4AF37',
+                            lightGold: '#F3E5AB',
+                            slate: '#4B5563',
+                            white: '#FAFAFA',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"EB Garamond"', 'serif'],
+                        body: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+        }
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0;
+            background-color: #D4AF37; transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A1128; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; }
+
+        /* Interactive Feedback Pins */
+        .feedback-pin {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+        .feedback-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .feedback-pin:hover .feedback-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-law-white text-law-slate font-body antialiased selection:bg-law-gold selection:text-white relative overflow-x-hidden">
+
+    <!-- Top Bar -->
+    <div class="bg-law-navy border-b border-law-gold/20 text-law-lightGold text-xs py-3 px-6 flex justify-between items-center relative z-20">
+        <div>Atendimento Corporativo Exclusivo</div>
+        <div class="flex gap-4">
+            <a href="#" class="hover:text-white transition-colors">Client Portal</a>
+            <span class="text-law-gold/50">|</span>
+            <a href="#" class="hover:text-white transition-colors">OAB/SP 123.456</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-law-navy sticky top-0 z-50 shadow-lg" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Hamburger & Logo -->
+            <div class="flex items-center justify-start w-1/4">
+                <button onclick="toggleMobileMenu()" class="md:hidden flex flex-col justify-center items-start w-6 h-6 gap-1.5 relative z-50 focus:outline-none group mr-4" id="hamburger-btn" aria-label="Menu">
+                    <span class="w-5 h-[1.5px] bg-white transition-all duration-300 origin-center" id="ham-line-1"></span>
+                    <span class="w-4 h-[1.5px] bg-white transition-all duration-300 origin-center group-hover:w-5" id="ham-line-2"></span>
+                    <span class="w-5 h-[1.5px] bg-white transition-all duration-300 origin-center" id="ham-line-3"></span>
+                </button>
+                <a href="#" class="flex items-center gap-4">
+                    <svg class="w-8 h-8 text-law-gold flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                    <span class="font-heading font-semibold text-2xl tracking-widest text-white uppercase hidden sm:inline">Valenza</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex justify-center items-center gap-10 text-xs tracking-[0.2em] font-semibold uppercase text-law-white/80 w-2/4">
+                <a href="#atuacao" class="nav-link hover:text-law-gold transition-colors">Expertise</a>
+                <a href="#estudos-caso" class="nav-link hover:text-law-gold transition-colors">Cases Reais</a>
+                <a href="#estatisticas" class="nav-link hover:text-law-gold transition-colors">Performance</a>
+            </nav>
+            
+            <!-- CTA -->
+            <div class="flex items-center justify-end w-1/4">
+                <button onclick="toggleBudgetDrawer(true)" class="border border-law-gold text-law-gold font-semibold text-xs uppercase tracking-widest px-6 py-2.5 hover:bg-law-gold hover:text-law-navy transition-all transform hover:scale-105">
+                    Simular Contrato
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-[#0A1128]/98 backdrop-blur-md z-45 flex flex-col justify-center items-center transition-all duration-500 transform -translate-y-full opacity-0 pointer-events-none">
+        <div class="flex flex-col items-center justify-center space-y-8 text-center px-6">
+            <a href="#atuacao" onclick="toggleMobileMenu(false)" class="font-heading text-3xl font-semibold tracking-wide text-white hover:text-law-gold transition-colors duration-300 uppercase">Expertise</a>
+            <a href="#estudos-caso" onclick="toggleMobileMenu(false)" class="font-heading text-3xl font-semibold tracking-wide text-white hover:text-law-gold transition-colors duration-300 uppercase">Cases Reais</a>
+            <a href="#estatisticas" onclick="toggleMobileMenu(false)" class="font-heading text-3xl font-semibold tracking-wide text-white hover:text-law-gold transition-colors duration-300 uppercase">Performance</a>
+            <a href="javascript:void(0)" onclick="toggleMobileMenu(false); toggleFeedbackPanel(true)" class="font-heading text-2xl font-semibold tracking-wide text-law-gold hover:text-white transition-colors duration-300 uppercase">Painel de Homologação</a>
+            
+            <div class="h-[1px] w-12 bg-law-gold/20 my-4"></div>
+            
+            <p class="text-[10px] tracking-[0.2em] text-gray-400 uppercase font-bold">CLIENT PORTAL</p>
+            <button onclick="toggleMobileMenu(false); toggleBudgetDrawer(true)" class="text-xs font-bold text-law-gold tracking-widest uppercase">Iniciar Simulação</button>
+        </div>
+    </div>
+
+    <!-- Interactive Sandbox Ribbon -->
+    <div class="bg-law-gold text-law-navy text-[10px] py-1.5 px-4 text-center tracking-widest uppercase flex items-center justify-center gap-2 relative z-30 font-bold shadow-sm">
+        <i data-lucide="lock" class="w-3.5 h-3.5 animate-pulse"></i>
+        SANDBOX CONCEITO ADVOCACIA ACTIVE. ADICIONE SERVIÇOS E ANALISE A USABILIDADE!
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative bg-law-navy pt-20 pb-32 overflow-hidden flex items-center min-h-[85vh]">
+        <!-- Pattern Overlay -->
+        <div class="absolute inset-0 opacity-5 z-0" style="background-image: radial-gradient(#D4AF37 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+            <div data-aos="fade-up">
+                <div class="inline-flex items-center gap-3 mb-6">
+                    <div class="w-8 h-[1px] bg-law-gold"></div>
+                    <span class="text-law-gold text-xs font-semibold tracking-[0.2em] uppercase">Tradição &amp; Resultado</span>
+                </div>
+                <h1 class="font-heading text-5xl md:text-7xl font-semibold text-white mb-6 leading-tight">
+                    Segurança Jurídica para <span class="italic text-law-gold font-normal">Grandes Decisões.</span>
+                </h1>
+                <p class="text-law-white/70 font-light leading-relaxed mb-10 max-w-lg">
+                    Um escritório boutique focado em Direito Societário, Tributário e M&A. Estruturamos a base legal para o crescimento exponencial e seguro do seu negócio.
+                </p>
+                <div class="flex gap-4">
+                    <button onclick="toggleBudgetDrawer(true)" class="gold-gradient text-law-navy font-bold text-xs uppercase tracking-widest px-8 py-4 hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-shadow">
+                        Simular Escopo Jurídico
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative" data-aos="fade-left" data-aos-delay="200">
+                <div class="absolute inset-0 border border-law-gold/30 translate-x-4 translate-y-4"></div>
+                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2070&auto=format&fit=crop" class="w-full h-auto relative z-10 grayscale contrast-125 object-cover aspect-[4/3] shadow-2xl" alt="Mesa de Advocacia">
+            </div>
+        </div>
+    </section>
+
+    <!-- Áreas de Atuação -->
+    <section id="atuacao" class="py-24 bg-law-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h3 class="text-law-gold text-xs font-bold tracking-[0.2em] uppercase mb-2">Especialidades</h3>
+                <h2 class="font-heading text-4xl md:text-5xl text-law-navy font-semibold mb-4">Nossa Expertise</h2>
+                <div class="w-16 h-[2px] bg-law-gold mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Area 1 -->
+                <div onclick="toggleBudgetDrawer(true)" class="bg-white border border-gray-200 p-10 hover:shadow-xl transition-shadow group cursor-pointer" data-aos="fade-up" data-aos-delay="0">
+                    <svg class="w-10 h-10 text-law-gold mb-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    <h3 class="font-heading text-2xl text-law-navy font-semibold mb-4">Direito Societário</h3>
+                    <p class="text-sm font-light leading-relaxed mb-6">Estruturação de governança corporativa, acordos de acionistas e resolução de conflitos societários de alta complexidade.</p>
+                    <span class="text-xs text-law-gold font-bold tracking-widest uppercase flex items-center gap-2">Simular Custo <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                </div>
+
+                <!-- Area 2 -->
+                <div onclick="toggleBudgetDrawer(true)" class="bg-law-navy text-white p-10 hover:shadow-xl transition-shadow group cursor-pointer relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-law-gold/10 rounded-bl-full -z-0"></div>
+                    <svg class="w-10 h-10 text-law-gold mb-6 relative z-10 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <h3 class="font-heading text-2xl font-semibold mb-4 relative z-10">Tributário &amp; Fiscal</h3>
+                    <p class="text-sm text-law-white/70 font-light leading-relaxed mb-6 relative z-10">Planejamento tributário estratégico focado na redução lícita da carga fiscal para grandes operações corporativas.</p>
+                    <span class="text-xs text-law-gold font-bold tracking-widest uppercase flex items-center gap-2 relative z-10">Simular Custo <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                </div>
+
+                <!-- Area 3 -->
+                <div onclick="toggleBudgetDrawer(true)" class="bg-white border border-gray-200 p-10 hover:shadow-xl transition-shadow group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <svg class="w-10 h-10 text-law-gold mb-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+                    <h3 class="font-heading text-2xl text-law-navy font-semibold mb-4">M&amp;A (Fusões)</h3>
+                    <p class="text-sm font-light leading-relaxed mb-6">Auditoria legal (Due Diligence), negociação complexa e redação de contratos para compra, venda e fusão de empresas.</p>
+                    <span class="text-xs text-law-gold font-bold tracking-widest uppercase flex items-center gap-2">Simular Custo <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estudos de Caso Filtráveis (Cases Reais) -->
+    <section id="estudos-caso" class="py-24 bg-law-white/50 border-t border-gray-200 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row justify-between items-end" data-aos="fade-up">
+            <div>
+                <h3 class="text-law-gold text-sm font-bold tracking-[0.2em] uppercase mb-2">Sucesso Prático</h3>
+                <h2 class="font-heading text-4xl text-law-navy">Operações Estruturadas</h2>
+            </div>
+            
+            <!-- Filters Tabs -->
+            <div class="flex gap-3 mt-6 md:mt-0 font-bold text-xs uppercase tracking-widest">
+                <button onclick="filterCases('all')" id="tab-all" class="px-4 py-2 border-2 border-law-gold text-law-gold bg-law-gold/5 rounded-full transition-all">Todos</button>
+                <button onclick="filterCases('corporate')" id="tab-corporate" class="px-4 py-2 border border-law-navy/10 text-law-navy/60 rounded-full hover:border-law-gold hover:text-law-gold transition-all">Societário</button>
+                <button onclick="filterCases('tax')" id="tab-tax" class="px-4 py-2 border border-law-navy/10 text-law-navy/60 rounded-full hover:border-law-gold hover:text-law-gold transition-all">Tributário</button>
+                <button onclick="filterCases('ma')" id="tab-ma" class="px-4 py-2 border border-law-navy/10 text-law-navy/60 rounded-full hover:border-law-gold hover:text-law-gold transition-all">M&amp;A</button>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="cases-grid">
+            <!-- Case 1 -->
+            <div data-case-cat="corporate" onclick="openCaseModal('case-1')" class="group cursor-pointer bg-white p-6 border border-gray-200/60 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500" data-aos="fade-up">
+                <div class="overflow-hidden mb-6 rounded-xl relative">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <h4 class="font-heading text-2xl text-law-navy font-semibold mb-2">Reestruturação Alpha S.A.</h4>
+                <p class="text-xs tracking-widest uppercase text-law-gold font-bold">Societário &amp; Acordo de Sócios</p>
+            </div>
+
+            <!-- Case 2 -->
+            <div data-case-cat="tax" onclick="openCaseModal('case-2')" class="group cursor-pointer bg-white p-6 border border-gray-200/60 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
+                <div class="overflow-hidden mb-6 rounded-xl relative">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <h4 class="font-heading text-2xl text-law-navy font-semibold mb-2">Planejamento Tributário Beta</h4>
+                <p class="text-xs tracking-widest uppercase text-law-gold font-bold">Fiscal &amp; Planejamento Estratégico</p>
+            </div>
+
+            <!-- Case 3 -->
+            <div data-case-cat="ma" onclick="openCaseModal('case-3')" class="group cursor-pointer bg-white p-6 border border-gray-200/60 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
+                <div class="overflow-hidden mb-6 rounded-xl relative">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1000" class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <h4 class="font-heading text-2xl text-law-navy font-semibold mb-2">Fusão Tech Delta</h4>
+                <p class="text-xs tracking-widest uppercase text-law-gold font-bold"> Fusões &amp; Aquisições (M&amp;A)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Detail Modal -->
+    <div id="case-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[55] flex items-center justify-center p-4 hidden">
+        <div class="max-w-2xl w-full bg-white border border-gray-200 rounded-3xl p-8 space-y-6 shadow-2xl relative text-left text-law-slate">
+            <button onclick="closeCaseModal()" class="absolute top-6 right-6 text-gray-400 hover:text-law-gold transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <div class="border-b border-gray-100 pb-4">
+                <span class="text-[9px] font-bold text-law-gold uppercase tracking-widest block font-mono mb-1" id="case-modal-tag">SOCIETÁRIO</span>
+                <h3 class="font-heading text-3xl font-semibold text-law-navy tracking-tight" id="case-modal-title">Reestruturação Alpha S.A.</h3>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="aspect-video w-full rounded-2xl overflow-hidden bg-black/60 border border-gray-100">
+                    <img id="case-modal-img" src="" class="w-full h-full object-cover">
+                </div>
+                
+                <div>
+                    <h5 class="text-law-navy text-xs font-bold uppercase tracking-widest font-heading mb-2">Histórico &amp; Estrutura Legal</h5>
+                    <p id="case-modal-desc" class="text-xs text-gray-600 leading-relaxed font-light"></p>
+                </div>
+
+                <div class="bg-law-white p-4 border border-gray-100 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <span class="text-[9px] text-gray-500 uppercase font-bold block mb-1">MÉTRICA DA OPERAÇÃO</span>
+                        <span class="font-heading text-lg font-bold text-law-navy" id="case-modal-metric">Auditoria Concluída</span>
+                    </div>
+                    <button onclick="selectCaseForScope()" class="bg-law-navy text-white hover:bg-law-gold transition-colors font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-full">
+                        Orçar esta Especialidade
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatísticas / Performance -->
+    <section id="estatisticas" class="border-y border-gray-200 py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center" data-aos="fade-up">
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">15+</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Anos de Mercado</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">R$ 2B</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Em Operações</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">98%</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Êxito Estratégico</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl text-law-navy font-bold mb-2">Top 10</div>
+                <div class="text-xs font-semibold tracking-widest uppercase text-law-gold">Boutiques SP</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-law-navy text-law-white/60 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="md:col-span-1">
+                <span class="font-heading font-semibold text-2xl tracking-widest text-white uppercase mb-6 block">Valenza</span>
+                <p class="text-sm font-light leading-relaxed mb-6">Comprometimento inflexível com a excelência técnica e a ética na advocacia corporativa.</p>
+                <div class="text-law-gold font-bold text-sm">OAB/SP 123.456</div>
+            </div>
+            
+            <div>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-white mb-6">Contato</h4>
+                <ul class="space-y-3 text-sm font-light">
+                    <li>(11) 3000-0000</li>
+                    <li>contato@valenza.law.br</li>
+                    <li class="pt-2">Av. Brigadeiro Faria Lima, 2000<br>15º Andar - Itaim Bibi, SP</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-white mb-6">Navegação</h4>
+                <ul class="space-y-3 text-sm font-light">
+                    <li><a href="#" class="hover:text-law-gold transition-colors">O Escritório</a></li>
+                    <li><a href="#" class="hover:text-law-gold transition-colors">Nossa Equipe</a></li>
+                    <li><a href="#" class="hover:text-law-gold transition-colors">Publicações</a></li>
+                    <li><a href="#" class="hover:text-law-gold transition-colors">Trabalhe Conosco</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold tracking-widest uppercase text-white mb-6">Newsletter Jurídica</h4>
+                <p class="text-xs font-light mb-4">Receba atualizações sobre mudanças na legislação tributária e societária.</p>
+                <div class="flex">
+                    <input type="email" placeholder="E-mail" class="bg-white/5 border border-white/10 px-4 py-2 w-full text-sm outline-none focus:border-law-gold text-white">
+                    <button class="bg-law-gold text-law-navy px-4 font-bold flex items-center justify-center"><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-white/10 pt-8 text-center text-xs font-light tracking-widest uppercase">
+            &copy; 2026 Valenza &amp; Associados. Todos os direitos reservados. Design by Retro Pixel.
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE SYSTEM & CHECKOUT DRAWERS -->
+    <!-- ========================================== -->
+
+    <!-- Dynamic Targets for Custom Feedback Pins on Page -->
+    <div id="pins-container" class="absolute inset-0 pointer-events-none z-30"></div>
+
+    <!-- Contract Scope Drawer (Valenza Scope Simulator) -->
+    <div id="budget-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-[#0A1128] border-l border-law-gold/20 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <div class="h-full flex flex-col justify-between">
+            <!-- Header -->
+            <div class="p-6 border-b border-law-gold/10 bg-black/20 flex items-center justify-between text-white">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="briefcase" class="w-5 h-5 text-law-gold animate-pulse"></i>
+                    <span class="font-heading text-xl font-bold tracking-tight uppercase">Simulação Valenza</span>
+                </div>
+                <button onclick="toggleBudgetDrawer(false)" class="text-gray-400 hover:text-law-gold transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Content Area (Service Checklist + Corporate Form) -->
+            <div class="flex-grow p-6 overflow-y-auto space-y-6 text-white">
+                <!-- Checklist de Serviços -->
+                <div class="space-y-4">
+                    <span class="text-[10px] font-bold text-law-gold uppercase tracking-widest block font-heading">Selecione os Serviços</span>
+                    <div class="space-y-3">
+                        <!-- Serv 1 -->
+                        <label class="flex items-start gap-3 bg-black/30 p-4 border border-white/5 rounded-2xl cursor-pointer hover:border-law-gold/30 transition-all select-none">
+                            <input type="checkbox" id="srv-corporate" onchange="calculateScope()" checked class="mt-1 accent-law-gold">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-white block">Auditoria &amp; Direito Societário</span>
+                                <span class="text-xs text-gray-400 block mt-1">Conformidade e reestruturação da governança corporativa.</span>
+                                <span class="font-mono text-xs text-law-gold font-bold block mt-2">R$ 12.000,00 (Setup)</span>
+                            </div>
+                        </label>
+                        <!-- Serv 2 -->
+                        <label class="flex items-start gap-3 bg-black/30 p-4 border border-white/5 rounded-2xl cursor-pointer hover:border-law-gold/30 transition-all select-none">
+                            <input type="checkbox" id="srv-tax" onchange="calculateScope()" class="mt-1 accent-law-gold">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-white block">Planejamento Tributário</span>
+                                <span class="text-xs text-gray-400 block mt-1">Redução e readequação de impostos federais/estaduais.</span>
+                                <span class="font-mono text-xs text-law-gold font-bold block mt-2">R$ 18.000,00 (Setup)</span>
+                            </div>
+                        </label>
+                        <!-- Serv 3 -->
+                        <label class="flex items-start gap-3 bg-black/30 p-4 border border-white/5 rounded-2xl cursor-pointer hover:border-law-gold/30 transition-all select-none">
+                            <input type="checkbox" id="srv-governance" onchange="calculateScope()" class="mt-1 accent-law-gold">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-white block">Acordo de Sócios (M&amp;A)</span>
+                                <span class="text-xs text-gray-400 block mt-1">Garantia estatutária e alinhamento patrimonial preventivo.</span>
+                                <span class="font-mono text-xs text-law-gold font-bold block mt-2">R$ 8.500,00 (Setup)</span>
+                            </div>
+                        </label>
+                        <!-- Serv 4 -->
+                        <label class="flex items-start gap-3 bg-black/30 p-4 border border-white/5 rounded-2xl cursor-pointer hover:border-law-gold/30 transition-all select-none">
+                            <input type="checkbox" id="srv-retainer" onchange="calculateScope()" class="mt-1 accent-law-gold">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-white block">Assessoria Corporativa Mensal</span>
+                                <span class="text-xs text-gray-400 block mt-1">Apoio jurídico preventivo sob demanda para rotinas e OAB.</span>
+                                <span class="font-mono text-xs text-law-gold font-bold block mt-2">R$ 6.500,00 /mês</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Formulário cadastral -->
+                <div class="space-y-4 bg-black/20 p-4 border border-white/5 rounded-2xl">
+                    <span class="text-[10px] font-bold text-law-gold uppercase tracking-widest block font-heading">Briefing Corporativo</span>
+                    <div class="space-y-3">
+                        <input required id="lead-name" type="text" placeholder="Nome Completo / Representante" class="w-full bg-black/40 border border-white/10 focus:border-law-gold outline-none text-white px-3 py-2.5 rounded-xl font-heading text-xs">
+                        <input required id="lead-email" type="email" placeholder="E-mail Corporativo" class="w-full bg-black/40 border border-white/10 focus:border-law-gold outline-none text-white px-3 py-2.5 rounded-xl font-heading text-xs">
+                        <select id="lead-type" onchange="calculateScope()" class="w-full bg-black/40 border border-white/10 focus:border-law-gold outline-none text-white px-3 py-2.5 rounded-xl font-heading text-xs">
+                            <option value="corporate">PME Corporativo</option>
+                            <option value="tax">Grande Empresa S.A.</option>
+                            <option value="ma">Multinacional / Holding</option>
+                        </select>
+                        <input required id="lead-area" type="number" placeholder="Faturamento Estimado Anual (R$ Milhões)" class="w-full bg-black/40 border border-white/10 focus:border-law-gold outline-none text-white px-3 py-2.5 rounded-xl font-heading text-xs">
+                    </div>
+                </div>
+
+                <!-- Cupom de desconto -->
+                <div class="space-y-2 bg-black/20 p-4 border border-white/5 rounded-2xl">
+                    <span class="text-[10px] font-bold text-law-gold uppercase tracking-widest block font-heading">Token / Cupom Promocional</span>
+                    <div class="flex gap-2">
+                        <input id="coupon-input" type="text" placeholder="Ex: VALENZA20" class="flex-grow text-xs px-3 py-2.5 bg-black border border-white/10 outline-none text-white rounded-xl font-mono placeholder-white/20">
+                        <button onclick="applyCoupon()" class="bg-law-gold text-law-navy hover:bg-white hover:text-law-navy text-xs font-bold px-4 py-2.5 rounded-xl uppercase tracking-wider transition-colors font-heading">Validar</button>
+                    </div>
+                    <div id="coupon-alert" class="text-[10px] font-semibold hidden font-mono"></div>
+                </div>
+            </div>
+
+            <!-- Footer Calculadora -->
+            <div class="p-6 border-t border-law-gold/10 bg-black/30 space-y-4 text-white">
+                <div class="space-y-2 border-b border-white/5 pb-4 text-xs font-mono">
+                    <div class="flex justify-between items-center text-gray-400">
+                        <span>Custo Recorrente Mensal</span>
+                        <span id="scope-monthly">R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-gray-400">
+                        <span>Taxa de Setup Inicial</span>
+                        <span id="scope-setup">R$ 12.000,00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-law-gold font-bold hidden" id="scope-discount-row">
+                        <span>Desconto Aplicado (20%)</span>
+                        <span id="scope-discount-val">-R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-heading text-base text-white font-semibold">Investimento Proposto</span>
+                    <span id="scope-total" class="font-mono text-xl font-bold text-law-gold">R$ 12.000,00</span>
+                </div>
+                <button onclick="triggerTransmission()" class="w-full bg-law-gold text-law-navy hover:bg-white hover:text-law-navy py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 font-heading">
+                    Registrar em Ledger (OAB)
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Direct Ledger Transmission Terminal Overlay (Gold theme) -->
+    <div id="transaction-loader" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[60] flex items-center justify-center p-4 hidden">
+        <div class="max-w-md w-full bg-[#0A1128] border border-law-gold/30 rounded-3xl p-8 space-y-6 shadow-2xl relative">
+            <div class="flex items-center gap-3 border-b border-law-gold/10 pb-4">
+                <div class="w-2.5 h-2.5 bg-law-gold rounded-full animate-ping"></div>
+                <h4 class="font-heading text-lg font-bold text-white tracking-tight uppercase">REGISTRO DE CONTRATO EM LEDGER SEGURO</h4>
+            </div>
+            
+            <div class="bg-black p-4 border border-white/5 rounded-2xl min-h-[140px] font-mono text-[10px] text-law-gold space-y-2 leading-relaxed max-h-[200px] overflow-y-auto" id="console-logs">
+                <p>> Iniciando transceiver digital de OAB Filing...</p>
+            </div>
+            
+            <div class="text-center font-heading text-xs font-bold text-white tracking-widest uppercase animate-pulse" id="loader-status-text">
+                Criptografando clausulado de contrato...
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Proposal Docket Modal (Timbrado Notary watermark) -->
+    <div id="receipt-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[65] flex items-center justify-center p-4 hidden">
+        <div class="max-w-xl w-full bg-law-white border-2 border-law-gold/40 rounded-3xl p-8 space-y-6 shadow-2xl relative text-left text-law-slate">
+            <!-- Timbrado Header -->
+            <div class="flex justify-between items-start border-b-2 border-law-navy/20 pb-4 relative">
+                <!-- Background Scale Watermark icon -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+                    <i data-lucide="scale" class="w-40 h-40 text-law-navy"></i>
+                </div>
+                
+                <div class="relative z-10">
+                    <h3 class="font-heading text-3xl font-bold text-law-navy tracking-tight uppercase">VALENZA &amp; ASSOCIADOS</h3>
+                    <p class="text-[9px] text-gray-500 font-mono" id="receipt-docket-id">PROTOCOLO AD-100222</p>
+                </div>
+                <div class="text-right relative z-10">
+                    <span class="text-[8px] font-bold text-law-navy bg-law-gold/20 border border-law-gold/40 px-2.5 py-1 rounded uppercase font-mono">HOMOLOGADO</span>
+                </div>
+            </div>
+
+            <!-- Receipt Info -->
+            <div class="grid grid-cols-2 gap-4 font-mono text-[10px] text-gray-600 border-b border-law-gold/10 pb-4">
+                <div>
+                    <span class="text-law-navy font-bold block mb-1">CLIENTE CONTRATANTE:</span>
+                    <span class="text-law-navy block font-bold" id="receipt-lead-name">-</span>
+                    <span class="block" id="receipt-lead-email">-</span>
+                    <span class="block">Porte: <span id="receipt-lead-type" class="text-law-navy font-bold">-</span></span>
+                    <span class="block">Faturamento: R$ <span id="receipt-lead-area" class="text-law-navy font-bold">-</span> Mi/ano</span>
+                </div>
+                <div>
+                    <span class="text-law-gold font-bold block mb-1">FILIAÇÃO OAB DIGITAL:</span>
+                    <span class="block text-law-navy font-bold">OAB/SP Registro 123.456</span>
+                    <span class="block">Canal: TLS 1.3 / SHA-256 Secure</span>
+                    <span class="block">Validade: Proposta Válida por 30 Dias</span>
+                </div>
+            </div>
+
+            <!-- Bought Items List -->
+            <div class="space-y-3 max-h-[140px] overflow-y-auto pr-2 font-mono text-[10px] text-law-slate" id="receipt-items-list">
+                <!-- Loaded dynamically -->
+            </div>
+
+            <!-- Total print -->
+            <div class="border-t border-law-navy/20 pt-4 flex justify-between items-center text-xs font-mono">
+                <span class="text-gray-500 font-bold">TOTAL DO INVESTIMENTO SIMULADO:</span>
+                <span class="font-bold text-law-navy text-lg" id="receipt-grand-total">R$ 0,00</span>
+            </div>
+
+            <!-- Encryption Footer hash -->
+            <div class="bg-black/5 p-3 border border-law-gold/10 rounded-2xl text-center font-mono text-[8px] text-gray-500 break-all leading-normal uppercase" id="receipt-hash">
+                HASH: VL2026_SHA256_SECURE_DIRECT_LEDGER
+            </div>
+
+            <button onclick="closeReceipt()" class="w-full bg-law-navy text-white hover:bg-law-gold transition-colors py-3.5 rounded-full text-xs font-bold uppercase tracking-widest font-heading text-center">
+                Concluir Homologação
+            </button>
+        </div>
+    </div>
+
+    <!-- Elegant Annotation Panel Drawer (Right side) -->
+    <div id="feedback-panel" class="fixed inset-y-0 right-0 max-w-sm w-full bg-[#0E1528] border-l border-law-gold/20 shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-500 ease-in-out">
+        <!-- Header -->
+        <div class="p-6 border-b border-law-gold/10 bg-black/20 flex items-center justify-between text-white">
+            <div class="flex items-center gap-2">
+                <i data-lucide="scale" class="w-5 h-5 text-law-gold animate-pulse"></i>
+                <span class="font-heading text-lg font-bold tracking-tight uppercase">Revisão Valenza</span>
+            </div>
+            <button onclick="toggleFeedbackPanel(false)" class="text-gray-400 hover:text-law-gold transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Annotation Switch & Reviews -->
+        <div class="flex-grow p-6 overflow-y-auto space-y-6 text-white">
+            <!-- Pin Placement Controller Button -->
+            <button id="pin-tool-btn" onclick="toggleAnnotationMode()" class="w-full border border-law-gold/30 text-law-gold hover:bg-law-gold/10 py-3 rounded-full text-xs uppercase font-extrabold tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-heading">
+                <i data-lucide="map-pin" class="w-4 h-4 text-law-gold animate-bounce"></i>
+                <span>INSERIR NOTA DE REVISÃO</span>
+            </button>
+            <div id="pin-tool-active-banner" class="text-center py-2 bg-law-gold/10 border border-law-gold/30 text-law-gold text-[10px] rounded-lg animate-pulse hidden font-mono">
+                CLIQUE EM QUALQUER COORDENADA DO SITE
+            </div>
+
+            <!-- Like & Avaliação Rápida -->
+            <div class="bg-black/20 border border-white/5 p-4 rounded-2xl space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="font-heading text-xs font-bold text-white tracking-tight uppercase">Avaliar Prestígio</span>
+                    <button onclick="toggleLikeProject()" id="like-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 hover:bg-white/5 transition-all duration-300 group">
+                        <i id="like-icon" data-lucide="heart" class="w-4 h-4 text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                        <span id="like-count" class="font-mono text-xs text-white">108</span>
+                    </button>
+                </div>
+                
+                <div class="space-y-2">
+                    <span class="font-heading text-[10px] font-bold text-gray-400 tracking-widest uppercase block">Homologação Rápida</span>
+                    <div class="grid grid-cols-2 gap-2 text-[8px] font-mono">
+                        <button onclick="submitQuickFeedback('Cláusulas muito bem alinhadas')" class="py-2 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 rounded-xl transition-colors text-center font-bold tracking-wider">CONTRATO EXCELENTE</button>
+                        <button onclick="submitQuickFeedback('Estrutura de governança correta')" class="py-2 border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 rounded-xl transition-colors text-center font-bold tracking-wider">GOVERNANÇA OK</button>
+                        <button onclick="submitQuickFeedback('Rever cláusula tributária tributária')" class="py-2 border border-amber-500/30 text-amber-400 hover:bg-amber-500/10 rounded-xl transition-colors text-center font-bold tracking-wider">REVER TRIBUTOS</button>
+                        <button onclick="submitQuickFeedback('Falta OAB de homologação')" class="py-2 border border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-xl transition-colors text-center font-bold tracking-wider">FALTA REGISTRO</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialist Reviews Logs -->
+            <div class="space-y-3">
+                <h4 class="font-heading text-xs font-bold text-white/80 tracking-widest uppercase">Parecer Jurídico</h4>
+                <!-- Review 1 -->
+                <div class="bg-black/10 border border-white/5 p-4 rounded-2xl space-y-1.5 text-[10px]">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-heading text-[10px] font-bold text-white tracking-wider">Dr. Marcos S. (Sócio Sênior)</span>
+                        <span class="text-[8px] font-bold text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded-full uppercase">Parecer Favorável</span>
+                    </div>
+                    <p class="font-body text-gray-400 leading-relaxed italic">
+                        "Arquitetura de contratos e orçamentos dinâmicos estruturados com precisão cirúrgica de acordo com o código societário."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Custom User Pins List -->
+            <div id="saved-pins-section" class="space-y-3 hidden">
+                <h4 class="font-heading text-xs font-bold text-white/80 tracking-widest uppercase">Suas Notas de Revisão</h4>
+                <div id="saved-pins-list" class="space-y-2 max-h-[160px] overflow-y-auto pr-2">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-6 border-t border-law-gold/10 bg-black/40">
+            <button onclick="approveLayoutProject()" class="w-full bg-gradient-to-r from-law-gold to-[#B8860B] text-law-navy py-4 rounded-full text-xs font-extrabold uppercase tracking-widest transition-all duration-300 shadow-lg flex items-center justify-center gap-2 font-heading">
+                <i data-lucide="award" class="w-4 h-4"></i>
+                APROVAR ESSE DESIGN / MINUTA
+            </button>
+        </div>
+    </div>
+
+    <!-- Annotation Placement Form -->
+    <div id="feedback-pin-form-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] flex items-center justify-center p-4 hidden">
+        <div class="bg-[#0E1528] max-w-xs w-full p-6 border border-law-gold/20 rounded-3xl shadow-2xl space-y-4">
+            <div class="flex items-center gap-2 text-law-gold">
+                <i data-lucide="map-pin" class="w-5 h-5 text-red-500 animate-bounce"></i>
+                <h4 class="font-heading text-lg font-bold tracking-wide text-white">Nova Nota de Revisão</h4>
+            </div>
+            <p class="text-[10px] text-gray-400 leading-relaxed">Digite sua ressalva técnica para este ponto específico do site corporativo.</p>
+            <textarea id="pin-comment-text" placeholder="Ex: Cláusula societária precisa de detalhamento tributário preventivo..." class="w-full h-20 text-xs px-3 py-2 border border-white/10 rounded-xl bg-black outline-none text-white font-mono resize-none" required></textarea>
+            <div class="flex gap-2">
+                <button onclick="cancelPinPlacement()" class="w-1/2 border border-white/10 rounded-full text-white hover:bg-white/5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors font-heading">Cancelar</button>
+                <button onclick="savePinPlacement()" class="w-1/2 bg-law-gold text-law-navy hover:bg-white hover:text-law-navy py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors font-heading">Fixar Nota</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Approval Celebration Overlay -->
+    <div id="approval-celebration-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[70] flex items-center justify-center p-6 hidden">
+        <div class="max-w-md w-full bg-[#0A1128] border border-law-gold/30 p-8 rounded-3xl shadow-2xl relative text-center space-y-6">
+            <div class="w-16 h-16 mx-auto bg-gradient-to-r from-law-gold to-[#B8860B] text-law-navy rounded-full flex items-center justify-center shadow-lg">
+                <i data-lucide="award" class="w-8 h-8"></i>
+            </div>
+            
+            <div class="space-y-2 text-white">
+                <h3 class="font-heading text-3xl tracking-tight">Showcase Homologado!</h3>
+                <p class="font-body text-xs text-law-gold uppercase tracking-widest font-semibold font-mono">Validação Jurídica Concluída</p>
+                <p class="font-body text-xs text-law-white/70 leading-relaxed pt-2">
+                    Você homologou com êxito o design boutique da VALENZA &amp; ASSOCIADOS. O portal atende a todas as diretrizes de prestígio legal e integridade estrutural.
+                </p>
+            </div>
+
+            <div class="bg-black/30 border border-white/5 p-4 rounded-2xl text-left font-mono text-[10px] space-y-2 text-law-lightGold">
+                <div class="flex justify-between">
+                    <span>APROVADO POR:</span>
+                    <span class="text-white font-bold">CLIENTE PROTÓTIPO</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>HOMOLOGAÇÃO ID:</span>
+                    <span class="text-green-400 font-bold">VL-2026-COMPLETE</span>
+                </div>
+            </div>
+
+            <button onclick="closeApprovalCelebration()" class="w-full bg-gradient-to-r from-law-gold to-[#B8860B] text-law-navy py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-colors font-bold shadow-md">
+                Fechar e Concluir
+            </button>
+        </div>
+    </div>
+
+    <!-- Annotation Trigger Toggle Button -->
+    <div class="fixed bottom-6 right-6 z-[45] flex items-center gap-3">
+        <button id="feedback-toggle-btn" onclick="toggleFeedbackPanel(true)" class="bg-[#0A1128] hover:bg-[#121c3d] text-white border border-law-gold/30 hover:border-law-gold/60 px-5 py-3.5 rounded-full flex items-center gap-2 shadow-[0_4px_25px_rgba(212,175,55,0.25)] transition-all duration-300">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-law-gold opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-law-gold"></span>
+            </span>
+            <span class="font-heading text-xs font-bold tracking-widest uppercase flex items-center gap-1">
+                ◆ REVISÃO DA MINUTA
+            </span>
+        </button>
+    </div>
+
+    <!-- AOS JS and Custom Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Init animations and lucide icons
+        AOS.init({ once: true, offset: 50 });
+        lucide.createIcons();
+
+        // Case Study Details Shared Database
+        const casesDb = {
+            'case-1': {
+                id: 'case-1',
+                title: 'Reestruturação Alpha S.A.',
+                tag: 'SOCIETÁRIO',
+                img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000',
+                metric: 'R$ 450M Auditados',
+                desc: 'Assessoria societária integral para a auditoria de acionistas e reestruturação estatutária da Alpha S.A. Definimos um novo acordo preventivo de sócios para alinhar a governança e mitigar riscos tributários associados.',
+                services: ['srv-corporate', 'srv-governance']
+            },
+            'case-2': {
+                id: 'case-2',
+                title: 'Planejamento Tributário Beta',
+                tag: 'TRIBUTÁRIO',
+                img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000',
+                metric: 'Redução Fiscal 34%',
+                desc: 'Auditoria tributária aprofundada focada na consolidação e compensação fiscal. Reduzimos a carga tributária estatutária em 34% de forma estritamente legal através de incentivos à inovação e readequação de impostos retidos.',
+                services: ['srv-tax', 'srv-retainer']
+            },
+            'case-3': {
+                id: 'case-3',
+                title: 'Fusão Tech Delta',
+                tag: 'M&A',
+                img: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1000',
+                metric: 'M&A R$ 1.2B',
+                desc: 'Estruturação legal da due diligence e governança regulatória para a venda total da Tech Delta. Criamos a estrutura de garantias contratuais de acionistas e cláusulas de transição de governança preventiva.',
+                services: ['srv-corporate', 'srv-governance']
+            }
+        };
+
+        let selectedCaseId = null;
+
+        function openCaseModal(caseId) {
+            const item = casesDb[caseId];
+            if (!item) return;
+
+            selectedCaseId = caseId;
+            document.getElementById('case-modal-title').innerText = item.title;
+            document.getElementById('case-modal-tag').innerText = item.tag;
+            document.getElementById('case-modal-img').src = item.img;
+            document.getElementById('case-modal-desc').innerText = item.desc;
+            document.getElementById('case-modal-metric').innerText = item.metric;
+
+            document.getElementById('case-modal').classList.remove('hidden');
+        }
+
+        function closeCaseModal() {
+            document.getElementById('case-modal').classList.add('hidden');
+            selectedCaseId = null;
+        }
+
+        function selectCaseForScope() {
+            if (!selectedCaseId) return;
+            const item = casesDb[selectedCaseId];
+            if (!item) return;
+
+            // Reset checkboxes
+            document.getElementById('srv-corporate').checked = false;
+            document.getElementById('srv-tax').checked = false;
+            document.getElementById('srv-governance').checked = false;
+            document.getElementById('srv-retainer').checked = false;
+
+            // Check services relevant to this case
+            item.services.forEach(srvId => {
+                const el = document.getElementById(srvId);
+                if (el) el.checked = true;
+            });
+
+            closeCaseModal();
+            calculateScope();
+            toggleBudgetDrawer(true);
+        }
+
+        function filterCases(categoryName) {
+            const items = document.querySelectorAll('#cases-grid > div');
+            items.forEach(el => {
+                const cat = el.getAttribute('data-case-cat');
+                if (categoryName === 'all' || cat === categoryName) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+
+            // Toggle active styles on tabs
+            const tabs = ['all', 'corporate', 'tax', 'ma'];
+            tabs.forEach(tab => {
+                const el = document.getElementById(`tab-${tab}`);
+                if (tab === categoryName) {
+                    el.className = 'px-4 py-2 border-2 border-law-gold text-law-gold bg-law-gold/5 rounded-full transition-all';
+                } else {
+                    el.className = 'px-4 py-2 border border-law-navy/10 text-law-navy/60 rounded-full hover:border-law-gold hover:text-law-gold transition-all';
+                }
+            });
+        }
+
+        // Budget & Scope Simulator State
+        let scopeCouponApplied = false;
+
+        function toggleBudgetDrawer(open) {
+            const drawer = document.getElementById('budget-drawer');
+            if (open) {
+                calculateScope();
+                drawer.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function calculateScope() {
+            let monthly = 0;
+            let setup = 0;
+
+            if (document.getElementById('srv-corporate').checked) setup += 12000;
+            if (document.getElementById('srv-tax').checked) setup += 18000;
+            if (document.getElementById('srv-governance').checked) setup += 8500;
+            if (document.getElementById('srv-retainer').checked) monthly += 6500;
+
+            let subtotal = monthly + setup;
+            let total = subtotal;
+
+            document.getElementById('scope-monthly').innerText = 'R$ ' + monthly.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('scope-setup').innerText = 'R$ ' + setup.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            if (scopeCouponApplied) {
+                let discount = subtotal * 0.20;
+                total = subtotal - discount;
+                document.getElementById('scope-discount-val').innerText = '-R$ ' + discount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                document.getElementById('scope-discount-row').classList.remove('hidden');
+            } else {
+                document.getElementById('scope-discount-row').classList.add('hidden');
+            }
+
+            document.getElementById('scope-total').innerText = 'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const alertBox = document.getElementById('coupon-alert');
+
+            alertBox.classList.remove('hidden', 'text-green-400', 'text-red-400');
+
+            if (input === 'VALENZA20') {
+                scopeCouponApplied = true;
+                alertBox.innerText = 'TOKEN VÁLIDO! 20% DE DESCONTO EM TODO O CONTRATO.';
+                alertBox.classList.add('text-green-400');
+                calculateScope();
+            } else {
+                alertBox.innerText = 'TOKEN DE COMPLIANCE INVÁLIDO.';
+                alertBox.classList.add('text-red-400');
+            }
+        }
+
+        function triggerTransmission() {
+            // Validation
+            const name = document.getElementById('lead-name').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const area = document.getElementById('lead-area').value.trim();
+
+            if (!name || !email || !area) {
+                alert('Por favor, preencha as informações essenciais de briefing corporativo.');
+                return;
+            }
+
+            // Close drawer
+            toggleBudgetDrawer(false);
+
+            // Open loader
+            const loader = document.getElementById('transaction-loader');
+            loader.classList.remove('hidden');
+
+            const consoleLogs = document.getElementById('console-logs');
+            consoleLogs.innerHTML = '<p>> Conectando ao transceiver OAB Ledger...</p>';
+
+            const companySizeText = document.getElementById('lead-type').options[document.getElementById('lead-type').selectedIndex].text;
+
+            const logs = [
+                '> Conexão segura TLS 1.3 estabelecida com a base de dados Valenza.',
+                '> Empacotando clausulado societário tributário...',
+                `> Representante: ${name}`,
+                `> E-mail: ${email}`,
+                `> Porte Corporativo: ${companySizeText}`,
+                `> Faturamento Estimado: R$ ${area} Milhões/ano`,
+                '> Verificando elegibilidade em banco de dados cadastral...',
+                '> Consultando regularidade fiscal perante a base digital...',
+                '> Processando cálculo tributário estatutário com chaves PGP...',
+                `> Hash SHA-256 gerado: VL_${Math.random().toString(36).substring(2).toUpperCase()}_LEDGER`,
+                '> OAB Digital Filing Webhook sincronizado com absoluto sucesso!',
+                '> Proposta contratual registrada no Ledger seguro de homologação!'
+            ];
+
+            let logIndex = 0;
+            const timer = setInterval(() => {
+                if (logIndex < logs.length) {
+                    const p = document.createElement('p');
+                    p.innerText = logs[logIndex];
+                    consoleLogs.appendChild(p);
+                    consoleLogs.scrollTop = consoleLogs.scrollHeight;
+                    logIndex++;
+                } else {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        showProposalDocket(name, email, area, companySizeText);
+                    }, 1000);
+                }
+            }, 800);
+        }
+
+        function showProposalDocket(name, email, area, companySizeText) {
+            document.getElementById('receipt-lead-name').innerText = name;
+            document.getElementById('receipt-lead-email').innerText = email;
+            document.getElementById('receipt-lead-type').innerText = companySizeText;
+            document.getElementById('receipt-lead-area').innerText = area;
+
+            const list = document.getElementById('receipt-items-list');
+            list.innerHTML = '';
+
+            let monthly = 0;
+            let setup = 0;
+
+            if (document.getElementById('srv-corporate').checked) {
+                setup += 12000;
+                list.innerHTML += `<div class="flex justify-between"><span>Direito Societário &amp; Auditoria</span><span>R$ 12.000,00 (Setup)</span></div>`;
+            }
+            if (document.getElementById('srv-tax').checked) {
+                setup += 18000;
+                list.innerHTML += `<div class="flex justify-between"><span>Planejamento Tributário</span><span>R$ 18.000,00 (Setup)</span></div>`;
+            }
+            if (document.getElementById('srv-governance').checked) {
+                setup += 8500;
+                list.innerHTML += `<div class="flex justify-between"><span>Acordo de Sócios (M&amp;A)</span><span>R$ 8.500,00 (Setup)</span></div>`;
+            }
+            if (document.getElementById('srv-retainer').checked) {
+                monthly += 6500;
+                list.innerHTML += `<div class="flex justify-between"><span>Assessoria Corporativa Retainer</span><span>R$ 6.500,00/mês</span></div>`;
+            }
+
+            let subtotal = monthly + setup;
+            let grandTotal = subtotal;
+
+            if (scopeCouponApplied) {
+                let discount = subtotal * 0.20;
+                grandTotal = subtotal - discount;
+                list.innerHTML += `<div class="flex justify-between text-law-gold"><span>Token de Compliance (20%)</span><span>-R$ ${discount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>`;
+            }
+
+            document.getElementById('receipt-grand-total').innerText = 'R$ ' + grandTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('receipt-docket-id').innerText = `PROTOCOLO #VL-${Math.floor(Math.random() * 900000 + 100000)}`;
+            document.getElementById('receipt-hash').innerText = `HASH: VL2026_${Math.random().toString(36).substring(2).toUpperCase()}_SECURE_DIRECT_LEDGER`;
+
+            document.getElementById('receipt-modal').classList.remove('hidden');
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+            // Clear inputs
+            document.getElementById('lead-name').value = '';
+            document.getElementById('lead-email').value = '';
+            document.getElementById('lead-area').value = '';
+        }
+
+        // Annotation & Feedback Pins System State
+        let annotationModeActive = false;
+        let pendingClickCoords = null;
+        let feedbackPins = [];
+
+        function toggleFeedbackPanel(open) {
+            const drawer = document.getElementById('feedback-panel');
+            if (open) {
+                drawer.classList.remove('translate-x-full');
+                renderPins();
+            } else {
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function toggleAnnotationMode() {
+            annotationModeActive = !annotationModeActive;
+            const btn = document.getElementById('pin-tool-btn');
+            const banner = document.getElementById('pin-tool-active-banner');
+
+            if (annotationModeActive) {
+                btn.classList.add('bg-law-gold/20', 'border-law-gold');
+                banner.classList.remove('hidden');
+                document.body.style.cursor = 'crosshair';
+                toggleFeedbackPanel(false);
+            } else {
+                btn.classList.remove('bg-law-gold/20', 'border-law-gold');
+                banner.classList.add('hidden');
+                document.body.style.cursor = 'default';
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            if (!annotationModeActive) return;
+            // Prevent triggers from inside drawers/modals
+            if (e.target.closest('#feedback-panel') || e.target.closest('#feedback-pin-form-modal') || e.target.closest('#hamburger-btn') || e.target.closest('#navbar') || e.target.closest('#budget-drawer') || e.target.closest('#case-modal')) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const x = ((e.pageX / document.documentElement.scrollWidth) * 100).toFixed(2);
+            const y = ((e.pageY / document.documentElement.scrollHeight) * 100).toFixed(2);
+
+            pendingClickCoords = { x, y };
+
+            // Open comment input modal
+            document.getElementById('pin-comment-text').value = '';
+            document.getElementById('feedback-pin-form-modal').classList.remove('hidden');
+            
+            // Turn off annotation mode cursor immediately to focus on form
+            annotationModeActive = false;
+            document.body.style.cursor = 'default';
+            document.getElementById('pin-tool-active-banner').classList.add('hidden');
+            document.getElementById('pin-tool-btn').classList.remove('bg-law-gold/20', 'border-law-gold');
+        });
+
+        function cancelPinPlacement() {
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+        }
+
+        function savePinPlacement() {
+            const comment = document.getElementById('pin-comment-text').value.trim();
+            if (!comment) return;
+
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: pendingClickCoords.x,
+                y: pendingClickCoords.y,
+                comment: comment,
+                author: 'Revisor Corporativo',
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('valenza_feedback_pins', JSON.stringify(feedbackPins));
+            
+            document.getElementById('feedback-pin-form-modal').classList.add('hidden');
+            pendingClickCoords = null;
+            
+            renderPins();
+            toggleFeedbackPanel(true);
+        }
+
+        function renderPins() {
+            const container = document.getElementById('pins-container');
+            const list = document.getElementById('saved-pins-list');
+            const section = document.getElementById('saved-pins-section');
+
+            container.innerHTML = '';
+            list.innerHTML = '';
+
+            if (feedbackPins.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+
+            feedbackPins.forEach((pin, idx) => {
+                // Render pin on page
+                const pinEl = document.createElement('div');
+                pinEl.className = 'feedback-pin pointer-events-auto';
+                pinEl.style.left = pin.x + '%';
+                pinEl.style.top = pin.y + '%';
+                pinEl.innerHTML = `
+                    <div class="relative group">
+                        <div class="w-6 h-6 rounded-full bg-red-500 border-2 border-white flex items-center justify-center text-[10px] font-bold text-white shadow-lg cursor-pointer transform hover:scale-110 transition-transform">
+                            ${idx + 1}
+                        </div>
+                        <div class="feedback-tooltip absolute bottom-8 left-1/2 -translate-x-1/2 bg-[#0A1128] border border-law-gold/20 p-3 rounded-xl shadow-xl w-48 text-left text-[10px] pointer-events-none text-white">
+                            <span class="font-bold text-law-gold block">${pin.author}</span>
+                            <span class="text-gray-300 block mt-1 leading-relaxed">${pin.comment}</span>
+                            <span class="text-gray-500 text-[8px] font-mono block mt-1.5">${pin.date}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(pinEl);
+
+                // Render list item in panel
+                const item = document.createElement('div');
+                item.className = 'bg-black/35 border border-law-gold/10 p-4 rounded-2xl text-[10px] space-y-1.5 relative group';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-heading font-bold text-white">Nota de Revisão #${idx + 1}</span>
+                        <button onclick="removePin('${pin.id}')" class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed italic">"${pin.comment}"</p>
+                    <span class="text-gray-600 text-[8px] font-mono block mt-1.5">${pin.date}</span>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        function removePin(pinId) {
+            feedbackPins = feedbackPins.filter(pin => pin.id !== pinId);
+            localStorage.setItem('valenza_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+        }
+
+        function submitQuickFeedback(msg) {
+            const newPin = {
+                id: 'pin-' + Date.now(),
+                x: (30 + Math.random() * 40).toFixed(2),
+                y: (40 + Math.random() * 30).toFixed(2),
+                comment: msg,
+                author: 'Revisor Corporativo',
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            feedbackPins.push(newPin);
+            localStorage.setItem('valenza_feedback_pins', JSON.stringify(feedbackPins));
+            renderPins();
+        }
+
+        function toggleLikeProject() {
+            let likes = parseInt(localStorage.getItem('valenza_likes') || '108');
+            const liked = localStorage.getItem('valenza_liked') === 'true';
+            const icon = document.getElementById('like-icon');
+
+            if (liked) {
+                likes -= 1;
+                localStorage.setItem('valenza_liked', 'false');
+                icon.classList.remove('text-red-500', 'fill-red-500');
+                icon.classList.add('text-gray-400');
+            } else {
+                likes += 1;
+                localStorage.setItem('valenza_liked', 'true');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+                
+                // GSAP Pulse Animation
+                gsap.fromTo('#like-btn', 
+                    { scale: 1 }, 
+                    { scale: 1.15, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }
+                );
+            }
+
+            localStorage.setItem('valenza_likes', likes);
+            document.getElementById('like-count').innerText = likes;
+        }
+
+        function approveLayoutProject() {
+            toggleFeedbackPanel(false);
+            document.getElementById('approval-celebration-modal').classList.remove('hidden');
+        }
+
+        function closeApprovalCelebration() {
+            document.getElementById('approval-celebration-modal').classList.add('hidden');
+        }
+
+        // Mobile Hamburger Menu
+        let mobileMenuOpen = false;
+        function toggleMobileMenu(forcedState) {
+            mobileMenuOpen = forcedState !== undefined ? forcedState : !mobileMenuOpen;
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const l1 = document.getElementById('ham-line-1');
+            const l2 = document.getElementById('ham-line-2');
+            const l3 = document.getElementById('ham-line-3');
+
+            if (mobileMenuOpen) {
+                overlay.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'translateY(7px) rotate(45deg)';
+                l1.style.backgroundColor = '#D4AF37';
+                l2.style.opacity = '0';
+                l3.style.transform = 'translateY(-8px) rotate(-45deg)';
+                l3.style.backgroundColor = '#D4AF37';
+            } else {
+                overlay.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                overlay.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                
+                l1.style.transform = 'none';
+                l1.style.backgroundColor = '';
+                l2.style.opacity = '1';
+                l3.style.transform = 'none';
+                l3.style.backgroundColor = '';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            // Load feedback pins
+            const savedPins = localStorage.getItem('valenza_feedback_pins');
+            if (savedPins) {
+                feedbackPins = JSON.parse(savedPins);
+                renderPins();
+            }
+
+            // Load likes
+            let likes = localStorage.getItem('valenza_likes');
+            if (likes === null) {
+                likes = 108;
+                localStorage.setItem('valenza_likes', likes);
+            }
+            document.getElementById('like-count').innerText = likes;
+
+            const liked = localStorage.getItem('valenza_liked') === 'true';
+            if (liked) {
+                const icon = document.getElementById('like-icon');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+            }
+        });
+    </script>
+</body>
+</html>
