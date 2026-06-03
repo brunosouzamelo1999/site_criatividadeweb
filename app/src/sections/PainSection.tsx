@@ -12,6 +12,7 @@ import {
   Activity, 
   Trophy 
 } from 'lucide-react';
+import { FloatingPixelElements } from '@/components/FloatingPixelElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -124,12 +125,13 @@ export function PainSection() {
     <section
       ref={sectionRef}
       id="dores"
-      className="py-20 md:py-32 overflow-hidden bg-[#F7F7FF]"
+      className="py-20 md:py-32 overflow-hidden bg-[#F7F7FF] relative"
       style={{
         background: 'radial-gradient(ellipse at 50% 0%, #EDF1F5 0%, #F7F7FF 80%)',
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+      <FloatingPixelElements count={6} />
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Section Header */}
         <div ref={headlineRef} className="text-center opacity-0 mb-16 md:mb-24">
           <SectionLabel text="OS SINTOMAS" className="mb-6" />

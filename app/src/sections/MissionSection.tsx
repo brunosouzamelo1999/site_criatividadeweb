@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
 import { Heart, Compass, ShieldCheck, Award, Handshake } from 'lucide-react';
+import { FloatingPixelElements } from '@/components/FloatingPixelElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,6 +85,7 @@ export function MissionSection() {
         background: 'radial-gradient(circle at 50% 50%, #D2E4F0 0%, #F7F7FF 80%)',
       }}
     >
+      <FloatingPixelElements count={6} />
       {/* Decorative Blur Backgrounds */}
       <div className="absolute top-1/4 left-1/10 w-72 h-72 rounded-full bg-[#27187E]/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/10 w-96 h-96 rounded-full bg-[#0145F2]/5 blur-[150px] pointer-events-none" />

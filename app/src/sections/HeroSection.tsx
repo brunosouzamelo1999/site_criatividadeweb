@@ -95,7 +95,7 @@ export function HeroSection() {
     >
       <FireSparks count={150} className="inset-0 opacity-70" />
       <PixelGroundWave />
-      <FloatingPixelElements count={4} />
+      <FloatingPixelElements count={8} />
 
       <div className="relative z-10 w-full max-w-4xl mx-auto px-6 md:px-12 py-20 pt-28 text-center flex flex-col items-center">
         <EasterEgg discount={20} color="purple" className="top-28 left-4 md:left-12" />

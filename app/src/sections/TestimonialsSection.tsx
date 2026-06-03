@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
 import { Zap, Sparkles, Shield } from 'lucide-react';
+import { FloatingPixelElements } from '@/components/FloatingPixelElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,11 +79,12 @@ export function TestimonialsSection() {
     <section
       ref={sectionRef}
       id="metodologia"
-      className="py-20 md:py-32"
+      className="py-20 md:py-32 relative"
       style={{
         background: 'linear-gradient(180deg, #F7F7FF 0%, #EDF1F5 100%)',
       }}
     >
+      <FloatingPixelElements count={6} />
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div ref={headlineRef} className="text-center opacity-0">
           <SectionLabel text="NOSSA METODOLOGIA" className="mb-6" />

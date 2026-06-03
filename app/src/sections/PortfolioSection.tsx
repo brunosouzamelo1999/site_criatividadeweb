@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FireSparks } from '@/components/FireSparks';
 import { SectionLabel } from '@/components/SectionLabel';
 import { ShoppingBag, Building2, Target, Gem, Globe, MessageCircle } from 'lucide-react';
+import { FloatingPixelElements } from '@/components/FloatingPixelElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -236,6 +237,7 @@ export function PortfolioSection() {
         background: 'radial-gradient(ellipse at 50% 100%, #D2E4F0 0%, #F7F7FF 80%)',
       }}
     >
+      <FloatingPixelElements count={6} />
       {/* Ciano Particles Dust */}
       <FireSparks count={80} className="inset-0 opacity-50" />
 

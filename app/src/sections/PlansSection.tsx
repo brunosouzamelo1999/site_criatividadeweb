@@ -143,7 +143,7 @@ export function PlansSection() {
         background: 'radial-gradient(ellipse at 50% 50%, #D2E4F0 0%, #F7F7FF 100%)',
       }}
     >
-      <FloatingPixelElements count={4} />
+      <FloatingPixelElements count={8} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         {/* Headline */}

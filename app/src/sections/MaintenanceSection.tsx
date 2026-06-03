@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
 import { PixelButton } from '@/components/PixelButton';
 import { ShieldCheck, Zap, BarChart3, Clock } from 'lucide-react';
+import { FloatingPixelElements } from '@/components/FloatingPixelElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,6 +109,7 @@ export function MaintenanceSection() {
         background: 'radial-gradient(circle at 50% 0%, #EDF1F5 0%, #F7F7FF 100%)',
       }}
     >
+      <FloatingPixelElements count={6} />
       {/* Decorative Blur */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0145F2]/10 to-transparent" />
 

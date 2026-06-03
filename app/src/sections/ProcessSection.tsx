@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SectionLabel } from '@/components/SectionLabel';
 import { Trophy } from 'lucide-react';
+import { FloatingPixelElements } from '@/components/FloatingPixelElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -142,8 +143,9 @@ export function ProcessSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="processo" className="bg-bg-secondary py-20 md:py-32">
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
+    <section ref={sectionRef} id="processo" className="bg-bg-secondary py-20 md:py-32 relative">
+      <FloatingPixelElements count={6} />
+      <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
         <div ref={headlineRef} className="text-center opacity-0">
           <SectionLabel text="COMO FUNCIONA" className="mb-6" />
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[48px] font-bold text-text-primary">
