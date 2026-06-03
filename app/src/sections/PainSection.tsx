@@ -133,7 +133,7 @@ export function PainSection() {
       }}
     >
       <PixelGroundWave hideCeiling hideFloor />
-      <FireSparks count={60} className="inset-0 opacity-60" />
+      <FireSparks sidesOnly count={60} className="inset-0 opacity-60" />
       <FloatingPixelElements count={6} />
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Section Header */}
@@ -267,5 +267,6 @@ export function PainSection() {
     </section>
   );
 }
+
 
 

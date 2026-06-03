@@ -147,7 +147,7 @@ export function ProcessSection() {
   return (
     <section ref={sectionRef} id="processo" className="bg-bg-secondary py-20 md:py-32 relative">
       <PixelGroundWave hideCeiling hideFloor />
-      <FireSparks count={60} className="inset-0 opacity-60" />
+      <FireSparks sidesOnly count={60} className="inset-0 opacity-60" />
       <FloatingPixelElements count={6} />
       <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
         <div ref={headlineRef} className="text-center opacity-0">
@@ -209,5 +209,6 @@ export function ProcessSection() {
     </section>
   );
 }
+
 
 

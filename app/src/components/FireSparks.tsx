@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 interface FireSparksProps {
   count?: number;
   className?: string;
+  sidesOnly?: boolean;
 }
 
 class Spark {
@@ -16,15 +17,27 @@ class Spark {
   maxLife!: number;
   canvasWidth: number;
   canvasHeight: number;
+  sidesOnly: boolean;
 
-  constructor(canvasWidth: number, canvasHeight: number) {
+  constructor(canvasWidth: number, canvasHeight: number, sidesOnly: boolean = false) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.sidesOnly = sidesOnly;
     this.init(true);
   }
 
   init(randomY: boolean = false) {
-    this.x = Math.random() * this.canvasWidth;
+    if (this.sidesOnly) {
+      // Restrict sparks to the left 30% or right 30% of the screen
+      const isLeft = Math.random() < 0.5;
+      if (isLeft) {
+        this.x = Math.random() * (this.canvasWidth * 0.3);
+      } else {
+        this.x = this.canvasWidth * 0.7 + Math.random() * (this.canvasWidth * 0.3);
+      }
+    } else {
+      this.x = Math.random() * this.canvasWidth;
+    }
     this.y = randomY ? Math.random() * this.canvasHeight : this.canvasHeight + Math.random() * 20;
     this.size = 1.0 + Math.random() * 2.2;
     this.speedY = 0.2 + Math.random() * 0.6;
@@ -52,7 +65,7 @@ class Spark {
   }
 }
 
-export function FireSparks({ count = 80, className = '' }: FireSparksProps) {
+export function FireSparks({ count = 80, className = '', sidesOnly = false }: FireSparksProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const sparksRef = useRef<Spark[]>([]);
@@ -90,7 +103,7 @@ export function FireSparks({ count = 80, className = '' }: FireSparksProps) {
 
     sparksRef.current = Array.from(
       { length: count },
-      () => new Spark(canvas.width, canvas.height)
+      () => new Spark(canvas.width, canvas.height, sidesOnly)
     );
 
     const animate = () => {
@@ -124,7 +137,7 @@ export function FireSparks({ count = 80, className = '' }: FireSparksProps) {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', debouncedResize);
     };
-  }, [count]);
+  }, [count, sidesOnly]);
 
   return (
     <canvas
